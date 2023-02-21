@@ -1,0 +1,91 @@
+default:
+    tags:
+        - apap
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'production'
+
+before_script:
+  - docker info
+  - javac -version
+
+
+variables:
+  IMAGE_OPENJDK_GRADLE: gradle:7.3.3-jdk17-alpine
+  IMAGE_DOCKER_DIND: docker:20.10.16
+
+stages:
+  - build
+  - test
+  - build-image
+  - publish-image
+  - deploy
+
+build-web:
+  image: $IMAGE_OPENJDK_GRADLE
+  stage: build
+  script:
+    - echo "Compiling Web..."
+    - cd $CI_PROJECT_DIR/spring
+    - sh gradlew clean assemble
+  artifacts:
+    paths:
+      - spring/build/libs/spring-0.0.1-SNAPSHOT.jar
+
+build-api:
+  image: $IMAGE_OPENJDK_GRADLE
+  stage: build
+  script:
+    - echo "Compiling API..."
+    - cd $CI_PROJECT_DIR/spring-api
+    - sh gradlew clean assemble
+  artifacts:
+    paths:
+      - spring-api/build/libs/spring-api-0.0.1-SNAPSHOT.jar
+
+build-image:
+  stage: build-image
+  script:
+    - echo "Building Web Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:$CI_COMMIT_SHORT_SHA spring
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:latest spring
+    - echo "Building API Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:$CI_COMMIT_SHORT_SHA spring-api
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:latest spring-api
+    - echo "Building Nginx Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:$CI_COMMIT_SHORT_SHA nginx
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:latest nginx
+
+publish-image:
+  stage: publish-image
+  script:
+    - echo "Publishing Web Docker Image..."
+    - echo $REGISTRY_SERVER
+    - echo $REGISTRY_PASSWORD | docker login --username $REGISTRY_USERNAME --password-stdin $REGISTRY_SERVER
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:latest
+    - echo "Publishing API Docker Image..."
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:latest
+    - echo "Publishing Nginx Docker Image..."
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:latest
+
+deploy:
+  stage: deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+  script:
+    - echo "Deploy to server..."
+    - rsync -rah ./docker-compose-deploy.yml app.env "${DEPLOY_USERNAME}@${DEPLOY_SERVER}":"~/apap-tk-cicd-059"
+    - ssh "${DEPLOY_USERNAME}@${DEPLOY_SERVER}" "cd ~/apap-tk-cicd-059/ && docker-compose -f docker-compose-deploy.yml down && docker-compose -f docker-compose-deploy.yml pull && docker-compose -f docker-compose-deploy.yml up -d"
+

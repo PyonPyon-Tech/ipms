@@ -1,0 +1,67 @@
+version: '2'
+services:
+  frontend:
+    build:
+      context: frontend-service
+    restart: always
+    platform: linux/amd64
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
+    env_file:
+      - app.env
+    depends_on:
+      - db
+    networks:
+      - frontend-network
+      - backend-network
+
+  auth:
+    build:
+      context: auth-service
+    restart: always
+    platform: linux/amd64
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
+    env_file:
+      - app.env
+    depends_on:
+      - db
+    networks:
+      - backend-network
+
+  db:
+    image: mariadb:10.4.24
+    restart: always
+    # platform: linux/amd64
+    env_file:
+      - app.env
+    volumes:
+      - mysql-db-volume:/var/lib/mysql
+    networks:
+      - backend-network
+  
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx-reverse-proxy
+    restart: unless-stopped
+    depends_on:
+      - web
+      - api
+    ports:
+      - 6969:8080
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
+    networks:
+      - backend-network
+
+volumes:
+  mysql-db-volume:
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:

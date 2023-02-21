@@ -1,0 +1,1 @@
+## untuk yg berhubungan dgn employee: assign toko, bikin employee, dll
