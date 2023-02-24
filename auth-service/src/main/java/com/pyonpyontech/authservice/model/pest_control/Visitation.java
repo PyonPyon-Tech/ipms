@@ -2,6 +2,7 @@ package com.pyonpyontech.authservice.model.pest_control;
 
 import com.pyonpyontech.authservice.model.Period;
 import com.pyonpyontech.authservice.model.customer.Outlet;
+import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,9 @@ public class Visitation {
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
+
+    @OneToOne
+    @JoinColumn(name="report_id")
+    private CsrReport report;
 
 }

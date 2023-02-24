@@ -1,5 +1,6 @@
 package com.pyonpyontech.authservice.model.customer_service_report;
 
+import com.pyonpyontech.authservice.model.pest_control.Pesticide;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,14 @@ public class CsrPesticideUsage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private CsrReport report;
+
+    @ManyToOne
+    @JoinColumn(name = "pesticide_id", nullable = false)
+    private Pesticide pesticide;
+
+
 }

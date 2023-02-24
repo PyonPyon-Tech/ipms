@@ -18,4 +18,13 @@ public class CsrCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "category", nullable = false)
+    private String category;
+
+    @Column(name = "type", nullable = false)
+    private int type; // 0: Finding (has CSR Area), 1: Treatment, 2: Pests
+
+    @OneToOne(mappedBy = "area")
+    private CsrArea area;
 }

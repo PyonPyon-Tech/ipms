@@ -18,4 +18,18 @@ public class CsrDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private CsrReport report;
+
+    @Column(name = "question", nullable = false)
+    private String question;
+
+    @Column(name = "answer", nullable = false)
+    private String answer;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CsrCategory category;
 }

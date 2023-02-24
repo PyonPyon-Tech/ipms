@@ -2,6 +2,7 @@ package com.pyonpyontech.authservice.model.pest_control;
 
 import com.pyonpyontech.authservice.model.UserModel;
 import com.pyonpyontech.authservice.model.customer.Outlet;
+import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;
 import lombok.*;
 
 import javax.persistence.*;
@@ -68,7 +69,11 @@ public class Employee {
     @OneToMany(mappedBy = "supervisor")
     private List<Schedule> schedulesAsSupervisor;
 
+    @OneToMany(mappedBy = "technician")
+    private List<CsrReport> reportsAsTechnician;
+
     @ManyToOne
     @JoinColumn(name = "supervisor_id")
     private Employee supervisorAsTechnician;
 }
+// TODO: PECAH SESUAI ROLE! JADI RIBET TERNYATA

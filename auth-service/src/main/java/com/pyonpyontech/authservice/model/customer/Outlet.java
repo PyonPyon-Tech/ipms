@@ -1,5 +1,6 @@
 package com.pyonpyontech.authservice.model.customer;
 
+import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.authservice.model.pest_control.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,4 +39,7 @@ public class Outlet {
     @ManyToOne
     @JoinColumn(name="technician_id")
     private Employee technician;
+
+    @OneToMany(mappedBy = "outlet")
+    private List<CsrReport> reports;
 }

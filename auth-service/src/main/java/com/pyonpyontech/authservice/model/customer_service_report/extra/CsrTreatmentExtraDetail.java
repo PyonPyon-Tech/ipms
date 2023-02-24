@@ -19,3 +19,4 @@ public class CsrTreatmentExtraDetail {
     @Column(name = "id", nullable = false)
     private Long id;
 }
+// TODO: KONFIRMASI DETIL TREATMENT & DETIL TAMBAHAN & PERBEDAAN OLD SYSTEM DGN FORM 101!!!!
