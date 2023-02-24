@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 import com.pyonpyontech.authservice.security.JwtTokenUtil;
-import com.pyonpyontech.authservice.model.JwtRequestModel;
-import com.pyonpyontech.authservice.model.JwtResponseModel;
-import com.pyonpyontech.authservice.model.UserModel;
+import com.pyonpyontech.authservice.dto.JwtRequestModel;
+import com.pyonpyontech.authservice.dto.JwtResponseModel;
 import com.pyonpyontech.authservice.service.JwtUserDetailsService;
 
 @Slf4j

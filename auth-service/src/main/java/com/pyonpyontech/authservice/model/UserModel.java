@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Setter @Getter
 @AllArgsConstructor @NoArgsConstructor
@@ -30,7 +31,7 @@ public class UserModel implements Serializable {
     @NotNull
     @Size(max = 50)
     @Column(name = "role", nullable = false)
-    private String role;
+    private int role;
 
     @NotNull
     @Size(max = 50)
@@ -42,7 +43,9 @@ public class UserModel implements Serializable {
     private String password;
 
     @NotNull
-    @Size(max = 50)
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @Column(name = "is_employee", nullable = false)
+    private int isEmployee;
+
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
 }

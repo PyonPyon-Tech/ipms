@@ -1,4 +1,4 @@
-package com.pyonpyontech.authservice.model;
+package com.pyonpyontech.authservice.dto;
 
 import java.io.Serializable;
 
