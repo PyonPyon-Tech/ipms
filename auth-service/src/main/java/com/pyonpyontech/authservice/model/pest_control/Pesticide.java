@@ -21,15 +21,15 @@ public class Pesticide {
 
     @Column(name = "active_ingredient", nullable = false)
     private String activeIngredient;
-
+//
     @Column(name = "dosage", nullable = false)
     private String dosage;
 
-    @Column(name = "usage", nullable = false)
-    private String usage;
+    @Column(name = "application", nullable = false)
+    private String application;
 
-    @Column(name = "unit_in_stock", nullable = false)
-    private int unitInStock;
+    @Column(name = "unit", nullable = false)
+    private int unit;
 
     @OneToMany(mappedBy = "pesticide")
     private List<PesticideRequest> requestHistory;

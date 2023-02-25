@@ -1,14 +1,14 @@
 package com.pyonpyontech.authservice.model.pest_control;
 
 import com.pyonpyontech.authservice.model.Period;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Supervisor;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.Month;
-import java.time.Year;
 import java.util.List;
 
 @Getter
@@ -29,11 +29,11 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
-    private Employee technician;
+    private Technician technician;
 
     @ManyToOne
     @JoinColumn(name = "supervisor_id", nullable = false)
-    private Employee supervisor;
+    private Supervisor supervisor;
 
     @Column(name = "supervisor_comment")
     private String comment;

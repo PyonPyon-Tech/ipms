@@ -1,7 +1,8 @@
 package com.pyonpyontech.authservice.model.customer;
 
 import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;
-import com.pyonpyontech.authservice.model.pest_control.Employee;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Supervisor;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +35,11 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name="supervisor_id", nullable=false)
-    private Employee supervisor;
+    private Supervisor supervisor;
 
     @ManyToOne
     @JoinColumn(name="technician_id")
-    private Employee technician;
+    private Technician technician;
 
     @OneToMany(mappedBy = "outlet")
     private List<CsrReport> reports;

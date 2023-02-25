@@ -25,6 +25,6 @@ public class CsrCategory {
     @Column(name = "type", nullable = false)
     private int type; // 0: Finding (has CSR Area), 1: Treatment, 2: Pests
 
-    @OneToOne(mappedBy = "area")
+    @OneToOne(mappedBy = "category")
     private CsrArea area;
 }

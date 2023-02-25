@@ -3,7 +3,7 @@ package com.pyonpyontech.authservice.model.customer_service_report;
 import com.pyonpyontech.authservice.model.Period;
 import com.pyonpyontech.authservice.model.customer.Feedback;
 import com.pyonpyontech.authservice.model.customer.Outlet;
-import com.pyonpyontech.authservice.model.pest_control.Employee;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
 import com.pyonpyontech.authservice.model.pest_control.Visitation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class CsrReport {
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
-    private Employee technician;
+    private Technician technician;
 
     @ManyToOne
     @JoinColumn(name = "outlet_id", nullable = false)

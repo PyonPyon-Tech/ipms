@@ -1,6 +1,7 @@
 package com.pyonpyontech.authservice.model.pest_control;
 
 import com.pyonpyontech.authservice.model.Period;
+import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class PesticideRequest {
     private Pesticide pesticide;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee requester;
+    @JoinColumn(name = "technician_id", nullable = false)
+    private Technician requester;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
