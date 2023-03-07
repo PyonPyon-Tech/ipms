@@ -13,23 +13,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrDetail {
+public class CsrDetailArea {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false)
+    private int number;
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
     private CsrReport report;
 
-    @Column(name = "question", nullable = false)
-    private String question;
+    @Column(name = "finding", nullable = false)
+    private String finding;
 
     @Column(name = "answer", nullable = false)
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private CsrCategory category;
 }

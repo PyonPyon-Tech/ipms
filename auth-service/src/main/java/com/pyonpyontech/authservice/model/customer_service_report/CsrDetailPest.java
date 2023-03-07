@@ -1,13 +1,12 @@
 package com.pyonpyontech.authservice.model.customer_service_report;
 
-import com.pyonpyontech.authservice.model.UserModel;
+import com.pyonpyontech.authservice.model.pest_control.Pest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,15 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrArea {
+public class CsrDetailPest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "area", nullable = false)
-    private String area;
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private CsrReport report;
 
-    @OneToMany(mappedBy = "area")
-    private List<CsrFinding> findings;
+    @ManyToOne
+    @JoinColumn(name = "pest_id")
+    private Pest pest;
+
+    @Column(nullable = false)
+    private String pestName;
+
+    @Column(nullable = false)
+    private int status;
 }
