@@ -27,6 +27,4 @@ public class CsrPesticideUsage {
     @ManyToOne
     @JoinColumn(name = "pesticide_id", nullable = false)
     private Pesticide pesticide;
-
-
 }

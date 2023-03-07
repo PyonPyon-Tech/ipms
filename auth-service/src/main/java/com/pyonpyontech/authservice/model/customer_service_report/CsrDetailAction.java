@@ -13,18 +13,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrCategory {
+public class CsrDetailAction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "category", nullable = false)
-    private String category;
+    @OneToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private CsrReport report;
 
-    @Column(name = "type", nullable = false)
-    private int type; // 0: Finding (has CSR Area), 1: Treatment, 2: Pests
-
-    @OneToOne(mappedBy = "category")
-    private CsrArea area;
+    @Column(nullable = false)
+    private String action;
 }

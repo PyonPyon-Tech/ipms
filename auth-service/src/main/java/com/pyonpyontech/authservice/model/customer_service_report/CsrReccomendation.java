@@ -23,6 +23,6 @@ public class CsrReccomendation {
     private String recommendation;
 
     @ManyToOne
-    @JoinColumn(name="area_id", nullable=false)
-    private CsrArea area;
+    @JoinColumn(name="finding_id", nullable=false)
+    private CsrFinding finding;
 }

@@ -26,6 +26,12 @@ public class CsrReport {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false)
+    private int reportType;
+
+    @Column(nullable = false)
+    private int visitationType;
+
     @OneToOne
     @JoinColumn(name = "feedback_id")
     private Feedback feedback;
@@ -61,7 +67,13 @@ public class CsrReport {
     private String visitationPhoto;
 
     @OneToMany(mappedBy = "report")
-    private List<CsrDetail> details;
+    private List<CsrDetailArea> detailAreas;
+
+    @OneToMany(mappedBy = "report")
+    private List<CsrDetailPest> detailPests;
+
+    @OneToOne(mappedBy = "report")
+    private CsrDetailAction detailAction;
 
     @OneToMany(mappedBy = "report")
     private List<CsrPesticideUsage> pesticideUsages;
