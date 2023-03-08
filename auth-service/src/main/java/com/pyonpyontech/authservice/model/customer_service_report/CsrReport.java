@@ -3,7 +3,7 @@ package com.pyonpyontech.authservice.model.customer_service_report;
 import com.pyonpyontech.authservice.model.Period;
 import com.pyonpyontech.authservice.model.customer.Feedback;
 import com.pyonpyontech.authservice.model.customer.Outlet;
-import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
+import com.pyonpyontech.authservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.authservice.model.pest_control.Visitation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

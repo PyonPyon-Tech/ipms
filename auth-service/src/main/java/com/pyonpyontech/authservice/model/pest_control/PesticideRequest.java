@@ -1,7 +1,7 @@
 package com.pyonpyontech.authservice.model.pest_control;
 
 import com.pyonpyontech.authservice.model.Period;
-import com.pyonpyontech.authservice.model.pest_control.Employee.Technician;
+import com.pyonpyontech.authservice.model.pest_control.employee.Technician;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
