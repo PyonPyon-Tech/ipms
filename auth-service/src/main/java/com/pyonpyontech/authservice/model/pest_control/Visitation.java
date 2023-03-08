@@ -35,7 +35,7 @@ public class Visitation {
     @JoinColumn(name = "outlet_id", nullable = false)
     private Outlet outlet;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "visit_date", nullable = false)
     private LocalDate date;
 
     @OneToOne

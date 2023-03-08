@@ -43,6 +43,9 @@ public class Supervisor {
     @Column(name = "contact", nullable = false)
     private String contact;
 
+    @Column(name = "region", nullable = false)
+    private String region;
+
     @Column(name = "last_login", nullable = false)
     private LocalDateTime lastLogin;
 

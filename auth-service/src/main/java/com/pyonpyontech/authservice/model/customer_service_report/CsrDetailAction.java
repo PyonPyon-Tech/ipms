@@ -23,6 +23,6 @@ public class CsrDetailAction {
     @JoinColumn(name = "report_id", nullable = false)
     private CsrReport report;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String action;
 }

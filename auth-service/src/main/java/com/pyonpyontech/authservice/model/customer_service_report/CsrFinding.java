@@ -31,5 +31,5 @@ public class CsrFinding {
     private String question;
 
     @OneToMany(mappedBy = "finding")
-    private List<CsrReccomendation> reccomendations;
+    private List<CsrRecommendation> reccomendations;
 }

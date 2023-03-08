@@ -66,4 +66,7 @@ public class Technician {
 
     @OneToMany(mappedBy = "technician")
     private List<Schedule> schedules;
+
+    @Column(name = "region", nullable = false)
+    private String region;
 }
