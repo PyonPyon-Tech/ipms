@@ -27,6 +27,9 @@ public class Outlet {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "region", nullable = false)
     private String region;
 

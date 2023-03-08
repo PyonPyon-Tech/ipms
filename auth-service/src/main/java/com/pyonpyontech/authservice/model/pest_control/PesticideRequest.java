@@ -37,6 +37,6 @@ public class PesticideRequest {
     @Column(name = "requested_at", nullable = false)
     private LocalDate requestedAt;
 
-    @Column(name = "unit", nullable = false)
-    private int unit;
+    @Column(name = "amount", nullable = false)
+    private int amount;
 }
