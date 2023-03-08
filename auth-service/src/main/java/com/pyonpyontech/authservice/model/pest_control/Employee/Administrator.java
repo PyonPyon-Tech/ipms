@@ -1,4 +1,4 @@
-package com.pyonpyontech.authservice.model.pest_control.Employee;
+package com.pyonpyontech.authservice.model.pest_control.employee;
 
 import com.pyonpyontech.authservice.model.UserModel;
 import lombok.AllArgsConstructor;

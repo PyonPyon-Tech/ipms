@@ -6,7 +6,7 @@ server:
 
 jwt:
   header: Authorization
-  secret: javainuse
+  secret: BWpuVGk4NuWH6rEo2MPe
 
 spring:
   profiles:

@@ -1,0 +1,2 @@
+INSERT IGNORE INTO `user` (`uuid`, `is_employee`, `nama`, `password`, `role`, `username`) VALUES ('someUUIDhere', '0', 'some-random-customer', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '4', 'customer123');
+INSERT IGNORE INTO `customer` (`id`, `user_id`) VALUES ('0', 'someUUIDhere');
