@@ -19,7 +19,7 @@ public class CsrReccomendation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "recommendation", nullable = false)
+    @Column(name = "recommendation", nullable = false, columnDefinition = "TEXT")
     private String recommendation;
 
     @ManyToOne
