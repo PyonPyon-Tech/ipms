@@ -1,7 +1,7 @@
-package com.pyonpyontech.customerservice.service;
+package com.pyonpyontech.authservice.service;
 
 import java.util.List;
-import com.pyonpyontech.customerservice.model.UserModel;
+import com.pyonpyontech.authservice.model.UserModel;
 
 public interface UserRestService {
     UserModel getUserByUuid(String uuid);

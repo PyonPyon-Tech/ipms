@@ -1,4 +1,4 @@
-package com.pyonpyontech.customerservice.service;
+package com.pyonpyontech.authservice.service;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pyonpyontech.customerservice.model.UserModel;
+import com.pyonpyontech.authservice.model.UserModel;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {

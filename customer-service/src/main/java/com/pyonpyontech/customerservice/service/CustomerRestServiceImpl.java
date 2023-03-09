@@ -43,6 +43,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     
     @Override
     public Customer createCustomer(Customer customer) {
+        // Reset all fields that might've been supplied by user
         customer.getUser().setRole(0);
         customer.getUser().setIsEmployee(0);
         customer.getUser().setUuid(null);

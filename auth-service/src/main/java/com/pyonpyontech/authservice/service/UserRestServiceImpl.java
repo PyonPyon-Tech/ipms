@@ -1,4 +1,4 @@
-package com.pyonpyontech.customerservice.service;
+package com.pyonpyontech.authservice.service;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
-import com.pyonpyontech.customerservice.model.UserModel;
-import com.pyonpyontech.customerservice.repository.UserDb;
+import com.pyonpyontech.authservice.model.UserModel;
+import com.pyonpyontech.authservice.repository.UserDb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
