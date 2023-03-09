@@ -42,10 +42,6 @@ public class CsrReport {
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
     private Period period;
-
-    @OneToOne(mappedBy = "report")
-    private Visitation visitation;
-
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
     private Technician technician;

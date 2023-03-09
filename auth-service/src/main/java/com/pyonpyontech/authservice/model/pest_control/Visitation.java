@@ -41,8 +41,4 @@ public class Visitation {
     @Column(name = "visit_date", nullable = false)
     private LocalDate date;
 
-    @OneToOne
-    @JoinColumn(name="report_id")
-    private CsrReport report;
-
 }
