@@ -17,7 +17,10 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 
 ###  Auth Service - `/authenticate`
 * [x] `POST /`
+
+
     Authenticate given credentials. Return JWT if successful, 401 otherwise.
+    
     **Request Example**
     ```json
     {
@@ -34,7 +37,10 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 
 ### Customer Service - `/customers`
 * [x] `GET /`
-Return all customers
+
+
+    Return all customers
+
     **Success Response Example**
     ```json
     [
@@ -77,7 +83,10 @@ Return all customers
     ]
     ```
 * [x] `POST /`
-Create new customer
+
+
+    Create new customer
+
     **Request Example**
     ```json
     {
@@ -96,7 +105,10 @@ Create new customer
     }
     ```
 * [x] `GET /{id}`
-Return customer with id `id`.
+
+
+    Return customer with id `id`.
+
     **Success Response Example**
     ```json
     {
@@ -113,7 +125,10 @@ Return customer with id `id`.
     }
     ```
 * [x] `PUT /{id}`
-Update customer with id `id`. The only fields that can be updated are `name` and `password`. Either one or both may be supplied. The example provided is a case where both fields are changed in one request. Note that supplying other fields beside those two will not update anything in the database.
+
+
+    Update customer with id `id`. The only fields that can be updated are `name` and `password`. Either one or both may be supplied. The example provided is a case where both fields are changed in one request. Note that supplying other fields beside those two will not update anything in the database.
+
     **Request Example**
     ```json
     {
@@ -140,66 +155,146 @@ Update customer with id `id`. The only fields that can be updated are `name` and
     }
     ```
 * [ ] `GET /{id}/outlets`
-Return outlets of customer with id `id`.
+
+
+    Return outlets of customer with id `id`.
+
 * [ ] `POST /{id}/outlets`
-Create new outlet for customer with id `id`.
+
+
+    Create new outlet for customer with id `id`.
+
 * [ ] `PUT /{id}/outlets/{outlet_id}`
-Update outlet with id `outlet_id` for customer with id `id`.
+
+
+    Update outlet with id `outlet_id` for customer with id `id`.
+
 * [ ] `GET /{id}/outlets/{outlet_id}/reports`
-Return reports for outlets with id `outlet_id` of customer with id `id`.
+
+
+    Return reports for outlets with id `outlet_id` of customer with id `id`.
+
 * [ ] `GET /{id}/reports`
-Return reports for customer with id `id`.
+
+
+    Return reports for customer with id `id`.
+
 * [ ] `GET /{id}/feedbacks`
-Return feedbacks for customer with id `id`.
+
+
+    Return feedbacks for customer with id `id`.
+
 
 ### Report Service - `/reports`
 * [ ] `GET /`
-Return all reports
+
+
+    Return all reports
+
 * [ ] `POST /`
-Create new report
+
+
+    Create new report
+
 * [ ] `GET /{id}`
-Return report with id `id`.
+
+
+    Return report with id `id`.
+
 * [ ] `PUT /{id}`
-Update report with id `id`.
+
+
+    Update report with id `id`.
+
 
 ### Employee Service - `/employees`
 * [ ] `GET /`
-Return all employees
+
+
+    Return all employees
+
 * [ ] `POST /`
-Create new employee
+
+
+    Create new employee
+
 * [ ] `GET /{id}`
-Return employees with id `id`.
+
+
+    Return employees with id `id`.
+
 * [ ] `PUT /{id}`
-Update employees with id `id`.
+
+
+    Update employees with id `id`.
+
 * [ ] `GET /{id}/schedule`
-Return schedule for employee with id `id`.
+
+
+    Return schedule for employee with id `id`.
+
 
 ### Schedule Service - `/schedules`
 * [ ] `GET /{id}`
-Return schedule with id `id`.
+
+
+    Return schedule with id `id`.
+
 * [ ] `GET /{id}/visitations`
-Return all visitations for schedule with id `id`.
+
+
+    Return all visitations for schedule with id `id`.
+
 * [ ] `POST /{id}/visitations`
-Create new visitation for schedule with id `id`.
+
+
+    Create new visitation for schedule with id `id`.
+
 * [ ] `GET /{id}/visitations/{period_month}-{period_year}`
-Return all visitations with period with month `period_month` and year `period_year` for schedule with id `id`.
+
+
+    Return all visitations with period with month `period_month` and year `period_year` for schedule with id `id`.
+
 
 ### Inventory Service - `/inventory`
 * [ ] `GET /pesticides`
-Return all pesticides
+
+
+    Return all pesticides
+
 * [ ] `POST /pesticides`
-Create new pesticide
+
+
+    Create new pesticide
+
 * [ ] `GET /pesticides/{id}`
-Return pesticides with id `id`.
+
+
+    Return pesticides with id `id`.
+
 * [ ] `PUT /pesticides/{id}`
-Update pesticides with id `id`.
+
+
+    Update pesticides with id `id`.
+
 
 ### Notification Service - `/notifications`
 * [ ] `GET /`
-Return all notifications
+
+
+    Return all notifications
+
 * [ ] `POST /`
-Create new notification
+
+
+    Create new notification
+
 * [ ] `GET /{id}`
-Return notification with id `id`.
+
+
+    Return notification with id `id`.
+
 * [ ] `PUT /{id}`
-Update notification with id `id`.
+
+
+    Update notification with id `id`.
