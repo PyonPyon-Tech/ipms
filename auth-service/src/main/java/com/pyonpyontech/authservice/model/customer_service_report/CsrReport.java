@@ -1,5 +1,8 @@
 package com.pyonpyontech.authservice.model.customer_service_report;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.authservice.model.Period;
 import com.pyonpyontech.authservice.model.customer.Feedback;
 import com.pyonpyontech.authservice.model.customer.Outlet;

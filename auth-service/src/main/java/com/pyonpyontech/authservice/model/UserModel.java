@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,5 +50,6 @@ public class UserModel implements Serializable {
     private int isEmployee;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user", "title", "body", "isSeen"})
     private List<Notification> notifications;
 }
