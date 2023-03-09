@@ -21,8 +21,12 @@ Return outlets of customer with id `id`.
 Create new outlet for customer with id `id`.
 * `PUT /{id}/outlets/{outlet_id}`
 Update outlet with id `outlet_id` for customer with id `id`.
+* `GET /{id}/outlets/{outlet_id}/reports`
+Return reports for outlets with id `outlet_id` of customer with id `id`.
 * `GET /{id}/reports`
 Return reports for customer with id `id`.
+* `GET /{id}/feedbacks`
+Return feedbacks for customer with id `id`.
 
 ## Report Service - `/reports`
 * `GET /`

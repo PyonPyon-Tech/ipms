@@ -32,7 +32,6 @@ public class UserModel implements Serializable {
     private String name;
 
     @NotNull
-    @Size(max = 50)
     @Column(name = "role", nullable = false)
     private int role;
 

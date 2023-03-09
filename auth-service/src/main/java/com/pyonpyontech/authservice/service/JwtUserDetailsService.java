@@ -1,4 +1,4 @@
-package com.pyonpyontech.authservice.service;
+package com.pyonpyontech.customerservice.service;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pyonpyontech.authservice.model.UserModel;
+import com.pyonpyontech.customerservice.model.UserModel;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -29,4 +29,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
 	}
+    
+    public String encrypt(String password){
+        String hashedPassword = bcryptEncoder.encode(password);
+        return hashedPassword;
+    }
 }
