@@ -39,7 +39,7 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [x] `GET /`
 
 
-    Return all customers
+    Return all customers.
 
     **Success Response Example**
     ```json
@@ -53,7 +53,8 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
             "username": "bread.talk",
             "password": "someHashedPassword1",
             "isEmployee": 0,
-            "notifications": []
+            "notifications": [],
+            "isActive": 1
         }
     },
     {
@@ -65,7 +66,8 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
             "username": "sub.way",
             "password": "someHashedPassword2",
             "isEmployee": 0,
-            "notifications": []
+            "notifications": [],
+            "isActive": 1
         }
     },
     {
@@ -77,7 +79,8 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
             "username": "starbuxoxo",
             "password": "someHashedPassword3",
             "isEmployee": 0,
-            "notifications": []
+            "notifications": [],
+            "isActive": 1
         }
     }
     ]
@@ -85,7 +88,7 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [x] `POST /`
 
 
-    Create new customer
+    Create new customer.
 
     **Request Example**
     ```json
@@ -120,22 +123,23 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
             "username": "bread.talk",
             "password": "someHashedPassword1",
             "isEmployee": 0,
-            "notifications": []
+            "notifications": [],
+            "isActive": 1
         }
     }
     ```
 * [x] `PUT /{id}`
 
 
-    Update customer with id `id`. The only fields that can be updated are `name` and `password`. Either one or both may be supplied. The example provided is a case where both fields are changed in one request. Note that supplying other fields beside those two will not update anything in the database.
+    Update customer with id `id`. The only fields that can be updated are `name`, `password`, and `isActive`. Any combination of the three fields may be supplied. The example provided is a case where all three fields are changed in one request. Note that supplying other fields beside those three will not update anything in the database.
 
     **Request Example**
     ```json
     {
-        "id": 1,
         "user": {
             "name": "BreadTalk 2",
-            "password": "some-plaintext-password-here"
+            "password": "some-plaintext-password-here",
+            "isActive": 0
         }
     }
     ```
@@ -150,7 +154,8 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
             "username": "bread.talk",
             "password": "newHashedPasswordBasedOnPlaintextInRequestBody",
             "isEmployee": 0,
-            "notifications": []
+            "notifications": [],
+            "isActive": 0
         }
     }
     ```
@@ -211,12 +216,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /`
 
 
-    Return all employees
+    Return all employees.
 
 * [ ] `POST /`
 
 
-    Create new employee
+    Create new employee.
 
 * [ ] `GET /{id}`
 
@@ -260,12 +265,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /pesticides`
 
 
-    Return all pesticides
+    Return all pesticides.
 
 * [ ] `POST /pesticides`
 
 
-    Create new pesticide
+    Create new pesticide.
 
 * [ ] `GET /pesticides/{id}`
 
@@ -282,12 +287,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /`
 
 
-    Return all notifications
+    Return all notifications.
 
 * [ ] `POST /`
 
 
-    Create new notification
+    Create new notification.
 
 * [ ] `GET /{id}`
 

@@ -32,7 +32,7 @@ public class Pesticide {
     private String unit;
 
     @Column(name = "stock", nullable = false)
-    private int stock;
+    private Integer stock;
 
     @OneToMany(mappedBy = "pesticide")
     private List<PesticideRequest> requestHistory;

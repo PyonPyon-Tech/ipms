@@ -74,18 +74,18 @@ public class CustomerRestController {
     }
     
     // Update customer
-    @PutMapping
-    private Customer updateCustomer(@Valid @RequestBody Customer updatedCustomer, BindingResult bindingResult) {
+    @PutMapping(value = "/{id}")
+    private Customer updateCustomer(@PathVariable("id") Long id, @Valid @RequestBody Customer updatedCustomer, BindingResult bindingResult) {
         if(bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
         } else {
-            if(updatedCustomer.getId() == null)
+            if(id == null)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer ID not supplied");
             
             if(updatedCustomer.getUser() == null)
-                return customerRestService.getCustomerById(updatedCustomer.getId());
+                return customerRestService.getCustomerById(id);
             
-            Customer savedUpdatedCustomer = customerRestService.updateCustomer(updatedCustomer);
+            Customer savedUpdatedCustomer = customerRestService.updateCustomer(id, updatedCustomer);
 
             return savedUpdatedCustomer;
         }

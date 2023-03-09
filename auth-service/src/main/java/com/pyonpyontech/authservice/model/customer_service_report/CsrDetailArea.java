@@ -23,7 +23,8 @@ public class CsrDetailArea {
     private Long id;
 
     @Column(nullable = false)
-    private int number;
+    private Integer number;
+    
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
     private CsrReport report;

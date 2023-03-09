@@ -47,6 +47,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         customer.getUser().setRole(0);
         customer.getUser().setIsEmployee(0);
         customer.getUser().setUuid(null);
+        customer.getUser().setIsActive(1);
         
         UserModel createdCustomerUser = userRestService.createUser(customer.getUser());
         
@@ -57,8 +58,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
-    public Customer updateCustomer(Customer updatedCustomer) {
-        Customer customer = getCustomerById(updatedCustomer.getId());
+    public Customer updateCustomer(Long id, Customer updatedCustomer) {
+        Customer customer = getCustomerById(id);
         
         UserModel updatedCustomerUser = updatedCustomer.getUser();
         UserModel customerUser = customer.getUser();
@@ -68,6 +69,10 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         
         if(updatedCustomerUser.getPassword() != null)
             customerUser.setPassword(jwtUserDetailsService.encrypt(updatedCustomerUser.getPassword()));
+        
+        
+        if(updatedCustomerUser.getIsActive() != null)
+            customerUser.setIsActive(updatedCustomerUser.getIsActive());
         
         customer.setUser(customerUser);
         Customer savedUpdatedCustomer = customerDb.save(customer);

@@ -10,5 +10,5 @@ public interface CustomerRestService {
     Customer getCustomerById(Long id);
     List<Customer> getCustomerList();
     Customer createCustomer(Customer customer);
-    Customer updateCustomer(Customer updatedCustomer);
+    Customer updateCustomer(Long id, Customer updatedCustomer);
 }

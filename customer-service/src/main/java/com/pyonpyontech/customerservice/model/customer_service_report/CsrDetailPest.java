@@ -35,5 +35,5 @@ public class CsrDetailPest {
     private String pestName;
 
     @Column(nullable = false)
-    private int status;
+    private Integer status;
 }
