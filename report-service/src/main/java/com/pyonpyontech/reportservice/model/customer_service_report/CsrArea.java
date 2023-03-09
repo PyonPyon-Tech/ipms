@@ -1,5 +1,9 @@
 package com.pyonpyontech.reportservice.model.customer_service_report;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.pyonpyontech.reportservice.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +27,6 @@ public class CsrArea {
     @Column(name = "area", nullable = false)
     private String area;
 
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "area")
     private List<CsrFinding> findings;
 }

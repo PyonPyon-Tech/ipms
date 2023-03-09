@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/report")
+@RequestMapping("/api/v1/reports")
 public class ReportController {
 
 }

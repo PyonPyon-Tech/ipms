@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,33 +28,33 @@ public class UserModel implements Serializable {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String uuid;
 
-    @NotNull
     @Size(max = 50)
     @Column(name = "nama", nullable = false)
     private String name;
 
-    @NotNull
-    @Size(max = 50)
+    @Min(value = 0)
+    @Max(value = 4)
     @Column(name = "role", nullable = false)
-    private int role;
+    private Integer role;
 
-    @NotNull
     @Size(max = 50)
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
-    @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "is_employee", nullable = false)
-    private int isEmployee;
+    private Integer isEmployee;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user", "title", "body", "isSeen"})
     private List<Notification> notifications;
 
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "is_active", nullable = false)
-    private int isActive;
+    private Integer isActive;
 }

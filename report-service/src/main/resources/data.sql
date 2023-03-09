@@ -221,7 +221,7 @@ INSERT IGNORE INTO csr_report (id, start_time, end_time, report_type, visitation
 	('53', '2023-02-17 12:00:00', '2023-02-17 13:00:00', '1', '1', '-', '-', '-', '26', '3', '2'),
 	('54', '2023-02-18 12:00:00', '2023-02-18 13:00:00', '1', '1', '-', '-', '-', '27', '3', '2');
 
-INSERT IGNORE INTO `visitation` (`id`, `date`, `outlet_id`, `period_id`, `schedule_id`) VALUES
+INSERT IGNORE INTO `visitation` (`id`, `visit_date`, `outlet_id`, `period_id`, `schedule_id`) VALUES
 	('1', '2023-2-1', '1', '2', '1'),
 	('2', '2023-2-2', '2', '2', '1'),
 	('3', '2023-2-3', '3', '2', '1'),

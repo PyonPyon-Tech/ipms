@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -40,9 +43,11 @@ public class Schedule {
 
     @Column(name = "supervisor_comment")
     private String comment;
-
+    
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "supervisor_approval")
-    private int isApproved;
+    private Integer isApproved;
 
     @OneToMany(mappedBy = "schedule")
     private List<Visitation> visitations;

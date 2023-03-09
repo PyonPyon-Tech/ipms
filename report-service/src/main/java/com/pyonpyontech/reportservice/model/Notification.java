@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+
 import javax.persistence.*;
 import java.time.Month;
 
@@ -32,7 +35,9 @@ public class Notification {
 
     @Column(name = "body", nullable = false)
     private String body;
-
+    
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name="seen", nullable = false)
-    private int isSeen;
+    private Integer isSeen;
 }

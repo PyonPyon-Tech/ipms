@@ -25,17 +25,15 @@ public class CsrDetailPest {
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
-    @JsonIgnore
     private CsrReport report;
 
     @ManyToOne
     @JoinColumn(name = "pest_id")
-    @JsonIgnore
     private Pest pest;
 
     @Column(nullable = false)
     private String pestName;
 
     @Column(nullable = false)
-    private int status;
+    private Integer status;
 }

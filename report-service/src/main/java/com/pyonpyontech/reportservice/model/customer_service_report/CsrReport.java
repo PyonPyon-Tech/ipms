@@ -42,6 +42,7 @@ public class CsrReport {
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
     private Period period;
+
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
     private Technician technician;

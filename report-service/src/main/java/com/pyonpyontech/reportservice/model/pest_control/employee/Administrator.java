@@ -45,5 +45,4 @@ public class Administrator {
 
     @Column(name = "last_login", nullable = false)
     private LocalDateTime lastLogin;
-
 }

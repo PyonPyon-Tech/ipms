@@ -41,5 +41,5 @@ public class PesticideRequest {
     private LocalDate requestedAt;
 
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private Integer amount;
 }

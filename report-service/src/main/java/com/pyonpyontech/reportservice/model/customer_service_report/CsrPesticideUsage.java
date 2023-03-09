@@ -1,6 +1,8 @@
 package com.pyonpyontech.reportservice.model.customer_service_report;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +25,6 @@ public class CsrPesticideUsage {
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
-    @JsonIgnore
     private CsrReport report;
 
     @ManyToOne

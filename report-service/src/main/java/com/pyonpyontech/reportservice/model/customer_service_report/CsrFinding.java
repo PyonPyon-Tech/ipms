@@ -25,11 +25,10 @@ public class CsrFinding {
 
     @ManyToOne
     @JoinColumn(name = "area_id", nullable = false)
-    @JsonIgnore
     private CsrArea area;
 
     @Column(nullable = false)
-    private int number;
+    private Integer number;
 
     @Column(name = "question", nullable = false)
     private String question;
