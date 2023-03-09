@@ -9,4 +9,6 @@ import com.pyonpyontech.customerservice.model.customer.Customer;
 public interface CustomerRestService {
     Customer getCustomerById(Long id);
     List<Customer> getCustomerList();
+    Customer createCustomer(Customer customer);
+    Customer updateCustomer(Long id, Customer updatedCustomer);
 }

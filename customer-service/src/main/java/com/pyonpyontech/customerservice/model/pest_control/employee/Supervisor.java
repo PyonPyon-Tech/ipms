@@ -1,5 +1,8 @@
 package com.pyonpyontech.customerservice.model.pest_control.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.customerservice.model.UserModel;
 import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.pest_control.Schedule;

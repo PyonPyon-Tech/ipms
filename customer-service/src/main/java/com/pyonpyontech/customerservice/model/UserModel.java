@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,7 +32,6 @@ public class UserModel implements Serializable {
     private String name;
 
     @NotNull
-    @Size(max = 50)
     @Column(name = "role", nullable = false)
     private int role;
 

@@ -42,5 +42,18 @@ public class UserRestServiceImpl implements UserRestService {
             throw new NoSuchElementException();
         }
     }
+    
+    @Override
+    public UserModel createUser(UserModel user) {
+        Optional<UserModel> sameUsernameUserOptional = userDb.findByUsername(user.getUsername());
+        boolean isSameUsernameExists = sameUsernameUserOptional.isPresent();
+        
+        if(isSameUsernameExists)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An account with the same username already exists.");
+        
+        String pass = jwtUserDetailsService.encrypt(user.getPassword());
+        user.setPassword(pass);
+        return userDb.save(user);
+    }
   
 }

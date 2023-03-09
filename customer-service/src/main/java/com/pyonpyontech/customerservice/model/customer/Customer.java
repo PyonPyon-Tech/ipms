@@ -2,6 +2,7 @@ package com.pyonpyontech.customerservice.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.customerservice.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

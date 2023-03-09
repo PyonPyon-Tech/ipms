@@ -1,5 +1,8 @@
 package com.pyonpyontech.customerservice.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.customerservice.model.Period;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import lombok.AllArgsConstructor;

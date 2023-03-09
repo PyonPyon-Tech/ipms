@@ -5,6 +5,7 @@ import com.pyonpyontech.authservice.model.UserModel;
 
 public interface UserRestService {
     UserModel getUserByUuid(String uuid);
-
     UserModel getUserByUsername(String username);
+    
+    UserModel createUser(UserModel user);
 }
