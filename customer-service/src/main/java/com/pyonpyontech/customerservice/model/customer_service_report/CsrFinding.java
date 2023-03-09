@@ -28,7 +28,7 @@ public class CsrFinding {
     private CsrArea area;
 
     @Column(nullable = false)
-    private int number;
+    private Integer number;
 
     @Column(name = "question", nullable = false)
     private String question;

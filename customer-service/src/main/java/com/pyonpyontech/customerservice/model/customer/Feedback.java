@@ -28,7 +28,6 @@ public class Feedback {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-
     @Column(name = "content")
     private String content;
 

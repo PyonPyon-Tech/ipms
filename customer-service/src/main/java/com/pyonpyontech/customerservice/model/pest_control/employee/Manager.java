@@ -35,7 +35,7 @@ public class Manager {
     private String birthLocation;
 
     @Column(name = "gender", nullable = false)
-    private int gender;
+    private Integer gender;
 
     @Column(name = "address", nullable = false)
     private String address;

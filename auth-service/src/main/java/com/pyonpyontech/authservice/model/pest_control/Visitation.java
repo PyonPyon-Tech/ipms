@@ -40,5 +40,4 @@ public class Visitation {
 
     @Column(name = "visit_date", nullable = false)
     private LocalDate date;
-
 }

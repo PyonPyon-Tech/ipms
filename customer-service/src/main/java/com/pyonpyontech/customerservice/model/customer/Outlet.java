@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import javax.persistence.*;
 import java.util.List;
 
@@ -50,6 +52,8 @@ public class Outlet {
     @OneToMany(mappedBy = "outlet")
     private List<CsrReport> reports;
 
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "is_active", nullable = false)
-    private int isActive;
+    private Integer isActive;
 }
