@@ -1,5 +1,8 @@
 package com.pyonpyontech.authservice.model.pest_control;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.authservice.model.Period;
 import com.pyonpyontech.authservice.model.customer.Outlet;
 import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;

@@ -1,5 +1,8 @@
 package com.pyonpyontech.authservice.model.pest_control.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.authservice.model.UserModel;
 import com.pyonpyontech.authservice.model.customer.Outlet;
 import com.pyonpyontech.authservice.model.pest_control.Schedule;

@@ -1,5 +1,8 @@
 package com.pyonpyontech.authservice.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pyonpyontech.authservice.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +28,12 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
-
+    
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Outlet> outlets;
 }
