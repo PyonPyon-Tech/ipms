@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+
+    # sesuaikan nama database anda dengan di bawah ini
+    url: jdbc:mysql://localhost:3306/ipms?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Jakarta
+
+    # sesuaikan dengan NAMA dan PASSWORD anda dengan username password di bawah ini
+    username: ipms-db
+    password: rRzELLrI09jVKyFamG0P
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+
+    # pembuatan database (create || create-drop || validate || update)
+    hibernate.ddl-auto: update
+
+    show-sql: true
+
+  main:
+    allow-circular-references: true
