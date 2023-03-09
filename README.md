@@ -132,7 +132,6 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
     **Request Example**
     ```json
     {
-        "id": 1,
         "user": {
             "name": "BreadTalk 2",
             "password": "some-plaintext-password-here"

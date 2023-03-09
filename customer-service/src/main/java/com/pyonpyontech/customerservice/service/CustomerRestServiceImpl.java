@@ -57,8 +57,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
-    public Customer updateCustomer(Customer updatedCustomer) {
-        Customer customer = getCustomerById(updatedCustomer.getId());
+    public Customer updateCustomer(Long id, Customer updatedCustomer) {
+        Customer customer = getCustomerById(id);
         
         UserModel updatedCustomerUser = updatedCustomer.getUser();
         UserModel customerUser = customer.getUser();
