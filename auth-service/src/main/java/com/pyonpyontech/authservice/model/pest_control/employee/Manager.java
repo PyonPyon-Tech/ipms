@@ -45,7 +45,4 @@ public class Manager {
 
     @Column(name = "last_login", nullable = false)
     private LocalDateTime lastLogin;
-
-    @Column(name = "is_active", nullable = false)
-    private int isActive;
 }

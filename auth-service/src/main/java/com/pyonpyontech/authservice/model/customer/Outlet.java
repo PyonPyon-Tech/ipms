@@ -49,4 +49,7 @@ public class Outlet {
 
     @OneToMany(mappedBy = "outlet")
     private List<CsrReport> reports;
+
+    @Column(name = "is_active", nullable = false)
+    private int isActive;
 }

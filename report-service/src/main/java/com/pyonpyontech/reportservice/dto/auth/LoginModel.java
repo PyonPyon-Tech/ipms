@@ -1,4 +1,4 @@
-package com.pyonpyontech.reportservice.dto;
+package com.pyonpyontech.reportservice.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;

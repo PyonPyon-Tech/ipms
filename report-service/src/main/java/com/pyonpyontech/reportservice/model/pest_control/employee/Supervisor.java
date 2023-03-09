@@ -52,9 +52,6 @@ public class Supervisor {
     @Column(name = "last_login", nullable = false)
     private LocalDateTime lastLogin;
 
-    @Column(name = "is_active", nullable = false)
-    private int isActive;
-
     @OneToMany(mappedBy = "supervisor")
     private List<Technician> subordinates;
 

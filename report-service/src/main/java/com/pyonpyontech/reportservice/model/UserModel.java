@@ -52,4 +52,7 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user", "title", "body", "isSeen"})
     private List<Notification> notifications;
+
+    @Column(name = "is_active", nullable = false)
+    private int isActive;
 }

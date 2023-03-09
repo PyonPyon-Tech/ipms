@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
 import com.pyonpyontech.reportservice.security.JwtTokenUtil;
-import com.pyonpyontech.reportservice.dto.JwtRequestModel;
-import com.pyonpyontech.reportservice.dto.JwtResponseModel;
+import com.pyonpyontech.reportservice.dto.auth.JwtRequestModel;
+import com.pyonpyontech.reportservice.dto.auth.JwtResponseModel;
 import com.pyonpyontech.reportservice.service.JwtUserDetailsService;
 
 @Slf4j
@@ -26,7 +25,6 @@ import com.pyonpyontech.reportservice.service.JwtUserDetailsService;
 @CrossOrigin
 @RequestMapping("/api/v1/authenticate")
 public class JwtAuthenticationController {
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
