@@ -39,7 +39,7 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [x] `GET /`
 
 
-    Return all customers
+    Return all customers.
 
     **Success Response Example**
     ```json
@@ -85,7 +85,7 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [x] `POST /`
 
 
-    Create new customer
+    Create new customer.
 
     **Request Example**
     ```json
@@ -210,12 +210,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /`
 
 
-    Return all employees
+    Return all employees.
 
 * [ ] `POST /`
 
 
-    Create new employee
+    Create new employee.
 
 * [ ] `GET /{id}`
 
@@ -259,12 +259,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /pesticides`
 
 
-    Return all pesticides
+    Return all pesticides.
 
 * [ ] `POST /pesticides`
 
 
-    Create new pesticide
+    Create new pesticide.
 
 * [ ] `GET /pesticides/{id}`
 
@@ -281,12 +281,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 * [ ] `GET /`
 
 
-    Return all notifications
+    Return all notifications.
 
 * [ ] `POST /`
 
 
-    Create new notification
+    Create new notification.
 
 * [ ] `GET /{id}`
 
