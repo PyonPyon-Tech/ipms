@@ -1,5 +1,6 @@
 package com.pyonpyontech.customerservice.model.pest_control;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,20 +26,23 @@ import java.util.List;
 @Table
 public class Schedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
+    @JsonIncludeProperties({"id", "month", "year"})
     private Period period;
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
+    @JsonIncludeProperties("id")
     private Technician technician;
 
     @ManyToOne
     @JoinColumn(name = "supervisor_id", nullable = false)
+    @JsonIncludeProperties("id")
     private Supervisor supervisor;
 
     @Column(name = "supervisor_comment")
@@ -50,5 +54,6 @@ public class Schedule {
     private Integer isApproved;
 
     @OneToMany(mappedBy = "schedule")
+    @JsonIncludeProperties({"id", "date"})
     private List<Visitation> visitations;
 }
