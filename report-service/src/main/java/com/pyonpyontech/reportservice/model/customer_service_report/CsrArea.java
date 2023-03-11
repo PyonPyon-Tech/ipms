@@ -27,6 +27,6 @@ public class CsrArea {
     @Column(name = "area", nullable = false)
     private String area;
 
-    @OneToMany(mappedBy = "area")
+    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
     private List<CsrFinding> findings;
 }

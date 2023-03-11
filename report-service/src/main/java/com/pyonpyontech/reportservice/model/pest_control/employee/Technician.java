@@ -53,18 +53,23 @@ public class Technician {
 
     @ManyToOne
     @JoinColumn(name = "supervisor_id")
+    @JsonIgnore
     private Supervisor supervisor;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<Outlet> outlets;
 
     @OneToMany(mappedBy = "requester")
+    @JsonIgnore
     private List<PesticideRequest> pesticideRequestHistory;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<CsrReport> reports;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<Schedule> schedules;
 
     @Column(name = "region", nullable = false)

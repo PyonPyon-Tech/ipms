@@ -43,13 +43,16 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name="supervisor_id", nullable=false)
+    @JsonIgnore
     private Supervisor supervisor;
 
     @ManyToOne
     @JoinColumn(name="technician_id")
+    @JsonIgnore
     private Technician technician;
 
     @OneToMany(mappedBy = "outlet")
+    @JsonIgnore
     private List<CsrReport> reports;
 
     @Min(value = 0)
