@@ -1,5 +1,6 @@
 package com.pyonpyontech.employeeservice.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Table
 public class Outlet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -43,13 +44,16 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name="supervisor_id", nullable=false)
+    @JsonIncludeProperties("id")
     private Supervisor supervisor;
 
     @ManyToOne
     @JoinColumn(name="technician_id")
+    @JsonIncludeProperties("id")
     private Technician technician;
 
     @OneToMany(mappedBy = "outlet")
+    @JsonIgnore
     private List<CsrReport> reports;
 
     @Min(value = 0)

@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Entity @Table
 public class Administrator {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -35,7 +35,7 @@ public class Administrator {
     private String birthLocation;
 
     @Column(name = "gender", nullable = false)
-    private int gender;
+    private Integer gender;
 
     @Column(name = "address", nullable = false)
     private String address;

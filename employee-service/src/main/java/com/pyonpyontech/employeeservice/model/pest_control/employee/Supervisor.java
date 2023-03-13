@@ -23,7 +23,7 @@ import java.util.List;
 @Entity @Table
 public class Supervisor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -53,11 +53,14 @@ public class Supervisor {
     private LocalDateTime lastLogin;
 
     @OneToMany(mappedBy = "supervisor")
+    @JsonIgnore
     private List<Technician> subordinates;
 
     @OneToMany(mappedBy = "supervisor")
+    @JsonIgnore
     private List<Outlet> outlets;
 
     @OneToMany(mappedBy = "supervisor")
+    @JsonIgnore
     private List<Schedule> schedules;
 }
