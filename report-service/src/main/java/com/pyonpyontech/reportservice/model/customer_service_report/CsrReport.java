@@ -26,7 +26,7 @@ import java.util.List;
 @Table
 public class CsrReport {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -36,19 +36,19 @@ public class CsrReport {
     @Column(nullable = false)
     private int visitationType;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "feedback_id")
     private Feedback feedback;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "period_id", nullable = false)
     private Period period;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "technician_id", nullable = false)
     private Technician technician;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "outlet_id", nullable = false)
     private Outlet outlet;
 
@@ -67,15 +67,15 @@ public class CsrReport {
     @Column(name = "visitation_photo", nullable = false)
     private String visitationPhoto;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrDetailArea> detailAreas;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrDetailPest> detailPests;
 
-    @OneToOne(mappedBy = "report")
+    @OneToOne(mappedBy = "report", cascade = CascadeType.ALL)
     private CsrDetailAction detailAction;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrPesticideUsage> pesticideUsages;
 }

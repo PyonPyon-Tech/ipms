@@ -25,6 +25,7 @@ public class CsrFinding {
 
     @ManyToOne
     @JoinColumn(name = "area_id", nullable = false)
+    @JsonIgnore
     private CsrArea area;
 
     @Column(nullable = false)
@@ -33,6 +34,6 @@ public class CsrFinding {
     @Column(name = "question", nullable = false)
     private String question;
 
-    @OneToMany(mappedBy = "finding")
+    @OneToMany(mappedBy = "finding", fetch = FetchType.EAGER)
     private List<CsrRecommendation> reccomendations;
 }
