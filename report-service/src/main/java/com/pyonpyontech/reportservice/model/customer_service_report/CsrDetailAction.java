@@ -18,12 +18,13 @@ import javax.persistence.*;
 @Table
 public class CsrDetailAction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "report_id", nullable = false)
+    @JsonIgnore
     private CsrReport report;
 
     @Column(nullable = false, columnDefinition = "TEXT")

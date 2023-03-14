@@ -2,6 +2,7 @@ package com.pyonpyontech.authservice.model.pest_control.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import com.pyonpyontech.authservice.model.UserModel;
 import com.pyonpyontech.authservice.model.customer.Outlet;
@@ -17,15 +18,18 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity @Table
-public class Technician {
+public class Technician implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -53,18 +57,23 @@ public class Technician {
 
     @ManyToOne
     @JoinColumn(name = "supervisor_id")
+    @JsonIncludeProperties("id")
     private Supervisor supervisor;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<Outlet> outlets;
 
     @OneToMany(mappedBy = "requester")
+    @JsonIgnore
     private List<PesticideRequest> pesticideRequestHistory;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<CsrReport> reports;
 
     @OneToMany(mappedBy = "technician")
+    @JsonIgnore
     private List<Schedule> schedules;
 
     @Column(name = "region", nullable = false)

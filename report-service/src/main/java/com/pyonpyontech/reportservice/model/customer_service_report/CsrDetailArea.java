@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table
 public class CsrDetailArea {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -27,6 +27,7 @@ public class CsrDetailArea {
     
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
+    @JsonIgnore
     private CsrReport report;
 
     @Column(name = "finding", nullable = false)

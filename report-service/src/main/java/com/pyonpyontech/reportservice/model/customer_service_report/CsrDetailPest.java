@@ -19,12 +19,13 @@ import javax.persistence.*;
 @Table
 public class CsrDetailPest {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
+    @JsonIgnore
     private CsrReport report;
 
     @ManyToOne

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table
 public class CsrRecommendation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -27,5 +27,6 @@ public class CsrRecommendation {
 
     @ManyToOne
     @JoinColumn(name="finding_id", nullable=false)
+    @JsonIgnore
     private CsrFinding finding;
 }

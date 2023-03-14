@@ -20,13 +20,13 @@ import java.util.List;
 @Table
 public class CsrArea {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "area", nullable = false)
     private String area;
 
-    @OneToMany(mappedBy = "area")
+    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
     private List<CsrFinding> findings;
 }

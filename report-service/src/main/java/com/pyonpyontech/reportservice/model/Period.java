@@ -18,17 +18,19 @@ import java.time.Month;
 import java.time.Year;
 import java.util.List;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
-public class Period {
+public class Period implements Serializable {
+    private static final long serialVersionUID = 1L;
     // Ini untuk memudahkan dashboard service. Liat per periode
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -36,20 +38,25 @@ public class Period {
     private Month month;
 
     @Column(name = "year", nullable = false)
-    private Year year;
+    private Integer year;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<CsrReport> reports;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<PesticideRequest> pesticideRequests;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<Schedule> schedules;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<Visitation> visitations;
 }

@@ -10,12 +10,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.io.Serializable;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Entity @Table
-public class Pesticide {
+public class Pesticide implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

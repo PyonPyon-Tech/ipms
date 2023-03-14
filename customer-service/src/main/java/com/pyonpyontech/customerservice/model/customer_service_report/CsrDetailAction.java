@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table
 public class CsrDetailAction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

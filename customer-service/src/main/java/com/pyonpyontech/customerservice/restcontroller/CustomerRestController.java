@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class CustomerRestController {
         try {
             return customerRestService.getCustomerById(id);
         } catch(NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pasien with ID " + id + " not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with ID " + id + " not found.");
         }
     }
     
@@ -56,18 +57,16 @@ public class CustomerRestController {
     
     // Create customer
     @PostMapping
-    private Map<String, Object> createCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult) {
+    private Customer createCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult) {
         if(bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
         } else {
             try {
                 Customer createdCustomer = customerRestService.createCustomer(customer);
-                
-                HashMap<String, Object> responseMap = new HashMap<>();
-                responseMap.put("id", createdCustomer.getId());
-                responseMap.put("userUuid", createdCustomer.getUser().getUuid());
-                return responseMap;
+                return createdCustomer;
             } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
