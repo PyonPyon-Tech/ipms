@@ -1,5 +1,6 @@
 package com.pyonpyontech.reportservice.model.pest_control;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,14 +29,17 @@ public class Visitation {
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
+    @JsonIncludeProperties({"id", "month", "year"})
     private Period period;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id", nullable = false)
+    @JsonIncludeProperties("id")
     private Schedule schedule;
 
     @ManyToOne
     @JoinColumn(name = "outlet_id", nullable = false)
+    @JsonIncludeProperties({"id", "name", "customer"})
     private Outlet outlet;
 
     @Column(name = "visit_date", nullable = false)

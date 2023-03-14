@@ -213,49 +213,61 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 
 
 ### Employee Service - `/employees`
-* [ ] `GET /`
+
+Employee role name could either be `administrators`, `supervisors`, or `technicians`.
+* [x] `GET /{employee_role_name}/`
 
 
     Return all employees.
 
-* [ ] `POST /`
+* [x] `POST /{employee_role_name}/`
 
 
     Create new employee.
 
-* [ ] `GET /{id}`
+* [x] `GET /{employee_role_name}/{id}`
 
 
     Return employees with id `id`.
 
-* [ ] `PUT /{id}`
+* [ ] `PUT /{employee_role_name}/{id}`
 
 
     Update employees with id `id`.
 
-* [ ] `GET /{id}/schedule`
+* [x] `GET /supervisors/{id}/technicians`
 
 
-    Return schedule for employee with id `id`.
+    Return technicians of supervisor with id `id`.
+    
+* [x] `GET /supervisors/{id}/outlets`
+
+
+    Return outlets of supervisor with id `id`.
+
+* [x] `GET /technicians/{id}/reports`
+
+
+    Return reports of technician with id `id`.
 
 
 ### Schedule Service - `/schedules`
-* [ ] `GET /{id}`
+* [x] `GET /{id}`
 
 
     Return schedule with id `id`.
 
-* [ ] `GET /{id}/visitations`
+* [x] `GET /{id}/visitations`
 
 
     Return all visitations for schedule with id `id`.
 
-* [ ] `POST /{id}/visitations`
+* [x] `POST /{id}/visitations`
 
 
     Create new visitation for schedule with id `id`.
 
-* [ ] `GET /{id}/visitations/{period_month}-{period_year}`
+* [x] `GET /{id}/visitations?month={period_month}&year={period_year}`
 
 
     Return all visitations with period with month `period_month` and year `period_year` for schedule with id `id`.

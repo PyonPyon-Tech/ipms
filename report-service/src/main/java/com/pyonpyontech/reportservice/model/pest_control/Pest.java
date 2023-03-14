@@ -27,6 +27,5 @@ public class Pest {
     private String name;
 
     @ManyToMany(mappedBy = "targetPests")
-    @JsonIgnore
     private List<Pesticide> exterminators;
 }

@@ -42,7 +42,6 @@ public class UserModel implements Serializable {
     private String username;
 
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
     @Min(value = 0)
@@ -51,7 +50,7 @@ public class UserModel implements Serializable {
     private Integer isEmployee;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
+    @JsonIgnoreProperties({"user", "title", "body", "isSeen"})
     private List<Notification> notifications;
 
     @Min(value = 0)

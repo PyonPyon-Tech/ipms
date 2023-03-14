@@ -30,12 +30,16 @@ import java.util.NoSuchElementException;
 @CrossOrigin
 @RequestMapping("/api/v1/reports")
 public class ReportController {
+    
     @Autowired
     private ReportRestService reportRestService;
+    
     @Autowired
     private UserRestServiceImpl userRestService;
+    
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
-    @GetMapping("/create")
+    
+    @GetMapping
     private RequestFormDTO getFormData(Principal principal) {
         try {
             Integer role = userRestService.getRole(principal);
@@ -48,7 +52,8 @@ public class ReportController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
-    @PostMapping("/create")
+    
+    @PostMapping
     private Map<String, Object> createReport(@Valid @RequestBody ReportFormDTO form, BindingResult bindingResult, Principal principal) {
         logger.info("Create Report Called");
         if (bindingResult.hasFieldErrors()) {
@@ -121,6 +126,7 @@ public class ReportController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Report not found.");
         }
     }
+    
     @GetMapping(value = "/detail/{id}")
     private CsrReport detailReport(@PathVariable("id") Long id, Principal principal) {
         try {
