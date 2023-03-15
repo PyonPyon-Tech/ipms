@@ -106,4 +106,22 @@ public class ReportRestService {
         return summaryReports;
     }
 
+    public List<SummaryReport> summaryReportsByPeriodAndOutlet(Long periodId, Long outletId){
+        List<CsrReport> reports = csrReportDb.findByPeriodIdAndOutletId(periodId, outletId);
+        List<SummaryReport> summaryReports = new ArrayList<>();
+        for(CsrReport report: reports){
+            summaryReports.add(new SummaryReport(report));
+        }
+        return summaryReports;
+    }
+
+    public List<SummaryReport> summaryReportsByPeriodAndCustomer(Long periodId, Long customerId){
+        List<CsrReport> reports = csrReportDb.findByPeriodIdAndCustomerId(periodId, customerId);
+        List<SummaryReport> summaryReports = new ArrayList<>();
+        for(CsrReport report: reports){
+            summaryReports.add(new SummaryReport(report));
+        }
+        return summaryReports;
+    }
+
 }
