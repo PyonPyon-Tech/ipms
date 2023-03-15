@@ -35,7 +35,7 @@ public class ReportController {
     @Autowired
     private UserRestServiceImpl userRestService;
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
-    @GetMapping("/create")
+    @GetMapping("")
     private RequestFormDTO getFormData(Principal principal) {
         try {
             Integer role = userRestService.getRole(principal);
@@ -48,7 +48,7 @@ public class ReportController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
-    @PostMapping("/create")
+    @PostMapping("")
     private Map<String, Object> createReport(@Valid @RequestBody ReportFormDTO form, BindingResult bindingResult, Principal principal) {
         logger.info("Create Report Called");
         if (bindingResult.hasFieldErrors()) {
@@ -80,8 +80,11 @@ public class ReportController {
             CsrReport report = reportRestService.detailReport(id);
             Technician author = report.getTechnician();
 
-            if(role == 0)
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            if(role == 0){
+                if(report.getOutlet().getCustomer().getUser().getUsername().equals(username)){
+                    return report;
+                }
+            }
             if(role == 1 || role == 2){
                 return report;
             }
