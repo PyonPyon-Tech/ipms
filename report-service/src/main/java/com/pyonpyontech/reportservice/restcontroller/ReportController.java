@@ -70,57 +70,6 @@ public class ReportController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
         }
     }
-    @GetMapping(value = "/summary")
-    private List<SummaryReport> summaryReport(
-            @RequestParam(value = "period") Long period,
-            @RequestParam(value = "technician", required = false) Long technician,
-            @RequestParam(value = "supervisor", required = false) Long supervisor,
-            Principal principal
-    ) {
-        Integer role = userRestService.getRole(principal);
-        String username = principal.getName();
-        logger.info(username);
-        try {
-            switch (role){
-                case 0: // customer
-                    break;
-                case 3: // supervisor
-                    if(technician != null){
-                        UserModel supervisorUser = userRestService.getSupervisorByTechnicianId(technician);
-                        if(supervisorUser.getUsername().equals(username)){
-                            return reportRestService.summaryReportsByPeriodAndTechnician(period, technician);
-                        }
-                    }
-                    if(supervisor != null){
-                        UserModel supervisorUser = userRestService.getSupervisorById(supervisor);
-                        if(supervisorUser.getUsername().equals(username)){
-                            return reportRestService.summaryReportsByPeriodAndSupervisor(period, supervisor);
-                        }
-                    }
-                    break;
-                case 4: // technician
-                    if(technician != null){
-                        UserModel technicianUser = userRestService.getTechnicianById(technician);
-                        if(technicianUser.getUsername().equals(username)){
-                            return reportRestService.summaryReportsByPeriodAndTechnician(period, technician);
-                        }
-                    }
-                    break;
-                default:
-                    if(technician != null){
-                        return reportRestService.summaryReportsByPeriodAndTechnician(period, technician);
-                    }
-                    if(supervisor != null){
-                        return reportRestService.summaryReportsByPeriodAndSupervisor(period, supervisor);
-                    }
-                    return reportRestService.summaryReportsByPeriod(period);
-            }
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        } catch(NoSuchElementException e) {
-            logger.error(e.getLocalizedMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Report not found.");
-        }
-    }
     @GetMapping(value = "/detail/{id}")
     private CsrReport detailReport(@PathVariable("id") Long id, Principal principal) {
         try {
@@ -133,18 +82,20 @@ public class ReportController {
 
             if(role == 0)
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-            if(role == 4){
-                if(!author.getUser().getUsername().equals(principal.getName())){
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-                }
+            if(role == 1 || role == 2){
+                return report;
             }
             if(role == 3){
                 if(author.getSupervisor().getUser().getUsername().equals(username)){
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
                 }
             }
-
-            return report;
+            if(role == 4){
+                if(!author.getUser().getUsername().equals(principal.getName())){
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+                }
+            }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Report with ID " + id + " not found.");
         }
