@@ -1,5 +1,6 @@
 package com.pyonpyontech.scheduleservice.model.pest_control;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,9 +39,11 @@ public class Pesticide implements Serializable {
     private Integer stock;
 
     @OneToMany(mappedBy = "pesticide")
+    @JsonIncludeProperties({"id", "requester", "requestedAt", "amount"})
     private List<PesticideRequest> requestHistory;
 
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "pesticide_id"), inverseJoinColumns = @JoinColumn(name = "pest_id"))
+    @JsonIncludeProperties({"id", "name"})
     private List<Pest> targetPests;
 }

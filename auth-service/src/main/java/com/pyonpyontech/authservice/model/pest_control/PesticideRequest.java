@@ -28,12 +28,12 @@ public class PesticideRequest {
 
     @ManyToOne
     @JoinColumn(name = "pesticide_id", nullable = false)
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id", "name"})
     private Pesticide pesticide;
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id"})
     private Technician requester;
 
     @ManyToOne
