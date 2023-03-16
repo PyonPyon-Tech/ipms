@@ -1,13 +1,14 @@
-import { getLayout } from '@functions/getLayout'
-import { ReactElement } from 'react'
-import type { NextPageWithLayout } from './_app'
+import { Layout } from "@components/layout";
+import { withAuth } from "@functions/withAuth";
+import { withLayout } from "@functions/withLayout";
+import { NextPage } from "next";
+import { ReactElement } from "react";
 
-const Home: NextPageWithLayout = ()=>{
+const Home: NextPage = () => {
   return (
-      <div className='' >
-        <h1>Hai Hia</h1>
-      </div>
-  )
-}
-Home.getLayout = getLayout;
-export default Home;
+    <div className="">
+      <h1>Hai Hia</h1>
+    </div>
+  );
+};
+export default withAuth(withLayout(Home));

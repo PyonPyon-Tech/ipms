@@ -19,7 +19,10 @@
       "@components/*": ["./components/*"],
       "@hooks/*": ["utils/hooks/*"],
       "@functions/*": ["utils/functions/*"],
-      "@types/*": ["utils/types/*"]
+      "@type/*": ["utils/types/*"],
+      "@contexts/*": ["utils/contexts/*"],
+      "@models/*": ["utils/models/*"],
+      "@constants/*":["utils/constants/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
