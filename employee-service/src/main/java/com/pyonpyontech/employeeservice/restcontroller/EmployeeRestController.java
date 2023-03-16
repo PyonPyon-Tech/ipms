@@ -126,6 +126,12 @@ public class EmployeeRestController {
         return employeeRestService.getSupervisorOutletList(id);
     }
     
+    // Retrieve all schedules under supervisor
+    @GetMapping(value = "/supervisors/{id}/schedules")
+    private List<Schedule> retrieveAllSupervisorSchedules(@PathVariable("id") Long id) {
+        return employeeRestService.getSupervisorScheduleList(id);
+    }
+    
     // Retrieve by ID
     @GetMapping(value = "/technicians/{id}")
     private Technician retrieveTechnician(@PathVariable("id") Long id) {

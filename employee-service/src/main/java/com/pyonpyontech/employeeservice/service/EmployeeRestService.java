@@ -26,6 +26,7 @@ public interface EmployeeRestService {
     Supervisor updateSupervisor(Long id, Supervisor updatedSupervisor);
     List<Technician> getSupervisorTechnicianList(Long id);
     List<Outlet> getSupervisorOutletList(Long id);
+    List<Schedule> getSupervisorScheduleList(Long id);
     
     Technician getTechnicianById(Long id);
     List<Technician> getTechnicianList();

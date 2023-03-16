@@ -139,6 +139,10 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
         return getSupervisorById(id).getOutlets();
     }
     
+    public List<Schedule> getSupervisorScheduleList(Long id) {
+        return getSupervisorById(id).getSchedules();
+    }
+    
     @Override
     public Technician getTechnicianById(Long id) {
         Optional<Technician> technician = technicianDb.findById(id);
@@ -190,6 +194,10 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
         for(CsrReport report : getTechnicianById(id).getReports()) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", report.getId());
+            map.put("reportType", report.getReportType());
+            map.put("outlet", report.getOutlet());
+            map.put("start", report.getStart());
+            map.put("end", report.getEnd());
             technicianReportList.add(map);
         }
         return technicianReportList;
