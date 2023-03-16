@@ -2,11 +2,11 @@
 All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request body specifications to be determined.
 
 ### Report Service - `/reports`
-* [x] `GET /create`
+* [x] `GET /`
 
     Get data needed to create a report
 
-* [x] `POST /create`
+* [x] `POST /`
 
     Create new report
     Will check if the client is authorized

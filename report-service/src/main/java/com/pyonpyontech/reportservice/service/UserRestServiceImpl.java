@@ -8,10 +8,14 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.pyonpyontech.reportservice.model.UserModel;
+import com.pyonpyontech.reportservice.model.customer.Customer;
+import com.pyonpyontech.reportservice.model.customer.Outlet;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Supervisor;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.reportservice.repository.UserDb;
 
+import com.pyonpyontech.reportservice.repository.customer_db.CustomerDb;
+import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.pest_control.employee_db.SupervisorDb;
 import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,13 @@ public class UserRestServiceImpl implements UserRestService {
     private TechnicianDb technicianDb;
     @Autowired
     private SupervisorDb supervisorDb;
+
+    @Autowired
+    private OutletDb outletDb;
+
+    @Autowired
+    private CustomerDb customerDb;
+
     @Override
     public UserModel getUserByUuid(String uuid) {
         Optional<UserModel> user = userDb.findByUuid(uuid);
@@ -67,6 +78,15 @@ public class UserRestServiceImpl implements UserRestService {
     }
 
     @Override
+    public UserModel getTechnicianByOutletId(Long id) {
+        Optional<Outlet> outlet = outletDb.findById(id);
+        if(outlet.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return outlet.get().getTechnician().getUser();
+    }
+
+    @Override
     public UserModel getSupervisorByTechnicianId(Long id) {
         Optional<Technician> technician = technicianDb.findById(id);
         if(technician.isEmpty()) {
@@ -82,6 +102,33 @@ public class UserRestServiceImpl implements UserRestService {
             throw new NoSuchElementException();
         }
         return supervisor.get().getUser();
+    }
+
+    @Override
+    public UserModel getSupervisorByOutletId(Long id) {
+        Optional<Outlet> outlet = outletDb.findById(id);
+        if(outlet.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return outlet.get().getSupervisor().getUser();
+    }
+
+    @Override
+    public UserModel getCustomerByOutletId(Long id) {
+        Optional<Outlet> outlet = outletDb.findById(id);
+        if(outlet.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return outlet.get().getCustomer().getUser();
+    }
+
+    @Override
+    public UserModel getCustomerById(Long id) {
+        Optional<Customer> customer = customerDb.findById(id);
+        if(customer.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return customer.get().getUser();
     }
 
 }

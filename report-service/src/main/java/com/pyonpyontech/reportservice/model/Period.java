@@ -29,6 +29,7 @@ import java.io.Serializable;
 public class Period implements Serializable {
     private static final long serialVersionUID = 1L;
     // Ini untuk memudahkan dashboard service. Liat per periode
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -41,22 +42,17 @@ public class Period implements Serializable {
     private Integer year;
 
     @OneToMany(mappedBy = "period")
-    @JsonIgnore
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "period")
-    @JsonIgnore
     private List<CsrReport> reports;
 
     @OneToMany(mappedBy = "period")
-    @JsonIgnore
     private List<PesticideRequest> pesticideRequests;
 
     @OneToMany(mappedBy = "period")
-    @JsonIgnore
     private List<Schedule> schedules;
 
     @OneToMany(mappedBy = "period")
-    @JsonIgnore
     private List<Visitation> visitations;
 }

@@ -294,32 +294,32 @@ Employee role name could either be `administrators`, `supervisors`, or `technici
 
 
 ### Inventory Service - `/inventory`
-* [ ] `GET /pesticides`
+* [x] `GET /pesticides`
 
 
     Return all pesticides.
 
-* [ ] `POST /pesticides`
+* [x] `POST /pesticides`
 
 
     Create new pesticide.
 
-* [ ] `GET /pesticides/{id}`
+* [x] `GET /pesticides/{id}`
 
 
     Return pesticides with id `id`.
 
-* [ ] `PUT /pesticides/{id}`
+* [x] `PUT /pesticides/{id}`
 
 
     Update pesticides with id `id`.
     
-* [ ] `GET /pesticide-requests`
+* [x] `GET /pesticide-requests`
 
 
     Return all pesticide requests.    
     
-* [ ] `POST /pesticide-requests`
+* [x] `POST /pesticide-requests`
 
 
     Create new pesticide request. A successful request will automatically subtract the stock of the requested pesticide.
