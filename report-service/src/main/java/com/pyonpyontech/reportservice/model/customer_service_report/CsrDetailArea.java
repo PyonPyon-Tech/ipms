@@ -27,7 +27,6 @@ public class CsrDetailArea {
     
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
-    @JsonIgnore
     private CsrReport report;
 
     @Column(name = "finding", nullable = false)
