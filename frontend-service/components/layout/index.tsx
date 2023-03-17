@@ -30,14 +30,15 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
           </div>
         </div>
       </header>
-      <main className="mt-28 flex md:mt-0">
+      <main className="mt-16 flex md:mt-0">
         <SideBar role={user?.role ?? 4} />
+        <div className="hidden md:flex w-1/3 min-w-[300px] max-w-[360px] " />
         <SideMenu
           role={user?.role ?? 4}
           openSideMenu={openSideMenu}
           setOpenSideMenu={setOpenSideMenu}
         />
-        <div className="md:mt-36">{children}</div>
+        <div className="md:mt-36 grow">{children}</div>
       </main>
       <footer></footer>
     </>
