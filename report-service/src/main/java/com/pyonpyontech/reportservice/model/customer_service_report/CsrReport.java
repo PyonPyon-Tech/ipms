@@ -67,15 +67,15 @@ public class CsrReport {
     @Column(name = "visitation_photo", nullable = false)
     private String visitationPhoto;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrDetailArea> detailAreas;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrDetailPest> detailPests;
 
-    @OneToOne(mappedBy = "report")
+    @OneToOne(mappedBy = "report",  cascade = CascadeType.ALL)
     private CsrDetailAction detailAction;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report",  cascade = CascadeType.ALL)
     private List<CsrPesticideUsage> pesticideUsages;
 }

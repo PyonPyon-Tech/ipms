@@ -25,6 +25,7 @@ public class CsrDetailPest {
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
+    @JsonIgnore
     private CsrReport report;
 
     @ManyToOne
