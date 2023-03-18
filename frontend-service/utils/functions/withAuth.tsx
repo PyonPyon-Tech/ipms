@@ -19,7 +19,7 @@ export const withAuth = (Component: NextPage) => {
           retrieveUser(token);
         } else {
           console.log("No Token");
-          router.push("/signin");
+          router.push("/");
         }
       }
       if(!user){

@@ -1,6 +1,8 @@
 import { Container } from "@components/general/Container";
+import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 import {
   Employee,
+  EmployeeCreationForm,
   EmployeeFields,
   Employees,
   EmployeeSupervisor,
@@ -8,6 +10,7 @@ import {
 } from "@models/pestcontrol/employee";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const EmployeeForm: FC<{ data: Employees | null }> = ({ data }) => {
   const isAForm = !data;
@@ -28,7 +31,16 @@ export const EmployeeForm: FC<{ data: Employees | null }> = ({ data }) => {
       supervisor: (data as EmployeeTechnician)?.supervisor ?? "",
     },
   });
-  const onSubmit = async (data: EmployeeFields) => console.log(data); //TODO: this. Mestinya ada confirmation dialog tapi ngga usah dulu
+  const onSubmit = async (data: EmployeeFields) => {
+    AxiosClient.post(`${URL_EMPLOYEE}/administrators`, new EmployeeCreationForm(data))
+    .then(response => {
+      console.log(response.data);
+      toast.success("Sukses ")
+    }).catch(error =>{
+      toast.error(error.message)
+      console.log(error)
+    })
+  }
   return (
     <Container className="justify-evenly gap-x-10">
       <img
