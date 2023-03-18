@@ -13,8 +13,8 @@ export function filterData<T extends Object>(data: T[], term: string, properties
 }
 
 export function filterDataNested<T extends Object, V extends Object>(data: T[], key: keyof T , term: string, propertiesT: (keyof T)[],  propertiesV: (keyof V)[]): T[]{
-    let flag = false;
     return data.filter((item)=>{
+        let flag = false;
         propertiesT.forEach((propertyT)=>{
             if((item[propertyT] as string).toLowerCase().includes(term.toLowerCase()) && !flag){
                 flag = true

@@ -13,7 +13,7 @@ export const EmployeeCard: FC<Employee> = ({
   return (
     <div
     onClick={()=>{
-      router.push(`/employees/${role == 2 ? "administrator": role == 3 ? "supervisor": "technician"}/${id}`)
+      router.push(`/employees/${role == 2 ? "administrators": role == 3 ? "supervisors": "technicians"}/${id}`)
     }}
       style={{ boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)" }}
       className="mb-4 cursor-pointer rounded-lg py-2 px-4 md:py-4 md:px-12 flex justify-between items-center w-full"

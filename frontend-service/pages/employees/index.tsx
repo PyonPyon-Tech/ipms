@@ -1,4 +1,5 @@
 import { EmployeeContainer } from "@components/employees/EmployeeList";
+import { Title } from "@components/general/Title";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 import { filterData, filterDataNested } from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
@@ -34,21 +35,18 @@ const SearchEmployees: NextPage = () => {
     retrieveAllEmployees();
   }, [user]);
   return (
-    <div className="w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
       <section>
-        <div className="font-bold mb-1">
-          <div className="flex gap-x-4 items-center">
-            <h2 className="text-xl md:text-3xl">Daftar Karyawan</h2>
-            <a className="rounded-lg bg-blue font-medium text-white cursor-pointer text-xs md:text-sm py-1 px-2 md:py-2 md:px-3">
-              Tambah
-            </a>
-          </div>
+        <Title
+          title="Daftar Karyawan"
+          action={{ name: "Tambah", path: "/employees/add" }}
+        >
           <h4>Total: {employees.length} orang</h4>
-        </div>
-        <div className="w-4/5 max-w-[500px] relative">
+        </Title>
+        <div className="relative w-4/5 max-w-[500px]">
           <img
             src="/icons/search.svg"
-            className="absolute top-1/2 -translate-y-1/2 left-4 md:scale-[180%]"
+            className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
           />
           <input
             value={term}
@@ -65,7 +63,13 @@ const SearchEmployees: NextPage = () => {
       </section>
       <section>
         <EmployeeContainer
-          data={filterDataNested<Employee, User>( employees, "user", searchTerm, ["address"], ["name", "username"] )}
+          data={filterDataNested<Employee, User>(
+            employees,
+            "user",
+            searchTerm,
+            ["address"],
+            ["name", "username"]
+          )}
         />
       </section>
     </div>
