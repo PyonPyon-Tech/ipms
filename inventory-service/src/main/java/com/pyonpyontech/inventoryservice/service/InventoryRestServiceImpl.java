@@ -88,7 +88,6 @@ public class InventoryRestServiceImpl implements InventoryRestService {
 
     @Override
     public Pesticide updatePesticide(Long id, Pesticide pesticide) {
-        // Reset all fields that might've been supplied by user
         Pesticide targetPesticide = getPesticideById(id);
         
         if(pesticide.getName() != null)
