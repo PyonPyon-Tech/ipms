@@ -25,6 +25,7 @@ public class CsrFinding {
 
     @ManyToOne
     @JoinColumn(name = "area_id", nullable = false)
+    @JsonIgnore
     private CsrArea area;
 
     @Column(nullable = false)

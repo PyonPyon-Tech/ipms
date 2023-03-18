@@ -27,5 +27,6 @@ public class CsrRecommendation {
 
     @ManyToOne
     @JoinColumn(name="finding_id", nullable=false)
+    @JsonIgnore
     private CsrFinding finding;
 }
