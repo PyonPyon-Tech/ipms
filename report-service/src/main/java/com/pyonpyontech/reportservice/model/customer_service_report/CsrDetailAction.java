@@ -24,6 +24,7 @@ public class CsrDetailAction {
 
     @OneToOne
     @JoinColumn(name = "report_id", nullable = false)
+    @JsonIgnore
     private CsrReport report;
 
     @Column(nullable = false, columnDefinition = "TEXT")

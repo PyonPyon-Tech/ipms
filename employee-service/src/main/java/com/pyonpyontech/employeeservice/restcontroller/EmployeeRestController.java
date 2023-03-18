@@ -81,6 +81,23 @@ public class EmployeeRestController {
         }
     }
     
+    // Update by ID
+    @PutMapping(value = "/administrators/{id}")
+    private Administrator updateAdministrator(@PathVariable("id") Long id, @Valid @RequestBody Administrator administrator, BindingResult bindingResult) {
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                Administrator updatedAdministrator = employeeRestService.updateAdministrator(id, administrator);
+                return updatedAdministrator;
+            } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(DataIntegrityViolationException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            }
+        }
+    }
+    
     // Retrieve by ID
     @GetMapping(value = "/supervisors/{id}")
     private Supervisor retrieveSupervisor(@PathVariable("id") Long id) {
@@ -96,7 +113,7 @@ public class EmployeeRestController {
     private List<Supervisor> retrieveAllSupervisors() {
         return employeeRestService.getSupervisorList();
     }
-    
+
     // Create
     @PostMapping(value = "/supervisors")
     private Supervisor createSupervisor(@Valid @RequestBody Supervisor supervisor, BindingResult bindingResult) {
@@ -106,6 +123,23 @@ public class EmployeeRestController {
             try {
                 Supervisor createdSupervisor = employeeRestService.createSupervisor(supervisor);
                 return createdSupervisor;
+            } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(DataIntegrityViolationException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            }
+        }
+    }
+    
+    // Update by ID
+    @PutMapping(value = "/supervisors/{id}")
+    private Supervisor updateSupervisor(@PathVariable("id") Long id, @Valid @RequestBody Supervisor supervisor, BindingResult bindingResult) {
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                Supervisor updatedSupervisor = employeeRestService.updateSupervisor(id, supervisor);
+                return updatedSupervisor;
             } catch(NullPointerException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             } catch(DataIntegrityViolationException e) {
@@ -157,6 +191,23 @@ public class EmployeeRestController {
             try {
                 Technician createdTechnician = employeeRestService.createTechnician(technician);
                 return createdTechnician;
+            } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(DataIntegrityViolationException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            }
+        }
+    }
+    
+    // Update by ID
+    @PutMapping(value = "/technicians/{id}")
+    private Technician updateTechnician(@PathVariable("id") Long id, @Valid @RequestBody Technician technician, BindingResult bindingResult) {
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                Technician updatedTechnician = employeeRestService.updateTechnician(id, technician);
+                return updatedTechnician;
             } catch(NullPointerException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             } catch(DataIntegrityViolationException e) {

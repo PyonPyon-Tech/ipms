@@ -88,7 +88,39 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     
     @Override
     public Administrator updateAdministrator(Long id, Administrator updatedAdministrator) {
-        return null;
+        Administrator targetAdministrator = getAdministratorById(id);
+        
+        UserModel updatedAdministratorUser = updatedAdministrator.getUser();
+        UserModel targetAdministratorUser = targetAdministrator.getUser();
+        
+        if(updatedAdministratorUser.getName() != null)
+            targetAdministratorUser.setName(updatedAdministratorUser.getName());
+        
+        if(updatedAdministratorUser.getPassword() != null)
+            targetAdministratorUser.setPassword(jwtUserDetailsService.encrypt(updatedAdministratorUser.getPassword()));
+        
+        if(updatedAdministratorUser.getIsActive() != null)
+            targetAdministratorUser.setIsActive(updatedAdministratorUser.getIsActive());
+        
+        if(updatedAdministrator.getBirthDate() != null)
+            targetAdministrator.setBirthDate(updatedAdministrator.getBirthDate());
+        
+        if(updatedAdministrator.getBirthLocation() != null)
+            targetAdministrator.setBirthLocation(updatedAdministrator.getBirthLocation());
+        
+        if(updatedAdministrator.getGender() != null)
+            targetAdministrator.setGender(updatedAdministrator.getGender());
+        
+        if(updatedAdministrator.getAddress() != null)
+            targetAdministrator.setAddress(updatedAdministrator.getAddress());
+        
+        if(updatedAdministrator.getContact() != null)
+            targetAdministrator.setContact(updatedAdministrator.getContact());
+
+        targetAdministrator.setUser(targetAdministratorUser);
+        Administrator savedUpdatedAdministrator = administratorDb.save(targetAdministrator);
+
+        return savedUpdatedAdministrator;
     }
     
     @Override
@@ -126,7 +158,42 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     
     @Override
     public Supervisor updateSupervisor(Long id, Supervisor updatedSupervisor) {
-        return null;
+        Supervisor targetSupervisor = getSupervisorById(id);
+        
+        UserModel updatedSupervisorUser = updatedSupervisor.getUser();
+        UserModel targetSupervisorUser = targetSupervisor.getUser();
+        
+        if(updatedSupervisorUser.getName() != null)
+            targetSupervisorUser.setName(updatedSupervisorUser.getName());
+        
+        if(updatedSupervisorUser.getPassword() != null)
+            targetSupervisorUser.setPassword(jwtUserDetailsService.encrypt(updatedSupervisorUser.getPassword()));
+        
+        if(updatedSupervisorUser.getIsActive() != null)
+            targetSupervisorUser.setIsActive(updatedSupervisorUser.getIsActive());
+        
+        if(updatedSupervisor.getBirthDate() != null)
+            targetSupervisor.setBirthDate(updatedSupervisor.getBirthDate());
+        
+        if(updatedSupervisor.getBirthLocation() != null)
+            targetSupervisor.setBirthLocation(updatedSupervisor.getBirthLocation());
+        
+        if(updatedSupervisor.getGender() != null)
+            targetSupervisor.setGender(updatedSupervisor.getGender());
+        
+        if(updatedSupervisor.getAddress() != null)
+            targetSupervisor.setAddress(updatedSupervisor.getAddress());
+        
+        if(updatedSupervisor.getContact() != null)
+            targetSupervisor.setContact(updatedSupervisor.getContact());
+        
+        if(updatedSupervisor.getRegion() != null)
+            targetSupervisor.setRegion(updatedSupervisor.getRegion());
+
+        targetSupervisor.setUser(targetSupervisorUser);
+        Supervisor savedUpdatedSupervisor = supervisorDb.save(targetSupervisor);
+
+        return savedUpdatedSupervisor;
     }
     
     @Override
@@ -167,6 +234,7 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
         technician.getUser().setIsEmployee(1);
         technician.getUser().setUuid(null);
         technician.getUser().setIsActive(1);
+        technician.setSupervisor(getSupervisorById(technician.getSupervisor().getId()));
         
         UserModel createdTechnicianUser = userRestService.createUser(technician.getUser());
         
@@ -178,7 +246,42 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     
     @Override
     public Technician updateTechnician(Long id, Technician updatedTechnician) {
-        return null;
+        Technician targetTechnician = getTechnicianById(id);
+        
+        UserModel updatedTechnicianUser = updatedTechnician.getUser();
+        UserModel targetTechnicianUser = targetTechnician.getUser();
+        
+        if(updatedTechnicianUser.getName() != null)
+            targetTechnicianUser.setName(updatedTechnicianUser.getName());
+        
+        if(updatedTechnicianUser.getPassword() != null)
+            targetTechnicianUser.setPassword(jwtUserDetailsService.encrypt(updatedTechnicianUser.getPassword()));
+        
+        if(updatedTechnicianUser.getIsActive() != null)
+            targetTechnicianUser.setIsActive(updatedTechnicianUser.getIsActive());
+        
+        if(updatedTechnician.getBirthDate() != null)
+            targetTechnician.setBirthDate(updatedTechnician.getBirthDate());
+        
+        if(updatedTechnician.getBirthLocation() != null)
+            targetTechnician.setBirthLocation(updatedTechnician.getBirthLocation());
+        
+        if(updatedTechnician.getGender() != null)
+            targetTechnician.setGender(updatedTechnician.getGender());
+        
+        if(updatedTechnician.getAddress() != null)
+            targetTechnician.setAddress(updatedTechnician.getAddress());
+        
+        if(updatedTechnician.getContact() != null)
+            targetTechnician.setContact(updatedTechnician.getContact());
+        
+        if(updatedTechnician.getSupervisor() != null)
+            targetTechnician.setSupervisor(getSupervisorById(updatedTechnician.getSupervisor().getId()));
+
+        targetTechnician.setUser(targetTechnicianUser);
+        Technician savedUpdatedTechnician = technicianDb.save(targetTechnician);
+
+        return savedUpdatedTechnician;
     }
     
     public List<Outlet> getTechnicianOutletList(Long id) {

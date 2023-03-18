@@ -230,10 +230,10 @@ Employee role name could either be `administrators`, `supervisors`, or `technici
 
     Return employees with id `id`.
 
-* [ ] `PUT /{employee_role_name}/{id}`
+* [x] `PUT /{employee_role_name}/{id}`
 
 
-    Update employees with id `id`.
+    Update employees with id `id`. Any combination of the attributes may be changed; not all attributes have to be present.
 
 * [x] `GET /supervisors/{id}/technicians`
 
