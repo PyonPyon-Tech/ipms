@@ -242,7 +242,7 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
         }
         technician.setId(null);
         technician.setLastLogin(LocalDateTime.of(1900, 1, 1, 0, 0));
-        technician.getUser().setRole(3);
+        technician.getUser().setRole(4);
         technician.getUser().setIsEmployee(1);
         technician.getUser().setUuid(null);
         technician.getUser().setIsActive(1);
