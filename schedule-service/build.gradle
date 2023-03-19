@@ -1,0 +1,36 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+	id 'org.sonarqube' version '3.0'
+}
+
+group = 'com.pyonpyontech'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.projectlombok:lombok:1.18.22'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java'
+	compileOnly("org.projectlombok:lombok:1.18.24")
+	annotationProcessor('org.projectlombok:lombok:1.18.24')
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'io.netty', name: 'netty-resolver-dns-native-macos', classifier: 'osx-aarch_64'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

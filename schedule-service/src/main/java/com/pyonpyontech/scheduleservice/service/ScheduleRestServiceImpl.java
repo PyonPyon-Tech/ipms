@@ -1,35 +1,27 @@
 package com.pyonpyontech.scheduleservice.service;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.NoSuchElementException;
 
-import com.pyonpyontech.scheduleservice.service.UserRestService;
-
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Administrator;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Manager;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Supervisor;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.scheduleservice.model.customer.Outlet;
-import com.pyonpyontech.scheduleservice.model.pest_control.PesticideRequest;
-import com.pyonpyontech.scheduleservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.scheduleservice.model.Period;
 import com.pyonpyontech.scheduleservice.model.pest_control.Schedule;
 import com.pyonpyontech.scheduleservice.model.pest_control.Visitation;
 
-import com.pyonpyontech.scheduleservice.model.UserModel;
-
+import com.pyonpyontech.scheduleservice.model.pest_control.employee.Supervisor;
+import com.pyonpyontech.scheduleservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.scheduleservice.repository.pest_control.ScheduleDb;
 import com.pyonpyontech.scheduleservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.scheduleservice.repository.PeriodDb;
 import com.pyonpyontech.scheduleservice.repository.customer_db.OutletDb;
 
+import com.pyonpyontech.scheduleservice.repository.pest_control.employee_db.SupervisorDb;
+import com.pyonpyontech.scheduleservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +37,8 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     
     @Autowired
     private PeriodDb periodDb;
-    
+    @Autowired
+    private TechnicianDb technicianDb;
     @Autowired
     private OutletDb outletDb;
     
@@ -54,6 +47,9 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+
+    @Autowired
+    private EntityManager entityManager;
     
     @Override
     public Schedule getScheduleById(Long id) {
@@ -69,7 +65,38 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     public List<Visitation> getVisitationsByScheduleId(Long id) {
         return getScheduleById(id).getVisitations();
     }
-    
+
+    @Override
+    public Schedule createSchedule(List<Visitation> visitations, Long periodId, String technicianUsername) {
+        Optional<Technician> technicianOptional = technicianDb.findByUsername(technicianUsername);
+        if(technicianOptional.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        Technician technician = technicianOptional.get();
+        Supervisor supervisor = technician.getSupervisor();
+        Period periodRef = entityManager.getReference(Period.class, periodId);
+
+        Schedule newSchedule = new Schedule();
+        newSchedule.setPeriod(periodRef);
+        newSchedule.setTechnician(technician);
+        newSchedule.setSupervisor(supervisor);
+        // iterate over visitations
+        List<Visitation> newVisitations = new ArrayList<>();
+        for(Visitation visitation: visitations){
+            Outlet outletRef = entityManager.getReference(Outlet.class, visitation.getOutlet().getId());
+            Visitation newVisitation = new Visitation();
+            newVisitation.setSchedule(newSchedule);
+            newVisitation.setPeriod(periodRef);
+            newVisitation.setOutlet(outletRef);
+            newVisitation.setDate(visitation.getDate());
+            newVisitations.add(newVisitation);
+        }
+        newSchedule.setVisitations(newVisitations);
+        newSchedule.setIsApproved(0);
+        newSchedule.setComment("");
+        return scheduleDb.save(newSchedule);
+    }
+
     @Override
     public Visitation createVisitation(Long id, Visitation visitation) {
         // Set object fields based on provided ID
@@ -84,7 +111,8 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         
         return createdVisitation;
     }
-    
+
+
     @Override
     public List<Visitation> getVisitationsBySchedulePeriodId(Long scheduleId, Long periodId) {
         return visitationDb.findBySchedulePeriodId(scheduleId, periodId);

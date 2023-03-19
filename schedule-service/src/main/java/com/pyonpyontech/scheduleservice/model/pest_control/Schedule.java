@@ -53,7 +53,7 @@ public class Schedule {
     @Column(name = "supervisor_approval")
     private Integer isApproved;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     @JsonIncludeProperties({"id", "date"})
     private List<Visitation> visitations;
 }
