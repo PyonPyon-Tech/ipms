@@ -29,7 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import javax.transaction.Transactional;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -70,6 +73,9 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     
     @Override
     public Administrator createAdministrator(Administrator administrator) {
+        if(administrator.getUser().getRole() != 2){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         // Reset all fields that might've been supplied by user
         administrator.setId(null);
         administrator.setLastLogin(LocalDateTime.of(1900, 1, 1, 0, 0));
@@ -141,6 +147,9 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     @Override
     public Supervisor createSupervisor(Supervisor supervisor) {
         // Reset all fields that might've been supplied by user
+        if(supervisor.getUser().getRole() != 3){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         supervisor.setId(null);
         supervisor.setLastLogin(LocalDateTime.of(1900, 1, 1, 0, 0));
         supervisor.getUser().setRole(3);
@@ -228,6 +237,9 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     @Override
     public Technician createTechnician(Technician technician) {
         // Reset all fields that might've been supplied by user
+        if(technician.getUser().getRole() != 4){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         technician.setId(null);
         technician.setLastLogin(LocalDateTime.of(1900, 1, 1, 0, 0));
         technician.getUser().setRole(3);
