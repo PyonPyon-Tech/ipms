@@ -1,5 +1,13 @@
 import { NavigationCardProps } from "@type/navigationCardProps";
 
+export const PATH_ROLES = [
+  "customers",
+  "managers",
+  "administrators",
+  "supervisors",
+  "technicians"
+] // ini versi english plural buat routes
+
 export const ROLES = [
   "Customer",
   "Manajer",

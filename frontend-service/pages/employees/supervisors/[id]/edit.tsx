@@ -12,8 +12,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { EmployeeForm } from "@components/employees/EmployeeForm";
 import { EmployeeAdminEditForm } from "@components/employees/EmployeeForm/edit/admin";
+import { EmployeeSupervisorEditForm } from "@components/employees/EmployeeForm/edit/supervisor";
 
-const AdminEdit: NextPage = () => {
+const SupervisorEdit: NextPage = () => {
     const { user } = useAuth();
     const router = useRouter();
   
@@ -22,7 +23,7 @@ const AdminEdit: NextPage = () => {
       if (!user) return;
       if (!router.query.id) return;
       async function retrieveEmployee() {
-        AxiosClient.get(`${URL_EMPLOYEE}/administrators/${router.query.id}`)
+        AxiosClient.get(`${URL_EMPLOYEE}/supervisors/${router.query.id}`)
           .then((response) => {
             setEmployee(new EmployeeClass(response.data));
             console.log(response.data);
@@ -37,8 +38,8 @@ const AdminEdit: NextPage = () => {
 
   return <div className="w-full p-8 md:p-12 md:pt-0">
     <Title title="Ubah Detail Karyawan" />
-    {!!employee && <EmployeeAdminEditForm data={employee} />}
+    {!!employee && <EmployeeSupervisorEditForm data={employee} />}
   </div>;
 };
 
-export default withAuth(withLayout(AdminEdit));
+export default withAuth(withLayout(SupervisorEdit));

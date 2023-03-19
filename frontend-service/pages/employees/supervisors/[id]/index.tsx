@@ -10,9 +10,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import employees from "..";
 
-const TechnicianDetail: NextPage = () => {
+const SupervisorDetail: NextPage = () => {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -21,7 +20,7 @@ const TechnicianDetail: NextPage = () => {
     if (!user) return;
     if (!router.query.id) return;
     async function retrieveEmployee() {
-      AxiosClient.get(`${URL_EMPLOYEE}/technicians/${router.query.id}`)
+      AxiosClient.get(`${URL_EMPLOYEE}/supervisors/${router.query.id}`)
         .then((response) => {
           setEmployee(new EmployeeClass(response.data));
           console.log(response.data);
@@ -41,7 +40,7 @@ const TechnicianDetail: NextPage = () => {
           title="Detail Karyawan"
           action={{
             name: "Ubah",
-            path: `/employees/technicians/${router.query.id}/edit`,
+            path: `/employees/supervisors/${router.query.id}/edit`,
           }}
         />
       </section>
@@ -49,4 +48,4 @@ const TechnicianDetail: NextPage = () => {
     </div>
   );
 };
-export default withAuth(withLayout(TechnicianDetail));
+export default withAuth(withLayout(SupervisorDetail));

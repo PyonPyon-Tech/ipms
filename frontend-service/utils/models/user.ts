@@ -4,6 +4,7 @@ export interface User {
     username: string;
     isActive: number;
     isEmployee: number;
+    password?: string;
 }
 
 export class UserClass implements User{
