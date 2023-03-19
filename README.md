@@ -326,22 +326,22 @@ Employee role name could either be `administrators`, `supervisors`, or `technici
 
 
 ### Notification Service - `/notifications`
-* [ ] `GET /`
+* [x] `GET /`
 
 
     Return all notifications.
 
-* [ ] `POST /`
+* [x] `POST /`
 
 
     Create new notification.
 
-* [ ] `GET /{id}`
+* [x] `GET /{id}`
 
 
     Return notification with id `id`.
 
-* [ ] `PUT /{id}`
+* [x] `PUT /{id}`
 
 
-    Update notification with id `id`.
+    Update notification with id `id`. Any combination of the attributes may be changed; not all attributes have to be present. `isSeen` may only be changed once, and only to the value `1`. Any other value will result it being changed to `1`.
