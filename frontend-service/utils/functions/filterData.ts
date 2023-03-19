@@ -12,6 +12,19 @@ export function filterData<T extends Object>(data: T[], term: string, properties
     return filteredData
 }
 
+export function filterDataOnlyNested<T extends Object, V extends Object>(data: T[], key: keyof T , term: string, propertiesV: (keyof V)[]): T[]{
+    return data.filter((item)=>{
+        let flag = false;
+
+        propertiesV.forEach((propertyV)=>{
+            if( ( (item[key] as V )[propertyV] as string).toLowerCase().includes(term.toLowerCase()) && !flag) {
+                flag = true
+            }
+        })
+        return flag
+    })
+}
+
 export function filterDataNested<T extends Object, V extends Object>(data: T[], key: keyof T , term: string, propertiesT: (keyof T)[],  propertiesV: (keyof V)[]): T[]{
     return data.filter((item)=>{
         let flag = false;

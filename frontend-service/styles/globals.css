@@ -9,9 +9,27 @@
 }
 
 .employee-detail > p {
-  font-weight: 500;
+  font-weight: 300;
   margin-bottom: 0.5rem;
 }
+
+.customer-detail > h1 {
+  font-weight: 600;
+  /* margin-bottom: 0.5rem; */
+  font-size: 32px;
+}
+
+.customer-detail > h5 {
+  font-weight: 600;
+  /* margin-bottom: 0.5rem; */
+  font-size: 20px;
+}
+
+.customer-detail > p {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
 form  h5 {
   font-size: 16px;
 }
@@ -38,6 +56,15 @@ form select {
   }
 
   .employee-detail > p {
+    margin-bottom: 1rem;
+  }
+
+  .customer-detail > h5 {
+    /* margin-bottom: 0.5rem; */
+    font-size: 24px;
+  }
+
+  .customer-detail > p {
     margin-bottom: 1rem;
   }
 
