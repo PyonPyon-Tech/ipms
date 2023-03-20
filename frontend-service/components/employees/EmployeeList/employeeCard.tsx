@@ -29,12 +29,12 @@ export const EmployeeCard: FC<Employee> = ({
             <table className="table-auto font-medium text-xs md:text-sm">
               <tbody>
                 <tr>
-                  <td className="pr-4">username: {username}</td>
-                  <td className="hidden md:table-cell">kontak: {contact} </td>
+                  <td className="pr-4">Username: {username}</td>
+                  <td className="hidden md:table-cell">Kontak: {contact} </td>
                 </tr>
                 <tr>
-                  <td className="pr-4">role: {ROLES[role]}</td>
-                  <td className="hidden md:table-cell">address: {address}</td>
+                  <td className="pr-4">Role: {ROLES[role]}</td>
+                  <td className="hidden md:table-cell">Address: {address}</td>
                 </tr>
               </tbody>
             </table>
