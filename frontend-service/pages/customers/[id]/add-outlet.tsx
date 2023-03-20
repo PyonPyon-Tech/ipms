@@ -1,4 +1,4 @@
-import { CustomerForm } from "@components/customers/CustomerForm";
+import { OutletForm } from "@components/customers/OutletForm";
 import { Container } from "@components/general/Container";
 import { Title } from "@components/general/Title";
 import { AxiosClient, URL_CUSTOMER } from "@constants/api";
@@ -12,21 +12,23 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const AddCustomer: NextPage = () => {
+const AddOutlet: NextPage = () => {
   const { user } = useAuth();
   const router = useRouter();
+  const id = parseInt(router.query.id as string);
+
   useEffect(() => {
     if (!user) return;
-
-  }, [user, router]);
+    if (isNaN(id)) return;
+  }, [user, router, id]);
 
   return (
     <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
       <section>
-        <Title title="Tambah Customer" />
-        {<CustomerForm />}
+        <Title title="Tambah Outlet" />
+        {<OutletForm />}
       </section>
     </div>
   );
 };
-export default withAuth(withLayout(AddCustomer));
+export default withAuth(withLayout(AddOutlet));

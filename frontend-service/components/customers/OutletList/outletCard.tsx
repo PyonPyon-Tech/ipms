@@ -1,4 +1,4 @@
-import { Outlet } from "@models/customer/customer/outlet";
+import { Outlet } from "@models/customer/outlet";
 import { useRouter } from "next/router";
 import { FC } from "react";
 

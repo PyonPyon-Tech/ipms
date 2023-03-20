@@ -1,4 +1,4 @@
-import { Outlet } from "@models/customer/customer/outlet";
+import { Outlet } from "@models/customer/outlet";
 import { FC } from "react";
 import { OutletCard } from "./outletCard";
 

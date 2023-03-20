@@ -31,6 +31,7 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIncludeProperties({"id", "name"})
     private Customer customer;
 
     @Column(name = "name", nullable = false)
@@ -49,7 +50,7 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name="technician_id")
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id", "user"})
     private Technician technician;
 
     @OneToMany(mappedBy = "outlet")

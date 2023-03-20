@@ -1,5 +1,5 @@
 import { User, UserClass } from "@models/user";
-import { Outlet } from "./outlet";
+import { Outlet } from "../outlet";
 
 export interface Customer {
   id: number;

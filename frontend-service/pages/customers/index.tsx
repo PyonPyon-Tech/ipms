@@ -6,7 +6,7 @@ import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
 import { Customer, CustomerClass } from "@models/customer/customer";
-import { Outlet, OutletClass } from "@models/customer/customer/outlet";
+import { Outlet, OutletClass } from "@models/customer/outlet";
 import { User } from "@models/user";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
