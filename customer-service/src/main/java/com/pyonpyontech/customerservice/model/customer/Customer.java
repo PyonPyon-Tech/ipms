@@ -1,5 +1,6 @@
 package com.pyonpyontech.customerservice.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,6 +35,6 @@ public class Customer {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnore
+    @JsonIncludeProperties({"id", "name", "region", "address", "supervisor"})
     private List<Outlet> outlets;
 }

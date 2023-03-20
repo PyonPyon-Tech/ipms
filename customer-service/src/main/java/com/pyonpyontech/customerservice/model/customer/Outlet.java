@@ -44,7 +44,7 @@ public class Outlet {
 
     @ManyToOne
     @JoinColumn(name="supervisor_id", nullable=false)
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id", "user"})
     private Supervisor supervisor;
 
     @ManyToOne
