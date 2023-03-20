@@ -37,44 +37,57 @@ public class CsrReport {
 
     @OneToOne
     @JoinColumn(name = "feedback_id")
+    @JsonIncludeProperties({"id", "content"})
     private Feedback feedback;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
+    @JsonIncludeProperties({"id", "month", "year"})
     private Period period;
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
+    @JsonIncludeProperties({"id", "user"})
     private Technician technician;
 
     @ManyToOne
     @JoinColumn(name = "outlet_id", nullable = false)
+    @JsonIncludeProperties({"id", "name"})
     private Outlet outlet;
 
     @Column(name = "start_time", nullable = false)
+    @JsonIgnore
     private LocalDateTime start;
 
     @Column(name = "end_time", nullable = false)
+    @JsonIgnore
     private LocalDateTime end;
 
     @Column(name = "technician_signature", nullable = false)
+    @JsonIgnore
     private String technicianSignature;
 
     @Column(name = "pic_signature", nullable = false)
+    @JsonIgnore
     private String picSignature;
 
     @Column(name = "visitation_photo", nullable = false)
+    @JsonIgnore
     private String visitationPhoto;
 
     @OneToMany(mappedBy = "report")
+    @JsonIgnore
     private List<CsrDetailArea> detailAreas;
 
     @OneToMany(mappedBy = "report")
+    @JsonIgnore
     private List<CsrDetailPest> detailPests;
 
     @OneToOne(mappedBy = "report")
+    @JsonIgnore
     private CsrDetailAction detailAction;
 
     @OneToMany(mappedBy = "report")
+    @JsonIgnore
     private List<CsrPesticideUsage> pesticideUsages;
 }

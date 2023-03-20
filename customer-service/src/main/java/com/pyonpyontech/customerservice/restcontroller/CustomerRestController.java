@@ -28,7 +28,9 @@ import java.util.HashMap;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
+import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.service.CustomerRestService;
 
 @Slf4j
@@ -88,6 +90,66 @@ public class CustomerRestController {
             Customer savedUpdatedCustomer = customerRestService.updateCustomer(id, updatedCustomer);
 
             return savedUpdatedCustomer;
+        }
+    }
+    
+    // Retrieve Outlets by Customer ID
+    @GetMapping(value = "/{id}/outlets")
+    private List<Outlet> retrieveOutletsByCustomerId(@PathVariable("id") Long id) {
+        try {
+            return customerRestService.getOutletsByCustomerId(id);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with ID " + id + " not found.");
+        }
+    }
+    
+    // Create Outlet by Customer ID
+    @PostMapping(value = "/{id}/outlets")
+    private Outlet createOutletByCustomerId(@PathVariable("id") Long id, @Valid @RequestBody Outlet outlet, BindingResult bindingResult) {
+        try {
+            return customerRestService.createOutletByCustomerId(id, outlet);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with ID " + id + " not found.");
+        }
+    }
+    
+    // Retrieve Outlet by Customer and Outlet ID
+    @GetMapping(value = "/{customerId}/outlets/{outletId}")
+    private Outlet updateOutletByCustomerId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId) {
+        try {
+            return customerRestService.getOutletByCustomerOutletId(customerId, outletId);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Update Outlet by Customer and Outlet ID
+    @PutMapping(value = "/{customerId}/outlets/{outletId}")
+    private Outlet updateOutletByCustomerId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId, @Valid @RequestBody Outlet outlet, BindingResult bindingResult) {
+        try {
+            return customerRestService.updateOutletByCustomerOutletId(customerId, outletId, outlet);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Reports by Customer and Outlet ID
+    @GetMapping(value = "/{customerId}/outlets/{outletId}/reports")
+    private List<CsrReport> retrieveReportsByCustomerOutletId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId) {
+        try {
+            return customerRestService.getOutletReportsByCustomerOutletId(customerId, outletId);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Reports by Customer ID
+    @GetMapping(value = "/{id}/reports")
+    private List<CsrReport> retrieveReportsByCustomerId(@PathVariable("id") Long id) {
+        try {
+            return customerRestService.getReportsByCustomerId(id);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
         }
     }
 }
