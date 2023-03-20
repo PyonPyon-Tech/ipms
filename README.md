@@ -169,7 +169,12 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
 
     Create new outlet for customer with id `id`.
 
-* [x] `PUT /{id}/outlets/{outlet_id}`
+* [x] `GET /outlets/{outlet_id}`
+
+
+    Return outlet with id `outlet_id`.
+
+* [x] `GET /{id}/outlets/{outlet_id}`
 
 
     Return outlet with id `outlet_id` of customer with id `id`.
