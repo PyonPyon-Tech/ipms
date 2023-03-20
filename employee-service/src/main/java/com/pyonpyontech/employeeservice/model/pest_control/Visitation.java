@@ -39,7 +39,7 @@ public class Visitation {
 
     @ManyToOne
     @JoinColumn(name = "outlet_id", nullable = false)
-    @JsonIncludeProperties({"id", "name", "customer"})
+    @JsonIncludeProperties({"id", "name", "customer", "address"})
     private Outlet outlet;
 
     @Column(name = "visit_date", nullable = false)

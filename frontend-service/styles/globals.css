@@ -15,6 +15,18 @@
 form  h5 {
   font-size: 16px;
 }
+
+.outletDate {
+  display: block;
+  border: 1px solid #1e1e1e;
+  padding: 4px 8px;
+  width: 100%;
+  border-radius: 10px;
+  margin-left: 0.5rem;
+  font-size: 12px;
+  max-width: 400px;
+}
+
 form  input, select {
   display: block;
   border: 1px solid #1e1e1e;

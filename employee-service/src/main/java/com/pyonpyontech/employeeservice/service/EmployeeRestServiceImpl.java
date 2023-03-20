@@ -228,7 +228,12 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
             throw new NoSuchElementException();
         }
     }
-    
+
+    @Override
+    public Technician getTechnicianByUsername(String username) {
+        return technicianDb.findByUsername(username).orElse(null);
+    }
+
     @Override
     public List<Technician> getTechnicianList() {
         return technicianDb.findAll();

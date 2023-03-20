@@ -54,6 +54,6 @@ public class Schedule {
     private Integer isApproved;
 
     @OneToMany(mappedBy = "schedule")
-    @JsonIncludeProperties({"id", "date"})
+    @JsonIncludeProperties({"id", "date", "outlet"})
     private List<Visitation> visitations;
 }

@@ -5,6 +5,8 @@ export const BASE_URL =
 export const URL_AUTH = `${BASE_URL}/api/v1/authenticate`;
 export const URL_REPORT = `${BASE_URL}/api/v1/reports`;
 export const URL_EMPLOYEE = `${BASE_URL}/api/v1/employees`
+export const URL_SCHEDULES = `${BASE_URL}/api/v1/schedules`
+
 const AxiosClient = axios.create({
   baseURL: BASE_URL,
   headers:{

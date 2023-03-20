@@ -1,19 +1,14 @@
 package com.pyonpyontech.scheduleservice.restcontroller;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import javax.validation.Valid;
+
+import com.pyonpyontech.scheduleservice.model.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -69,7 +64,7 @@ public class ScheduleRestController {
         }
     }
 
-    @PostMapping(value = "/{id}")
+    @PostMapping(value = "/period/{id}")
     private Schedule createSchedule(@PathVariable("id") Long periodId, @Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
         if(bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
@@ -83,4 +78,33 @@ public class ScheduleRestController {
             }
         }
     }
+    @PutMapping(value = "/visitations")
+    private List<Visitation> updateSchedule(@Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                return scheduleRestService.updateSchedule(visitations);
+            } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  e.getLocalizedMessage());
+            }
+        }
+    }
+
+    @GetMapping(value = "/period/{month}/{year}")
+    private Map<String, String> findPeriod(@PathVariable("month") Long month, @PathVariable("year") Long year ) {
+        try {
+            Map<String, String> result = new HashMap<>();
+            Period period = scheduleRestService.findPeriod(month, year);
+            result.put("id", ""+period.getId() );
+            result.put("month", period.getMonth().name());
+            result.put("year", period.getYear().toString());
+            return result;
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
