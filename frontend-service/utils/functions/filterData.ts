@@ -1,13 +1,17 @@
 export function filterData<T extends Object>(data: T[], term: string, properties: (keyof T)[] ): T[]{
     const filteredData: T[] = []
     data.forEach((item: T) => {
+        let flag = false;
         properties.forEach(property=>{
             if(typeof item[property] == 'string'){
                 if((item[property] as string).toLowerCase().includes(term.toLowerCase())){
-                    filteredData.push(item)
+                    flag = true
                 }
             }
         })
+        if(flag){
+            filteredData.push(item)
+        }
     })
     return filteredData
 }

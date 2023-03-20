@@ -23,7 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -66,6 +70,8 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         return getScheduleById(id).getVisitations();
     }
 
+
+
     @Override
     public Schedule createSchedule(List<Visitation> visitations, Long periodId, String technicianUsername) {
         Optional<Technician> technicianOptional = technicianDb.findByUsername(technicianUsername);
@@ -73,6 +79,12 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
             throw new NoSuchElementException();
         }
         Technician technician = technicianOptional.get();
+        // check if a schedule with the same period had already exists
+        Optional<Schedule> schedule = scheduleDb.findScheduleByPeriodAndTechnician(periodId, technician.getId());
+        if(schedule.isPresent()){
+            throw new DataIntegrityViolationException("Sudah ada data schedule!");
+        }
+        // end check
         Supervisor supervisor = technician.getSupervisor();
         Period periodRef = entityManager.getReference(Period.class, periodId);
 
@@ -98,6 +110,21 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     }
 
     @Override
+    public List<Visitation> updateSchedule(List<Visitation> visitations) {
+        List<Visitation> toBeSaved = new ArrayList<>();
+        for(Visitation v: visitations){
+            Visitation currentVisitation = visitationDb.findById(v.getId()).orElse(null);
+            if(currentVisitation == null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
+            System.out.println(v.getDate());
+            currentVisitation.setDate(v.getDate());
+            toBeSaved.add(currentVisitation);
+        }
+        return visitationDb.saveAll(toBeSaved);
+    }
+
+    @Override
     public Visitation createVisitation(Long id, Visitation visitation) {
         // Set object fields based on provided ID
         visitation.setOutlet(getOutletById(visitation.getOutlet().getId()));
@@ -110,6 +137,15 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         Visitation createdVisitation = visitationDb.save(visitation);
         
         return createdVisitation;
+    }
+
+    @Override
+    public Period findPeriod(Long month, Long year) {
+        Period period = periodDb.findPeriod(month-1, year).orElse(null);
+        if(period == null){
+            throw new NoSuchElementException();
+        }
+        return period;
     }
 
 

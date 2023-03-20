@@ -1,5 +1,6 @@
 package com.pyonpyontech.employeeservice.restcontroller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Map;
@@ -238,6 +239,28 @@ public class EmployeeRestController {
     @GetMapping(value = "/technicians/{id}/schedules")
     private List<Schedule> retrieveAllTechnicianSchedules(@PathVariable("id") Long id) {
         return employeeRestService.getTechnicianScheduleList(id);
+    }
+
+    @GetMapping(value = "/technicians/schedules/{periodId}")
+    private Schedule retrieveTechnicianSchedulesByPeriodAndPrincipal(@PathVariable("periodId") Long periodId, Principal principal) {
+        Technician tech = employeeRestService.getTechnicianByUsername(principal.getName());
+        List<Schedule> schedules = employeeRestService.getTechnicianScheduleList(tech.getId());
+        Schedule schedule = new Schedule();
+        for(Schedule s: schedules){
+            if(s.getPeriod().getId() - periodId == 0){
+                schedule = s;
+            }
+        }
+        return schedule;
+    }
+
+    @GetMapping(value = "/technicians/outlets")
+    private List<Outlet> retrieveTechnicianOutlets(Principal principal) {
+        Technician tech = employeeRestService.getTechnicianByUsername(principal.getName());
+        if(tech == null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        return employeeRestService.getTechnicianOutletList(tech.getId());
     }
     
 }

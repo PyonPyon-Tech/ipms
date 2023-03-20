@@ -29,6 +29,7 @@ public interface EmployeeRestService {
     List<Schedule> getSupervisorScheduleList(Long id);
     
     Technician getTechnicianById(Long id);
+    Technician getTechnicianByUsername(String username);
     List<Technician> getTechnicianList();
     Technician createTechnician(Technician technician);
     Technician updateTechnician(Long id, Technician updatedTechnician);
