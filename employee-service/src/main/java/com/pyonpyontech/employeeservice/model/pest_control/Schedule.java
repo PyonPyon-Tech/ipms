@@ -37,7 +37,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id", "user"})
     private Technician technician;
 
     @ManyToOne

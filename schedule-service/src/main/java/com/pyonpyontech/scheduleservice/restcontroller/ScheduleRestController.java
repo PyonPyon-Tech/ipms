@@ -106,5 +106,10 @@ public class ScheduleRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
+    
+    @PostMapping(value = "/technicians/{technicianId}/period/{periodId}")
+    private Schedule approveSchedule(@PathVariable("technicianId") Long technicianId, @PathVariable("periodId") Long periodId, @RequestBody Map<String, Object> payload) {
+        return scheduleRestService.approveSchedule(technicianId, periodId, String.valueOf(payload.get("comment")), Integer.parseInt(String.valueOf(payload.get("isApproved"))));
+    }
 
 }

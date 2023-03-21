@@ -70,8 +70,6 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         return getScheduleById(id).getVisitations();
     }
 
-
-
     @Override
     public Schedule createSchedule(List<Visitation> visitations, Long periodId, String technicianUsername) {
         Optional<Technician> technicianOptional = technicianDb.findByUsername(technicianUsername);
@@ -108,7 +106,17 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         newSchedule.setComment("");
         return scheduleDb.save(newSchedule);
     }
-
+    
+    @Override
+    public Schedule approveSchedule(Long technicianId, Long periodId, String comment, Integer isApproved) {
+        Schedule targetSchedule = getScheduleByTechnicianPeriodId(technicianId, periodId);
+        
+        targetSchedule.setComment(comment);
+        targetSchedule.setIsApproved(isApproved);
+        
+        return scheduleDb.save(targetSchedule);
+    }
+    
     @Override
     public List<Visitation> updateSchedule(List<Visitation> visitations) {
         List<Visitation> toBeSaved = new ArrayList<>();
@@ -148,10 +156,18 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         return period;
     }
 
-
     @Override
     public List<Visitation> getVisitationsBySchedulePeriodId(Long scheduleId, Long periodId) {
         return visitationDb.findBySchedulePeriodId(scheduleId, periodId);
+    }
+    
+    private Schedule getScheduleByTechnicianPeriodId(Long technicianId, Long periodId) {
+        Optional<Schedule> schedule = scheduleDb.findScheduleByPeriodAndTechnician(periodId, technicianId);
+        if(schedule.isPresent()) {
+            return schedule.get();
+        } else {
+            throw new NoSuchElementException();
+        }
     }
     
     private Outlet getOutletById(Long id) {

@@ -167,6 +167,16 @@ public class EmployeeRestController {
         return employeeRestService.getSupervisorScheduleList(id);
     }
     
+    // Retrieve all schedules under supervisor 2
+    @GetMapping(value = "/supervisors/schedules")
+    private List<Schedule> retrieveSupervisorOutlets(Principal principal) {
+        Supervisor supervisor = employeeRestService.getSupervisorByUsername(principal.getName());
+        if(supervisor == null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        return employeeRestService.getSupervisorScheduleList(supervisor.getId());
+    }
+    
     // Retrieve by ID
     @GetMapping(value = "/technicians/{id}")
     private Technician retrieveTechnician(@PathVariable("id") Long id) {
@@ -240,13 +250,29 @@ public class EmployeeRestController {
     private List<Schedule> retrieveAllTechnicianSchedules(@PathVariable("id") Long id) {
         return employeeRestService.getTechnicianScheduleList(id);
     }
+    
+    @GetMapping(value = "/technicians/{technicianId}/schedules/{periodId}")
+    private Schedule retrieveTechnicianSchedulesByPeriodAndPrincipal(@PathVariable("technicianId") Long technicianId, @PathVariable("periodId") Long periodId) {
+        List<Schedule> schedules = employeeRestService.getTechnicianScheduleList(technicianId);
+        Schedule schedule = new Schedule();
+        for(Schedule s: schedules)  {
+            System.out.println(s.getPeriod().getId());
+            if(s.getPeriod().getId() == periodId)
+                schedule = s;
+        }
+        
+        System.out.println(schedule.getPeriod().getId());
+        System.out.println(periodId);
+        
+        return schedule;
+    }
 
     @GetMapping(value = "/technicians/schedules/{periodId}")
     private Schedule retrieveTechnicianSchedulesByPeriodAndPrincipal(@PathVariable("periodId") Long periodId, Principal principal) {
         Technician tech = employeeRestService.getTechnicianByUsername(principal.getName());
         List<Schedule> schedules = employeeRestService.getTechnicianScheduleList(tech.getId());
         Schedule schedule = new Schedule();
-        for(Schedule s: schedules){
+        for(Schedule s: schedules) {
             if(s.getPeriod().getId() - periodId == 0){
                 schedule = s;
             }

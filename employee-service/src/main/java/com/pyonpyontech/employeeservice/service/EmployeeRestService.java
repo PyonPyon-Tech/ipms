@@ -21,6 +21,7 @@ public interface EmployeeRestService {
     Administrator updateAdministrator(Long id, Administrator updatedAdministrator);
     
     Supervisor getSupervisorById(Long id);
+    Supervisor getSupervisorByUsername(String username);
     List<Supervisor> getSupervisorList();
     Supervisor createSupervisor(Supervisor supervisor);
     Supervisor updateSupervisor(Long id, Supervisor updatedSupervisor);

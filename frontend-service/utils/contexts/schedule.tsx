@@ -1,4 +1,4 @@
-import { AxiosClient, URL_EMPLOYEE, URL_SCHEDULES } from "@constants/api";
+import { AxiosClient, URL_EMPLOYEE, URL_SCHEDULE } from "@constants/api";
 import { useAuth } from "@hooks/useAuth";
 import { OutletVisitations } from "@models/pestcontrol/outlets";
 import { ScheduleForm } from "@models/pestcontrol/schedules";
@@ -12,12 +12,14 @@ export const ScheduleContext = createContext<{
   changeVisitDate: (outletId: number, index: number, date: string) => void;
   checkVisitDate: () => boolean;
   submit: () => Promise<void>;
+  approveSchedule: (technicianId: number, periodId: number, comment: string, isApproved: number) => Promise<void>;
 }>({
   data: null,
   visitations: [],
   changeVisitDate: (x, y, z) => {},
   checkVisitDate: () => false,
   submit: async () => {},
+  approveSchedule: async(a, b, c, d) => {},
 });
 
 export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
@@ -80,7 +82,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
     toast.loading("Mohon tunggu...")
     if (!data.id) {
       AxiosClient.post(
-        `${URL_SCHEDULES}/period/${period}`,
+        `${URL_SCHEDULE}/period/${period}`,
         ScheduleForm.serializeCreateForm(visitations)
       )
         .then((response) => {
@@ -96,7 +98,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
         });
     } else {
       AxiosClient.put(
-        `${URL_SCHEDULES}/visitations`,
+        `${URL_SCHEDULE}/visitations`,
         ScheduleForm.serializeUpdateForm(visitations)
       )
         .then((response) => {
@@ -113,19 +115,46 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const approveSchedule = async (technicianId: number, periodId: number, comment: string, isApproved: number) => {
+    const period = router?.query?.period;
+    if (!periodId || !comment) return;
+    
+    toast.loading("Mohon tunggu...")
+    AxiosClient.post(
+      `${URL_SCHEDULE}/technicians/${technicianId}/period/${period}`, {
+        comment: comment,
+        isApproved: isApproved
+      }
+    )
+    .then((response) => {
+      toast.dismiss()
+      console.log(response.data);
+      sessionStorage.removeItem("schedule");
+      toast.success("Berhasil Memperbarui Schedule")
+    })
+    .catch((err) => {
+      toast.dismiss()
+      toast.error("Terjadi Masalah")
+      console.error(err);
+    });
+  };
+
   const router = useRouter();
 
   useEffect(() => {
-    if (!user || !router?.query?.period) return;
-    async function loadScheduleByPeriod(periodId: number) {
+    if (!user || (!router?.query?.period)) return;
+    async function loadScheduleByPeriod(periodId: number, isSupervisor: boolean) {
       try {
-        const results = await Promise.all([
+        console.log(`isSupervisor ${isSupervisor}`);
+        const results = !isSupervisor ? await Promise.all([
           AxiosClient.get(`${URL_EMPLOYEE}/technicians/schedules/${periodId}`),
           AxiosClient.get(`${URL_EMPLOYEE}/technicians/outlets`),
+        ]) : await Promise.all([
+          AxiosClient.get(`${URL_EMPLOYEE}/technicians/${router.query.technician}/schedules/${router.query.period}`),
+          { data: ''}
         ]);
         let scheduleForm;
-        if (!!results[0].data.id) {
-          // if id exists, It's update and we must set schedule
+        if (isSupervisor) {
           scheduleForm = ScheduleForm.buildUpdateForm(results[0].data);
         } else {
           scheduleForm = ScheduleForm.buildCreateForm(results[1].data);
@@ -140,7 +169,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
     }
     const savedSchedule = sessionStorage.getItem("schedule");
     if (!savedSchedule) {
-      loadScheduleByPeriod(Number(router.query.period));
+      loadScheduleByPeriod(Number(router.query.period), router.query.technician ? true : false);
     } else {
       console.log("Load ScheduleForm from session storage");
       const schedule = JSON.parse(savedSchedule) as ScheduleForm;
@@ -151,7 +180,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
 
   return (
     <ScheduleContext.Provider
-      value={{ data, visitations, changeVisitDate, checkVisitDate, submit }}
+      value={{ data, visitations, changeVisitDate, checkVisitDate, submit, approveSchedule }}
     >
       {children}
     </ScheduleContext.Provider>

@@ -18,5 +18,6 @@ public interface ScheduleRestService {
     Visitation createVisitation(Long id, Visitation visitation);
 
     Period findPeriod(Long month, Long year);
+    Schedule approveSchedule(Long technicianId, Long periodId, String comment, Integer isApproved);
 
 }

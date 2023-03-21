@@ -4,7 +4,7 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BE_ENDPOINT || "http://localhost
 export const URL_AUTH = `${BASE_URL}/api/v1/authenticate`;
 export const URL_REPORT = `${BASE_URL}/api/v1/reports`;
 export const URL_EMPLOYEE = `${BASE_URL}/api/v1/employees`
-export const URL_SCHEDULES = `${BASE_URL}/api/v1/schedules`
+export const URL_SCHEDULE = `${BASE_URL}/api/v1/schedules`
 export const URL_CUSTOMER = `${BASE_URL}/api/v1/customers`;
 
 const AxiosClient = axios.create({

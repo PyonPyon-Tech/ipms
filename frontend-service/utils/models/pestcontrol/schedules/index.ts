@@ -89,3 +89,41 @@ export class ScheduleForm {
     return newVisitations;
   }
 }
+
+export interface Schedule {
+  id: number;
+  period: {
+    id: number,
+    month: string,
+    year: number,
+  },
+  technician: { id: number, user: { name: string }  };
+  supervisor: { id: number};
+  comment: number;
+  isApproved: number;
+  technicianName: string;
+}
+  
+export class ScheduleClass implements Schedule {
+  id: number;
+  period: {
+    id: number,
+    month: string,
+    year: number,
+  };
+  technician: { id: number, user: { name: string }  };
+  supervisor: { id: number};
+  comment: number;
+  isApproved: number;
+  technicianName: string;
+
+  constructor(obj: any) {
+    this.id = obj.period;
+    this.period = obj.period;
+    this.technician = obj.technician;
+    this.supervisor = obj.supervisor;
+    this.comment = obj.comment;
+    this.isApproved = obj.isApproved;
+    this.technicianName = obj.technician.user.name;
+  }
+} 

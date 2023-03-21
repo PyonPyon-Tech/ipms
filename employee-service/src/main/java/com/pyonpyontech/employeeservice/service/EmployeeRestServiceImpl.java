@@ -140,6 +140,16 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     }
     
     @Override
+    public Supervisor getSupervisorByUsername(String username) {
+        Optional<Supervisor> supervisor = supervisorDb.findByUsername(username);
+        if(supervisor.isPresent()) {
+            return supervisor.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    @Override
     public List<Supervisor> getSupervisorList() {
         return supervisorDb.findAll();
     }

@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const statusmap ={
+const statusmap = {
   Disetujui: "bg-teal-dark",
   Ditolak: "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",

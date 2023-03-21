@@ -52,9 +52,20 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
       if (!router.query) return;
       const period = getPeriodFromDate(newDate);
       const currentPeriod = router?.query.period;
+      const technicianId = router?.query.technician;
+      let newRoute: string;
+
+      console.log(`new period ${period}`);
+
+      if(!!technicianId) {
+        newRoute = `/schedules/${technicianId}/`;
+      } else {
+        newRoute = "/schedules/propose/";
+      }
+
       if (period != Number(currentPeriod)) {
-        setDate(newDate);       
-        router.replace("/schedules/propose/" + period);
+        setDate(newDate);
+        router.replace(newRoute + period);
       } else {
         setDate(newDate);
       }
