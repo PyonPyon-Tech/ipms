@@ -20,6 +20,7 @@ import {
   getPeriodFromDate,
 } from "@functions/getPeriodFromDate";
 import { useRouter } from "next/router";
+import { useScheduleForm } from "@hooks/useScheduleForm";
 
 // BigCalendar.momentLocalizer(moment);
 // const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
@@ -33,7 +34,7 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
   const router = useRouter();
   const events: Event[] = outletVisitationsToEvent(data);
   const [date, setDate] = useState<Date>();
-  console.log(date);
+  // const {} = useScheduleForm()
   useEffect(() => {
     const events: Event[] = outletVisitationsToEvent(data);
     console.log("blabla");
@@ -51,11 +52,9 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
       if (!router.query) return;
       const period = getPeriodFromDate(newDate);
       const currentPeriod = router?.query.period;
-      console.log(newDate);
-      console.log(period);
       if (period != Number(currentPeriod)) {
-        setDate(newDate);
-        router.replace("/schedules/employees/" + period);
+        setDate(newDate);       
+        router.replace("/schedules/propose/" + period);
       } else {
         setDate(newDate);
       }
@@ -76,7 +75,6 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
         date={date}
         onNavigate={onNavigate}
         onDoubleClickEvent={(e: Event) => {
-          console.log(e);
           toast.custom((t) => <CustomToast e={e} t={t} />, {
             duration: 3000,
           });
