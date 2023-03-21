@@ -25,7 +25,7 @@ export class ScheduleForm {
 
   static buildCreateForm(outlets: any[]): ScheduleForm {
     const form = new ScheduleForm();
-    form.comment = "-";
+    form.comment = "";
     form.isApproved = -1;
     form.visitations = outlets.map((x) => {
       return {

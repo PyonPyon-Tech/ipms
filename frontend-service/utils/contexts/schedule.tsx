@@ -77,16 +77,21 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
     const period = router?.query?.period;
     if (!data || !visitations || !period) return;
     sessionStorage.setItem("schedule", JSON.stringify(data)); // Biar datanya nggak ilang. Hapus kalau sudah sukses disimpan
+    toast.loading("Mohon tunggu...")
     if (!data.id) {
       AxiosClient.post(
         `${URL_SCHEDULES}/period/${period}`,
         ScheduleForm.serializeCreateForm(visitations)
       )
         .then((response) => {
+          toast.dismiss()
           console.log(response.data);
           sessionStorage.removeItem("schedule");
+          toast.success("Berhasil mengajukan schedule")
         })
         .catch((err) => {
+          toast.dismiss()
+          toast.error("Terjadi Masalah")
           console.error(err);
         });
     } else {
@@ -95,10 +100,14 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
         ScheduleForm.serializeUpdateForm(visitations)
       )
         .then((response) => {
+          toast.dismiss()
           console.log(response.data);
           sessionStorage.removeItem("schedule");
+          toast.success("Berhasil Memperbarui Schedule")
         })
         .catch((err) => {
+          toast.dismiss()
+          toast.error("Terjadi Masalah")
           console.error(err);
         });
     }

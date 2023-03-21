@@ -61,12 +61,42 @@ form select {
   max-width: 200px;
 }
 
+.rbc-row-segment {
+  font-size: 12px;
+}
+.rbc-toolbar-label{
+  font-size: 20px;
+  font-weight: 700;
+}
+.rbc-agenda-table  tr > th:nth-child(2){
+  display: none;
+}
+.rbc-agenda-time-cell{
+  display: none;
+}
+.rbc-calendar {
+  height: 500px!important;
+}
+.card-title{
+  font-size: 20px;
+  font-weight: 700;
+  color: rgb(0 79 156);
+}
+
+@media(min-width:500px){
+  .rbc-calendar{
+    height: 600px!important;
+  }
+
+}
 @media (min-width: 768px) {
   .employee-detail > h5 {
     /* margin-bottom: 0.5rem; */
     font-size: 24px;
   }
-
+  .rbc-toolbar-label{
+    font-size: 28px;
+  }
   .employee-detail > p {
     margin-bottom: 1rem;
   }

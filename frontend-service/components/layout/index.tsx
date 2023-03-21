@@ -38,7 +38,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
           openSideMenu={openSideMenu}
           setOpenSideMenu={setOpenSideMenu}
         />
-        <div className="md:mt-36 grow">{children}</div>
+        <div className="md:mt-36 grow overflow-x-hidden">{children}</div>
       </main>
       <footer></footer>
     </>

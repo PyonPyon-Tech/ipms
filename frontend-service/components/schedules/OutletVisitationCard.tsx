@@ -21,7 +21,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations }> = ({
           open ? "rotate-180" : ""
         )}
       />
-      <h4 className="text-xl font-bold text-blue-dark">{data.outletName}</h4>
+      <h4 className="card-title">{data.outletName}</h4>
       <table className="my-1 table-auto text-xs md:text-sm">
         <tbody>
           <tr>
