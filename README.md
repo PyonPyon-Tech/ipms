@@ -159,36 +159,41 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
         }
     }
     ```
-* [ ] `GET /{id}/outlets`
+* [x] `GET /{id}/outlets`
 
 
     Return outlets of customer with id `id`.
 
-* [ ] `POST /{id}/outlets`
+* [x] `POST /{id}/outlets`
 
 
     Create new outlet for customer with id `id`.
 
-* [ ] `PUT /{id}/outlets/{outlet_id}`
+* [x] `GET /outlets/{outlet_id}`
 
 
-    Update outlet with id `outlet_id` for customer with id `id`.
+    Return outlet with id `outlet_id`.
 
-* [ ] `GET /{id}/outlets/{outlet_id}/reports`
+* [x] `GET /{id}/outlets/{outlet_id}`
+
+
+    Return outlet with id `outlet_id` of customer with id `id`.
+
+* [x] `PUT /{id}/outlets/{outlet_id}`
+
+
+    Update outlet with id `outlet_id` for customer with id `id`. Any combination of the attributes may be changed; not all attributes have to be present.
+
+* [x] `GET /{id}/outlets/{outlet_id}/reports`
 
 
     Return reports for outlets with id `outlet_id` of customer with id `id`.
 
-* [ ] `GET /{id}/reports`
+* [x] `GET /{id}/reports`
 
 
     Return reports for customer with id `id`.
-
-* [ ] `GET /{id}/feedbacks`
-
-
-    Return feedbacks for customer with id `id`.
-
+    
 
 ### Report Service - `/reports`
 * [ ] `GET /`

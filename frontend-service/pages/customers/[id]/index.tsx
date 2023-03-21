@@ -7,7 +7,7 @@ import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
 import { Customer, CustomerClass } from "@models/customer/customer";
-import { Outlet, OutletClass } from "@models/customer/customer/outlet";
+import { Outlet, OutletClass } from "@models/customer/outlet";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -59,7 +59,7 @@ const CustomerDetailPage: NextPage = () => {
       <section className="py-6">
         <Title
           title="Daftar Outlet"
-          action={{ name: "Tambah", path: "/outlets/add" }}
+          action={{ name: "Tambah", path: `/customers/${router.query.id}/add-outlet` }}
         >
           <h4>Total: {outlets.length} outlet</h4>
         </Title>
