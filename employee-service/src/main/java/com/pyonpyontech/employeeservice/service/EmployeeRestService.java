@@ -38,4 +38,5 @@ public interface EmployeeRestService {
     List<PesticideRequest> getTechnicianPesticideRequestList(Long id);
     List<Map<String, Object>> getTechnicianReportList(Long id);
     List<Schedule> getTechnicianScheduleList(Long id);
+    Technician updateTechnicianOutlets(Long id, List<Outlet> outlets);
 }

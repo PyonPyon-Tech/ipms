@@ -1,12 +1,8 @@
 package com.pyonpyontech.employeeservice.service;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.NoSuchElementException;
+import java.util.*;
 
+import com.pyonpyontech.employeeservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.employeeservice.service.UserRestService;
 
 import com.pyonpyontech.employeeservice.model.pest_control.employee.Administrator;
@@ -49,6 +45,8 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     
     @Autowired
     private TechnicianDb technicianDb;
+    @Autowired
+    private OutletDb outletDb;
     
     @Autowired
     private UserRestService userRestService;
@@ -138,15 +136,14 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
             throw new NoSuchElementException();
         }
     }
-    
+
     @Override
     public Supervisor getSupervisorByUsername(String username) {
         Optional<Supervisor> supervisor = supervisorDb.findByUsername(username);
-        if(supervisor.isPresent()) {
-            return supervisor.get();
-        } else {
-            throw new NoSuchElementException();
+        if(supervisor.isEmpty()){
+            throw new NoSuchElementException("No supervisor with username "+username);
         }
+        return supervisor.get();
     }
     
     @Override
@@ -336,5 +333,44 @@ public class EmployeeRestServiceImpl implements EmployeeRestService {
     public List<Schedule> getTechnicianScheduleList(Long id) {
         return getTechnicianById(id).getSchedules();
     }
-    
+
+    @Override
+    public Technician updateTechnicianOutlets(Long id, List<Outlet> newOutlets) {
+        Set<Long> newOutletsIds = new HashSet<>();
+        Set<Long> oldOutletsIds = new HashSet<>();
+        List<Outlet> toBeSaved = new ArrayList<>();
+
+        Technician technician = technicianDb.findById(id).orElse(null);
+        if(technician == null){
+            throw new NoSuchElementException("Tidak Ada Teknisi dengan id "+id);
+        }
+        List<Outlet> oldOutlet = technician.getOutlets();
+        for(Outlet o: oldOutlet){
+            oldOutletsIds.add(o.getId());
+        }
+        for(Outlet o: newOutlets){
+            newOutletsIds.add(o.getId());
+        }
+        // Iterate oldOutlets, if their id not found in new, set technician to null
+        for(Outlet o: oldOutlet){
+            if(!newOutletsIds.contains(o.getId())){
+                o.setTechnician(null);
+                toBeSaved.add(o);
+            }
+        }
+        for(Outlet o: newOutlets){
+            if(!oldOutletsIds.contains(o.getId())){
+                Outlet currOutlet = outletDb.findById(o.getId()).orElse(null);
+                if(currOutlet == null){
+                    throw new NoSuchElementException("Tidak ada outlet dengan id"+o.getId());
+                }
+                currOutlet.setTechnician(technician);
+                toBeSaved.add(currOutlet);
+            }
+        }
+        // Iterate newOutlets, if their id not found in old, set technician to technician
+        outletDb.saveAll(toBeSaved);
+        return technician;
+    }
+
 }
