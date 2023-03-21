@@ -21,6 +21,8 @@ public interface EmployeeRestService {
     Administrator updateAdministrator(Long id, Administrator updatedAdministrator);
     
     Supervisor getSupervisorById(Long id);
+
+    Supervisor getSupervisorByUsername(String username);
     List<Supervisor> getSupervisorList();
     Supervisor createSupervisor(Supervisor supervisor);
     Supervisor updateSupervisor(Long id, Supervisor updatedSupervisor);
@@ -37,4 +39,5 @@ public interface EmployeeRestService {
     List<PesticideRequest> getTechnicianPesticideRequestList(Long id);
     List<Map<String, Object>> getTechnicianReportList(Long id);
     List<Schedule> getTechnicianScheduleList(Long id);
+    Technician updateTechnicianOutlets(Long id, List<Outlet> outlets);
 }

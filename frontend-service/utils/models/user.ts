@@ -6,7 +6,10 @@ export interface User {
     isEmployee: number;
     password?: string;
 }
-
+export interface Account {
+    id: number;
+    user: User;
+}
 export class UserClass implements User{
     name: string;
     role: number;

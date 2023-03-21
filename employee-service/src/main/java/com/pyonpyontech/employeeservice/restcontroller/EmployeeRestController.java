@@ -154,6 +154,17 @@ public class EmployeeRestController {
     private List<Technician> retrieveAllSupervisorTechnicians(@PathVariable("id") Long id) {
         return employeeRestService.getSupervisorTechnicianList(id);
     }
+
+    @GetMapping(value = "/supervisors/technicians")
+    private List<Technician> retrieveAllSupervisorTechniciansByPrincipa(Principal principal) {
+        Supervisor supervisor = employeeRestService.getSupervisorByUsername(principal.getName());
+        return employeeRestService.getSupervisorTechnicianList(supervisor.getId());
+    }
+    @GetMapping(value = "/supervisors/outlets")
+    private List<Outlet> retrieveOutletsForSupervisor(Principal principal) {
+        Supervisor supervisor = employeeRestService.getSupervisorByUsername(principal.getName());
+        return supervisor.getOutlets();
+    }
     
     // Retrieve all outlets under supervisor
     @GetMapping(value = "/supervisors/{id}/outlets")
@@ -262,5 +273,8 @@ public class EmployeeRestController {
         }
         return employeeRestService.getTechnicianOutletList(tech.getId());
     }
-    
+    @PutMapping(value = "/technicians/{id}/outlets")
+    private Technician updateOutlets(@PathVariable("id") Long id, @Valid @RequestBody List<Outlet> outlets ) {
+        return employeeRestService.updateTechnicianOutlets(id, outlets);
+    }
 }
