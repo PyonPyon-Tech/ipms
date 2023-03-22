@@ -82,6 +82,11 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         if(schedule.isPresent()){
             throw new DataIntegrityViolationException("Sudah ada data schedule!");
         }
+        
+        for(Visitation scheduleVisitation : visitations)
+            if(scheduleVisitation.getDate().getMonthValue() != periodDb.findById(periodId).get().getMonth().getValue()) 
+                throw new IllegalStateException("Terdapat kunjungan pada bulan yang tidak sesuai!");
+        
         // end check
         Supervisor supervisor = technician.getSupervisor();
         Period periodRef = entityManager.getReference(Period.class, periodId);

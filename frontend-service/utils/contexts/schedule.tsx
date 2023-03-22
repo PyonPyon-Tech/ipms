@@ -154,7 +154,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
           AxiosClient.get(`${URL_EMPLOYEE}/technicians/${router.query.technician}/schedules/${router.query.period}`),
           { data: ''}
         ]);
-        let scheduleForm;
+        let scheduleForm: ScheduleForm;
         if(isSupervisor && !!results[0].data.id) {
           scheduleForm = ScheduleForm.buildUpdateForm(results[0].data, true);
         } else if(isSupervisor) {
