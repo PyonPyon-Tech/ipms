@@ -144,6 +144,7 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!user || (!router?.query?.period)) return;
     async function loadScheduleByPeriod(periodId: number, isSupervisor: boolean) {
+      const t = toast.loading("Mengambil data...")
       try {
         console.log(`isSupervisor ${isSupervisor}`);
         const results = !isSupervisor ? await Promise.all([
@@ -156,20 +157,24 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
         let scheduleForm;
         if (isSupervisor) {
           scheduleForm = ScheduleForm.buildUpdateForm(results[0].data);
-        } else {
+        } else if(!!results[0].data.id) {
+          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data);
+        }else{
           scheduleForm = ScheduleForm.buildCreateForm(results[1].data);
         }
         setData(scheduleForm);
         setVisitations(scheduleForm.visitations);
         console.log(scheduleForm);
+        toast.dismiss(t)
       } catch (error) {
         toast.error("Ada Error, Cek console");
         console.error(error);
+        toast.dismiss(t)
       }
     }
     const savedSchedule = sessionStorage.getItem("schedule");
     if (!savedSchedule) {
-      loadScheduleByPeriod(Number(router.query.period), router.query.technician ? true : false);
+      loadScheduleByPeriod(Number(router.query.period), !!router?.query?.technician);
     } else {
       console.log("Load ScheduleForm from session storage");
       const schedule = JSON.parse(savedSchedule) as ScheduleForm;
