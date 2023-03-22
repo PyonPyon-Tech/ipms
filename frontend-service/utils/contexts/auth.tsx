@@ -51,7 +51,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
       retrieveUser(response.data.token);
       r.push("/")
     }).catch((err: AxiosError)=>{
-      toast.error(err.message)
+      toast.error("Masukan Username dan Password yang Tepat")
     }).finally(()=>{
       toast.dismiss(t)
     })
