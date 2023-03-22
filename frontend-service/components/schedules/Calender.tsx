@@ -40,9 +40,12 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
     console.log("blabla");
     console.log(events);
     if (events.length > 0) {
+      console.log(`A`);
       setDate(events[0]?.start);
     } else if (events.length == 0) {
       if (!router.query.period) return;
+      console.log(`B`);
+      console.log(getDateFromPeriod(Number(router.query.period)));
       setDate(getDateFromPeriod(Number(router.query.period)));
     }
   }, [data, router]);
@@ -54,8 +57,6 @@ export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
       const currentPeriod = router?.query.period;
       const technicianId = router?.query.technician;
       let newRoute: string;
-
-      console.log(`new period ${period}`);
 
       if(!!technicianId) {
         newRoute = `/schedules/${technicianId}/`;

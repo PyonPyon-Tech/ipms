@@ -155,15 +155,18 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
           { data: ''}
         ]);
         let scheduleForm;
-        if (isSupervisor) {
-          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data);
-        } else if(!!results[0].data.id) {
-          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data);
+        if(isSupervisor && !!results[0].data.id) {
+          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data, true);
+        } else if(isSupervisor) {
+          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data, false);
+        } else if (!!results[0].data.id) {
+          scheduleForm = ScheduleForm.buildUpdateForm(results[0].data, true);
         }else{
           scheduleForm = ScheduleForm.buildCreateForm(results[1].data);
         }
         setData(scheduleForm);
         setVisitations(scheduleForm.visitations);
+        console.log(`ScheduleForm`);
         console.log(scheduleForm);
         toast.dismiss(t)
       } catch (error) {

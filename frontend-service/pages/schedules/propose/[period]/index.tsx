@@ -26,7 +26,7 @@ const CreateSchedule: FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { data, visitations, checkVisitDate, submit } = useScheduleForm();
-  const status = data?.isApproved == 1 ? "Disetujui" :  (data?.id && data?.comment) ? "Ditolak" : (data?.id) ? "Sedang Diajukan": "Belum Diajukan"
+  const status = data?.isApproved == 1 ? "Disetujui" :  (data?.id && data?.comment) ? "Ditolak" : (data?.id) ? "Sedang Diajukan": "Belum Diajukan";
 
   return (
     <div className="relative w-full p-8 md:p-12 md:pt-0">
@@ -51,7 +51,7 @@ const CreateSchedule: FC = () => {
             <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
             <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
           </div>
-          {visitations.length > 0 && <ScheduleCalendar data={visitations} />}
+          {visitations.length > 0 && <ScheduleCalendar data={visitations} /> }
           <div className="my-4 md:my-6">
             <h4 className="card-title">Pesan Supervisor:</h4>
             <p>

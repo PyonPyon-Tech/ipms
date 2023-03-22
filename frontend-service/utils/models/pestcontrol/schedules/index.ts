@@ -11,14 +11,29 @@ export class ScheduleForm {
   isApproved!: number;
   visitations!: OutletVisitations[]; // Ini yang dipakai buat card
 
-  static buildUpdateForm(obj: any): ScheduleForm {
+  static buildUpdateForm(obj: any, isScheduleExists: boolean): ScheduleForm {
     const form = new ScheduleForm();
-    form.id = obj.id;
-    form.period = obj.period;
-    form.comment = obj.comment;
-    form.isApproved = obj.isApproved;
+    if(isScheduleExists) form.id = obj.id;
+    if(isScheduleExists) form.period = obj.period;
+    form.comment = isScheduleExists ? obj.comment : "";
+    form.isApproved = isScheduleExists ? obj.isApproved : -1;
     form.visitations = !!obj.visitations
       ? ScheduleForm.getVisitations(obj)
+      : !isScheduleExists
+      ? [{outletName: "",
+        outletAddress: "",
+        outletId: -1,
+        count: 2,
+        visitations: [
+          {
+            id: -1,
+            date: "",
+          },
+          {
+            id: -1,
+            date: "",
+          },
+        ],}]
       : [];
     return form;
   }

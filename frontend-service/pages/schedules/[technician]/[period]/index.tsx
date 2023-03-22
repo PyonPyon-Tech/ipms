@@ -35,61 +35,50 @@ const ApproveSchedule: FC = () => {
       <div className="mb-4 font-bold">
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
-          {!(data?.isApproved == 1 || data?.comment) && <div className="flex justify-between gap-x-4">
-            {visitations.length > 0 && 
+          {!!data?.id && !(data?.isApproved == 1 || data?.comment) && <div className="flex justify-between gap-x-4">
             <div
               onClick={() => {
                 approveSchedule(technicianId, periodId, comment, 0);
-                router.push("/schedules");
               }}
               className="cursor-pointer rounded-lg bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
             >
               Tolak
-            </div>}
-            {visitations.length > 0 && 
+            </div>
             <div
               onClick={() => {
                 approveSchedule(technicianId, periodId, comment, 1);
-                router.push("/schedules");
               }}
               className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
             >
               Approve
-            </div>}
+            </div>
           </div>}
         </div>
       </div>
       <Container className="w-full mb-6 md:mb-8 rounded-xl overflow-x-auto overflow-y-hidden">
         <div className="w-full">
-          
-          {visitations.length > 0 && 
-          <>
-            <div className="w-full flex mb-2 md:mb-4" >
-              <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
-              <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
-            </div>
-            <ScheduleCalendar data={visitations} />
-          </>}
-          {visitations.length > 0 && data != null && <>
-            <div className="my-4 md:my-6">
-              <h4 className="card-title">Pesan Supervisor:</h4>
-              <p>
-                {(!!data?.isApproved || !data?.isApproved && !!data?.comment) && 
-                  <textarea
-                    className="appearance-none bg-zinc-100"
-                    value={data?.comment ?? "-"}
-                  ></textarea>}
-                {!data?.isApproved && !data?.comment && 
-                  <textarea
-                    className="appearance-none bg-zinc-100"
-                    placeholder="Pesan Anda"
-                    onChange={(event) => setComment(event.target.value)}
-                  ></textarea>}
-              </p>
-            </div>
-          </>}
-          {visitations.length == 0 && <h2 className="text-xl md:text-3xl text-center">Belum ada jadwal</h2>}
-          
+          <div className="w-full flex mb-2 md:mb-4" >
+            <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
+            <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
+          </div>
+          <ScheduleCalendar data={visitations} />
+          <div className="my-4 md:my-6">
+            <h4 className="card-title">Pesan Supervisor:</h4>
+            <p>
+              {(!!data?.isApproved || !data?.isApproved && !!data?.comment) && 
+                <textarea
+                  className="appearance-none bg-zinc-100"
+                  value={data?.comment ?? "-"}
+                  onChange={(event) => -1}
+                ></textarea>}
+              {!data?.isApproved && !data?.comment && data?.id !== null && 
+                <textarea
+                  className="appearance-none bg-zinc-100"
+                  placeholder="Pesan Anda"
+                  onChange={(event) => setComment(event.target.value)}
+                ></textarea>}
+            </p>
+          </div>
         </div>
       </Container>
     </div>
