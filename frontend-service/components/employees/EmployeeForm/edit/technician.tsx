@@ -1,13 +1,13 @@
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
-import { Employee } from "@models/pestcontrol/employee";
+import { Employee, EmployeeClass } from "@models/pestcontrol/employee";
 import {
   EmployeeFormFactory,
   EmployeeSupervisorFields,
   EmployeeTechnicianFields,
 } from "@models/pestcontrol/employee/form";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -15,12 +15,13 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
   data,
 }) => {
   const router = useRouter();
+  const [supervisor, setsupervisor] = useState<Employee[]>([]);
   const { register, handleSubmit } = useForm<EmployeeTechnicianFields>({
-    defaultValues: EmployeeFormFactory.createTechnicianFields(data)
+    defaultValues: EmployeeFormFactory.createTechnicianFields(data),
   });
   const onSubmit = async (data: EmployeeTechnicianFields) => {
     let employee = EmployeeFormFactory.employeeMutationFromTechnician(data);
-    console.log(employee)
+    console.log(employee);
     AxiosClient.put(`${URL_EMPLOYEE}/technicians/${router.query.id}`, employee)
       .then((response) => {
         console.log(response.data);
@@ -32,6 +33,14 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
         console.log(error);
       });
   };
+  useEffect(() => {
+    async function loadSupervisor() {
+      AxiosClient.get(`${URL_EMPLOYEE}/supervisors`).then((response) =>
+        setsupervisor(response.data.map((sup: any) => new EmployeeClass(sup)))
+      );
+    }
+    loadSupervisor();
+  }, []);
   return (
     <Container className="justify-evenly gap-x-10">
       <img
@@ -72,6 +81,16 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
           <option value="3">Supervisor</option>
           <option value="2">Administrator</option>
         </select>
+        {supervisor.length > 0 && (
+          <>
+            <h5>Supervisor</h5>
+            <select required {...register("supervisor")}>
+              {supervisor.map(({ id, user: { name }, region }) => {
+                return <option key={"supv"+id} value={id}>{`${name} (${region})`}</option>;
+              })}
+            </select>
+          </>
+        )}
         <button
           type="submit"
           className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
