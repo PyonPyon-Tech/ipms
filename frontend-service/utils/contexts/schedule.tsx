@@ -117,7 +117,11 @@ export const ScheduleProvider: FC<{ children: React.ReactNode }> = ({
 
   const approveSchedule = async (technicianId: number, periodId: number, comment: string, isApproved: number) => {
     const period = router?.query?.period;
-    if (!periodId || !comment) return;
+    if(!comment && !isApproved) {
+      toast.error("Tolong isi feedback terlebih dahulu")
+      return;
+    }
+    if (!periodId) return;
     
     toast.loading("Mohon tunggu...")
     AxiosClient.post(
