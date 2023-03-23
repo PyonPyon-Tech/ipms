@@ -34,6 +34,14 @@ form  h5 {
   font-size: 16px;
 }
 
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    margin-right: 35px;
+  }
+}
+
 .outletDate {
   display: block;
   border: 1px solid #1e1e1e;
