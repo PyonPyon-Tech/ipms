@@ -267,10 +267,7 @@ public class EmployeeRestController {
         List<Schedule> schedules = employeeRestService.getTechnicianScheduleList(technicianId);
         Schedule schedule = new Schedule();
         for(Schedule s: schedules)  {
-            System.out.println(s.getPeriod().getId());
             if(s.getPeriod().getId() == periodId){
-                System.out.println(s.getPeriod().getId());
-                System.out.println(periodId);
                 return s;
             }
         }

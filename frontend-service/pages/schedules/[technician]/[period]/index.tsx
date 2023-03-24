@@ -16,7 +16,12 @@ const statusmap = {
   "Disetujui": "bg-teal-dark",
   "Ditolak": "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",
-  "Belum Diajukan": "bg-orange"
+  "Belum Diajukan": "bg-orange",
+};
+
+const colormap = {
+  "Setujui": ["bg-blue", "bg-blue-200"],
+  "Tolak": ["bg-red-600", "bg-red-300"],
 };
 
 const ApproveSchedule: FC = () => {
@@ -26,33 +31,49 @@ const ApproveSchedule: FC = () => {
   const router = useRouter();
   const { data, visitations, checkVisitDate, approveSchedule } = useScheduleForm();
   const [comment, setComment] = useState('');
+
   const status = data?.isApproved == 1 ? "Disetujui" :  (data?.id && data?.comment) ? "Ditolak" : (data?.id) ? "Sedang Diajukan": "Belum Diajukan"
 
   const technicianId = Number(router.query.technician), periodId = Number(router.query.period);
+
+  useEffect(() => {
+    setComment(data?.comment ?? "");
+  }, [data]);
 
   return (
     <div className="relative w-full p-8 md:p-12 md:pt-0">
       <div className="mb-4 font-bold">
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
-          {!!data?.id && !(data?.isApproved == 1 || data?.comment) && <div className="flex justify-between gap-x-4">
-            <div
-              onClick={() => {
-                approveSchedule(technicianId, periodId, comment, 0);
-              }}
-              className="cursor-pointer rounded-lg bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-            >
-              Tolak
-            </div>
-            <div
-              onClick={() => {
-                approveSchedule(technicianId, periodId, comment, 1);
-              }}
-              className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-            >
-              Approve
-            </div>
-          </div>}
+          <div className="flex justify-between gap-x-4">
+          {data?.id &&
+            <>
+              <div
+                onClick={() => {
+                  approveSchedule(technicianId, periodId, comment, 0).then(() => {
+                    setTimeout(() => {
+                      router.push(window.location.pathname);
+                    }, 50)
+                  });
+                }}
+                className="cursor-pointer rounded-lg bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+              >
+                Tolak
+              </div>
+              <div
+                onClick={() => {
+                  approveSchedule(technicianId, periodId, comment, 1).then(() => {
+                    setTimeout(() => {
+                      router.push(window.location.pathname);
+                    }, 50)
+                  });
+                }}
+                className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+              >
+                Setujui
+              </div>
+            </>}
+          </div>
         </div>
       </div>
       <Container className="w-full mb-6 md:mb-8 rounded-xl overflow-x-auto overflow-y-hidden">
@@ -65,16 +86,17 @@ const ApproveSchedule: FC = () => {
           <div className="my-4 md:my-6">
             <h4 className="card-title">Pesan Supervisor:</h4>
             <p>
-              {(!!data?.isApproved || !data?.isApproved && !!data?.comment) && 
+              {(!!comment) &&
                 <textarea
                   className="appearance-none bg-zinc-100"
-                  value={data?.comment ?? "-"}
-                  onChange={(event) => -1}
+                  value={comment}
+                  onChange={(event) => setComment(event.target.value)}
                 ></textarea>}
-              {!data?.isApproved && !data?.comment && data?.id !== null && 
+              {(!comment) && 
                 <textarea
                   className="appearance-none bg-zinc-100"
-                  placeholder="Pesan Anda"
+                  placeholder={!!data?.id ? "Pesan Anda" : "-"}
+                  disabled={!data?.id}
                   onChange={(event) => setComment(event.target.value)}
                 ></textarea>}
             </p>
