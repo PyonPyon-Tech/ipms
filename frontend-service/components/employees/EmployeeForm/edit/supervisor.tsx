@@ -66,10 +66,8 @@ export const EmployeeSupervisorEditForm: FC<{ data: Employee }> = ({
           <option value="1">Laki-Laki</option>
         </select>
         <h5>Role</h5>
-        <select required {...register("role")}>
-          <option value="4">Technician</option>
+        <select disabled required {...register("role")}>
           <option value="3">Supervisor</option>
-          <option value="2">Administrator</option>
         </select>
         <button
           type="submit"

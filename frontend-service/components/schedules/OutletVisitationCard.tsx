@@ -92,13 +92,20 @@ const VisitationRow: FC<{
       </td>
       <td className="pl-4">
         {disabled ? (
-          <div className="flex">
+          <div className="flex gap-x-3">
             <div className="py-1.5 cursor-pointer px-3 bg-blue text-white rounded-md border-2 border-blue" onClick={() => setDisabled(false)}>
               Edit
             </div>
+            <div className="py-1.5 cursor-pointer px-3 bg-coral-dark text-white rounded-md border-2 border-coral-bg-coral-dark" onClick={() => {
+              setDisabled(false)
+              setValue("")
+              changeVisitDate(data.outletId, index, "");
+            }}>
+              Hapus
+            </div>
           </div>
         ) : (
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-3">
             <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
               setValue(date)
               setDisabled(true)
@@ -109,6 +116,7 @@ const VisitationRow: FC<{
               className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
               onClick={() => {
                 changeVisitDate(data.outletId, index, value);
+                setDisabled(true)
               }}
             >
               Simpan
