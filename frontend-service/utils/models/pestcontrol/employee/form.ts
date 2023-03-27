@@ -10,6 +10,7 @@ export interface EmployeeFields {
   birthDate: string;
   gender: number;
   role: number;
+  isActive: number;
 } // Untuk form fields
 
 export interface EmployeeAdministrator extends Employee {}
@@ -47,6 +48,7 @@ export class EmployeeFormFactory {
       password: "",
       birthPlace: obj.birthLocation,
       role: obj.user.role,
+      isActive: obj.user.isActive,
       birthDate: new Date(obj?.birthDate ?? new Date().toLocaleDateString())
         .toISOString()
         .split("T")[0],
@@ -67,7 +69,7 @@ export class EmployeeFormFactory {
     };
   }
 
-  static employeeMutationFromAdmin({address,birthDate,birthPlace,contact,gender,name,password,role,username,
+  static employeeMutationFromAdmin({address,birthDate,birthPlace,contact,gender,name,password,role,username, isActive
   }: EmployeeAdministratorFields): EmployeeMutation {
     return {
       address,
@@ -79,7 +81,7 @@ export class EmployeeFormFactory {
         name,
         username,
         role,
-        isActive: 1,
+        isActive,
         isEmployee: 1,
         password: !!password ? password : undefined,
       },

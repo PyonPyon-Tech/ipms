@@ -75,8 +75,7 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
           <option value="0">Peremuan</option>
           <option value="1">Laki-Laki</option>
         </select>
-        <h5>Role</h5>
-        <select disabled required {...register("role")}>
+        <select hidden disabled required {...register("role")}>
           <option value="4">Technician</option>
         </select>
         {supervisor.length > 0 && (
@@ -84,11 +83,21 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
             <h5>Supervisor</h5>
             <select required {...register("supervisor")}>
               {supervisor.map(({ id, user: { name }, region }) => {
-                return <option key={"supv"+id} value={id}>{`${name} (${region})`}</option>;
+                return (
+                  <option
+                    key={"supv" + id}
+                    value={id}
+                  >{`${name} (${region})`}</option>
+                );
               })}
             </select>
           </>
         )}
+        <h5>Status</h5>
+        <select required {...register("isActive")}>
+          <option value="0">Non-Aktif</option>
+          <option value="1">Aktif</option>
+        </select>
         <button
           type="submit"
           className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
