@@ -42,6 +42,11 @@ export const CustomerEditForm: FC<{data: Customer}> = ({data})=>{
           <input required {...register("username")} />
           <h5>Password</h5>
           <input {...register("password")} />
+          <h5>Status</h5>
+          <select required {...register("isActive")}>
+            <option value="0">Non-Aktif</option>
+            <option value="1">Aktif</option>
+          </select>
 
           <button
             type="submit"

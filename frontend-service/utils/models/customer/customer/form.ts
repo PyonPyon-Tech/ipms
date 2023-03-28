@@ -5,6 +5,7 @@ export interface CustomerFields {
   username: string;
   password?: string;
   role: number;
+  isActive: number;
 } // Untuk form fields
 
 export class CustomerFormFactory {
@@ -14,17 +15,18 @@ export class CustomerFormFactory {
       name: obj.user.name,
       password: "",
       role: obj.user.role,
+      isActive: obj.user.isActive,
     };
   }
   
-  static customerMutationFromData({ name, password, role, username,
+  static customerMutationFromData({ name, password, role, username, isActive
   }: CustomerFields): CustomerMutation {
     return {
       user: {
         name,
         username,
         role,
-        isActive: 1,
+        isActive,
         isEmployee: 0,
         password: !!password ? password : undefined,
       },
