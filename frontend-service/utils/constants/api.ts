@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BE_ENDPOINT || "http://localhost:8080";
-export const URL_AUTH = `${BASE_URL}/api/v1/authenticate`;
-export const URL_REPORT = `${BASE_URL}/api/v1/reports`;
-export const URL_EMPLOYEE = `${BASE_URL}/api/v1/employees`
-export const URL_SCHEDULE = `${BASE_URL}/api/v1/schedules`
-export const URL_CUSTOMER = `${BASE_URL}/api/v1/customers`;
+export const URL_AUTH = `http://localhost:3000/api/v1/authenticate`;
+export const URL_REPORT = `http://localhost:3000/api/v1/reports`;
+export const URL_EMPLOYEE = `http://localhost:3000/api/v1/employees`
+export const URL_SCHEDULE = `http://localhost:3000/api/v1/schedules`
+export const URL_CUSTOMER = `http://localhost:3000/api/v1/customers`;
 
 const AxiosClient = axios.create({
   baseURL: BASE_URL,

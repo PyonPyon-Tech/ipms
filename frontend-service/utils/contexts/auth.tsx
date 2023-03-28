@@ -36,6 +36,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
       setUser(response.data)
     }).catch((err: AxiosError) =>{
       r.push("/signin")
+      console.log(err)
       toast.error(err.message)
     })
   };
@@ -49,6 +50,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
       Cookies.set("token", response.data.token, { expires: 3 });
       setToken(response.data.token)
       retrieveUser(response.data.token);
+      console.log("SUKSES")
+      console.log(response)
       r.push("/")
     }).catch((err: AxiosError)=>{
       toast.error("Masukan Username dan Password yang Tepat")
