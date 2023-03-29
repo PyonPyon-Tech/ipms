@@ -14,6 +14,9 @@ import com.pyonpyontech.employeeservice.model.pest_control.PesticideRequest;
 import com.pyonpyontech.employeeservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.employeeservice.model.pest_control.Schedule;
 
-public interface EmployeeRestService {
-    Integer verifyUsername(String username);
+public interface AdministratorRestService {
+    Administrator getAdministratorById(Long id);
+    List<Administrator> getAdministratorList();
+    Administrator createAdministrator(Administrator administrator);
+    Administrator updateAdministrator(Long id, Administrator updatedAdministrator);
 }
