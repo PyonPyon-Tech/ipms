@@ -79,9 +79,7 @@ public class SupervisorRestController {
             try {
                 Supervisor createdSupervisor = supervisorRestService.createSupervisor(supervisor);
                 return createdSupervisor;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
@@ -96,9 +94,7 @@ public class SupervisorRestController {
             try {
                 Supervisor updatedSupervisor = supervisorRestService.updateSupervisor(id, supervisor);
                 return updatedSupervisor;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }

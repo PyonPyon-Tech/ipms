@@ -79,9 +79,7 @@ public class TechnicianRestController {
             try {
                 Technician createdTechnician = technicianRestService.createTechnician(technician);
                 return createdTechnician;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
@@ -96,9 +94,7 @@ public class TechnicianRestController {
             try {
                 Technician updatedTechnician = technicianRestService.updateTechnician(id, technician);
                 return updatedTechnician;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
@@ -133,7 +129,7 @@ public class TechnicianRestController {
         List<Schedule> schedules = technicianRestService.getTechnicianScheduleList(technicianId);
         Schedule schedule = new Schedule();
         for(Schedule s: schedules)  {
-            if(s.getPeriod().getId() == periodId){
+            if(s.getPeriod().getId().equals(periodId)){
                 return s;
             }
         }

@@ -83,13 +83,14 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
             throw new DataIntegrityViolationException("Sudah ada data schedule!");
         }
         
+        Period periodRef = entityManager.getReference(Period.class, periodId);
+        
         for(Visitation scheduleVisitation : visitations)
-            if(scheduleVisitation.getDate().getMonthValue() != periodDb.findById(periodId).get().getMonth().getValue()) 
+            if(scheduleVisitation.getDate().getMonthValue() != periodRef.getMonth().getValue()) 
                 throw new IllegalStateException("Terdapat kunjungan pada bulan yang tidak sesuai!");
         
         // end check
         Supervisor supervisor = technician.getSupervisor();
-        Period periodRef = entityManager.getReference(Period.class, periodId);
 
         Schedule newSchedule = new Schedule();
         newSchedule.setPeriod(periodRef);

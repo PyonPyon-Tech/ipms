@@ -79,9 +79,7 @@ public class AdministratorRestController {
             try {
                 Administrator createdAdministrator = administratorRestService.createAdministrator(administrator);
                 return createdAdministrator;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
@@ -96,9 +94,7 @@ public class AdministratorRestController {
             try {
                 Administrator updatedAdministrator = administratorRestService.updateAdministrator(id, administrator);
                 return updatedAdministrator;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
