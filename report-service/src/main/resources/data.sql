@@ -1,16 +1,16 @@
 INSERT IGNORE INTO `period` (`id`, `month`, `year`) VALUES
-	('1', '1', '2023'),
-	('2', '2', '2023'),
-	('3', '3', '2023'),
-	('4', '4', '2023'),
-	('5', '5', '2023'),
-	('6', '6', '2023'),
-	('7', '7', '2023'),
-	('8', '8', '2023'),
-	('9', '9', '2023'),
-	('10', '10', '2023'),
-	('11', '11', '2023'),
-	('12', '12', '2023');
+	('1', '0', '2023'),
+	('2', '1', '2023'),
+	('3', '2', '2023'),
+	('4', '3', '2023'),
+	('5', '4', '2023'),
+	('6', '5', '2023'),
+	('7', '6', '2023'),
+	('8', '7', '2023'),
+	('9', '8', '2023'),
+	('10', '9', '2023'),
+	('11', '10', '2023'),
+	('12', '11', '2023');
 
 INSERT IGNORE INTO `user` (`uuid`, `is_employee`, `nama`, `password`, `role`, `username`, `is_active`) VALUES
 	('f614eab0-bcd0-11ed-afa1-0242ac120002 ', '1', 'si manajer', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '1', 'manajer', '1'),
@@ -45,17 +45,16 @@ INSERT IGNORE INTO `technician` (`id`, `address`, `birth_date`, `birth_location`
 	('2', 'Jln Teknisi', '2000-12-1', 'Jakarta', '628567681249', 'Jakarta Barat', '1', '2023-03-20 0:00:01', '1', 'f614eab0-bcd0-11ed-afa1-0242ac120006'),
 	('3', 'Jln Teknisi', '2000-12-1', 'Jakarta', '628567681249', 'Depok', '1', '2023-03-20 0:00:01', '2', 'f614eab0-bcd0-11ed-afa1-0242ac120008');
 
-
-INSERT IGNORE INTO `customer` (`id`, `user_id`) VALUES
-	('1', 'f614eab0-bcd0-11ed-afa1-0242ac120009'),
-	('2', 'f614eab0-bcd0-11ed-afa1-0242ac120010'),
-	('3', 'f614eab0-bcd0-11ed-afa1-0242ac120011'),
-	('4', 'f614eab0-bcd0-11ed-afa1-0242ac120012'),
-	('5', 'f614eab0-bcd0-11ed-afa1-0242ac120013'),
-	('6', 'f614eab0-bcd0-11ed-afa1-0242ac120014'),
-	('7', 'f614eab0-bcd0-11ed-afa1-0242ac120015'),
-	('8', 'f614eab0-bcd0-11ed-afa1-0242ac120016'),
-	('9', 'f614eab0-bcd0-11ed-afa1-0242ac120017');
+INSERT IGNORE INTO `customer` (`user_id`, `contact`, `visitation_frequency`, `start_contract`, `end_contract`) VALUES
+    ('f614eab0-bcd0-11ed-afa1-0242ac120009', '81234567890', '2', '2023-01-01', '2024-01-01'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120010', '81234567890', '3', '2023-01-02', '2024-01-02'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120011', '81234567890', '2', '2023-01-03', '2024-01-03'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120012', '81234567890', '3', '2023-01-04', '2024-01-04'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120013', '81234567890', '4', '2023-01-05', '2024-01-05'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120014', '81234567890', '2', '2023-01-06', '2024-01-06'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120015', '81234567890', '3', '2023-01-07', '2024-01-07'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120016', '81234567890', '2', '2023-01-08', '2024-01-08'),
+    ('f614eab0-bcd0-11ed-afa1-0242ac120017', '81234567890', '2', '2023-01-09', '2024-01-09');
 
 INSERT IGNORE INTO `outlet` (`id`, `name`, `address`, `region`, `customer_id`, `supervisor_id`, `technician_id`, `is_active`) VALUES
 	('1', 'Burger King 1', 'Jln Kucing 1', 'Jakarta Pusat', '1', '1', '1', '1'),
@@ -364,3 +363,4 @@ INSERT IGNORE INTO `csr_recommendation` (`id`, `finding_id`, `recommendation`) V
 	('42', '27', 'Memastikan tidak ada ceceran produk di lantai, di rak dan lainnya'),
 	('43', '28', 'Memastikan sebelum treatment, semua makanan disimpan di kemasan tertutup'),
 	('44', '29', 'Memastikan semua lemari / kabinet bisa dibuka pada saat treatment agar tidak ada tempat bagi hama untuk bersembunyi');
+
