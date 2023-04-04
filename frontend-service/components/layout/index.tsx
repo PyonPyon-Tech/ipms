@@ -3,6 +3,7 @@ import { FC, ReactNode, useState } from "react";
 import { Greetings } from "./greetings";
 import { SideBar } from "./sidebar";
 import { SideMenu } from "./sidemenu";
+import Breadcrumbs  from "./breadcrumbs";
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
