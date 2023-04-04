@@ -1,6 +1,5 @@
 package com.pyonpyontech.customerservice.model.customer;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -29,12 +29,24 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
-    
+
+    @Column(name = "contact", nullable = false)
+    private String contact;
+
+    @Column(name = "visitation_frequency", nullable = true)
+    private Integer visitationFrequency;
+
+    @Column(name = "start_contract", nullable = false)
+    private LocalDate startContract;
+
+    @Column(name = "end_contract", nullable = false)
+    private LocalDate endContract;
+
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIncludeProperties({"id", "name", "region", "address", "supervisor"})
+    @JsonIgnore
     private List<Outlet> outlets;
 }

@@ -14,6 +14,15 @@ import com.pyonpyontech.employeeservice.model.pest_control.PesticideRequest;
 import com.pyonpyontech.employeeservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.employeeservice.model.pest_control.Schedule;
 
-public interface EmployeeRestService {
-    Integer verifyUsername(String username);
+public interface TechnicianRestService {
+    Technician getTechnicianById(Long id);
+    Technician getTechnicianByUsername(String username);
+    List<Technician> getTechnicianList();
+    Technician createTechnician(Technician technician);
+    Technician updateTechnician(Long id, Technician updatedTechnician);
+    List<Outlet> getTechnicianOutletList(Long id);
+    List<PesticideRequest> getTechnicianPesticideRequestList(Long id);
+    List<Map<String, Object>> getTechnicianReportList(Long id);
+    List<Schedule> getTechnicianScheduleList(Long id);
+    Technician updateTechnicianOutlets(Long id, List<Outlet> outlets);
 }

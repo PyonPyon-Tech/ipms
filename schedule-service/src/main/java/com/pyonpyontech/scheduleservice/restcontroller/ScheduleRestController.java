@@ -72,7 +72,6 @@ public class ScheduleRestController {
             try {
                 return scheduleRestService.createSchedule(visitations, periodId, principal.getName());
             } catch(NullPointerException e) {
-                e.printStackTrace();
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             } catch(Exception e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  e.getLocalizedMessage());

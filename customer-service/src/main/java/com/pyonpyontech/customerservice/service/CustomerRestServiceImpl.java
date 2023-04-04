@@ -169,7 +169,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         if(updatedOutlet.getIsActive() != null)
             targetOutlet.setIsActive(updatedOutlet.getIsActive());
         
-        if(targetOutlet.getTechnician() != null && targetOutlet.getTechnician().getSupervisor().getId() != targetOutlet.getSupervisor().getId())
+        if(targetOutlet.getTechnician() != null && !targetOutlet.getTechnician().getSupervisor().getId().equals(targetOutlet.getSupervisor().getId()))
             throw new IllegalStateException("Technician is not assigned to the provided supervisor!");
         
         Outlet savedUpdatedOutlet = outletDb.save(targetOutlet);

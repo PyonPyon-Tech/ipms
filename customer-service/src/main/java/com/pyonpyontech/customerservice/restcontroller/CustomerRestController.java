@@ -66,9 +66,7 @@ public class CustomerRestController {
             try {
                 Customer createdCustomer = customerRestService.createCustomer(customer);
                 return createdCustomer;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
