@@ -10,7 +10,7 @@ import Breadcrumbs from "./breadcrumbs";
 export const SideBar: FC<{ role: number }> = ({ role }) => {
   const {user, logout}=useAuth()
   return (
-      <aside className="fixed left-0 top-0 hidden h-screen w-1/4 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-32 md:flex scrollbar-hide pl-8 md:pl-10">
+      <aside className="fixed left-0 top-0 hidden h-screen w-1/4 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-24 md:flex scrollbar-hide pl-8 md:pl-10">
         <div className="w-full flex flex-col">
           <Greetings />
           <Breadcrumbs />
