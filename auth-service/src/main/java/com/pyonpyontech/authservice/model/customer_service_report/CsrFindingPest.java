@@ -1,8 +1,6 @@
 package com.pyonpyontech.authservice.model.customer_service_report;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.pyonpyontech.authservice.model.pest_control.Pest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,22 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrFinding {
+public class CsrFindingPest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "area_id", nullable = false)
-    private CsrArea area;
+    @JoinColumn(name = "pest_id", nullable = false)
+    private Pest pest;
 
-    @Column(nullable = false)
-    private Integer number;
-
-    @Column(name = "question", nullable = false)
-    private String question;
-
-    @OneToMany(mappedBy = "finding")
-    private List<CsrRecommendation> reccomendations;
+    @ElementCollection
+    @CollectionTable(name = "csr_finding_pest_reccomendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "reccomendation")
+    private List<String> reccomendations;
 }

@@ -31,10 +31,10 @@ public class CsrReport {
     private Long id;
 
     @Column(nullable = false)
-    private int reportType;
+    private Integer reportType;
 
     @Column(nullable = false)
-    private int visitationType;
+    private Integer visitationType;
 
     @OneToOne
     @JoinColumn(name = "feedback_id")
@@ -72,9 +72,6 @@ public class CsrReport {
 
     @OneToMany(mappedBy = "report")
     private List<CsrDetailPest> detailPests;
-
-    @OneToOne(mappedBy = "report")
-    private CsrDetailAction detailAction;
 
     @OneToMany(mappedBy = "report")
     private List<CsrPesticideUsage> pesticideUsages;

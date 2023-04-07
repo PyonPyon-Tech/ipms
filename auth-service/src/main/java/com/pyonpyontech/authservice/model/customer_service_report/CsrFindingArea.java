@@ -3,7 +3,6 @@ package com.pyonpyontech.authservice.model.customer_service_report;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.pyonpyontech.authservice.model.pest_control.Pest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,27 +17,23 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrDetailPest {
+public class CsrFindingArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @ManyToOne
-    @JoinColumn(name = "report_id", nullable = false)
-    private CsrReport report;
+    @JoinColumn(name = "area_id", nullable = false)
+    private CsrArea area;
 
-    @Column(nullable = false)
-    private String pest;
+    @Column(nullable = false, name = "number") // allow alphanumeric (ex: 1, 1.a, A, etc.)
+    private String displayNumber;
 
-    @Column(nullable = false)
-    private Integer status;
+    @Column(name = "question", nullable = false)
+    private String question;
 
     @ElementCollection
-    @CollectionTable(name = "csr_detail_pests_reccomendation", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "csr_finding_area_reccomendation", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "reccomendation")
     private List<String> reccomendations;
-
-    @Column(name = "image_url")
-    private String imageUrl;
 }
