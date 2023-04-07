@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
@@ -36,8 +37,15 @@ public class StorageRestService {
   public String uploadFile(MultipartFile file) {
     File fileObj = convertMultiPartFileToFile(file);
     String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
-    s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
-    fileObj.delete();
+    
+    try { 
+      s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+    } catch (AmazonS3Exception e) {
+      logger.error(e.getMessage());
+      throw e;
+    } finally {
+      fileObj.delete();
+    }
     
     logger.info("File uploaded: " + fileName);
     
