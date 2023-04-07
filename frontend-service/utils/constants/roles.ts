@@ -18,23 +18,50 @@ export const ROLES = [
 
 export const NAVCARDS: NavigationCardProps[][] = [
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Beranda", path: "/" },
+    { name: "Lihat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Jadwal Treatment", path: "/" },
+    { name: "Berikan Umpan Balik", path: "/" },
   ], // customer
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Beranda", path: "/" },
+    { name: "Kelola Akun Karyawan", path: "/employees" },
+    { name: "Kelola Akun Customer", path: "/customers" },
+    { name: "Buat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Jadwal Treatment", path: "/schedules" },
+    { name: "Alokasi Ulang Jadwal Treatment", path: "/" },
+    { name: "Kelola Supervisor Outlet", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Lihat Umpan Balik", path: "/" },
   ], // manager
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Beranda", path: "/" },
+    { name: "Kelola Akun Customer", path: "/customers" },
+    { name: "Lihat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Jadwal Treatment", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Lihat Umpan Balik", path: "/" },
   ], // administrator
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Beranda", path: "/" },
+    { name: "Kelola Penanggung Jawab Outlet", path: "/assignments" },
+    { name: "Buat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Jadwal Treatment", path: "/schedules" },
+    { name: "Setujui Jadwal Treatment", path: "/schedules" },
+    { name: "Alokasi Ulang Jadwal Treatment", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Lihat Umpan Balik", path: "/" },
   ], // supervisor
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Beranda", path: "/" },
+    { name: "Buat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Laporan Treatment ECO-101", path: "/" },
+    { name: "Lihat Jadwal Treatment", path: "/" },
+    { name: "Ajukan Jadwal Treatment", path: "/" },
+    { name: "Alokasi Ulang Jadwal Treatment", path: "/" },
+    { name: "Stok Chemical Saya", path: "/" },
+    { name: "Lihat Umpan Balik", path: "/" },
   ], // teknisi
 ];
