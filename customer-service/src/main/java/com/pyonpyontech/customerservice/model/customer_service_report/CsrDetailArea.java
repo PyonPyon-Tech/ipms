@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Getter
@@ -45,4 +47,7 @@ public class CsrDetailArea {
     @CollectionTable(name = "csr_detail_area_recommendation", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "recommendation")
     private List<String> recommendation;
+    
+    @Column(name = "image_url")
+    private String imageUrl;
 }
