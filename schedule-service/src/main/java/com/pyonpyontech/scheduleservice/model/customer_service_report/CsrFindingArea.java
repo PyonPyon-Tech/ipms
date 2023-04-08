@@ -17,22 +17,23 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrFinding {
+public class CsrFindingArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "area_id", nullable = false)
     private CsrArea area;
 
-    @Column(nullable = false)
-    private Integer number;
+    @Column(nullable = false, name = "number") // allow alphanumeric (ex: 1, 1.a, A, etc.)
+    private String displayNumber;
 
     @Column(name = "question", nullable = false)
     private String question;
 
-    @OneToMany(mappedBy = "finding")
-    private List<CsrRecommendation> reccomendations;
+    @ElementCollection
+    @CollectionTable(name = "csr_finding_area_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendations;
 }
