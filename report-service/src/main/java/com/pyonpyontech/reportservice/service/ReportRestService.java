@@ -69,7 +69,11 @@ public class ReportRestService {
         if(report.isEmpty()){
             throw new NoSuchElementException();
         }
-        return report.get();
+        CsrReport r = report.get();
+        for(CsrDetailArea detailArea: r.getDetailAreas()){
+            detailArea.getArea().setFindings(new ArrayList<>());
+        }
+        return r;
     }
 
     public SummaryReport summaryReport(Long id){

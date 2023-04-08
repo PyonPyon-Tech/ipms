@@ -1,5 +1,6 @@
 package com.pyonpyontech.reportservice.model.customer_service_report;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
