@@ -364,7 +364,7 @@ INSERT IGNORE INTO `csr_finding_area_recommendation` (`id`, `recommendation`) VA
 	('28', 'Memastikan sebelum treatment, semua makanan disimpan di kemasan tertutup'),
 	('29', 'Memastikan semua lemari / kabinet bisa dibuka pada saat treatment agar tidak ada tempat bagi hama untuk bersembunyi');
 
-INSERT INTO `csr_finding_pest` (`id`, `pest_id`) VALUES
+INSERT IGNORE INTO `csr_finding_pest` (`id`, `pest_id`) VALUES
 	('1', '1'),
 	('2', '2'),
 	('3', '3'),

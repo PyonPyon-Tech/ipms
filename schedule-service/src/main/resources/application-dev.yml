@@ -19,10 +19,10 @@ spring:
     hibernate.ddl-auto: update
 
     show-sql: true
-
-  sql:
-    init:
-      mode: always
+#
+#  sql:
+#    init:
+#      mode: always
 
   main:
     allow-circular-references: true

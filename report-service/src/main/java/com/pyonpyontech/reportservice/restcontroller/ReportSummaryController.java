@@ -31,6 +31,7 @@ public class ReportSummaryController {
     private List<SummaryReport> summaryReports(
             @PathVariable("period") Long period,
             Principal principal){
+        System.out.println("-----------------------");
         Integer role = userRestService.getRole(principal);
         String username = principal.getName();
         logger.info(username+ " visits: /reports/summary/"+period);

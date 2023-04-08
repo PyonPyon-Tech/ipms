@@ -1,8 +1,6 @@
 package com.pyonpyontech.reportservice.restcontroller;
 
-import com.pyonpyontech.reportservice.dto.ReportFormDTO;
 import com.pyonpyontech.reportservice.dto.RequestFormDTO;
-import com.pyonpyontech.reportservice.dto.SummaryReport;
 import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
@@ -13,15 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -49,7 +44,7 @@ public class ReportController {
         }
     }
     @PostMapping("")
-    private Map<String, Object> createReport(@Valid @RequestBody ReportFormDTO form, BindingResult bindingResult, Principal principal) {
+    private Map<String, Object> createReport(@RequestBody CsrReport form, BindingResult bindingResult, Principal principal) {
         logger.info("Create Report Called");
         if (bindingResult.hasFieldErrors()) {
             logger.error("Has field Error");
@@ -65,9 +60,9 @@ public class ReportController {
             HashMap<String, Object> responseMap = new HashMap<>();
             responseMap.put("id", report.getId());
             return responseMap;
-        } catch (Exception e) {
+        } catch (ResponseStatusException e) {
             logger.error("error " + e.getLocalizedMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            throw new ResponseStatusException(e.getStatus(), e.getLocalizedMessage());
         }
     }
     @GetMapping(value = "/detail/{id}")
