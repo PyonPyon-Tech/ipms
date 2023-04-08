@@ -1,14 +1,13 @@
 package com.pyonpyontech.reportservice.model.customer_service_report;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.pyonpyontech.reportservice.model.pest_control.Pest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,17 +15,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrRecommendation {
+public class CsrFindingPest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "recommendation", nullable = false, columnDefinition = "TEXT")
-    private String recommendation;
-
     @ManyToOne
-    @JoinColumn(name="finding_id", nullable=false)
-    @JsonIgnore
-    private CsrFinding finding;
+    @JoinColumn(name = "pest_id", nullable = false)
+    private Pest pest;
+
+    @ElementCollection
+    @CollectionTable(name = "csr_finding_pest_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendations;
 }

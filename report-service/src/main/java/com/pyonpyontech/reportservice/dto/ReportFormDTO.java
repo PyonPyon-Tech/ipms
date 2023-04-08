@@ -3,7 +3,6 @@ package com.pyonpyontech.reportservice.dto;
 import com.pyonpyontech.reportservice.model.Period;
 import com.pyonpyontech.reportservice.model.customer.Outlet;
 import com.pyonpyontech.reportservice.model.customer_service_report.*;
-import com.pyonpyontech.reportservice.model.pest_control.Pest;
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public class ReportFormDTO {
         return  this;
     }
     /**
-     * create new report based on form by linking each properties with report and referenced entity
+     * create new report based on form by linking each property with report and referenced entity
      * @return   new CsrReport
      */
     public CsrReport toCsrReport(){
@@ -57,9 +56,9 @@ public class ReportFormDTO {
         report.setVisitationPhoto(this.visitationPhoto);
 
         // set detail action
-        report.setDetailAction(new CsrDetailAction());
-        report.getDetailAction().setAction(this.detailActions);
-        report.getDetailAction().setReport(report);
+//        report.setDetailAction(new CsrDetailAction());
+//        report.getDetailAction().setAction(this.detailActions);
+//        report.getDetailAction().setReport(report);
 
         // set referenced properties
         Outlet outletRef = em.getReference(Outlet.class, outletId);
@@ -108,24 +107,14 @@ class DetailArea {
 
      CsrDetailArea toCsrDetailArea(CsrReport report){
         CsrDetailArea detailArea = new CsrDetailArea();
-        detailArea.setNumber(this.number);
+//        detailArea.setNumber(this.number);
         detailArea.setFinding(this.finding);
-        detailArea.setAnswer(this.answer);
+//        detailArea.setAnswer(this.answer);
         detailArea.setReport(report);
         return detailArea;
     }
 }
-//@Setter
-//@Getter
-//class DetailAction{
-//    private String action;
-//    CsrDetailAction toCsrDetailAction(CsrReport report){
-//        CsrDetailAction detailAction = new CsrDetailAction();
-//        detailAction.setAction(this.action);
-//        detailAction.setReport(report);
-//        return detailAction;
-//    }
-//}
+
 @Setter
 @Getter
 class DetailPest{
@@ -140,9 +129,9 @@ class DetailPest{
     }
     CsrDetailPest toCsrDetailPest(CsrReport report){
         CsrDetailPest detailPest = new CsrDetailPest();
-        Pest pest = em.getReference(Pest.class, pestId);
-        detailPest.setPest(pest);
-        detailPest.setPestName(this.pestName);
+//        Pest pest = em.getReference(Pest.class, pestId);
+//        detailPest.setPest(pest);
+//        detailPest.setPestName(this.pestName);
         detailPest.setStatus(this.status);
         detailPest.setReport(report);
         return detailPest;

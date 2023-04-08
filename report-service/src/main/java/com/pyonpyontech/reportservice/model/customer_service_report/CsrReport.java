@@ -73,9 +73,6 @@ public class CsrReport {
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<CsrDetailPest> detailPests;
 
-    @OneToOne(mappedBy = "report",  cascade = CascadeType.ALL)
-    private CsrDetailAction detailAction;
-
     @OneToMany(mappedBy = "report",  cascade = CascadeType.ALL)
     private List<CsrPesticideUsage> pesticideUsages;
 }
