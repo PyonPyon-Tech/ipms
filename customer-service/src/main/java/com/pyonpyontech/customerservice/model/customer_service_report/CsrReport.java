@@ -84,10 +84,6 @@ public class CsrReport {
     @JsonIgnore
     private List<CsrDetailPest> detailPests;
 
-    @OneToOne(mappedBy = "report")
-    @JsonIgnore
-    private CsrDetailAction detailAction;
-
     @OneToMany(mappedBy = "report")
     @JsonIgnore
     private List<CsrPesticideUsage> pesticideUsages;

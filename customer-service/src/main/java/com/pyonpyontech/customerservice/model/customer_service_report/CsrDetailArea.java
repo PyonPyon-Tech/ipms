@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,10 +30,17 @@ public class CsrDetailArea {
     @JoinColumn(name = "report_id", nullable = false)
     private CsrReport report;
 
-    @Column(name = "finding", nullable = false)
-    private String finding;
+    @Column(nullable = false)
+    private String pest;
 
-    @Column(name = "answer", nullable = false)
-    private String answer;
+    @Column(nullable = false)
+    private Integer status;
 
+    @ElementCollection
+    @CollectionTable(name = "csr_detail_pests_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendation;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }
