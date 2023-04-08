@@ -35,9 +35,9 @@ public class CsrDetailPest {
     private Integer status;
 
     @ElementCollection
-    @CollectionTable(name = "csr_detail_pests_reccomendation", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "reccomendation")
-    private List<String> reccomendations;
+    @CollectionTable(name = "csr_detail_pests_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendation;
 
     @Column(name = "image_url")
     private String imageUrl;

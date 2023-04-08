@@ -44,9 +44,9 @@ public class CsrDetailArea {
     private Integer status;
 
     @ElementCollection
-    @CollectionTable(name = "csr_detail_area_reccomendation", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "reccomendation")
-    private List<String> reccomendations;
+    @CollectionTable(name = "csr_detail_area_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendation;
 
     @Column(name = "image_url")
     private String imageUrl;

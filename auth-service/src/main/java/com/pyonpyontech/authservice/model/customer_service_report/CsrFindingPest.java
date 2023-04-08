@@ -26,7 +26,7 @@ public class CsrFindingPest {
     private Pest pest;
 
     @ElementCollection
-    @CollectionTable(name = "csr_finding_pest_reccomendation", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "reccomendation")
-    private List<String> reccomendations;
+    @CollectionTable(name = "csr_finding_pest_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendations;
 }
