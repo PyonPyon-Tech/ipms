@@ -3,7 +3,6 @@ package com.pyonpyontech.storageservice.model.customer_service_report;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.pyonpyontech.storageservice.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,15 +17,23 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrArea {
+public class CsrFindingArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "area_id", nullable = false)
+    private CsrArea area;
 
-    @Column(name = "area", nullable = false)
-    private String area;
+    @Column(nullable = false, name = "number") // allow alphanumeric (ex: 1, 1.a, A, etc.)
+    private String displayNumber;
 
-    @OneToMany(mappedBy = "area")
-    private List<CsrFindingArea> findings;
+    @Column(name = "question", nullable = false)
+    private String question;
+
+    @ElementCollection
+    @CollectionTable(name = "csr_finding_area_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendations;
 }
