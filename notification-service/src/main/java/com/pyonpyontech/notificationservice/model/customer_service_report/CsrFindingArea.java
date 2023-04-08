@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,16 +17,24 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class CsrRecommendation {
+public class CsrFindingArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "recommendation", nullable = false, columnDefinition = "TEXT")
-    private String recommendation;
-
     @ManyToOne
-    @JoinColumn(name="finding_id", nullable=false)
-    private CsrFinding finding;
+    @JoinColumn(name = "area_id", nullable = false)
+    private CsrArea area;
+
+    @Column(nullable = false, name = "number") // allow alphanumeric (ex: 1, 1.a, A, etc.)
+    private String displayNumber;
+
+    @Column(name = "question", nullable = false)
+    private String question;
+
+    @ElementCollection
+    @CollectionTable(name = "csr_finding_area_recommendation", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "recommendation")
+    private List<String> recommendations;
 }
