@@ -1,15 +1,12 @@
 package com.pyonpyontech.reportservice.service;
 
-import com.pyonpyontech.reportservice.dto.ReportFormDTO;
 import com.pyonpyontech.reportservice.dto.SummaryReport;
 import com.pyonpyontech.reportservice.dto.RequestFormDTO;
 import com.pyonpyontech.reportservice.model.Period;
 import com.pyonpyontech.reportservice.model.customer.Outlet;
-import com.pyonpyontech.reportservice.model.customer_service_report.CsrArea;
-import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.reportservice.model.customer_service_report.*;
 import com.pyonpyontech.reportservice.model.pest_control.Pest;
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
-import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.reportservice.repository.PeriodDb;
 import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrAreaDb;
@@ -53,10 +50,18 @@ public class ReportRestService {
         List<Pesticide> pesticides = pesticideDb.findAll();
         return new RequestFormDTO(outlets, areas, pests, pesticides);
     }
-    public CsrReport createReport(ReportFormDTO form){
-        CsrReport report = form.withEntityManager(entityManager).toCsrReport();
-        report = csrReportDb.save(report);
-        return report;
+    public CsrReport createReport(CsrReport report){
+        System.out.println(report.getEnd());
+        for(CsrDetailArea detailArea: report.getDetailAreas()){
+            detailArea.setReport(report);
+        }
+        for(CsrDetailPest detailPest: report.getDetailPests()){
+            detailPest.setReport(report);
+        }
+        for(CsrPesticideUsage pesticideUsage: report.getPesticideUsages()){
+            pesticideUsage.setReport(report);
+        }
+        return csrReportDb.save(report);
     }
 
     public CsrReport detailReport(Long id){
