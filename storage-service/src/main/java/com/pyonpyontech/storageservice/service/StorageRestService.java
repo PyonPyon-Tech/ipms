@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.UUID;
 import java.util.NoSuchElementException;
 
 @Service
@@ -34,15 +35,26 @@ public class StorageRestService {
   
   private static final Logger logger = LoggerFactory.getLogger(StorageRestService.class);
 
-  public String uploadFile(MultipartFile file) {
+  public String uploadFile(MultipartFile file, String outletId, String technicianId) {
     File fileObj = convertMultiPartFileToFile(file);
-    String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+    String originalFileName = file.getOriginalFilename();
+    
+    if (!originalFileName.contains("."))
+      return "";
+    
+    String fileName = outletId + "/"
+                      + technicianId + "/"
+                      + System.currentTimeMillis() + "-"
+                      + UUID.randomUUID().toString()
+                      + originalFileName
+                        .substring(originalFileName.lastIndexOf("."))
+                        .toLowerCase();
     
     try { 
       s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
     } catch (AmazonS3Exception e) {
       logger.error(e.getMessage());
-      throw e;
+      return "";
     } finally {
       fileObj.delete();
     }
@@ -58,12 +70,12 @@ public class StorageRestService {
     
     try {
       byte[] content = IOUtils.toByteArray(inputStream);
+      logger.info("File downloaded: " + fileName);
+      
       return content;
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
-    logger.info("File downloaded: " + fileName);
     
     return null;
   }
