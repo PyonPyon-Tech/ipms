@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -47,16 +49,18 @@ public class CsrReport {
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
     private Technician technician;
-
     @ManyToOne
     @JoinColumn(name = "outlet_id", nullable = false)
     private Outlet outlet;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime start;
+    private LocalTime start;
 
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime end;
+    private LocalTime end;
 
     @Column(name = "technician_signature", nullable = false)
     private String technicianSignature;
