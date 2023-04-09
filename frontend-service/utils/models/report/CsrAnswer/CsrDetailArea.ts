@@ -6,5 +6,5 @@ export interface CsrDetailArea {
   finding: string;
   status: number;
   recommendation: string[];
-  imageUrl: string;
+  imageUrl: string[];
 }
