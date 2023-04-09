@@ -1,28 +1,25 @@
 package com.pyonpyontech.reportservice.service;
 
 import com.pyonpyontech.reportservice.dto.SummaryReport;
-import com.pyonpyontech.reportservice.dto.RequestFormDTO;
 import com.pyonpyontech.reportservice.model.Period;
 import com.pyonpyontech.reportservice.model.customer.Outlet;
 import com.pyonpyontech.reportservice.model.customer_service_report.*;
-import com.pyonpyontech.reportservice.model.pest_control.Pest;
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
+import com.pyonpyontech.reportservice.model.pest_control.Schedule;
 import com.pyonpyontech.reportservice.repository.PeriodDb;
 import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrAreaDb;
+import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrFindingPestDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrReportDb;
-import com.pyonpyontech.reportservice.repository.pest_control.PestDb;
 import com.pyonpyontech.reportservice.repository.pest_control.PesticideDb;
+import com.pyonpyontech.reportservice.repository.pest_control.ScheduleDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,7 +27,7 @@ public class ReportRestService {
     @Autowired
     private CsrAreaDb csrAreaDb;
     @Autowired
-    private PestDb pestDb;
+    private CsrFindingPestDb findingPestDb;
     @Autowired
     private PesticideDb pesticideDb;
     @Autowired
@@ -38,17 +35,28 @@ public class ReportRestService {
     @Autowired
     private OutletDb outletDb;
     @Autowired
+    private ScheduleDb scheduleDb;
+    @Autowired
     private PeriodDb periodDb;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public RequestFormDTO createRequestForm(){
-        List<Outlet> outlets = outletDb.findAll();
+    public Map<String, Object> createRequestForm(Long technician, Long period){
+        Optional<Schedule> scheduleOpt = scheduleDb.findByPeriodAndTechnician(technician, period);
+        if(scheduleOpt.isEmpty()){
+            throw new NoSuchElementException("Anda belum punya jadwal di bulan ini");
+        }
+        List<Outlet> outlets = outletDb.findBySchedule(scheduleOpt.get().getId());
         List<CsrArea> areas = csrAreaDb.findAll();
-        List<Pest> pests = pestDb.findAll();
+        List<CsrFindingPest> pests = findingPestDb.findAll();
         List<Pesticide> pesticides = pesticideDb.findAll();
-        return new RequestFormDTO(outlets, areas, pests, pesticides);
+        Map<String, Object> result = new HashMap<>();
+        result.put("outlets", outlets);
+        result.put("areas", areas);
+        result.put("pests", pests);
+        result.put("pesticides",pesticides);
+        return result;
     }
     public CsrReport createReport(CsrReport report){
         System.out.println(report.getEnd());

@@ -1,6 +1,5 @@
 package com.pyonpyontech.reportservice.restcontroller;
 
-import com.pyonpyontech.reportservice.dto.RequestFormDTO;
 import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
@@ -30,14 +29,14 @@ public class ReportController {
     @Autowired
     private UserRestServiceImpl userRestService;
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
-    @GetMapping("")
-    private RequestFormDTO getFormData(Principal principal) {
+    @GetMapping("/{technician}/{period}")
+    private Map<String, Object> getFormData(@PathVariable("technician") Long technician, @PathVariable("period") Long period, Principal principal) {
         try {
             Integer role = userRestService.getRole(principal);
             if(role == 0) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
             }
-            return reportRestService.createRequestForm();
+            return reportRestService.createRequestForm(technician, period);
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
