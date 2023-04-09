@@ -47,6 +47,5 @@ public class Customer {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnore
     private List<Outlet> outlets;
 }
