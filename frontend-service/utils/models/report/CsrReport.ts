@@ -15,6 +15,7 @@ export interface CsrReport {
     period: Period;
     technician: EmployeeTechnician;
     outlet: OutletExtended,
+    date: string;
     start: string;
     end: string;
     technicianSignature: string;
