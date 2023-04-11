@@ -133,7 +133,7 @@ export class ScheduleClass implements Schedule {
   technicianName: string;
 
   constructor(obj: any) {
-    this.id = obj.period;
+    this.id = obj.id;
     this.period = obj.period;
     this.technician = obj.technician;
     this.supervisor = obj.supervisor;

@@ -8,7 +8,7 @@ export const NavigationCard: FC<NavigationCardProps> = ({
 }) => {
   const router = useRouter()
   return (
-    <div onClick={()=>router.push(path)} className="cursor-pointer bg-white font-semibold gap-x-2 text-xs text-blue md:py-4 md:text-base flex">
+    <div onClick={() => router.push(path)} className="cursor-pointer bg-white font-semibold gap-x-2 text-xs text-blue md:py-4 md:text-base flex">
       <h4>{name}</h4>
     </div>
   );

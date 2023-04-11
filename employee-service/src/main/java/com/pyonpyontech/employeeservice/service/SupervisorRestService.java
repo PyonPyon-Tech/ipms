@@ -22,5 +22,5 @@ public interface SupervisorRestService {
     Supervisor updateSupervisor(Long id, Supervisor updatedSupervisor);
     List<Technician> getSupervisorTechnicianList(Long id);
     List<Outlet> getSupervisorOutletList(Long id);
-    List<Schedule> getSupervisorScheduleList(Long id);
+    List<Schedule> getSupervisorScheduleList(Long id, Integer isApproved);
 }

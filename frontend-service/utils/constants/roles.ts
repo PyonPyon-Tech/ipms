@@ -49,8 +49,8 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Buat Laporan Treatment ECO-101", path: "/" },
     { name: "Lihat Laporan Treatment ECO-101", path: "/" },
     { name: "Lihat Jadwal Treatment", path: "/schedules" },
-    { name: "Setujui Jadwal Treatment", path: "/schedules" },
-    { name: "Alokasi Ulang Jadwal Treatment", path: "/" },
+    { name: "Setujui Jadwal Treatment", path: "/schedules/approve" },
+    { name: "Alokasi Ulang Jadwal Treatment", path: "/schedules/allocate" },
     { name: "Kelola Stok Chemical", path: "/" },
     { name: "Lihat Umpan Balik", path: "/" },
   ], // supervisor
