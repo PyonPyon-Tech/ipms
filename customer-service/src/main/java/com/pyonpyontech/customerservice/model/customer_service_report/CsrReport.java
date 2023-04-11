@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -56,13 +58,14 @@ public class CsrReport {
     @JsonIncludeProperties({"id", "name"})
     private Outlet outlet;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
     @Column(name = "start_time", nullable = false)
-    @JsonIgnore
-    private LocalDateTime start;
+    private LocalTime start;
 
     @Column(name = "end_time", nullable = false)
-    @JsonIgnore
-    private LocalDateTime end;
+    private LocalTime end;
 
     @Column(name = "technician_signature", nullable = false)
     @JsonIgnore
