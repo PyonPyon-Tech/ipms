@@ -126,12 +126,12 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     @Override
     public List<Visitation> updateSchedule(List<Visitation> visitations) {
         List<Visitation> toBeSaved = new ArrayList<>();
-        for(Visitation v: visitations){
+        for(Visitation v : visitations){
             Visitation currentVisitation = visitationDb.findById(v.getId()).orElse(null);
             if(currentVisitation == null){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
-            System.out.println(v.getDate());
+            
             currentVisitation.setDate(v.getDate());
             toBeSaved.add(currentVisitation);
         }

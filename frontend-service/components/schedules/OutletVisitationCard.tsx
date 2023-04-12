@@ -1,10 +1,15 @@
+import { AxiosClient, URL_SCHEDULE } from "@constants/api";
 import { classNames } from "@functions/classNames";
 import { useScheduleForm } from "@hooks/useScheduleForm";
 import { OutletVisitations } from "@models/pestcontrol/outlets";
+import { ScheduleForm } from "@models/pestcontrol/schedules";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-export const OutletVisitationCard: FC<{ data: OutletVisitations }> = ({
+export const OutletVisitationCard: FC<{ data: OutletVisitations, type: string }> = ({
   data,
+  type,
 }) => {
   const [open, setOpen] = useState(false);
   const { changeVisitDate } = useScheduleForm();
@@ -53,6 +58,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations }> = ({
                   changeVisitDate={changeVisitDate}
                   data={data}
                   index={idx}
+                  type={type}
                 />
               ))}
             </tbody>
@@ -68,14 +74,35 @@ const VisitationRow: FC<{
   id: number;
   date: string;
   data: OutletVisitations;
+  type: string;
   changeVisitDate: (outletId: number, index: number, date: string) => void;
-}> = ({ data, date, id, index, changeVisitDate }) => {
-  const [disabled, setDisabled] = useState(true);
+}> = ({ data, date, id, index, type, changeVisitDate }) => {
+  const [dateDisabled, setDateDisabled] = useState(true);
+  const [technicianDisabled, setTechnicianDisabled] = useState(true);
   const [value, setValue] = useState("");
+  const router = useRouter();
+
   useEffect(() => {
     if (!date) return;
     setValue(date);
   }, [date]);
+
+  const updateVisitation = async (visitation: {
+    id: number;
+    date: string;
+  }) => {
+    if (!id || !date) return;
+    AxiosClient.put(`${URL_SCHEDULE}/visitations`, ScheduleForm.serializeUpdateOnceForm(visitation))
+      .then((response) => {
+        toast.success("Berhasil diupdate");
+        console.log(response.data)
+      })
+      .catch((err) => {
+        toast.error("Ada masalah");
+        console.log(err);
+      });
+  };
+
   return (
     <tr key={data.outletId + "outlet" + index}>
       <td className="font-bold">{`Kunjungan ${index + 1} :`}</td>
@@ -84,46 +111,94 @@ const VisitationRow: FC<{
           onChange={(e) => {
             setValue(e.target.value);
           }}
-          disabled={disabled}
+          disabled={dateDisabled}
           className="outletDate"
           type="date"
           value={value}
         />
       </td>
       <td className="pl-4">
-        {disabled ? (
-          <div className="flex gap-x-3">
-            <div className="py-1.5 cursor-pointer px-3 bg-blue text-white rounded-md border-2 border-blue" onClick={() => setDisabled(false)}>
-              Edit
+        {type == "technician" && <div>
+          {dateDisabled ? (
+            <div className="flex gap-x-3">
+              <div className="py-1.5 cursor-pointer px-3 bg-blue text-white rounded-md border-2 border-blue" onClick={() => setDateDisabled(false)}>
+                Edit
+              </div>
+              <div className="py-1.5 cursor-pointer px-3 bg-coral-dark text-white rounded-md border-2 border-coral-bg-coral-dark" onClick={() => {
+                setDateDisabled(false)
+                setValue("")
+                changeVisitDate(data.outletId, index, "");
+              }}>
+                Hapus
+              </div>
             </div>
-            <div className="py-1.5 cursor-pointer px-3 bg-coral-dark text-white rounded-md border-2 border-coral-bg-coral-dark" onClick={() => {
-              setDisabled(false)
-              setValue("")
-              changeVisitDate(data.outletId, index, "");
-            }}>
-              Hapus
+          ) : (
+            <div className="flex gap-x-3">
+              <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
+                setValue(date)
+                setDateDisabled(true)
+              }}>
+                Batalkan
+              </div>
+              <div
+                className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
+                onClick={() => {
+                  changeVisitDate(data.outletId, index, value);
+                  setDateDisabled(true)
+                }}
+              >
+                Simpan
+              </div>
             </div>
+          )}
           </div>
-        ) : (
-          <div className="flex gap-x-3">
-            <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
-              setValue(date)
-              setDisabled(true)
-            }}>
-              Batalkan
+        }
+
+        {type == "supervisor" && <div>
+          {dateDisabled && technicianDisabled &&
+            <div className="flex gap-x-3">
+              <div className="py-1.5 cursor-pointer px-3 bg-blue text-white rounded-md border-2 border-coral-bg-coral-dark" onClick={() => setDateDisabled(false)}>
+                Ubah Jadwal
+              </div>
+              <div className="py-1.5 cursor-pointer px-3 bg-orange text-white rounded-md border-2 border-coral-bg-coral-dark" onClick={() => setTechnicianDisabled(false)}>
+                Ubah Teknisi
+              </div>
             </div>
-            <div
-              className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
-              onClick={() => {
-                changeVisitDate(data.outletId, index, value);
-                setDisabled(true)
-              }}
-            >
-              Simpan
+          }
+
+          {!dateDisabled &&
+            <div className="flex gap-x-3">
+              <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
+                setValue(date)
+                setDateDisabled(true)
+              }}>
+                Batalkan
+              </div>
+              <div
+                className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
+                onClick={() => {
+                  changeVisitDate(data.outletId, index, value);
+                  setDateDisabled(true);
+                  data.visitations[index].date = value;
+                  updateVisitation(data.visitations[index]);
+                }}
+              >
+                Simpan
+              </div>
             </div>
-          </div>
-        )}
-      </td>
-    </tr>
-  );
-};
+          }
+
+          {!technicianDisabled &&
+            <div className="flex gap-x-3">
+              <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
+                setTechnicianDisabled(true)
+              }}>
+                Batalkan
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </td>
+  </tr>
+)};

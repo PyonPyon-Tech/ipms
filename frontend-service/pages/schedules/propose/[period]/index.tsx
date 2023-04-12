@@ -65,7 +65,7 @@ const CreateSchedule: FC = () => {
         </div>
       </Container>
       {visitations.length > 0 && status != "Disetujui" && (
-        <OutletVisitationContainer data={visitations} />
+        <OutletVisitationContainer data={visitations} type="technician" />
       )}
     </div>
   );

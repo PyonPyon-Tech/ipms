@@ -1,5 +1,6 @@
 import { Container } from "@components/general/Container";
 import { ScheduleCalendar } from "@components/schedules/Calender";
+import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 import { ScheduleProvider } from "@contexts/schedule";
 import { withAuth } from "@functions/withAuth";
@@ -103,6 +104,9 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </Container>
+      {visitations.length > 0 && status == "Disetujui" && (
+        <OutletVisitationContainer data={visitations} type="supervisor" />
+      )}
     </div>
   );
 };

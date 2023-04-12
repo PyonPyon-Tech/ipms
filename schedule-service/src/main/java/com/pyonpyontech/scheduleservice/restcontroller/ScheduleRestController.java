@@ -78,6 +78,7 @@ public class ScheduleRestController {
             }
         }
     }
+    
     @PutMapping(value = "/visitations")
     private List<Visitation> updateSchedule(@Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
         if(bindingResult.hasFieldErrors()) {
