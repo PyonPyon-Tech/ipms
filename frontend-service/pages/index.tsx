@@ -8,10 +8,8 @@ import Breadcrumbs  from "components/layout/breadcrumbs";
 
 const Home: NextPage = () => {
   return (
-    <div className="">
-      <Breadcrumbs />
-
-      <h1>Hai Hia</h1>
+    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+      <Breadcrumbs></Breadcrumbs>
     </div>
   );
 };
