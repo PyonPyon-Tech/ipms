@@ -1,7 +1,6 @@
 import { Search } from "@components/general/Search";
 import { Title } from "@components/general/Title";
 import { InventoryContainer } from "@components/inventories/InventoryList";
-import Breadcrumbs from "@components/layout/breadcrumbs";
 import { AxiosClient, URL_INVENTORY } from "@constants/api";
 import { filterData, filterDataNested } from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
@@ -36,9 +35,9 @@ const ManageInventory: NextPage = () => {
         <div className="w-full p-8 md:p-12 md:pt-0">
             <section>
                 <Title
-                    title="Stok Barang"
+                    title="Stok Chemical"
                     action={{
-                        name: "Tambah Barang Baru",
+                        name: "Tambah Chemical Baru",
                         path: `/inventories/add`,
                     }}
                 />
