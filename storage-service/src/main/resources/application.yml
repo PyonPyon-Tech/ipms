@@ -1,0 +1,33 @@
+server:
+  address: 0.0.0.0
+  port: 8086
+  error:
+    include-message: always
+
+jwt:
+  header: Authorization
+  secret: BWpuVGk4NuWH6rEo2MPe
+  
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAZ4I2CGS4UTRAUR6R
+      secret-key: 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
+    region:
+      static: ap-southeast-3
+    stack:
+      auto: false
+      
+application:
+  bucket:
+    name: ipms-images
+    
+spring:
+  profiles:
+    default: dev
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10MB
+      max-file-size: 10MB
+      max-request-size: 10MB

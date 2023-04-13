@@ -32,5 +32,5 @@ public class SummaryReport {
         this.visitationDate = report.getStart().toLocalDate();
         this.start = report.getStart();
         this.end = report.getEnd();
-    }
+    } // To minimize size, as the detail is too big
 }
