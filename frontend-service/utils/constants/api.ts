@@ -6,6 +6,7 @@ export const URL_REPORT = `http://localhost:3000/api/v1/reports`;
 export const URL_EMPLOYEE = `http://localhost:3000/api/v1/employees`
 export const URL_SCHEDULE = `http://localhost:3000/api/v1/schedules`
 export const URL_CUSTOMER = `http://localhost:3000/api/v1/customers`;
+export const URL_INVENTORY = `http://localhost:3000/api/v1/inventory`
 
 const AxiosClient = axios.create({
   baseURL: BASE_URL,
