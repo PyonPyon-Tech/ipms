@@ -15,14 +15,14 @@ const ManageInventory: NextPage = () => {
     const [pesticides, setPesticides] = useState<Pesticide[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const { user } = useAuth();
-    useEffect(()=>{
-        if(!user) return;
+    useEffect(() => {
+        if (!user) return;
         async function retrieveAllInventory() {
             const results = await Promise.all([
-                AxiosClient.get(`${URL_INVENTORY}/pesticides`)
+                AxiosClient.get(`${URL_INVENTORY}/pesticides`),
             ]);
-            const data:Pesticide[] = [];
-            results.forEach((result) =>{
+            const data: Pesticide[] = [];
+            results.forEach((result) => {
                 result.data.forEach((pesticide: any) => {
                     data.push(new PesticideClass(pesticide));
                 });
@@ -34,13 +34,12 @@ const ManageInventory: NextPage = () => {
     }, [user]);
     return (
         <div className="w-full p-8 md:p-12 md:pt-0">
-            <Breadcrumbs/>
             <section>
                 <Title
-                    title="Stok Chemical"
+                    title="Stok Barang"
                     action={{
                         name: "Tambah Barang Baru",
-                        path: `/inventory/kelola/add`,
+                        path: `/inventory/add`,
                     }}
                 />
             </section>
@@ -51,14 +50,13 @@ const ManageInventory: NextPage = () => {
                 ></Search>{" "}
             </div>
             <section>
-            {/* Start card */}
-            <InventoryContainer
-            data={filterData<Pesticide>(
-                pesticides,
-                searchTerm,
-                ['name', 'activeIngredient'],
-            )}
-            />
+                {/* Start card */}
+                <InventoryContainer
+                    data={filterData<Pesticide>(pesticides, searchTerm, [
+                        "name",
+                        "activeIngredient",
+                    ])}
+                />
             </section>
         </div>
     );
