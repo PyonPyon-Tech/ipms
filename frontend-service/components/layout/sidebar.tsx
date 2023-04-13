@@ -4,7 +4,6 @@ import { FC } from "react";
 import { NavigationCard } from "./navcard";
 import { useAuth } from "@hooks/useAuth";
 import { Greetings } from "./greetings";
-import Breadcrumbs from "./breadcrumbs";
 
 
 export const SideBar: FC<{ role: number }> = ({ role }) => {
