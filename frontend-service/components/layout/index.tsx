@@ -16,10 +16,13 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
           className="fixed left-0 top-0 z-10 flex w-full items-center justify-between bg-blue py-2 px-8 font-bold text-blue md:py-4 md:px-10"
         >
           <div>
-            <h1 className="text-base text-white sm:text-xl md:text-4xl">IPMS</h1>
+            <h1 className="text-base text-white sm:text-xl">IPMS</h1>
+            <h2 className="md:hidden text-xs text-white  sm:text-base sm:text-xl">
+              Integrated Pest Management System
+            </h2>
           </div>
           <div>
-            <h2 className="text-xs text-white  sm:text-base md:text-2xl">
+            <h2 className="max-md:hidden text-xs text-white  sm:text-base sm:text-xl">
               Integrated Pest Management System
             </h2>
             <img
@@ -38,7 +41,11 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
           openSideMenu={openSideMenu}
           setOpenSideMenu={setOpenSideMenu}
         />
-        <div className="md:mt-28 grow overflow-x-hidden">{children}</div>
+        <div className="md:mt-24 grow overflow-x-hidden mt-8">
+          <div className="pl-8  md:pl-12 md:pb-2">
+            <Breadcrumbs />
+          </div>
+          {children}</div>
       </main>
       <footer></footer>
     </>
