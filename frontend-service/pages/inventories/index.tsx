@@ -39,7 +39,7 @@ const ManageInventory: NextPage = () => {
                     title="Stok Barang"
                     action={{
                         name: "Tambah Barang Baru",
-                        path: `/inventory/add`,
+                        path: `/inventories/add`,
                     }}
                 />
             </section>
