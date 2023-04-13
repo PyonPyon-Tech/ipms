@@ -66,12 +66,30 @@ export class ScheduleForm {
   static serializeUpdateForm(data: OutletVisitations[]): any[]{
     const result: any = [];
     data.forEach(outlet =>{
-      outlet.visitations.forEach((visitation)=>{
+      outlet.visitations.forEach((visitation) => {
         result.push(visitation)
       })
     })
-    return result
+    return result;
   }
+
+  static serializeUpdateOnceForm(visitation: {
+    id: number;
+    date: string;
+  }): any {
+    const result: any = [visitation];
+    return result;
+  }
+
+  static serializeVisitationTransferForm(visitationId: number, targetTechnicianId: number): any {
+    const result: any = {
+      visitation: visitationId, 
+      technician: targetTechnicianId,
+    };
+    
+    return result;
+  }
+
   static serializeCreateForm(data: OutletVisitations[]): any[] {
     const result: any = [];
     data.forEach((outlet) => {
@@ -133,7 +151,7 @@ export class ScheduleClass implements Schedule {
   technicianName: string;
 
   constructor(obj: any) {
-    this.id = obj.period;
+    this.id = obj.id;
     this.period = obj.period;
     this.technician = obj.technician;
     this.supervisor = obj.supervisor;
