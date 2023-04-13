@@ -12,7 +12,6 @@ const Breadcrumbs = (props: any) => {
   const { router } = props;
   const  { pathname } = router;
   const pathnames = pathname.split("/");
-  console.log(pathnames);
   return (
     <div role="presentation">
       <MUIBreadcrumbs aria-label="breadcrumb">

@@ -3,16 +3,17 @@ import { Pest } from "@models/pestcontrol/Pest";
 import { CsrArea } from "@models/report/CsrQuestion/CsrFindingArea";
 import { Pesticide } from "@models/pestcontrol/Pesticide";
 import { CsrDetailAreaField, CsrDetailPestField, CsrReportField } from "./CsrReportField";
+import { CsrFindingPest } from "./CsrQuestion/CsrFindingPest";
 
 export interface CsrInitialData {
   areas: CsrArea[];
-  pests: Pest[];
+  pests: CsrFindingPest[];
   outlets: Outlet[];
   pesticides: Pesticide[];
 }
 export class CsrInitialDataClass implements CsrInitialData {
   areas: CsrArea[];
-  pests: Pest[];
+  pests: CsrFindingPest[];
   outlets: Outlet[];
   pesticides: Pesticide[];
 
@@ -33,7 +34,7 @@ export class CsrInitialDataClass implements CsrInitialData {
           displayNumber: y.displayNumber,
           finding: y.question,
           status: -1,
-          recommendation: y.recommendation,
+          recommendation: y.recommendations,
           image: []
         })
       })

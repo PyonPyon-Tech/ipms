@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  async rewrites() {
+  async rewrites() { // TODO: INI HARUS DIHAPUS DI PRODUCTION
     return [
       {
         source: '/api/v1/authenticate/:path*',

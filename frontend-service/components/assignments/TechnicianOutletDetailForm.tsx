@@ -91,7 +91,7 @@ export const TechnicianOutletsDetailForm: FC<{
     </div>
   );
 };
-const MyOption: ComponentType<
+export const MyOption: ComponentType<
   OptionProps<
     {
       value: number;
@@ -119,7 +119,7 @@ const MyOption: ComponentType<
           props.isSelected ? "" : "border-b border-blue-light"
         }`}
       >
-        {props.data.address}
+        {(props.data as any).address}
       </p>
     </div>
   );
