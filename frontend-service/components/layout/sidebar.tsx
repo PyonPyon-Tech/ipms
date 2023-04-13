@@ -9,7 +9,7 @@ import { Greetings } from "./greetings";
 export const SideBar: FC<{ role: number }> = ({ role }) => {
   const {user, logout}=useAuth()
   return (
-      <aside className="fixed left-0 top-0 hidden h-screen w-1/4 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-24 md:flex scrollbar-hide">
+      <aside className="fixed left-0 top-0 hidden h-screen w-1/3 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-24 md:flex scrollbar-hide">
         <div className="w-full flex flex-col">
           <div className="pl-8  md:pl-10">
             <Greetings />

@@ -35,7 +35,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       </header>
       <main className="mt-16 flex md:mt-0 min-h-screen">
         <SideBar role={user?.role ?? 4} />
-        <div className="hidden md:flex w-1/3 min-w-[300px] max-w-[360px] " />
+        <div className="hidden md:flex w-1/3 min-w-[192px] max-w-[360px] " />
         <SideMenu
           role={user?.role ?? 4}
           openSideMenu={openSideMenu}
