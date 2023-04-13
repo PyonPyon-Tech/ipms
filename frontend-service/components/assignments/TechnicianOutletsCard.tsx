@@ -8,8 +8,8 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
   const router = useRouter();
   return (
     <div
-      style={{ boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)" }}
-      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-lg py-2 px-4 md:py-4 md:px-12"
+      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)"}}
+      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12"
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         <img
