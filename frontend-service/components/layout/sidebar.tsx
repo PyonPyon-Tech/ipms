@@ -4,16 +4,13 @@ import { FC } from "react";
 import { NavigationCard } from "./navcard";
 import { useAuth } from "@hooks/useAuth";
 import { Greetings } from "./greetings";
+import Breadcrumbs from "@components/layout/breadcrumbs";
 
 
 export const SideBar: FC<{ role: number }> = ({ role }) => {
   const {user, logout}=useAuth()
   return (
-<<<<<<< HEAD
-      <aside className="fixed left-0 top-0 hidden h-screen w-1/4 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-20 md:flex scrollbar-hide pl-8 md:pl-10">
-=======
       <aside className="fixed left-0 top-0 hidden h-screen w-1/3 max-w-[360px] overflow-y-scroll items-start bg-white drop-shadow-xl pt-24 md:flex scrollbar-hide">
->>>>>>> 7b1c404669f1113f4ac960580b93205d610314ee
         <div className="w-full flex flex-col">
           <Greetings />
           <Breadcrumbs />
