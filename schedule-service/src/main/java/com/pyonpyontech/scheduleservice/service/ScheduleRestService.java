@@ -19,5 +19,5 @@ public interface ScheduleRestService {
 
     Period findPeriod(Long month, Long year);
     Schedule approveSchedule(Long technicianId, Long periodId, String comment, Integer isApproved);
-
+    Visitation transferVisitation(Long visitationId, Long targetTechnicianId, String supervisorUsername);
 }

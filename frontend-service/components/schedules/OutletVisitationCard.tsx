@@ -1,15 +1,21 @@
 import { AxiosClient, URL_SCHEDULE } from "@constants/api";
+import { MyOption } from "@contexts/optionProps";
 import { classNames } from "@functions/classNames";
 import { useScheduleForm } from "@hooks/useScheduleForm";
+import { EmployeeClass } from "@models/pestcontrol/employee";
 import { OutletVisitations } from "@models/pestcontrol/outlets";
 import { ScheduleForm } from "@models/pestcontrol/schedules";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import Select from "react-select";
 import toast from "react-hot-toast";
 
-export const OutletVisitationCard: FC<{ data: OutletVisitations, type: string }> = ({
+export const OutletVisitationCard: FC<{ data: OutletVisitations, 
+                                        type: string,
+                                        technicians?: EmployeeClass[], }> = ({
   data,
   type,
+  technicians
 }) => {
   const [open, setOpen] = useState(false);
   const { changeVisitDate } = useScheduleForm();
@@ -27,8 +33,8 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations, type: string }>
         )}
       />
       <h4 className="card-title">{data.outletName}</h4>
-      <table className="my-1 table-auto text-xs md:text-sm">
-        <tbody>
+      <table className="my-1 text-xs md:text-sm">
+        <tbody className="w-full">
           <tr>
             <td>Alamat</td>
             <td className="px-2">:</td>
@@ -58,6 +64,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations, type: string }>
                   changeVisitDate={changeVisitDate}
                   data={data}
                   index={idx}
+                  technicians={technicians ?? []}
                   type={type}
                 />
               ))}
@@ -75,8 +82,9 @@ const VisitationRow: FC<{
   date: string;
   data: OutletVisitations;
   type: string;
+  technicians: EmployeeClass[];
   changeVisitDate: (outletId: number, index: number, date: string) => void;
-}> = ({ data, date, id, index, type, changeVisitDate }) => {
+}> = ({ data, date, id, index, type, technicians, changeVisitDate }) => {
   const [dateDisabled, setDateDisabled] = useState(true);
   const [technicianDisabled, setTechnicianDisabled] = useState(true);
   const [value, setValue] = useState("");
@@ -189,11 +197,34 @@ const VisitationRow: FC<{
           }
 
           {!technicianDisabled &&
-            <div className="flex gap-x-3">
+            <div className="flex gap-x-3 items-baseline">
+              <div className="w-48">
+                <Select
+                  options={technicians.map((technician: EmployeeClass) => {
+                    return {
+                      value: technician.id,
+                      label: technician.user.name,
+                    };
+                  })}
+                  components={{ Option: MyOption }}
+                  styles={{
+                    control: base => ({
+                      ...base,
+                      height: '100%',
+                      minHeight: '100%'
+                    })
+                  }}
+                />
+              </div>
               <div className="py-1.5 cursor-pointer px-3 text-coral rounded-md border-2 border-coral" onClick={() => {
                 setTechnicianDisabled(true)
               }}>
                 Batalkan
+              </div>
+              <div
+                className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
+              >
+                Simpan
               </div>
             </div>
           }
