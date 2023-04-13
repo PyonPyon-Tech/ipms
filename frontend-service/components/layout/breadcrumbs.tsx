@@ -14,6 +14,7 @@ const Breadcrumbs = (props: any) => {
   const pathnames = asPath.split("/").filter((x: any) => x);
   const ignores = [
     "administrators",
+    "outlets"
   ];
   // console.log(pathnames);
   return (

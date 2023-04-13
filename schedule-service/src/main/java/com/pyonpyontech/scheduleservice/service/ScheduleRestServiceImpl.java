@@ -41,8 +41,13 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     
     @Autowired
     private PeriodDb periodDb;
+    
     @Autowired
     private TechnicianDb technicianDb;
+    
+    @Autowired
+    private SupervisorDb supervisorDb;
+    
     @Autowired
     private OutletDb outletDb;
     
@@ -126,12 +131,12 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     @Override
     public List<Visitation> updateSchedule(List<Visitation> visitations) {
         List<Visitation> toBeSaved = new ArrayList<>();
-        for(Visitation v: visitations){
+        for(Visitation v : visitations){
             Visitation currentVisitation = visitationDb.findById(v.getId()).orElse(null);
             if(currentVisitation == null){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
-            System.out.println(v.getDate());
+            
             currentVisitation.setDate(v.getDate());
             toBeSaved.add(currentVisitation);
         }
@@ -167,6 +172,36 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         return visitationDb.findBySchedulePeriodId(scheduleId, periodId);
     }
     
+    @Override
+    public Visitation transferVisitation(Long visitationId, Long targetTechnicianId, String supervisorUsername) {
+        Optional<Supervisor> supervisorOptional = supervisorDb.findByUsername(supervisorUsername);
+        Optional<Technician> targetTechnicianOptional = technicianDb.findById(targetTechnicianId);
+        Visitation visitation = getVisitationById(visitationId);
+        
+        if (supervisorOptional.isEmpty() 
+            || targetTechnicianOptional.isEmpty() 
+            || visitation == null) {
+            throw new NoSuchElementException();
+        }
+        
+        Supervisor supervisor = supervisorOptional.get();
+        Technician targetTechnician = targetTechnicianOptional.get();
+        
+        Schedule sourceSchedule = visitation.getSchedule();
+        Technician sourceTechnician = sourceSchedule.getTechnician();
+        Period sourcePeriod = sourceSchedule.getPeriod();
+        
+        if (targetTechnician.getSupervisor().getId() != supervisor.getId() ||
+            sourceTechnician.getSupervisor().getId() != supervisor.getId())
+            throw new IllegalStateException("Supervisor is not supervising the specified technician!");
+        
+        Schedule targetSchedule = getScheduleByTechnicianPeriodId(targetTechnician.getId(), sourcePeriod.getId());
+        visitation.setSchedule(targetSchedule);
+        Visitation transferredVisitation = visitationDb.save(visitation);
+        
+        return transferredVisitation;
+    }
+    
     private Schedule getScheduleByTechnicianPeriodId(Long technicianId, Long periodId) {
         Optional<Schedule> schedule = scheduleDb.findScheduleByPeriodAndTechnician(periodId, technicianId);
         if(schedule.isPresent()) {
@@ -189,6 +224,15 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         Optional<Period> period = periodDb.findById(id);
         if(period.isPresent()) {
             return period.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Visitation getVisitationById(Long id) {
+        Optional<Visitation> visitation = visitationDb.findById(id);
+        if(visitation.isPresent()) {
+            return visitation.get();
         } else {
             throw new NoSuchElementException();
         }
