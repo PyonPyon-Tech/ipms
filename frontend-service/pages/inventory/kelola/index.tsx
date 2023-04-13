@@ -1,19 +1,37 @@
-import { EmployeeContainer } from "@components/employees/EmployeeList";
 import { Search } from "@components/general/Search";
 import { Title } from "@components/general/Title";
+import { InventoryContainer } from "@components/inventories/InventoryList";
 import Breadcrumbs from "@components/layout/breadcrumbs";
-import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
+import { AxiosClient, URL_INVENTORY } from "@constants/api";
 import { filterData, filterDataNested } from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
-import { Employee, EmployeeClass } from "@models/pestcontrol/employee";
-import { User } from "@models/user";
-import { fontSize } from "@mui/system";
+import { Pesticide, PesticideClass } from "@models/pestcontrol/Pesticide";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 
-const SearchEmployees: NextPage = () => {
+const ManageInventory: NextPage = () => {
+    const [pesticides, setPesticides] = useState<Pesticide[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const { user } = useAuth();
+    useEffect(()=>{
+        if(!user) return;
+        async function retrieveAllInventory() {
+            const results = await Promise.all([
+                AxiosClient.get(`${URL_INVENTORY}/pesticides`)
+            ]);
+            const data:Pesticide[] = [];
+            results.forEach((result) =>{
+                result.data.forEach((pesticide: any) => {
+                    data.push(new PesticideClass(pesticide));
+                });
+            });
+            setPesticides(data);
+            console.log(pesticides);
+        }
+        retrieveAllInventory();
+    }, [user]);
     return (
         <div className="w-full p-8 md:p-12 md:pt-0">
             <Breadcrumbs/>
@@ -22,48 +40,28 @@ const SearchEmployees: NextPage = () => {
                     title="Stok Chemical"
                     action={{
                         name: "Tambah Barang Baru",
-                        path: `/inventory/kelola/tambah`,
+                        path: `/inventory/kelola/add`,
                     }}
                 />
             </section>
             <div>
                 <Search
-                    setSearchTerm={undefined}
+                    setSearchTerm={setSearchTerm}
                     placeholder={"Cari pestisida"}
                 ></Search>{" "}
             </div>
+            <section>
             {/* Start card */}
-            <div
-                style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)" }}
-                className="flex rounded-[10px] p-4 align-middle justify-between mt-4 flex-wrap"
-            >
-                <div>
-                    <div className="pb-1 text-xl text font-bold text max-lg:text-center">
-                        <h5>Ecolab Sigla R-600 Multipurpose Cleaner MPC</h5>
-                    </div>
-                    <div className="text-xs max-lg:text-center">
-                        <h5>Dosis: 175 ml cairan per 3,75 liter air </h5>
-                    </div>
-                </div>
-
-                <div className="flex gap-2 items-center max-lg:mx-auto max-lg:pt-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-teal-dark">
-                        <div>
-                            <img src="/icons/plus.svg" />
-                        </div>
-                    </div>
-                    <div>
-                        <h5 className="text-xl font-bold"> 74 </h5>
-                    </div>
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-orange">
-                        <div>
-                            <img src="/icons/minus.svg" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <InventoryContainer
+            data={filterData<Pesticide>(
+                pesticides,
+                searchTerm,
+                ['name', 'activeIngredient'],
+            )}
+            />
+            </section>
         </div>
     );
 };
 
-export default withAuth(withLayout(SearchEmployees));
+export default withAuth(withLayout(ManageInventory));

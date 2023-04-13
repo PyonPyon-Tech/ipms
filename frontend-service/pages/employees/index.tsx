@@ -29,8 +29,8 @@ const SearchEmployees: NextPage = () => {
           data.push(new EmployeeClass(employee));
         });
       });
-      console.log(data);
       setEmployees(data);
+      console.log(employees);
     }
     retrieveAllEmployees();
   }, [user]);
