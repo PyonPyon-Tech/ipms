@@ -15,7 +15,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations,
                                         technicians?: EmployeeClass[], }> = ({
   data,
   type,
-  technicians
+  technicians,
 }) => {
   const [open, setOpen] = useState(false);
   const { changeVisitDate } = useScheduleForm();
@@ -84,10 +84,12 @@ const VisitationRow: FC<{
   type: string;
   technicians: EmployeeClass[];
   changeVisitDate: (outletId: number, index: number, date: string) => void;
-}> = ({ data, date, id, index, type, technicians, changeVisitDate }) => {
+}> = ({ data, date, id, index, type, technicians, changeVisitDate, }) => {
   const [dateDisabled, setDateDisabled] = useState(true);
   const [technicianDisabled, setTechnicianDisabled] = useState(true);
   const [value, setValue] = useState("");
+  const [selectedTechnician, setSelectedTechnician] = useState<EmployeeClass>();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -111,6 +113,24 @@ const VisitationRow: FC<{
       });
   };
 
+  const transferVisitation = async (visitationId: number, targetTechnician?: EmployeeClass) => {
+    if (!visitationId || !targetTechnician) return;
+    AxiosClient.post(`${URL_SCHEDULE}/visitations/transfer`, ScheduleForm.serializeVisitationTransferForm(visitationId, targetTechnician.id))
+      .then((response) => {
+        toast.success("Berhasil diupdate");
+        router.push(window.location.pathname);
+        console.log(response.data)
+      })
+      .catch((err) => {
+        toast.error("Ada masalah");
+        console.log(err);
+      });
+  };
+
+  const selectTechnician = (t: any) => {
+    setSelectedTechnician(technicians.find((technician) => technician.id == t.value) as EmployeeClass);
+  };
+
   return (
     <tr key={data.outletId + "outlet" + index}>
       <td className="font-bold">{`Kunjungan ${index + 1} :`}</td>
@@ -125,6 +145,7 @@ const VisitationRow: FC<{
           value={value}
         />
       </td>
+      
       <td className="pl-4">
         {type == "technician" && <div>
           {dateDisabled ? (
@@ -200,6 +221,7 @@ const VisitationRow: FC<{
             <div className="flex gap-x-3 items-baseline">
               <div className="w-48">
                 <Select
+                  onChange={selectTechnician}
                   options={technicians.map((technician: EmployeeClass) => {
                     return {
                       value: technician.id,
@@ -223,6 +245,10 @@ const VisitationRow: FC<{
               </div>
               <div
                 className="py-1.5 cursor-pointer px-3 bg-teal text-white rounded-md border-2"
+                onClick={() => {
+                  let scrollY = window.scrollY;
+                  transferVisitation(id, selectedTechnician);
+                }}
               >
                 Simpan
               </div>

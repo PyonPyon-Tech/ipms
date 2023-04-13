@@ -7,9 +7,10 @@ import { OutletVisitationCard } from "./OutletVisitationCard";
 import { Employee, EmployeeClass } from "@models/pestcontrol/employee";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 
-export const OutletVisitationContainer: FC<{ data: OutletVisitations[], type: string }> = ({
+export const OutletVisitationContainer: FC<{ data: OutletVisitations[], type: string, technicianId: number }> = ({
   data,
   type,
+  technicianId,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [technicianList, setTechnicianList] = useState<EmployeeClass[]>();
@@ -18,14 +19,16 @@ export const OutletVisitationContainer: FC<{ data: OutletVisitations[], type: st
     async function retrieveAllTechnicians() {
       const result = await AxiosClient.get(`${URL_EMPLOYEE}/supervisors/technicians`);
 
-      const data: EmployeeClass[] = [];
+      const employeeData: EmployeeClass[] = [];
 
       result.data.forEach((technician: any) => {
         let technicianObj = new EmployeeClass(technician);
-        data.push(technicianObj);
+        
+        if (technicianObj.id != technicianId)
+          employeeData.push(technicianObj);
       });
 
-      setTechnicianList(data);
+      setTechnicianList(employeeData);
     }
     
     if (type === `supervisor`)

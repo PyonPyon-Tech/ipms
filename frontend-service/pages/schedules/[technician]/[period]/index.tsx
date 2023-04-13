@@ -104,8 +104,8 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </Container>
-      {visitations.length > 0 && status == "Disetujui" && (
-        <OutletVisitationContainer data={visitations} type="supervisor" />
+      {visitations.length > 0 && (
+        <OutletVisitationContainer data={visitations} type="supervisor" technicianId={technicianId} />
       )}
     </div>
   );

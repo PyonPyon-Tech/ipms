@@ -81,6 +81,15 @@ export class ScheduleForm {
     return result;
   }
 
+  static serializeVisitationTransferForm(visitationId: number, targetTechnicianId: number): any {
+    const result: any = {
+      visitation: visitationId, 
+      technician: targetTechnicianId,
+    };
+    
+    return result;
+  }
+
   static serializeCreateForm(data: OutletVisitations[]): any[] {
     const result: any = [];
     data.forEach((outlet) => {
