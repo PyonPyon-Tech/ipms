@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
+import toast from "react-hot-toast";
 
 export const CsrFormVisitationPhoto: FC = () => {
   const { control, register, setValue } = useFormContext();
@@ -9,10 +10,20 @@ export const CsrFormVisitationPhoto: FC = () => {
     accept: {
       "image/*": [],
     },
-    onDrop: (acceptedFiles) => {
-      setValue(`visitationPhoto`, acceptedFiles);
+    maxSize: 1048576 * 8,
+    maxFiles: 1,
+    onDrop: (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      console.log(fileRejections)
+      if (fileRejections.length > 0) {
+        toast.error(`Maksimal 1 foto dan 8 MB per foto`);
+        return;
+      }
+      const renamedAcceptedFiles = acceptedFiles.map(
+        (file, index) => new File([file], `visitationPhoto-${index}-${file.name}`, { type: file.type })
+      );
+      setValue(`visitationPhoto`, renamedAcceptedFiles);
       setFiles(
-        acceptedFiles.map((file) =>
+        renamedAcceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })

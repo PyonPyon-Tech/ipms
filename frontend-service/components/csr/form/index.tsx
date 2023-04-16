@@ -8,17 +8,31 @@ import { CsrFormPestFinding } from "./group/pest";
 import { CsrFormPesticideUsage } from "./group/pesticide";
 import { CsrFormSignatures } from "./group/signatures";
 import { CsrFormVisitationPhoto } from "./item/visitationPhoto";
+import { AxiosClient, URL_REPORT } from "@constants/api";
+import { toast } from "react-hot-toast";
 
 export const CsrForm: FC = () => {
-  const { initialData, getInitialData } = useCsrForm();
+  const { initialData, getInitialData, upload } = useCsrForm();
   const methods = useForm();
   const router = useRouter();
   return (
     <FormProvider {...methods}>
       <form
         className="w-0 min-w-full border"
-        onSubmit={methods.handleSubmit((e) => {
-          console.log(e);
+        onSubmit={methods.handleSubmit(async (e) => {
+          if (!upload) return;
+          console.log(e)
+          const csrData = await upload(e);
+          if (!csrData) return;
+          AxiosClient.post(URL_REPORT, csrData)
+            .then((response) => {
+              toast.success("Sukses menyimpan report");
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+              toast.error("Terdapat masalah saat menyimpan");
+            });
         })}
       >
         <CsrFormHead />

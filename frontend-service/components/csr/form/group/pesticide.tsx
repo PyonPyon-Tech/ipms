@@ -7,7 +7,7 @@ import { CsrFormPesticideUsageDetail } from "../item/pesticideUsage";
 export const CsrFormPesticideUsage: FC = () => {
   const { initialData } = useCsrForm();
   const { append, fields, remove } = useFieldArray({
-    name: "pesticideUsage",
+    name: "pesticideUsages",
   });
   if (!initialData) return <div></div>;
 

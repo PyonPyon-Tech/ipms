@@ -1,13 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
+import { toast } from "react-hot-toast";
 
 export const CsrFormAdditionalDetail: FC<{
   id: number;
   yes: boolean;
   recommendations: string[];
-  type: "area" | "pest";
+  type: "detailAreas" | "detailPests";
 }> = ({ id, yes, recommendations, type }) => {
   const namepath = `${type}.${id}`;
   const { control, register, setValue } = useFormContext();
@@ -16,10 +17,19 @@ export const CsrFormAdditionalDetail: FC<{
     accept: {
       "image/*": [],
     },
-    onDrop: (acceptedFiles) => {
-      setValue(`${namepath}.images`, acceptedFiles);
+    maxSize: 1048576 * 8,
+    maxFiles: 3,
+    onDrop: (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      if (fileRejections.length > 0) {
+        toast.error(`Maksimal 3 foto dan 8 MB per foto`);
+        return;
+      }
+      const renamedAcceptedFiles = acceptedFiles.map(
+        (file, index) => new File([file], `${type}-${id}-${index}-${file.name}`, { type: file.type })
+      );
+      setValue(`${namepath}.images`, renamedAcceptedFiles);
       setFiles(
-        acceptedFiles.map((file) =>
+        renamedAcceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -52,12 +62,13 @@ export const CsrFormAdditionalDetail: FC<{
       <div className={`mb-2 w-0 min-w-full max-w-full ${!yes && "hidden"}`}>
         <p className="mb-1 text-sm font-medium md:text-base lg:text-lg">Rekomendasi Tindakan:</p>
         <Controller
-          name={`${namepath}.recommendations`}
+          name={`${namepath}.recommendation`}
           control={control}
           render={({ field }) => (
             <CreatableSelect
               {...field}
               isMulti
+              autoFocus
               isSearchable
               placeholder="Pilih..."
               formatCreateLabel={(inputValue: string) => `Tambahkan "${inputValue}"`}
