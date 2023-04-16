@@ -9,7 +9,7 @@ export const Title: FC<{
   const router = useRouter();
   return (
     <div className="mb-4 font-bold">
-      <div className="flex items-center gap-x-4">
+      <div className="flex items-center justify-between">
         <h2 className="text-xl md:text-3xl">{title}</h2>
         {!!action && (
           <div

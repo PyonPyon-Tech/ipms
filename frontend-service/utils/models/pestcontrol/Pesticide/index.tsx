@@ -13,13 +13,12 @@ export class PesticideClass implements Pesticide {
     targets: string;
     unit: string;
     stock: number;
-  
-    constructor(obj: any) {
-      this.id = obj.id;
-      this.name = obj.name;
-      this.activeIngredient =  obj.activeIngredient
-      this.targets = obj.targets
-      this.unit = obj.unit
-      this.stock = obj.stock
+    constructor(obj: any){
+        this.id = obj.id;
+        this.name = obj.name;
+        this.activeIngredient = obj.activeIngredient;
+        this.targets = obj.targets;
+        this.unit = obj.unit;
+        this.stock = obj.stock;
     }
 }

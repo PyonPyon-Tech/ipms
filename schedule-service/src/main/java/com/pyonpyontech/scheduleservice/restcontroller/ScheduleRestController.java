@@ -17,6 +17,7 @@ import com.pyonpyontech.scheduleservice.model.pest_control.Schedule;
 import com.pyonpyontech.scheduleservice.model.pest_control.Visitation;
 
 import com.pyonpyontech.scheduleservice.service.ScheduleRestService;
+import com.pyonpyontech.scheduleservice.dto.VisitationTransferRequest;
 
 @Slf4j
 @RestController
@@ -78,6 +79,7 @@ public class ScheduleRestController {
             }
         }
     }
+    
     @PutMapping(value = "/visitations")
     private List<Visitation> updateSchedule(@Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
         if(bindingResult.hasFieldErrors()) {
@@ -98,7 +100,7 @@ public class ScheduleRestController {
         try {
             Map<String, String> result = new HashMap<>();
             Period period = scheduleRestService.findPeriod(month, year);
-            result.put("id", ""+period.getId() );
+            result.put("id", "" + period.getId());
             result.put("month", period.getMonth().name());
             result.put("year", period.getYear().toString());
             return result;
@@ -111,5 +113,14 @@ public class ScheduleRestController {
     private Schedule approveSchedule(@PathVariable("technicianId") Long technicianId, @PathVariable("periodId") Long periodId, @RequestBody Map<String, Object> payload) {
         return scheduleRestService.approveSchedule(technicianId, periodId, String.valueOf(payload.get("comment")), Integer.parseInt(String.valueOf(payload.get("isApproved"))));
     }
+    
+    @PostMapping(value = "/visitations/transfer")
+    private Visitation transferVisitation(@Valid @RequestBody VisitationTransferRequest transferRequest, 
+                                          Principal principal) {
+        return scheduleRestService.transferVisitation(transferRequest.getVisitation(), 
+                                                      transferRequest.getTechnician(), 
+                                                      principal.getName());
+    }
+    
 
 }

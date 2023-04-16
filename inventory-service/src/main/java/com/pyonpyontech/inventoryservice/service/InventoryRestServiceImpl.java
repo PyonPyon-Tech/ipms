@@ -25,6 +25,7 @@ import com.pyonpyontech.inventoryservice.repository.pest_control.employee_db.Tec
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -130,6 +131,10 @@ public class InventoryRestServiceImpl implements InventoryRestService {
         // Reset all fields that might've been supplied by user
         pesticideRequest.setId(null);
         
+        LocalDate currentDate = LocalDate.now();
+        pesticideRequest.setRequestedAt(currentDate);
+        pesticideRequest.setPeriod(getPeriodByMonthAndYear(currentDate.getMonthValue() - 1, currentDate.getYear()));
+        
         Pesticide requestedPesticide = getPesticideById(pesticideRequest.getPesticide().getId());
         
         if(requestedPesticide.getStock() < pesticideRequest.getAmount())
@@ -141,7 +146,6 @@ public class InventoryRestServiceImpl implements InventoryRestService {
         
         pesticideRequest.setPesticide(savedRequestedPesticide);
         pesticideRequest.setRequester(getTechnicianById(pesticideRequest.getRequester().getId()));
-        pesticideRequest.setPeriod(getPeriodById(pesticideRequest.getPeriod().getId()));
         
         PesticideRequest createdPesticideRequest = pesticideRequestDb.save(pesticideRequest);
         
@@ -168,6 +172,15 @@ public class InventoryRestServiceImpl implements InventoryRestService {
     
     private Period getPeriodById(Long id) {
         Optional<Period> period = periodDb.findById(id);
+        if(period.isPresent()) {
+            return period.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Period getPeriodByMonthAndYear(Integer month, Integer year) {
+        Optional<Period> period = periodDb.findByMonthAndYear(month, year);
         if(period.isPresent()) {
             return period.get();
         } else {

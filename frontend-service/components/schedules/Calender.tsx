@@ -30,12 +30,12 @@ const localizer = momentLocalizer(moment);
 export const ScheduleCalendar: FC<{ data: OutletVisitations[] }> = ({
   data,
 }) => {
-  if (data.length == 0) return null;
   const router = useRouter();
   const events: Event[] = outletVisitationsToEvent(data);
   const [date, setDate] = useState<Date>();
-  // const {} = useScheduleForm()
+  
   useEffect(() => {
+    if (data.length == 0) return;
     const events: Event[] = outletVisitationsToEvent(data);
     console.log("blabla");
     console.log(events);

@@ -15,6 +15,7 @@ export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
   const [allOutlets, setAllOutlets] = useState<Outlet[]>([]);
   const { user } = useAuth();
   const router = useRouter();
+  
   useEffect(() => {
     if (!user) return;
     async function loadAllOutlet() {
