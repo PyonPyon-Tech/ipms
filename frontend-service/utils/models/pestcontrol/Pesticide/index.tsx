@@ -8,7 +8,11 @@ export interface Pesticide {
 }
 
 export interface PesticideMutation{
-    pesticide: Pesticide;
+    name: string;
+    activeIngredient?: string;
+    stock: number;
+    targets?: string;
+    targetPests: string[];
 }
 
 export class PesticideClass implements Pesticide {
