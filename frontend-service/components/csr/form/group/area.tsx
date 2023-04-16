@@ -12,7 +12,16 @@ export const CsrFormAreaFinding: FC = () => {
         return (
           <CsrFormGroupContainer key={`area-${id}`} title={area} section={String.fromCharCode(index + 65)}>
             {findings?.map((item) => {
-              return <CsrFormFindingAreaDetail key={`area-detail-${item.id}`} {...item} />;
+              return (
+                <CsrFormFindingAreaDetail
+                  key={`area-detail-${item.id}`}
+                  {...item}
+                  area={{
+                    id: id,
+                    area: area,
+                  }}
+                />
+              );
             })}
           </CsrFormGroupContainer>
         );

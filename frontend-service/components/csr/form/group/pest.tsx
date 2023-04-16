@@ -10,7 +10,7 @@ import { CsrFormFindingPestDetail } from "../item/detailPest";
 export const CsrFormPestFinding: FC = () => {
   const { initialData } = useCsrForm();
   const { append, fields, remove } = useFieldArray({
-    name: "pest",
+    name: "detailPests",
   });
   if (!initialData) return <div></div>;
 

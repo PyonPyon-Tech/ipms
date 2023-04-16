@@ -12,7 +12,7 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
   const { initialData } = useCsrForm();
   const { register, control } = useFormContext();
   const [recommendations, setRecommendations] = useState<string[]>([]);
-  const namepath = `pest.${index}`;
+  const namepath = `detailPests.${index}`;
   const selectedPest = useWatch({
     control,
     name: `${namepath}.pest`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
@@ -31,12 +31,13 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
         <div className="mb-1 text-sm font-medium md:text-base lg:text-lg">{`(${String.fromCharCode(index + 65)}) Temuan Hama`}</div>
         <div className="mb-1 flex justify-between gap-x-3 md:gap-x-8">
           <Controller
-            name={`pest.${index}.pest`}
+            name={`${namepath}.pest`}
             control={control}
             render={({ field }) => (
               <CreatableSelect
                 {...field}
                 isSearchable
+                autoFocus
                 placeholder="Pilih Hama"
                 className="grow"
                 formatCreateLabel={(inputValue: string) => `Tambahkan Hama "${inputValue}"`}
@@ -60,29 +61,29 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
           <div className="text-sm font-medium md:text-base lg:text-lg">Level Hama:</div>
           <div className="flex items-center gap-x-2">
             <input
-              {...register(`pest.${index}.status`)}
+              {...register(`${namepath}.status`)}
               className="m-0 w-auto"
               type="radio"
-              id={`pest.${index}.status.1`}
+              id={`${namepath}.status.1`}
               value="2"
             />
-            <label htmlFor={`pest.${index}.status.1`}>Potensi</label>
+            <label htmlFor={`${namepath}.status.1`}>Potensi</label>
           </div>
           <div className="flex items-center gap-x-2">
             <input
-              {...register(`pest.${index}.status`)}
+              {...register(`${namepath}.status`)}
               className="m-0 w-auto"
               type="radio"
-              id={`pest.${index}.status.2`}
+              id={`${namepath}.status.2`}
               value="3"
             />
-            <label htmlFor={`pest.${index}.status.2`}>Aktual</label>
+            <label htmlFor={`${namepath}.status.2`}>Aktual</label>
           </div>
         </div>
         {/* ini buat foto */}
         <div className="flex items-start gap-x-4 pl-1">
           <div className="grow">
-            <CsrFormAdditionalDetail id={index} recommendations={recommendations} type="pest" yes />
+            <CsrFormAdditionalDetail id={index} recommendations={recommendations} type="detailPests" yes />
           </div>
         </div>
       </div>

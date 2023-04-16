@@ -5,10 +5,10 @@ export interface User {
     isActive: number;
     isEmployee: number;
     password?: string;
+    account?: Account
 }
 export interface Account {
     id: number;
-    user: User;
 }
 export class UserClass implements User{
     name: string;

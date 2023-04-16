@@ -9,10 +9,10 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
   remove,
 }) => {
   const { initialData } = useCsrForm();
-  const { register, control } = useFormContext();
+  const { register, control, setValue } = useFormContext();
   const [pesticideTarget, setpesticideTarget] = useState<{ target: string; dose: string }[]>([]);
   const [applicationNdosage, setApplicationNDosage] = useState("");
-  const namepath = `pesticideUsage.${index}`;
+  const namepath = `pesticideUsages.${index}`;
   const selectedBrand = useWatch({
     control,
     name: `${namepath}.name`,
@@ -28,12 +28,13 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
         dose: y.substring(0, y.length - 1),
       };
     });
-    console.log(result);
     setpesticideTarget(result ?? []);
   }, [selectedBrand]);
 
   if (!initialData) return <div></div>;
   const { pesticides } = initialData;
+  const satuan = pesticides.find((p) => p.id == selectedBrand?.value)?.unit.toUpperCase() ?? "";
+
   return (
     <div key={id} className="mb-8 flex items-baseline">
       <div className="grow">
@@ -47,6 +48,7 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
                 <Select
                   {...field}
                   isSearchable
+                  autoFocus
                   placeholder="Pilih Pestisida"
                   className="grow"
                   options={pesticides.map((pesticide) => {
@@ -75,7 +77,7 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
             }}
           />
         </div>
-        <div className="grid mb-2 grid-cols-1 gap-3 sm:grid-cols-2 md:gap-8">
+        <div className="mb-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-8">
           <div className="w-full">
             <label className="mb-1 font-bold">Hama Sasaran</label>
             <Select
@@ -108,9 +110,15 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
         <div className="mb-2 flex w-full">
           <div>
             <label className="mb-1 font-bold">
-              Jumlah Digunakan {selectedBrand && `[dalam ${pesticides.find((p) => p.id == selectedBrand?.value)?.unit.toUpperCase()}]`}
+              Jumlah Digunakan {selectedBrand && `[dalam ${satuan.toUpperCase()}]`}
             </label>
-            <input min={1} {...register(`${namepath}.amount`)} type="number" />
+            <input
+              min={1}
+              type="number"
+              onChange={(e) => {
+                setValue(`${namepath}.amount`, `${e.target.value} ${satuan.toUpperCase()}`);
+              }}
+            />
           </div>
         </div>
       </div>
