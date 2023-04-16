@@ -15,7 +15,7 @@ export const ReportListPage: NextPage = () => {
   useEffect(() => {
     if (!user) return;
     async function loadTechnicianReports() {
-      AxiosClient.get(`${URL_REPORT}/summary/2/technician/${user?.id}`)
+      AxiosClient.get(`${URL_REPORT}/summary/2/employee/${user?.id}`)
         .then((response) => {
           console.log(response.data);
           console.log("KKK")
