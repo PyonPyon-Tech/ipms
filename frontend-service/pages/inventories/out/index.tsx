@@ -12,6 +12,7 @@ import { EmployeeTechnician } from "@models/pestcontrol/employee/form";
 import { Schedule, ScheduleClass } from "@models/pestcontrol/schedules";
 import { User } from "@models/user";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const SearchInventory: NextPage = () => {
@@ -20,6 +21,10 @@ const SearchInventory: NextPage = () => {
   const [pesticides, setPesticide] = useState<Pesticide[]>([]);
   const [term, setTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const router = useRouter()
+  const klik = ()=>{
+    router.push("/reports"+id+jssj)
+  }
   const { user } = useAuth();
   useEffect(() => {
     if (!user) return;
