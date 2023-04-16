@@ -17,14 +17,12 @@ import { useEffect, useState } from "react";
 
 const SearchInventory: NextPage = () => {
 
+  const [isCart, setIsCart] = useState(false)
   const [cart, setCart] = useState<Map<number, number>>(new Map<number, number>);
   const [pesticides, setPesticide] = useState<Pesticide[]>([]);
   const [term, setTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter()
-  const klik = ()=>{
-    router.push("/reports"+id+jssj)
-  }
   const { user } = useAuth();
   useEffect(() => {
     if (!user) return;
@@ -48,7 +46,7 @@ const SearchInventory: NextPage = () => {
 <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
       <section>
         <Title
-          title="Daftar Pestisida"
+          title="Pengambilan Pestisida"
         >
           <h4>Total: {pesticides.length} pestisida</h4>
         </Title>
@@ -71,10 +69,33 @@ const SearchInventory: NextPage = () => {
         </div>
         <button className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 bg-teal`}
           onClick={() => {
-            console.log(cart);
+            if(isCart){
+              setIsCart(false)
+            }else{
+              setIsCart(true)
+            }
           }}>
-          keranjang
+            { isCart ?
+            "kembali"
+            :
+            "keranjang"
+            }
         </button>
+        {isCart?
+        <button className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 bg-teal`}
+        onClick={() => {
+          if(isCart){
+            setIsCart(false)
+          }else{
+            setIsCart(true)
+          }
+        }}>
+          submit pengambilan
+      </button>
+      :
+      <div>
+      </div>
+        }
       </section>
       <section>
         <PesticideContainer
@@ -83,6 +104,7 @@ const SearchInventory: NextPage = () => {
             searchTerm,
             ["name", "activeIngredient"]
           )}
+          isCart = {isCart}
           cart = {cart}
           setCart = {setCart}
         />
