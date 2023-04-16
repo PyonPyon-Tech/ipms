@@ -32,7 +32,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Lihat Jadwal Treatment", path: "/schedules" },
     { name: "Alokasi Ulang Jadwal Treatment", path: "/" },
     { name: "Kelola Supervisor Outlet", path: "/" },
-    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/inventories" },
     { name: "Lihat Umpan Balik", path: "/" },
   ], // manager
   [
@@ -40,7 +40,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Kelola Akun Customer", path: "/customers" },
     { name: "Lihat Laporan Treatment ECO-101", path: "/" },
     { name: "Lihat Jadwal Treatment", path: "/" },
-    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/inventories" },
     { name: "Lihat Umpan Balik", path: "/" },
   ], // administrator
   [
@@ -51,7 +51,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Lihat Jadwal Treatment", path: "/schedules" },
     { name: "Setujui Jadwal Treatment", path: "/schedules/approve" },
     { name: "Alokasi Ulang Jadwal Treatment", path: "/schedules/allocate" },
-    { name: "Kelola Stok Chemical", path: "/" },
+    { name: "Kelola Stok Chemical", path: "/inventories" },
     { name: "Lihat Umpan Balik", path: "/" },
   ], // supervisor
   [

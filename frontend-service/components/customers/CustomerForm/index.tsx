@@ -1,12 +1,10 @@
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_CUSTOMER } from "@constants/api";
-import { PATH_ROLES } from "@constants/roles";
-import { Customer, CustomerMutation } from "@models/customer/customer";
+import { CustomerMutation } from "@models/customer/customer";
 import {
   CustomerFields,
   CustomerFormFactory,
 } from "@models/customer/customer/form";
-
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { useForm } from "react-hook-form";

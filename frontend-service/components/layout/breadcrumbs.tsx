@@ -8,7 +8,7 @@ import { FC } from "react";
 import { withRouter } from "next/router";
 
 const Breadcrumbs = (props: any) => {
-  console.log(props);
+  // console.log(props);
   const { router } = props;
   const  { asPath } = router;
   const pathnames = asPath.split("/").filter((x: any) => x);
@@ -25,7 +25,7 @@ const Breadcrumbs = (props: any) => {
         </Link>
         {pathnames.map((name: string, index: any) => {
           const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-          console.log(routeTo);
+          // console.log(routeTo);
           const isLast = index === pathnames.length - 1;
           return isLast || ignores.includes(name)? (
             <Typography> {name} </Typography>
