@@ -3,9 +3,11 @@ package com.pyonpyontech.reportservice.restcontroller;
 import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
+import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
 import com.pyonpyontech.reportservice.service.ReportRestService;
 import com.pyonpyontech.reportservice.service.UserRestServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -96,5 +99,12 @@ public class ReportController {
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Report with ID " + id + " not found.");
         }
+    }
+
+    @GetMapping(value = "/technicians")
+    private List<CsrReport> retrieveAllTechniciansReports(Principal principal) {
+        UserModel user = userRestService.getUserByUsername(principal.getName());
+        Technician technician = userRestService.getTechnicianByUuid(user.getUuid());
+        return reportRestService.getReportListByTechnicianId(technician.getId());
     }
 }

@@ -147,9 +147,12 @@ public class ReportRestService {
         return summaryReports;
     }
 
-    public List<CsrReport> getReportByTechnicianId(Long technicianId){
-        Technician technician = technicianDb
-        return null;
+    public List<CsrReport> getReportListByTechnicianId(Long technicianId){
+        List<CsrReport> reportsById = csrReportDb.findByTechnicianId(technicianId);
+        if(reportsById.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return reportsById;
     }
 
 }

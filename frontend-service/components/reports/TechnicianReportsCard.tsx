@@ -1,9 +1,10 @@
-import { TechnicianOutlets } from "@models/pestcontrol/employee/technician";
+import { CsrReportClass } from "@models/report/CsrReport";
 import { Checkbox } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-export const TechnicianReportsCard: FC = ({
+export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
+  data,
 }) => {
   const router = useRouter();
   return (
@@ -15,7 +16,7 @@ export const TechnicianReportsCard: FC = ({
         <Checkbox/>
         <div className="">
           <h5 className="text-sm font-bold md:mb-1 md:text-xl">
-            {/* {data.user.name} */}Kopi Kenangan / Laporan XXXX
+            {data.outlet.name}
           </h5>
           <div>
             <table className="table-auto text-xs font-medium md:text-sm">
@@ -23,7 +24,7 @@ export const TechnicianReportsCard: FC = ({
                 <tr>
                   <td className="pr-2">Tanggal:</td>
                   <td className="pr-4">
-                    {/* {`: ${data.region}`} */}24-08-2022
+                    {data.date}
                     </td>
                 </tr>
               </tbody>
