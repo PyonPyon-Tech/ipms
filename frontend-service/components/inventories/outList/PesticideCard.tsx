@@ -64,9 +64,10 @@ export const PesticideCard: FC<{ pesticide: Pesticide,isCart: boolean, cart: Map
               </div>
               <button className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 bg-teal`}
               onClick={() => {
-                setCart(cart.set(pesticide.id,amount+1))
-                setAmount(amount+1)
-                console.log(cart);
+                if (amount < pesticide.stock){
+                  setCart(cart.set(pesticide.id,amount+1))
+                  setAmount(amount+1)
+                }
               }}>
                 +
               </button>

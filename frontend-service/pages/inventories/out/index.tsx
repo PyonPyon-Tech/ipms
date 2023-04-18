@@ -1,4 +1,5 @@
 import { Title } from "@components/general/Title";
+import { TitleInventoryOut } from "@components/inventories/outList/TitleInvOut";
 import { PesticideContainer } from "@components/inventories/outList";
 import { PesticideCard } from "@components/inventories/outList/PesticideCard";
 import { ScheduleContainer } from "@components/schedules/ScheduleContainer";
@@ -24,6 +25,12 @@ const SearchInventory: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter()
   const { user } = useAuth();
+
+  function countCart(){
+    return Array.from(cart.entries())
+    .filter(([key, value]) => value > 0)
+    .length;
+  }
   useEffect(() => {
     if (!user) return;
     async function retrieveAllPesticide() {
@@ -45,11 +52,30 @@ const SearchInventory: NextPage = () => {
   return (
 <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
       <section>
-        <Title
+        {isCart?
+        <TitleInventoryOut
+        title="Keranjang Pengambilan"
+        action={{
+          name: "Submit",
+          func: () => {setIsCart(true)},
+          }}
+        isCart = {{
+          func: () => {setIsCart(false)},
+        }}    
+        >
+          <h4>Total: {countCart()} pestisida</h4>
+        </TitleInventoryOut>
+        :
+        <TitleInventoryOut
           title="Pengambilan Pestisida"
+          action={{
+            name: "Keranjang",
+            func: () => {setIsCart(true)},
+          }} 
         >
           <h4>Total: {pesticides.length} pestisida</h4>
-        </Title>
+        </TitleInventoryOut>
+        }
         <div className="relative w-4/5 max-w-[500px]">
           <img
             src="/icons/search.svg"
@@ -67,35 +93,6 @@ const SearchInventory: NextPage = () => {
             placeholder="Cari Pestisida"
           />
         </div>
-        <button className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 bg-teal`}
-          onClick={() => {
-            if(isCart){
-              setIsCart(false)
-            }else{
-              setIsCart(true)
-            }
-          }}>
-            { isCart ?
-            "kembali"
-            :
-            "keranjang"
-            }
-        </button>
-        {isCart?
-        <button className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 bg-teal`}
-        onClick={() => {
-          if(isCart){
-            setIsCart(false)
-          }else{
-            setIsCart(true)
-          }
-        }}>
-          submit pengambilan
-      </button>
-      :
-      <div>
-      </div>
-        }
       </section>
       <section>
         <PesticideContainer
