@@ -1,24 +1,31 @@
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 
 export const Title: FC<{
     title: string;
-    action?: { name: string; path: string };
+    action?: {
+        name?: string;
+        path: string;
+        bgColor?: string;
+        textColor?: string;
+        submit?: boolean;
+    };
     children?: ReactNode;
 }> = ({ action, children, title }) => {
-    const router = useRouter();
     return (
         <div className="mb-4 font-bold">
             <div className="flex items-center justify-between">
                 <h2 className="text-xl md:text-3xl">{title}</h2>
-                {!!action && (
-                    <div
-                        onClick={() => router.push(action.path)}
-                        className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-                    >
-                        <p>{action.name}</p>
-                    </div>
-                )}
+                <div className="flex items-center justify-between">
+                    {!!action && (
+                        <button
+                            onClick={() => router.push(action.path)}
+                            className="cursor-pointer rounded-lg bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm"
+                        >
+                            <p>{action.name}</p>
+                        </button>
+                    )}
+                </div>
             </div>
             {children}
         </div>
