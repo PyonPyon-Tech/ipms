@@ -127,29 +127,34 @@ public class InventoryRestServiceImpl implements InventoryRestService {
     }
     
     @Override
-    public PesticideRequest createPesticideRequest(PesticideRequest pesticideRequest) {
+    public List<PesticideRequest> createPesticideRequest(List<PesticideRequest> lstPesticideRequest) {
         // Reset all fields that might've been supplied by user
-        pesticideRequest.setId(null);
-        
         LocalDate currentDate = LocalDate.now();
-        pesticideRequest.setRequestedAt(currentDate);
-        pesticideRequest.setPeriod(getPeriodByMonthAndYear(currentDate.getMonthValue() - 1, currentDate.getYear()));
-        
-        Pesticide requestedPesticide = getPesticideById(pesticideRequest.getPesticide().getId());
-        
-        if(requestedPesticide.getStock() < pesticideRequest.getAmount())
-            throw new IllegalStateException("There is not enough stock of the requested pesticide.");
-        
-        requestedPesticide.setStock(requestedPesticide.getStock() - pesticideRequest.getAmount());
-        
-        Pesticide savedRequestedPesticide = pesticideDb.save(requestedPesticide);
-        
-        pesticideRequest.setPesticide(savedRequestedPesticide);
-        pesticideRequest.setRequester(getTechnicianById(pesticideRequest.getRequester().getId()));
-        
-        PesticideRequest createdPesticideRequest = pesticideRequestDb.save(pesticideRequest);
-        
-        return createdPesticideRequest;
+        List<PesticideRequest> lstCreatedPesticideRequest = new ArrayList<PesticideRequest>();
+
+        for (PesticideRequest pesticideRequest : lstPesticideRequest){
+            pesticideRequest.setId(null);
+
+            pesticideRequest.setRequestedAt(currentDate);
+            pesticideRequest.setPeriod(getPeriodByMonthAndYear(currentDate.getMonthValue() - 1, currentDate.getYear()));
+
+            Pesticide requestedPesticide = getPesticideById(pesticideRequest.getPesticide().getId());
+
+            if(requestedPesticide.getStock() < pesticideRequest.getAmount())
+                throw new IllegalStateException("There is not enough stock of the requested pesticide.");
+
+            requestedPesticide.setStock(requestedPesticide.getStock() - pesticideRequest.getAmount());
+
+            Pesticide savedRequestedPesticide = pesticideDb.save(requestedPesticide);
+
+            pesticideRequest.setPesticide(savedRequestedPesticide);
+            pesticideRequest.setRequester(getTechnicianById(pesticideRequest.getRequester().getId()));
+
+//            PesticideRequest createdPesticideRequest = pesticideRequestDb.save(pesticideRequest);
+            lstCreatedPesticideRequest.add(pesticideRequest);
+        }
+
+        return pesticideRequestDb.saveAll(lstCreatedPesticideRequest);
     }
     
     private Pest getPestById(Long id) {
