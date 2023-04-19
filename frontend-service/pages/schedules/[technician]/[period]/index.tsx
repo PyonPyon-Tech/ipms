@@ -42,7 +42,7 @@ const ApproveSchedule: FC = () => {
   }, [data]);
 
   return (
-    <div className="relative w-full p-8 md:p-12 md:pt-0">
+    <div className="relative w-full">
       <div className="mb-4 font-bold">
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>

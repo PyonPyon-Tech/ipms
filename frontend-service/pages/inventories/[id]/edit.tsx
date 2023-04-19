@@ -33,7 +33,7 @@ const PesticideEdit: NextPage = () => {
     }, [user, router]);
 
 
-  return <div className="w-full p-8 md:p-12 md:pt-0">
+  return <div className="w-full">
     <Title title="Ubah Stok Chemical" />
     {!!pesticide && <PesticideEditForm {...pesticide} />}
   </div>;

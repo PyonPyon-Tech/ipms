@@ -46,7 +46,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
                     openSideMenu={openSideMenu}
                     setOpenSideMenu={setOpenSideMenu}
                 />
-                <div className="pl-8 md:pl-12 grow overflow-x-hidden md:mt-20">
+                <div className="px-8 md:px-12 grow overflow-x-hidden md:mt-20">
                   <div >
                     <Breadcrumbs/>
                   </div>

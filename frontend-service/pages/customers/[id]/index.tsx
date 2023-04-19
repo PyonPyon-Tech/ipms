@@ -43,7 +43,7 @@ const CustomerDetailPage: NextPage = () => {
   }, [user, router]);
 
   return (
-    <div className="w-full p-8 md:p-12 md:pt-0">
+    <div className="w-full">
       <section>
         <Title
           title="Detail Customer"

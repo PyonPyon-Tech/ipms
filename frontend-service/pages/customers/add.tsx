@@ -21,7 +21,7 @@ const AddCustomer: NextPage = () => {
   }, [user, router]);
 
   return (
-    <div className="mb-4 w-full pr-8 md:pr-12 md:pt-0">
+    <div className="mb-4 w-full md:pt-0">
       <section>
         <Title title="Tambah Customer" />
         {<CustomerForm />}
