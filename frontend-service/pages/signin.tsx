@@ -29,7 +29,7 @@ const SignIn: NextPage = () => {
 
   return (
     <div className="h-screen w-screen bg-blue-dark">
-      <div className="absolute left-1/2 top-1/2 w-full max-w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white px-8 py-4 sm:p-8 md:max-w-[600px] md:p-10">
+      <div className="absolute left-1/2 top-1/2 w-full max-w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-8 py-4 sm:p-8 md:max-w-[600px] md:p-10">
         <section className="font-bold text-blue">
           <h3 className="text-xl sm:text-3xl">IPMS</h3>
           <h6 className="text-xs md:text-2xl">
@@ -45,7 +45,7 @@ const SignIn: NextPage = () => {
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-lg border border-[#1E1E1E] py-2 px-4 font-normal"
+              className="w-full rounded-md border border-[#1E1E1E] py-2 px-4 font-normal"
               placeholder="username"
             />
           </div>
@@ -58,7 +58,7 @@ const SignIn: NextPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              className="w-full rounded-lg border border-[#1E1E1E] py-2 px-4 font-normal"
+              className="w-full rounded-md border border-[#1E1E1E] py-2 px-4 font-normal"
               placeholder="password"
             />
           </div>
@@ -74,7 +74,7 @@ const SignIn: NextPage = () => {
             </div>
             <div
               onClick={onLogin}
-              className="cursor-pointer rounded-2xl bg-blue py-2 px-4 text-center text-white md:w-full"
+              className="cursor-pointer rounded-md bg-blue py-2 px-4 text-center text-white md:w-full"
             >
               Log In
             </div>

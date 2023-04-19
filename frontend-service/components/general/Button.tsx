@@ -17,7 +17,7 @@ export const Button: FC<{
             {!!action && (
                 <button
                     onClick={action.func}
-                    className={`cursor-pointer rounded-lg bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm ${className}`}
+                    className={`cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm ${className}`}
                     type={submit}
                 >
                     <p>{action.name}</p>

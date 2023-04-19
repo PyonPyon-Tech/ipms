@@ -57,7 +57,7 @@ const ApproveSchedule: FC = () => {
                     }, 50)
                   });
                 }}
-                className="cursor-pointer rounded-lg bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+                className="cursor-pointer rounded-md bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
               >
                 Tolak
               </div>
@@ -69,7 +69,7 @@ const ApproveSchedule: FC = () => {
                     }, 50)
                   });
                 }}
-                className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+                className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
               >
                 Setujui
               </div>

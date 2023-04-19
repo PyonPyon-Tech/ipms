@@ -44,8 +44,7 @@ export const PesticideEditForm: FC<Pesticide> = ({
     };
     return (
         <div
-            style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)" }}
-            className="mt-4 flex flex-col gap-2 rounded-[8px] p-4 align-middle"
+            className="shadow-basic mt-4 flex flex-col gap-2 rounded-md p-4 align-middle"
         >
             <div className="flex gap-2">
                 <h1 className="text-xl font-bold">{name}</h1>
@@ -96,7 +95,7 @@ export const PesticideEditForm: FC<Pesticide> = ({
                         </div>
                         <button
                             type="submit"
-                            className="mt-4 w-full cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+                            className="mt-4 w-full cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
                         >
                             Simpan
                         </button>

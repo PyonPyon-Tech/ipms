@@ -12,10 +12,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
         <>
             <header>
                 <div
-                    style={{
-                        boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)",
-                    }}
-                    className="fixed left-0 top-0 z-10 flex w-full bg-blue py-2 px-8 font-bold text-blue md:py-2 md:px-10"
+                    className="shadow-basic fixed left-0 top-0 z-10 flex w-full bg-blue py-2 px-8 font-bold text-blue md:py-2 md:px-10"
                 >
                     <div className="flex justify-between w-full max-md:flex-col">
                       <div>

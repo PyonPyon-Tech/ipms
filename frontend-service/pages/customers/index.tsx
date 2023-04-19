@@ -60,7 +60,7 @@ const SearchCustomers: NextPage = () => {
                 setSearchTerm(term);
               }
             }}
-            className="w-full rounded-lg border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
+            className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
             placeholder="Cari Customer"
           />
         </div>

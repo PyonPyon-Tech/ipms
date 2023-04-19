@@ -26,6 +26,9 @@ module.exports = {
         'orange-light':'#F3AD6B',
         'orange-dark':'#C55E00',
       },
+      boxShadow: {
+        'basic': '0px 0px 5px 0px rgba(197, 197, 197, 1)',
+      }
     }
   },
   plugins: [

@@ -66,7 +66,7 @@ export const CustomerForm: FC<{ }> = ({
         
         <button
           type="submit"
-          className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+          className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
         >
           Submit
         </button>

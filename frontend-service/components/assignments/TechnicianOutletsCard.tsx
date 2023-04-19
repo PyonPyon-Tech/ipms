@@ -8,8 +8,7 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
   const router = useRouter();
   return (
     <div
-      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)"}}
-      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12"
+      className="mb-4 flex w-full shadow-basic cursor-pointer items-center justify-between rounded-md py-2 px-4 md:py-4 md:px-12"
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         <img
@@ -40,7 +39,7 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
         onClick={() => {
           router.push("/assignments/" + data.id);
         }}
-        className={`rounded-md bg-blue py-1 px-3 text-center text-xs font-semibold text-white  md:text-base`}
+        className={`rounded- bg-blue py-1 px-3 text-center text-xs font-semibold text-white  md:text-base`}
       >
         Lihat Outlet
       </div>

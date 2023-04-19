@@ -13,8 +13,7 @@ export const InventoryDetail: FC<Pesticide> = ({
 }) => {
     return (
         <div
-            style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)" }}
-            className="mt-4 flex flex-col gap-2 rounded-[8px] p-4 align-middle"
+            className="shadow-basic mt-4 flex flex-col gap-2 rounded-md p-4 align-middle"
         >
             <div className="flex gap-2">
                 <h1 className="text-2xl font-bold">{name}</h1>
@@ -39,7 +38,7 @@ export const InventoryDetail: FC<Pesticide> = ({
                     <p className="pb-1 text-base">{unit}</p>
                 </div>
             </div>
-            <div className="my-2 flex justify-center flex-col gap-2 rounded-[8px] bg-blue-light p-4 align-middle">
+            <div className="my-2 flex justify-center flex-col gap-2 rounded-md bg-blue-light p-4 align-middle">
                 <h5 className="text-base font-bold text-center">Stok Sekarang</h5>
                 <p className="pb-1 text-base text-center">{stock}</p>
             </div>
