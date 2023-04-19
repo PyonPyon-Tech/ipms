@@ -32,7 +32,7 @@ const ManageInventory: NextPage = () => {
         retrieveAllInventory();
     }, [user]);
     return (
-        <div className="w-full p-8 md:p-12 md:pt-0">
+        <div className="w-full pr-8 md:pr-12 md:pt-0">
             <section>
                 <Title
                     title="Stok Chemical"

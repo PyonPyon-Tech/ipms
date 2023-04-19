@@ -33,7 +33,7 @@ export const AssignmentListPage: NextPage = () => {
   }, [user]);
 
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full pr-8 md:pr-12 md:pt-0">
       <TechnicianOutletsContainer data={data} />
     </div>
   );

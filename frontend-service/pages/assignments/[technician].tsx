@@ -34,7 +34,7 @@ export const AssignmentTechnicianPage: NextPage = () => {
   }, [user, router]);
 
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full pr-8 md:pr-12 md:pt-0">
       {!!data && <TechnicianOutletsDetail data={data} />}
     </div>
   );
