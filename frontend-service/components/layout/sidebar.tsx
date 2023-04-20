@@ -16,7 +16,7 @@ export const SideBar: FC<{ role: number }> = ({ role }) => {
             <Greetings />
           </div>
           <div className="pl-8  md:pl-10">
-            <div onClick={logout} className="cursor-pointer bg-red-800 font-semibold text-xs text-white md:py-4 md:px-2 md:rounded-l-lg md:text-base flex justify-between">
+            <div onClick={logout} className="cursor-pointer bg-blue font-semibold text-xs text-white md:py-4 md:px-2 md:rounded-l-lg md:text-base flex justify-between">
               <h4>Keluar</h4>
               <img className="object-fill h-6 w-6" src="/icons/logout.svg" />
             </div>

@@ -1,10 +1,18 @@
 export interface Pesticide {
     id: number;
     name: string;
-    activeIngredient: string;
-    targets: string;
-    unit: string;
+    activeIngredient?: string;
+    targets?: string;
+    unit?: string;
     stock: number;
+}
+
+export interface PesticideMutation{
+    name: string;
+    activeIngredient?: string;
+    stock: number;
+    targets?: string;
+    targetPests: string[];
 }
 export class PesticideClass implements Pesticide {
     id: number;

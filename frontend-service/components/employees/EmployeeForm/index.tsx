@@ -47,6 +47,7 @@ export const EmployeeForm: FC<{ supervisors: Employee[] }> = ({
       employee
     )
       .then((response) => {
+        console.log(employee);
         console.log(response.data);
         toast.success("Sukses membuat "+role, {
           duration: 5000
