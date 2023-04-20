@@ -16,5 +16,5 @@ public interface InventoryRestService {
     Pesticide updatePesticide(Long id, Pesticide pesticide);
     
     List<PesticideRequest> getPesticideRequestList();
-    PesticideRequest createPesticideRequest(PesticideRequest pesticideRequest);
+    List<PesticideRequest> createPesticideRequest(List<PesticideRequest> lstPesticideRequest);
 }

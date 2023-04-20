@@ -14,7 +14,6 @@ export interface PesticideMutation{
     targets?: string;
     targetPests: string[];
 }
-
 export class PesticideClass implements Pesticide {
     id: number;
     name: string;
