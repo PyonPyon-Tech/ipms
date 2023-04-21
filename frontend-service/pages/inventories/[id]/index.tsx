@@ -1,4 +1,4 @@
-import { InventoryDetail } from "@components/inventories/InventoryDetail";
+import { InventoryDetail, InventoryDetailStock } from "@components/inventories/InventoryDetail";
 import { Title } from "@components/general/Title";
 import { AxiosClient, URL_INVENTORY } from "@constants/api";
 import { withAuth } from "@functions/withAuth";
@@ -20,10 +20,10 @@ const PesticideDetail: NextPage = () => {
     if (!user) return;
     if (!router.query.id) return;
     async function retrievePesticide() {
-        AxiosClient.get(`${URL_INVENTORY}/pesticides/${router.query.id}`)
+      AxiosClient.get(`${URL_INVENTORY}/pesticides/${router.query.id}`)
         .then((response) => {
           setPesticide(new PesticideClass(response.data));
-          console.log("print response data")
+          console.log("print response data");
           console.log(response.data);
         })
         .catch((err: AxiosError) => {
@@ -36,16 +36,18 @@ const PesticideDetail: NextPage = () => {
 
   return (
     <div className="w-full">
-      <section>
         <Title
           title="Detail Chemical"
           action={{
             name: "Update Stok",
             path: `/inventories/${router.query.id}/edit`,
-        }}
+          }}
         />
-      </section>
-      {!!pesticide && <InventoryDetail {...pesticide} />}
+      {!!pesticide && (
+        <InventoryDetail data={pesticide}>
+          <InventoryDetailStock {...pesticide} />
+        </InventoryDetail>
+      )}
     </div>
   );
 };
