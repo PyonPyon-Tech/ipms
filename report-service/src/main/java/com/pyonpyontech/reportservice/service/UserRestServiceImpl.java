@@ -131,4 +131,14 @@ public class UserRestServiceImpl implements UserRestService {
         return customer.get().getUser();
     }
 
+    @Override
+    public Technician getTechnicianByUuid(String uuid) {
+        Optional<Technician> technician = technicianDb.findByUser(getUserByUuid(uuid));
+        if(technician.isPresent()) {
+            return technician.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
 }

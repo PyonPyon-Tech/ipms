@@ -1,21 +1,24 @@
 import { Outlet } from "@models/customer/outlet";
-import { Pest } from "@models/pestcontrol/Pest";
 import { CsrArea } from "@models/report/CsrQuestion/CsrFindingArea";
 import { Pesticide } from "@models/pestcontrol/Pesticide";
+import { CsrFindingPest } from "./CsrQuestion/CsrFindingPest";
 
 export interface CsrInitialData {
   areas: CsrArea[];
-  pests: Pest[];
+  pests: CsrFindingPest[];
   outlets: Outlet[];
   pesticides: Pesticide[];
 }
 export class CsrInitialDataClass implements CsrInitialData {
-  areas: CsrArea[] = [];
-  pests: Pest[] = [];
-  outlets: Outlet[] = [];
-  pesticides: Pesticide[] = [];
+  areas: CsrArea[];
+  pests: CsrFindingPest[];
+  outlets: Outlet[];
+  pesticides: Pesticide[];
 
-  static deserialize(obj: any): CsrInitialData {
-    return obj as CsrInitialData;
+  constructor({areas, pests, outlets, pesticides}: any) {
+    this.areas = areas;
+    this.pests = pests;
+    this.outlets = outlets;
+    this.pesticides = pesticides;
   }
 }

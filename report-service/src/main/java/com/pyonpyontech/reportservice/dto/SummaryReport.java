@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Setter
 @Getter
@@ -18,10 +19,9 @@ public class SummaryReport {
     private Period period;
     private int reportType;
     private int visitationType;
-
     private LocalDate visitationDate;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalTime start;
+    private LocalTime end;
 
     public SummaryReport(CsrReport report){
         this.outlet = report.getOutlet();
@@ -29,7 +29,7 @@ public class SummaryReport {
         this.period = report.getPeriod();
         this.reportType = report.getReportType();
         this.visitationType = report.getVisitationType();
-        this.visitationDate = report.getStart().toLocalDate();
+        this.visitationDate = report.getDate();
         this.start = report.getStart();
         this.end = report.getEnd();
     } // To minimize size, as the detail is too big

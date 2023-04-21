@@ -11,6 +11,7 @@ export const SideMenu: FC<{
   setOpenSideMenu: React.Dispatch<boolean>;
 }> = ({ role, openSideMenu, setOpenSideMenu }) => {
   const {user, logout}=useAuth()
+  console.log(user)
   return (
     <div
       onClick={(e) => e.stopPropagation()}

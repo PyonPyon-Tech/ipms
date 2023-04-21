@@ -2,10 +2,12 @@ package com.pyonpyontech.reportservice.service;
 
 import com.pyonpyontech.reportservice.dto.SummaryReport;
 import com.pyonpyontech.reportservice.model.Period;
+import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer.Outlet;
 import com.pyonpyontech.reportservice.model.customer_service_report.*;
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
 import com.pyonpyontech.reportservice.model.pest_control.Schedule;
+import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.reportservice.repository.PeriodDb;
 import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrAreaDb;
@@ -13,6 +15,7 @@ import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrF
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrReportDb;
 import com.pyonpyontech.reportservice.repository.pest_control.PesticideDb;
 import com.pyonpyontech.reportservice.repository.pest_control.ScheduleDb;
+import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +41,9 @@ public class ReportRestService {
     private ScheduleDb scheduleDb;
     @Autowired
     private PeriodDb periodDb;
+
+    @Autowired
+    private TechnicianDb technicianDb;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -139,6 +145,14 @@ public class ReportRestService {
             summaryReports.add(new SummaryReport(report));
         }
         return summaryReports;
+    }
+
+    public List<CsrReport> getReportListByTechnicianId(Long technicianId){
+        List<CsrReport> reportsById = csrReportDb.findByTechnicianId(technicianId);
+        if(reportsById.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return reportsById;
     }
 
 }

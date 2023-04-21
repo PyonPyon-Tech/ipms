@@ -2,6 +2,7 @@ import { NavigationCardProps } from "@type/navigationCardProps";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
+
 export const NavigationCard: FC<NavigationCardProps> = ({
   path,
   name,

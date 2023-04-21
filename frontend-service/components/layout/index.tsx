@@ -4,9 +4,11 @@ import { Greetings } from "./greetings";
 import { SideBar } from "./sidebar";
 import { SideMenu } from "./sidemenu";
 import Breadcrumbs from "./breadcrumbs";
+import { Checkbox } from "@mui/material";
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     const { user } = useAuth();
+    console.log(user?.name)
     const [openSideMenu, setOpenSideMenu] = useState<boolean>(false);
     return (
         <>

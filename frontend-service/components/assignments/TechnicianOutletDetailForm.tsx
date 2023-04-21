@@ -1,4 +1,4 @@
-import { MyOption } from "@contexts/optionProps";
+// import { MyOption } from "@contexts/optionProps";
 import { Outlet } from "@models/customer/outlet";
 import {
   ComponentType,
@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
-import Select from "react-select";
+import Select, { GroupBase, OptionProps } from "react-select";
 export const TechnicianOutletsDetailForm: FC<{
   before: Outlet[];
   allOutlets: Outlet[];
@@ -89,6 +89,39 @@ export const TechnicianOutletsDetailForm: FC<{
           Tambah Outlet
         </div>{" "}
       </div>
+    </div>
+  );
+};
+export const MyOption: ComponentType<
+  OptionProps<
+    {
+      value: number;
+      label: string;
+    },
+    false,
+    GroupBase<{
+      value: number;
+      label: string;
+    }>
+  >
+> = (props) => {
+  const { innerProps, innerRef } = props;
+  return (
+    <div
+      ref={innerRef}
+      {...innerProps}
+      className={`cursor-pointer px-2 pt-1 hover:bg-[#dbeafe] ${
+        props.isSelected ? "bg-blue text-white hover:bg-blue" : ""
+      }`}
+    >
+      <h4 className="font-semibold">{props.data.label}</h4>
+      <p
+        className={`mt-1 pb-2 text-xs ${
+          props.isSelected ? "" : "border-b border-blue-light"
+        }`}
+      >
+        {(props.data as any).address}
+      </p>
     </div>
   );
 };

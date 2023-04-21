@@ -1,22 +1,15 @@
+import Breadcrumbs from "@components/layout/breadcrumbs";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { NextPage } from "next";
-import { Button } from "@components/general/Button";
-import { useRouter } from "next/router";
+import { ReactElement, useState } from "react";
 
 const Home: NextPage = () => {
-  const router = useRouter();
-    return (
-        <div className="mb-4 w-full md:pt-0">
-            <Button
-                className='bg-orange'
-                action={{
-                    name: "Tambah Chemical Baru",
-                    submit: true,
-                    func:() => router.push('/inventories/add'),
-                }}
-            ></Button>
-        </div>
-    );
+  const [amount, setAmount] = useState<number>();
+  return (
+    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+      <Breadcrumbs></Breadcrumbs>
+    </div>
+  );
 };
 export default withAuth(withLayout(Home));
