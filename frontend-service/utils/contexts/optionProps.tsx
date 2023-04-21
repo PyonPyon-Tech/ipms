@@ -29,7 +29,7 @@ return (
         props.isSelected ? "" : "border-b border-blue-light"
       }`}
     >
-      {props.data.address}
+      {(props.data as any).address}
     </p>
   </div>
 );
