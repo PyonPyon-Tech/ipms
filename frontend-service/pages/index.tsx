@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const [amount, setAmount] = useState<number>();
   return (
     <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
-      <Breadcrumbs></Breadcrumbs>
+      Test Page
     </div>
   );
 };

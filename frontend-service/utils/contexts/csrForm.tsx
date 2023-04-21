@@ -30,6 +30,7 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
     const t = toast.loading("Mengambil data...");
     AxiosClient.get(`${URL_REPORT}/${technician}/${getPeriodFromDate(date)}`)
       .then((response) => {
+        console.log(response)
         setInitialData(new CsrInitialDataClass(response.data));
         console.log(new CsrInitialDataClass(response.data));
       })

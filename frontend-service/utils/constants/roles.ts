@@ -1,3 +1,4 @@
+import { useAuth } from "@hooks/useAuth";
 import { NavigationCardProps } from "@type/navigationCardProps";
 
 export const PATH_ROLES = [
@@ -46,7 +47,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
   [
     { name: "Beranda", path: "/" },
     { name: "Kelola Penanggung Jawab Outlet", path: "/assignments" },
-    { name: "Buat Laporan Treatment ECO-101", path: "/" },
+    { name: "Buat Laporan Treatment ECO-101", path: `/reports/add/` },
     { name: "Lihat Laporan Treatment ECO-101", path: "/reports" },
     { name: "Lihat Jadwal Treatment", path: "/schedules" },
     { name: "Setujui Jadwal Treatment", path: "/schedules" },

@@ -33,9 +33,9 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
         </div>
       </div>
       <div
-        // onClick={() => {
-        //   router.push("/assignments/" + data.id);
-        // }}
+        onClick={() => {
+          router.push("/reports/detail/" + data.id);
+        }}
         className={`rounded-md bg-blue py-1 px-3 text-center text-xs font-semibold text-white  md:text-base`}
       >
         Detail Laporan
