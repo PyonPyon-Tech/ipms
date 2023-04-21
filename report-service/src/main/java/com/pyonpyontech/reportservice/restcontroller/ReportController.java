@@ -91,8 +91,8 @@ public class ReportController {
                 }
             }
             if(role == 4){
-                if(!author.getUser().getUsername().equals(principal.getName())){
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+                if(author.getUser().getUsername().equals(principal.getName())){
+                    return report;
                 }
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
