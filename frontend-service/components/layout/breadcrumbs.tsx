@@ -27,7 +27,7 @@ const Breadcrumbs = (props: any) => {
                     // console.log(routeTo);
                     const isLast = index === pathnames.length - 1;
                     return isLast || ignores.includes(name) ? (
-                        <Typography> <p className="capitalize">{name}</p> </Typography>
+                        <Typography component="div"  > <p className="capitalize">{name}</p> </Typography>
                     ) : (
                         <Link
                             onClick={() => router.push(routeTo)}
