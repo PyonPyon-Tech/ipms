@@ -21,8 +21,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations,
   const { changeVisitDate } = useScheduleForm();
   return (
     <div
-      style={{ boxShadow: "0px 0px 5px #C5C5C5" }}
-      className="relative my-4 w-full cursor-pointer rounded-[20px] p-4 md:p-5"
+      className="shadow-basic relative my-4 w-full cursor-pointer rounded-md p-4 md:p-5"
       onClick={() => setOpen(!open)}
     >
       <img

@@ -119,7 +119,7 @@ const CustomToast: FC<{ e: Event; t: any }> = ({ e, t }) => (
   <div
     className={`${
       t.visible ? "animate-enter" : "animate-leave"
-    } pointer-events-auto flex w-full max-w-md rounded-lg bg-blue-dark text-white shadow-lg ring-1 ring-black ring-opacity-5`}
+    } pointer-events-auto flex w-full max-w-md rounded-md bg-blue-dark text-white shadow-lg ring-1 ring-black ring-opacity-5`}
   >
     <div className="w-0 flex-1 p-4">
       <div className="flex items-start">

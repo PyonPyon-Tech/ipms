@@ -1,14 +1,22 @@
-import { Layout } from "@components/layout";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
-import Breadcrumbs from "@components/layout/breadcrumbs";
 import { NextPage } from "next";
-import { ReactElement } from "react";
+import { Button } from "@components/general/Button";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
-    </div>
-  );
+  const router = useRouter();
+    return (
+        <div className="mb-4 w-full md:pt-0">
+            <Button
+                className='bg-orange'
+                action={{
+                    name: "Tambah Chemical Baru",
+                    submit: true,
+                    func:() => router.push('/inventories/add'),
+                }}
+            ></Button>
+        </div>
+    );
 };
 export default withAuth(withLayout(Home));
