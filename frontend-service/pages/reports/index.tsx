@@ -20,6 +20,9 @@ export const ReportListPage: NextPage = () => {
   const { user } = useAuth();
   useEffect(() => {
     if (!user || !period || item == 'DEFAULT') return;
+    if((user.role != 1 && user.role !=2)){
+      if(!category || !item) return;
+    }
     async function loadEmployeeReports() {
       let url = `${URL_REPORT}/summary/${period}`;
       if (category && item) {

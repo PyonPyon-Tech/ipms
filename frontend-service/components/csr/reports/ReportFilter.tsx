@@ -1,8 +1,11 @@
+import { AxiosClient, URL_REPORT } from "@constants/api";
 import { getPeriodFromDate } from "@functions/getPeriodFromDate";
 import { useAuth } from "@hooks/useAuth";
 import { LabelValue } from "@type/other";
 import { ReportCategories } from "@type/report";
-import { FC, useState } from "react";
+import { AxiosError } from "axios";
+import { FC, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const categoryChoices: ReportCategories[][] = [
   ["outlet"], // customer
@@ -19,12 +22,22 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
   category,
 }) => {
   const { user } = useAuth();
-  const [options, setOptions] = useState<{ [K in ReportCategories]: LabelValue[] }>({
-    customer: [],
-    outlet: [],
-    supervisor: [{label:"k", value: 9}],
-    technician: [{label:"l", value: 10}],
-  });
+  const [options, setOptions] = useState<{ [K in ReportCategories]: LabelValue[] }>();
+  useEffect(() => {
+    if (!user || !!options) return;
+    async function loadFilter() {
+      AxiosClient.get(`${URL_REPORT}/filter`)
+        .then((response) => {
+          console.log(response.data);
+          setOptions(response.data);
+        })
+        .catch((err: AxiosError) => {
+          console.log(err);
+          toast.error((err.response?.data as any).message);
+        });
+    }
+    loadFilter();
+  }, [user, options]);
   if (!user) return <div></div>;
 
   return (
@@ -33,7 +46,7 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
         <label htmlFor="periode">Pilih Bulan</label>
         <input
           type="month"
-          defaultValue={new Date().toISOString().substring(0,7)}
+          defaultValue={new Date().toISOString().substring(0, 7)}
           onChange={(e) => setPeriod(getPeriodFromDate(e.target.value))}
           className="monthInput col-span-2"
           id="periode"
@@ -45,7 +58,10 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
           id="category"
           defaultValue={"DEFAULT"}
           className="col-span-2"
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => {
+            setCategory(e.target.value)
+            setItem("DEFAULT")
+          }}
         >
           <option disabled value={"DEFAULT"}>
             Pilih Filter...
@@ -63,7 +79,9 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
             Pilih {category}
           </label>
           <select id="item" defaultValue={""} className="col-span-2" onChange={(e) => setItem(e.target.value)}>
-            <option value={""}> {/* jangan pakai disabled, kalau item sdh diubah, lalu kategori diganti, yg paling atas nggak akan jadi item*/}
+            <option value={""}>
+              {" "}
+              {/* jangan pakai disabled, kalau item sdh diubah, lalu kategori diganti, yg paling atas nggak akan jadi item*/}
               Pilih {category}...
             </option>
             {options[category].map((option) => (
