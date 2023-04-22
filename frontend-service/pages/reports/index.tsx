@@ -1,38 +1,46 @@
 import { ReportFilter } from "@components/csr/reports/ReportFilter";
 import { ReportContainer } from "@components/csr/reports/ReportsContainer";
-import { AxiosClient, URL_REPORT } from "@constants/api";
+import { AxiosClient } from "@constants/api";
 import { getPeriodFromDate } from "@functions/getPeriodFromDate";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
 import { CsrReportClass } from "@models/report/CsrReport";
-import { ReportCategories } from "@type/report";
+import { User } from "@models/user";
+import { Pagination } from "@mui/material";
+import { ListReportFilterDataInterface, listReportCreateBaseURL } from "@type/listReport";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
+
 export const ReportListPage: NextPage = () => {
   const [data, setData] = useState<CsrReportClass[]>([]);
-  const [period, setPeriod] = useState<number>(getPeriodFromDate(new Date()));
-  const [category, setCategory] = useState<ReportCategories | "">("");
-  const [item, setItem] = useState<string | number>();
+  const [filterData, setFilterData] = useState<ListReportFilterDataInterface>({
+    period: getPeriodFromDate(new Date()),
+    category: "",
+    page: 1,
+  });
+  const setPartialFilterData = (key: keyof ListReportFilterDataInterface, value: any) => {
+    if (key == "category") {
+      setFilterData({ ...filterData, category: value, page: 1, item: "DEFAULT" });
+    } else if (key == "item" || key == "period") {
+      setFilterData({ ...filterData, [key]: value, page: 1 });
+    } else {
+      setFilterData({ ...filterData, page: value });
+    }
+  };
 
   const { user } = useAuth();
   useEffect(() => {
-    if (!user || !period || item == 'DEFAULT') return;
-    if((user.role != 1 && user.role !=2)){
-      if(!category || !item) return;
-    }
+    const { category, page, period, item } = filterData;
+    if (!user || !period || (category && item == "DEFAULT")) return;
     async function loadEmployeeReports() {
-      let url = `${URL_REPORT}/summary/${period}`;
-      if (category && item) {
-        url = `${url}/${category}/${item}`;
-      }
+      let url = listReportCreateBaseURL(user as User, period, category, item, page);
       console.log(url)
       AxiosClient.get(url)
         .then((response) => {
           console.log(response.data);
-          console.log("KKK");
           setData(response.data.map((x: any) => new CsrReportClass(x)));
         })
         .catch((err) => {
@@ -41,19 +49,13 @@ export const ReportListPage: NextPage = () => {
         });
     }
     loadEmployeeReports();
-  }, [user, period, category, item]);
+  }, [user, filterData]);
 
   return (
     <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
-      <ReportFilter
-        {...{
-          setCategory,
-          category,
-          setItem,
-          setPeriod,
-        }}
-      />
+      <ReportFilter category={filterData.category} setPartialFilterData={setPartialFilterData} />
       <ReportContainer data={data} />
+      <Pagination page={filterData.page} />
     </div>
   );
 };

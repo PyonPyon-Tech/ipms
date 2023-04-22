@@ -1,21 +1,9 @@
 import { useAuth } from "@hooks/useAuth";
 import { NavigationCardProps } from "@type/navigationCardProps";
 
-export const PATH_ROLES = [
-  "customers",
-  "managers",
-  "administrators",
-  "supervisors",
-  "technicians"
-] // ini versi english plural buat routes
-
-export const ROLES = [
-  "Customer",
-  "Manajer",
-  "Administrator",
-  "Supervisor",
-  "Teknisi",
-];
+export const PATH_ROLES = ["customers", "managers", "administrators", "supervisors", "technicians"]; // ini versi english plural buat routes
+export const ROLES_ENGLISH = ["customer", "manager", "administrator", "supervisor", "technician"];
+export const ROLES = ["Customer", "Manajer", "Administrator", "Supervisor", "Teknisi"];
 
 export const NAVCARDS: NavigationCardProps[][] = [
   [

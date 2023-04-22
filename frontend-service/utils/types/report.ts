@@ -1,1 +1,0 @@
-export type ReportCategories = "technician" | "supervisor" | "outlet" | "customer"

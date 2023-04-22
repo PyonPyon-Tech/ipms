@@ -2,7 +2,7 @@ import { AxiosClient, URL_REPORT } from "@constants/api";
 import { getPeriodFromDate } from "@functions/getPeriodFromDate";
 import { useAuth } from "@hooks/useAuth";
 import { LabelValue } from "@type/other";
-import { ReportCategories } from "@type/report";
+import { ListReportFilterDataInterface, ReportCategories } from "@type/listReport";
 import { AxiosError } from "axios";
 import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -15,12 +15,10 @@ const categoryChoices: ReportCategories[][] = [
   ["outlet"], // technician
 ];
 
-export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; category: ReportCategories | "" }> = ({
-  setCategory,
-  setItem,
-  setPeriod,
-  category,
-}) => {
+export const ReportFilter: FC<{
+  setPartialFilterData: (key: keyof ListReportFilterDataInterface, value: any) => void;
+  category: ReportCategories | "";
+}> = ({ setPartialFilterData, category }) => {
   const { user } = useAuth();
   const [options, setOptions] = useState<{ [K in ReportCategories]: LabelValue[] }>();
   useEffect(() => {
@@ -47,7 +45,7 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
         <input
           type="month"
           defaultValue={new Date().toISOString().substring(0, 7)}
-          onChange={(e) => setPeriod(getPeriodFromDate(e.target.value))}
+          onChange={(e) => setPartialFilterData("period", getPeriodFromDate(e.target.value))}
           className="monthInput col-span-2"
           id="periode"
         />
@@ -59,8 +57,7 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
           defaultValue={"DEFAULT"}
           className="col-span-2"
           onChange={(e) => {
-            setCategory(e.target.value)
-            setItem("DEFAULT")
+            setPartialFilterData("category", e.target.value);
           }}
         >
           <option disabled value={"DEFAULT"}>
@@ -78,10 +75,13 @@ export const ReportFilter: FC<{ setItem: any; setPeriod: any; setCategory: any; 
           <label htmlFor="item" className="capitalize">
             Pilih {category}
           </label>
-          <select id="item" defaultValue={""} className="col-span-2" onChange={(e) => setItem(e.target.value)}>
-            <option value={""}>
-              {" "}
-              {/* jangan pakai disabled, kalau item sdh diubah, lalu kategori diganti, yg paling atas nggak akan jadi item*/}
+          <select
+            id="item"
+            defaultValue={"DEFAULT"}
+            className="col-span-2"
+            onChange={(e) => setPartialFilterData("item", e.target.value)}
+          >
+            <option value={"DEFAULT"}>
               Pilih {category}...
             </option>
             {options[category].map((option) => (
