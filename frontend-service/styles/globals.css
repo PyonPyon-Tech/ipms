@@ -53,7 +53,7 @@ form  h5 {
   max-width: 400px;
 }
 
-form  input, select {
+form  input, select, .monthInput {
   display: block;
   border: 1px solid #1e1e1e;
   padding: 0.5rem 1rem;
