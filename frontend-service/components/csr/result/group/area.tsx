@@ -1,29 +1,31 @@
 import { useCsrForm } from "@hooks/useCsrForm";
 import { FC } from "react";
-import { CsrFormFindingAreaDetail } from "../item/detailArea";
-import { CsrFormGroupContainer } from "./container";
+import { CsrFindingAreaDetail } from "../item/detailAreaResult";
+import { CsrResultGroupContainer } from "./container";
+import { CsrDetailArea } from "@models/report/CsrAnswer/CsrDetailArea";
 
-export const CsrFormAreaFinding: FC = () => {
-  const { initialData } = useCsrForm();
-  if (!initialData) return <div></div>;
+export const CsrResultAreaFinding: FC<{data: CsrDetailArea[][]}> = ({data}) => {
   return (
     <div>
-      {initialData.areas.map(({ area, id, findings }, index) => {
+      {data.map((csrAreaDetail, index) => {
+        // console.log(csrAreaDetail[0].area.id);
         return (
-          <CsrFormGroupContainer key={`area-${id}`} title={area} section={String.fromCharCode(index + 65)}>
-            {findings?.map((item) => {
+          // <div></div>
+          <CsrResultGroupContainer key={`area-${csrAreaDetail[0].area.id}`} title={csrAreaDetail[0].area.area} section={String.fromCharCode(index + 65)}>
+            {csrAreaDetail.map((item) => {
+              console.log(csrAreaDetail[0].area.area);
               return (
-                <CsrFormFindingAreaDetail
+                <CsrFindingAreaDetail
                   key={`area-detail-${item.id}`}
                   {...item}
                   area={{
-                    id: id,
-                    area: area,
+                    id: csrAreaDetail[0].area.id,
+                    area: csrAreaDetail[0].area.area,
                   }}
                 />
               );
             })}
-          </CsrFormGroupContainer>
+          </CsrResultGroupContainer>
         );
       })}
     </div>

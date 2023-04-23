@@ -4,6 +4,9 @@ import { Customer } from "@models/customer/customer";
 import { CsrReport } from "@models/report/CsrReport";
 import { FC, use } from "react";
 import styles from "../Csr.module.css";
+import { CsrDetailArea } from "@models/report/CsrAnswer/CsrDetailArea";
+import { CsrResultAreaFinding } from "../group/area";
+import { CsrFindingAreaDetail } from "../item/detailAreaResult";
 
 export const CsrReportDetail: FC<CsrReport> = ({
   id,
@@ -23,23 +26,22 @@ export const CsrReportDetail: FC<CsrReport> = ({
   detailPests,
   pesticideUsages,
 }) => {
-    console.log(id);
-    console.log(detailAreas);
-    console.log(visitationType);
-    console.log(feedback);
-    console.log(reportType);
-    console.log(period);
-    console.log(technician);
-    console.log(outlet);
-    console.log(date);
-    console.log(start);
-    console.log(end);
-    console.log(technicianSignature);
-    console.log(picSignature);
-    console.log(visitationPhoto);
-    console.log(detailPests);
-    console.log(pesticideUsages);
-
+    // console.log(detailAreas);
+    const visitationTypeOption = ["Layanan Rutin", "Single Job", "Follow Up", "Komplain", "Inspeksi", "Lainnya"];
+    let areaIdCounter = 1;
+    var allAreaArr = [];
+    var singleAreaArr: CsrDetailArea[] =[];
+    for (let i = 0; i < detailAreas.length; i++) {
+      if (detailAreas[i].area.id == areaIdCounter){
+        singleAreaArr.push(detailAreas[i]);
+      } else {
+        allAreaArr.push(singleAreaArr);
+        singleAreaArr = [];
+        singleAreaArr.push(detailAreas[i]);
+        areaIdCounter++;
+      }
+    }
+    allAreaArr.push(singleAreaArr);
   return (
     <Container>
       <section className={styles.csrFormHead}>
@@ -81,11 +83,12 @@ export const CsrReportDetail: FC<CsrReport> = ({
             <div className="grid grid-cols-3">
                 <div>
                 <input checked disabled type="radio" id="type-1" value="1" />
-                <label htmlFor="type-1">L{visitationType}</label>
+                <label htmlFor="type-1">{visitationTypeOption[visitationType-1]}</label>
                 </div>
             </div>
             </fieldset>
         </div>
+        <CsrResultAreaFinding data={allAreaArr} />
         </section>
     </Container>
   );

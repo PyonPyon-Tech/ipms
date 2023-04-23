@@ -63,7 +63,7 @@ export class CsrReportClass implements CsrReport {
         this.period = obj.period;
         this.technician = obj.technician;
         this.outlet = obj.outlet;
-        this.date = obj.visitationDate;
+        this.date = obj.date;
         this.start = obj.start;
         this.end = obj.end;
         this.technicianSignature = obj.technicianSignature;
