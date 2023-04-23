@@ -7,7 +7,7 @@ export const Search: FC<{
     const [term, setTerm] = useState<string>("");
 
   return (
-    <div className="relative w-4/5 max-w-[500px]">
+    <div className="relative w-4/5 max-w-[500px] mb-4">
       <img
         src="/icons/search.svg"
         className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
