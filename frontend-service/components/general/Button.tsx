@@ -2,8 +2,8 @@ import { FC } from "react";
 
 export const Button: FC<{
     className?: string;
-    action?: {
-        name?: string;
+    action: {
+        name: string;
         submit?: boolean;
         func: () => void;
     };

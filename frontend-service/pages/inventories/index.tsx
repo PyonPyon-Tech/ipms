@@ -1,4 +1,5 @@
 import { Search } from "@components/general/Search";
+import { Tag } from "@components/general/Tag";
 import { Title } from "@components/general/Title";
 import { InventoryContainer } from "@components/inventories/InventoryList";
 import { AxiosClient, URL_INVENTORY } from "@constants/api";
@@ -46,7 +47,7 @@ const ManageInventory: NextPage = () => {
                 <Search
                     setSearchTerm={setSearchTerm}
                     placeholder={"Cari pestisida"}
-                ></Search>{" "}
+                ></Search>
             </div>
             <section>
                 {/* Start card */}
