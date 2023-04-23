@@ -9,7 +9,8 @@ const Home: NextPage = () => {
   const [amount, setAmount] = useState<number>();
   return (
     <div className="mb-4 w-full">
-      <Tag title="Aktif"></Tag>
+      <Tag title="Default tag"></Tag>
+      <Tag title="Custom tag" className="bg-orange"></Tag>
     </div>
   );
 };

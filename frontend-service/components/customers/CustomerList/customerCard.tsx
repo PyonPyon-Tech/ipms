@@ -9,10 +9,7 @@ export const CustomerCard: FC<Customer> = ({
   user: { username, role, isActive, name },
   outlets
 }) => {
-  console.log(outlets);
   const router = useRouter()
-  console.log(isActive)
-  console.log("Test")
   return (
     <div
     onClick={()=>{
@@ -40,13 +37,6 @@ export const CustomerCard: FC<Customer> = ({
         </div>
       </div>
       <Tag isActive = {isActive} ></Tag>
-      <div
-        className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 ${
-          isActive ? "bg-teal" : "bg-coral"
-        }`}
-      >
-        {isActive ? "Aktif" : "Non-Aktif"}
-      </div>
     </div>
   );
 };
