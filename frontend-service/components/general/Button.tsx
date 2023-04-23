@@ -5,7 +5,7 @@ export const Button: FC<{
     action: {
         name: string;
         submit?: boolean;
-        func: () => void;
+        func?: () => void;
     };
 }> = ({ action, className }) => {
     let submit: any = "";

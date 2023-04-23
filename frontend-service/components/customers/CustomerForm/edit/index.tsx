@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_CUSTOMER } from "@constants/api";
 import { Customer, CustomerMutation } from "@models/customer/customer";
@@ -48,12 +49,7 @@ export const CustomerEditForm: FC<{data: Customer}> = ({data})=>{
             <option value="1">Aktif</option>
           </select>
 
-          <button
-            type="submit"
-            className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-          >
-            Submit
-          </button>
+          <Button action={{ name: "Simpan", submit:true }}></Button>
         </form>
       </Container>
     );
