@@ -61,13 +61,10 @@ export const InventoryEditStock: FC<Pesticide> = ({
                         />
                     </div>
                 </div>
-                <Button className="w-full" action={{ name: "Simpan", submit:true }}></Button>
-                {/* <button
-                    type="submit"
-                    className="mt-4 w-full cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-                >
-                    Simpan
-                </button> */}
+                <Button
+                    className="w-full"
+                    action={{ name: "Simpan", submit: true }}
+                ></Button>
             </form>
         </div>
     );
