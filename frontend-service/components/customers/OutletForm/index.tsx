@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_CUSTOMER, URL_EMPLOYEE } from "@constants/api";
 import { PATH_ROLES } from "@constants/roles";
@@ -69,12 +70,13 @@ export const OutletForm: FC<{}> = ({}) => {
           ))}
         </select>
 
-        <button
-          type="submit"
-          className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-        >
-          Submit
-        </button>
+        <Button
+            action={{
+                name: `Submit`,
+                submit: true,
+                func: () => {}
+            }}
+        ></Button>
       </form>
     </Container>
   );
