@@ -3,6 +3,7 @@ package com.pyonpyontech.reportservice.service;
 import java.security.Principal;
 import java.util.List;
 import com.pyonpyontech.reportservice.model.UserModel;
+import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import org.springframework.security.core.userdetails.User;
 
 public interface UserRestService {
@@ -13,6 +14,8 @@ public interface UserRestService {
     Integer getRole(Principal principal);
 
     UserModel getTechnicianById(Long id);
+    Technician getTechnicianByUuid(String uuid);
+
 
     UserModel getTechnicianByOutletId(Long id);
 

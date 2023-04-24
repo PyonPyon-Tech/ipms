@@ -33,4 +33,9 @@ public interface CsrReportDb extends JpaRepository<CsrReport, Long> {
             "(SELECT id FROM outlet As o WHERE o.customer_id=:customerId)  ORDER BY end_time DESC", nativeQuery = true)
     List<CsrReport> findByPeriodIdAndCustomerId(@Param("periodId") Long periodId, @Param("customerId") Long customerId);
 
+    @Query(value =
+            "SELECT * FROM csr_report AS c " +
+                    "WHERE c.technician_id=:techId" +
+                    "ORDER BY end_time DESC", nativeQuery = true)
+    List<CsrReport> findByTechnicianId(@Param("techId") Long techId);
 }

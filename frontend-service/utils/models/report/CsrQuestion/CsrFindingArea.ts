@@ -3,7 +3,7 @@ export interface CsrFindingArea{
     area?: CsrArea;
     displayNumber: string;
     question: string;
-    recommendation: string[];
+    recommendations: string[];
 }
 
 export interface CsrArea {

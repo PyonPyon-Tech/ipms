@@ -43,7 +43,7 @@ const CustomerDetailPage: NextPage = () => {
   }, [user, router]);
 
   return (
-    <div className="w-full p-8 md:p-12 md:pt-0">
+    <div className="w-full">
       <section>
         <Title
           title="Detail Customer"
@@ -63,7 +63,7 @@ const CustomerDetailPage: NextPage = () => {
         >
           <h4>Total: {outlets.length} outlet</h4>
         </Title>
-        <div className="relative w-4/5 max-w-[500px]">
+        <div className="relative w-4/5 max-w-[500px] mb-4">
           <img
             src="/icons/search.svg"
             className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
@@ -76,7 +76,7 @@ const CustomerDetailPage: NextPage = () => {
                 setSearchTerm(term);
               }
             }}
-            className="w-full rounded-lg border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
+            className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
             placeholder="Cari Outlet"
           />
         </div>

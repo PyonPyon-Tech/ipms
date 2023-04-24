@@ -1,3 +1,4 @@
+import { Tag } from "@components/general/Tag";
 import { ROLES } from "@constants/roles";
 import { Customer } from "@models/customer/customer";
 import { useRouter } from "next/router";
@@ -8,15 +9,13 @@ export const CustomerCard: FC<Customer> = ({
   user: { username, role, isActive, name },
   outlets
 }) => {
-  console.log(outlets);
   const router = useRouter()
   return (
     <div
     onClick={()=>{
       router.push(`/customers/${id}`)
     }}
-      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)"}}
-      className="mb-4 cursor-pointer rounded-lg py-2 px-4 md:py-4 md:px-12 flex justify-between items-center w-full"
+      className="shadow-basic mb-4 cursor-pointer rounded-md py-2 px-4 md:py-4 md:px-12 flex justify-between items-center w-full"
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         <img
@@ -37,13 +36,7 @@ export const CustomerCard: FC<Customer> = ({
           </div>
         </div>
       </div>
-      <div
-        className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 ${
-          isActive ? "bg-teal" : "bg-coral"
-        }`}
-      >
-        {isActive ? "Aktif" : "Non-Aktif"}
-      </div>
+      <Tag isActive = {isActive} ></Tag>
     </div>
   );
 };

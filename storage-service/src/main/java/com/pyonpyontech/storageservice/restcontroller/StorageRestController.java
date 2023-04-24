@@ -32,7 +32,7 @@ public class StorageRestController {
       if (uploadedFileName.length() > 0)
         fileUploadResponse.setSuccessAmount(fileUploadResponse.getSuccessAmount() + 1);
     }
-    
+    System.out.println(fileUploadResponse.getStatus().keySet().toString());
     return fileUploadResponse;
   }
 

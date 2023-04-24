@@ -15,6 +15,7 @@ export interface CsrReport {
     period: Period;
     technician: EmployeeTechnician;
     outlet: OutletExtended,
+    date: string;
     start: string;
     end: string;
     technicianSignature: string;
@@ -34,4 +35,43 @@ interface OutletExtended extends Outlet {
         startContract: string;
         endContract: string;
     }
+}
+
+export class CsrReportClass implements CsrReport {
+    id: number;
+    reportType: number;
+    visitationType: number;
+    feedback: object;
+    period: Period;
+    technician: EmployeeTechnician;
+    outlet: OutletExtended;
+    date: string;
+    start: string;
+    end: string;
+    technicianSignature: string;
+    picSignature: string;
+    visitationPhoto: string;
+    detailAreas: CsrDetailArea[];
+    detailPests: CsrDetailPest[];
+    pesticideUsages: CsrPesticideUsage[];
+
+    constructor(obj: any) {
+        this.reportType = obj.reportType;
+        this.id = obj.id;
+        this.visitationType = obj.visitationType;
+        this.feedback = obj.feedback;
+        this.period = obj.period;
+        this.technician = obj.technician;
+        this.outlet = obj.outlet;
+        this.date = obj.visitationDate;
+        this.start = obj.start;
+        this.end = obj.end;
+        this.technicianSignature = obj.technicianSignature;
+        this.picSignature = obj.picSignature;
+        this.visitationPhoto = obj.visitationPhoto;
+        this.detailAreas = obj.detailAreas;
+        this.detailPests = obj.detailPests;
+        this.pesticideUsages = obj.pesticideUsages;
+      }
+
 }
