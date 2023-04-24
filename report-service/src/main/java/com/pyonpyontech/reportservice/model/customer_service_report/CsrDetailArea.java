@@ -39,8 +39,8 @@ public class CsrDetailArea {
     @Column(name = "finding", nullable = false)
     private String finding;
 
-    @Min(value = 0) // 0: tidak ada, 1: Ya, 2: Tidak
-    @Max(value = 2)
+    @Min(value = 1) // 1: tidak ada, 2: Ya, 3: Tidak
+    @Max(value = 3)
     @Column(name = "status", nullable = false)
     private Integer status;
 

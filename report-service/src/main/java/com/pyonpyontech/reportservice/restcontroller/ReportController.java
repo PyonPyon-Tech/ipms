@@ -91,8 +91,8 @@ public class ReportController {
                 }
             }
             if(role == 4){
-                if(!author.getUser().getUsername().equals(principal.getName())){
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+                if(author.getUser().getUsername().equals(principal.getName())){
+                    return report;
                 }
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -101,10 +101,10 @@ public class ReportController {
         }
     }
 
-    @GetMapping(value = "/technicians")
-    private List<CsrReport> retrieveAllTechniciansReports(Principal principal) {
-        UserModel user = userRestService.getUserByUsername(principal.getName());
-        Technician technician = userRestService.getTechnicianByUuid(user.getUuid());
-        return reportRestService.getReportListByTechnicianId(technician.getId());
-    }
+//    @GetMapping(value = "/technicians")
+//    private List<CsrReport> retrieveAllTechniciansReports(Principal principal) {
+//        UserModel user = userRestService.getUserByUsername(principal.getName());
+//        Technician technician = userRestService.getTechnicianByUuid(user.getUuid());
+//        return reportRestService.getReportListByTechnicianId(technician.getId());
+//    }
 }

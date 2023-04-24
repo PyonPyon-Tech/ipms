@@ -14,6 +14,8 @@ import java.time.LocalTime;
 @Setter
 @Getter
 public class SummaryReport {
+
+    private Long id;
     private Outlet outlet;
     private Technician technician;
     private Period period;
@@ -24,6 +26,7 @@ public class SummaryReport {
     private LocalTime end;
 
     public SummaryReport(CsrReport report){
+        this.id = report.getId();
         this.outlet = report.getOutlet();
         this.technician = report.getTechnician();
         this.period = report.getPeriod();

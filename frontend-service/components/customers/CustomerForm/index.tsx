@@ -51,18 +51,18 @@ export const CustomerForm: FC<{ }> = ({
         <h5>Password</h5>
         <input required {...register("password")} />
         <h5>Kontak</h5>
-        <input required />
+        <input required {...register("contact")} />
         <h5>Jumlah Kunjungan</h5>
         <div className="relative">
-          <input required type="number" min={0} className="pr-10" />
+          <input required type="number" min={0} className="pr-10" {...register("visitationFrequency")} />
           <span className="absolute top-0 right-0 h-full flex items-center text-gray-400 text-sm mr-2 select-none">
             x sebulan
           </span>
         </div>
         <h5>Kontrak</h5>
         <div className="flex max-w-[400px] justify-between gap-x-2 md:gap-x-4">
-            <input required placeholder="Start" />
-            <input required placeholder="End" />
+            <input required placeholder="Start" type="date" {...register("startContract")} />
+            <input required placeholder="End" type="date" {...register("endContract")} />
         </div>
         <Button action={{ name: "Simpan", submit:true }}></Button>
       </form>

@@ -1,5 +1,6 @@
 import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
+import { Tag } from "@components/general/Tag";
 import { ScheduleCalendar } from "@components/schedules/Calender";
 import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
@@ -55,14 +56,9 @@ const CreateSchedule: FC = () => {
       </div>
       <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
         <div className="w-full">
-          <div className="mb-2 flex w-full md:mb-4">
-            <div
-              className={`${
-                statusmap[status] ?? "bg-blue"
-              } rounded-md p-1 text-sm font-medium text-white`}
-            >
-              {status}
-            </div>
+          <div className="w-full flex mb-2 md:mb-4" >
+            <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
+            <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
           </div>
           {visitations.length > 0 && <ScheduleCalendar data={visitations} />}
           <div className="my-4 md:my-6">

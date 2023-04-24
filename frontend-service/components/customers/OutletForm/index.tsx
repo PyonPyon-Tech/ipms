@@ -75,8 +75,14 @@ export const OutletForm: FC<{}> = ({}) => {
                     ))}
                 </select>
 
-                <Button action={{ name: "Simpan", submit: true }}></Button>
-            </form>
-        </Container>
-    );
+        <Button
+            action={{
+                name: `Submit`,
+                submit: true,
+                func: () => {}
+            }}
+        ></Button>
+      </form>
+    </Container>
+  );
 };

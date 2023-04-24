@@ -1,5 +1,6 @@
 import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
+import { Tag } from "@components/general/Tag";
 import { ScheduleCalendar } from "@components/schedules/Calender";
 import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
@@ -19,11 +20,6 @@ const statusmap = {
   Ditolak: "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",
   "Belum Diajukan": "bg-orange",
-};
-
-const colormap = {
-  Setujui: ["bg-blue", "bg-blue-200"],
-  Tolak: ["bg-red-600", "bg-red-300"],
 };
 
 const ApproveSchedule: FC = () => {
@@ -57,53 +53,42 @@ const ApproveSchedule: FC = () => {
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
           <div className="flex justify-between gap-x-4">
-            {data?.id && (
-              <>
-                <Button
-                  className="bg-coral"
-                  action={{
-                    name: "Tolak",
+          {data?.id &&
+            <>
+              <Button
+                className={statusmap["Ditolak"]}
+                action={{
+                    name: `Tolak`,
                     func: () => {
-                      approveSchedule(technicianId, periodId, comment, 0).then(
-                        () => {
-                          setTimeout(() => {
-                            router.push(window.location.pathname);
-                          }, 50);
-                        }
-                      );
-                    },
-                  }}
-                ></Button>
-                <Button
-                  action={{
-                    name: "Setujui",
+                      approveSchedule(technicianId, periodId, comment, 0).then(() => {
+                        setTimeout(() => {
+                          router.push(window.location.pathname);
+                        }, 50)
+                      });
+                    }
+                }}
+              ></Button>
+              <Button
+                className={statusmap["Disetujui"]}
+                action={{
+                    name: `Setujui`,
                     func: () => {
-                      approveSchedule(technicianId, periodId, comment, 1).then(
-                        () => {
-                          setTimeout(() => {
-                            router.push(window.location.pathname);
-                          }, 50);
-                        }
-                      );
-                    },
-                  }}
-                ></Button>
-              </>
-            )}
+                      approveSchedule(technicianId, periodId, comment, 1).then(() => {
+                        setTimeout(() => {
+                          router.push(window.location.pathname);
+                        }, 50)
+                      });
+                    }
+                }}
+              ></Button>
+            </>}
           </div>
         </div>
       </div>
       <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
         <div className="w-full">
-          <div className="mb-2 flex w-full md:mb-4">
-            <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark"></div>
-            <div
-              className={`${
-                statusmap[status] ?? "bg-blue"
-              } rounded-md p-1 text-sm font-medium text-white`}
-            >
-              {status}
-            </div>
+          <div className="w-full flex mb-2 md:mb-4" >
+            <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
           </div>
           <ScheduleCalendar data={visitations} />
           <div className="my-4 md:my-6">

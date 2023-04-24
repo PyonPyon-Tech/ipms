@@ -3,8 +3,14 @@ import { ROLES } from "@constants/roles";
 import { Customer } from "@models/customer/customer";
 import { FC, use } from "react";
 
+const MONTHS: string[] = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
+
 export const CustomerDetail: FC<Customer> = ({
   id,
+  contact,
+  visitationFrequency,
+  startContract,
+  endContract,
   user: { isActive, name, role, username },
 }) => {
   return (
@@ -24,13 +30,14 @@ export const CustomerDetail: FC<Customer> = ({
             <h5>Role</h5>
             <p>{ROLES[role]}</p>
             <h5>Kontak</h5>
-            <p>+6213213213 (dummy)</p>
+            <p>{contact}</p>
           </div>
           <div className="customer-detail w-full md:w-3/5">
             <h5>Jumlah Kunjungan</h5>
-            <p>2x Sebulan (dummy)</p>
+            <p>{visitationFrequency}x Sebulan</p>
             <h5>Kontrak</h5>
-            <p>Jan 2022 - Jan 2023 (dummy)</p>
+            <p>{new Date(endContract).getDate()} {MONTHS[new Date(startContract).getMonth()]} {new Date(startContract).getFullYear()} 
+            {} - {new Date(endContract).getDate()} {MONTHS[new Date(endContract).getMonth()]} {new Date(endContract).getFullYear()}</p>
             <h5>Status</h5>
             <p>{isActive ? "Aktif" : "Non-Aktif"}</p>
           </div>

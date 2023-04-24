@@ -76,11 +76,14 @@ export const OutletEditForm: FC<{ data: Outlet }> = ({ data }) => {
                     })}
                 </select>
 
-                <Button
-                    className="bg-teal"
-                    action={{ name: "Simpan", submit: true }}
-                ></Button>
-            </form>
-        </Container>
+          <Button
+            action={{
+                name: `Submit`,
+                submit: true,
+                func: () => {}
+            }}
+          ></Button>
+        </form>
+      </Container>
     );
 };

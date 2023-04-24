@@ -1,13 +1,11 @@
 package com.pyonpyontech.reportservice.service;
 
+import com.pyonpyontech.reportservice.dto.PaginatedObject;
 import com.pyonpyontech.reportservice.dto.SummaryReport;
-import com.pyonpyontech.reportservice.model.Period;
-import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer.Outlet;
 import com.pyonpyontech.reportservice.model.customer_service_report.*;
 import com.pyonpyontech.reportservice.model.pest_control.Pesticide;
 import com.pyonpyontech.reportservice.model.pest_control.Schedule;
-import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.reportservice.repository.PeriodDb;
 import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrAreaDb;
@@ -16,7 +14,13 @@ import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrR
 import com.pyonpyontech.reportservice.repository.pest_control.PesticideDb;
 import com.pyonpyontech.reportservice.repository.pest_control.ScheduleDb;
 import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -27,6 +31,8 @@ import java.util.*;
 @Service
 @Transactional
 public class ReportRestService {
+    private static final Logger logger = LoggerFactory.getLogger(ReportRestService.class);
+
     @Autowired
     private CsrAreaDb csrAreaDb;
     @Autowired
@@ -90,69 +96,63 @@ public class ReportRestService {
         return r;
     }
 
-    public SummaryReport summaryReport(Long id){
-        Optional<CsrReport> report = csrReportDb.findById(id);
-        if(report.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        return new SummaryReport(report.get());
-    }
-
-    public List<SummaryReport> summaryReportsByPeriod(Long id){
-        Optional<Period> period = periodDb.findById(id);
-        if(period.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        List<CsrReport> reports = period.get().getReports();
+    public PaginatedObject<SummaryReport> summaryReportsByPeriod(Long id, Long page){
+        Pageable pageRequest = PageRequest.of((int) (page-1), 10, Sort.by("date").descending());
+        Page<CsrReport> reports = csrReportDb.findByPeriodId(id, pageRequest);
         List<SummaryReport> summaryReports = new ArrayList<>();
-        for(CsrReport report: reports){
+        for(CsrReport report: reports.getContent()){
             summaryReports.add(new SummaryReport(report));
         }
-        return summaryReports;
+        return new PaginatedObject<>(page, summaryReports, (long) reports.getTotalPages(), reports.getTotalElements());
     }
 
-    public List<SummaryReport> summaryReportsByPeriodAndTechnician(Long periodId, Long techId){
-        List<CsrReport> reports = csrReportDb.findByPeriodIdAndTechnicianId(periodId, techId);
+    public PaginatedObject<SummaryReport> summaryReportsByPeriodAndTechnician(Long periodId, Long techId, Long page){
+        Pageable pageRequest = PageRequest.of((int) (page-1), 10, Sort.by("date").descending());
+        Page<CsrReport> reports = csrReportDb.findByPeriodIdAndTechnicianId(periodId, techId, pageRequest);
         List<SummaryReport> summaryReports = new ArrayList<>();
-        for(CsrReport report: reports){
+        for(CsrReport report: reports.getContent()){
             summaryReports.add(new SummaryReport(report));
         }
-        return summaryReports;
+        return new PaginatedObject<>(page, summaryReports, (long) reports.getTotalPages(), reports.getTotalElements());
     }
 
-    public List<SummaryReport> summaryReportsByPeriodAndSupervisor(Long periodId, Long supId){
-        List<CsrReport> reports = csrReportDb.findByPeriodIdAndSupervisorId(periodId, supId);
+    public PaginatedObject<SummaryReport> summaryReportsByPeriodAndSupervisor(Long periodId, Long supId, Long page){
+        Pageable pageRequest = PageRequest.of((int) (page-1), 10, Sort.by("date").descending());
+        Page<CsrReport> reports = csrReportDb.findByPeriodIdAndTechnicianSupervisorId(periodId, supId, pageRequest);
         List<SummaryReport> summaryReports = new ArrayList<>();
-        for(CsrReport report: reports){
+        for(CsrReport report: reports.getContent()){
             summaryReports.add(new SummaryReport(report));
         }
-        return summaryReports;
+        return new PaginatedObject<>(page, summaryReports, (long) reports.getTotalPages(), reports.getTotalElements());
     }
 
-    public List<SummaryReport> summaryReportsByPeriodAndOutlet(Long periodId, Long outletId){
-        List<CsrReport> reports = csrReportDb.findByPeriodIdAndOutletId(periodId, outletId);
+    public PaginatedObject<SummaryReport> summaryReportsByPeriodAndOutlet(Long periodId, Long outletId, Long page){
+        Pageable pageRequest = PageRequest.of((int) (page-1), 10, Sort.by("date").descending());
+        Page<CsrReport> reports = csrReportDb.findByPeriodIdAndOutletId(periodId, outletId, pageRequest);
         List<SummaryReport> summaryReports = new ArrayList<>();
-        for(CsrReport report: reports){
+        logger.info("Ada "+reports.getTotalElements()+" report");
+        for(CsrReport report: reports.getContent()){
             summaryReports.add(new SummaryReport(report));
         }
-        return summaryReports;
+        return new PaginatedObject<>(page, summaryReports, (long) reports.getTotalPages(), reports.getTotalElements());
     }
 
-    public List<SummaryReport> summaryReportsByPeriodAndCustomer(Long periodId, Long customerId){
-        List<CsrReport> reports = csrReportDb.findByPeriodIdAndCustomerId(periodId, customerId);
+    public PaginatedObject<SummaryReport> summaryReportsByPeriodAndCustomer(Long periodId, Long customerId, Long page){
+        Pageable pageRequest = PageRequest.of((int) (page-1), 10, Sort.by("date").descending());
+        Page<CsrReport> reports = csrReportDb.findByPeriodIdAndOutletCustomerId(periodId, customerId, pageRequest);
         List<SummaryReport> summaryReports = new ArrayList<>();
-        for(CsrReport report: reports){
+        for(CsrReport report: reports.getContent()){
             summaryReports.add(new SummaryReport(report));
         }
-        return summaryReports;
+        return new PaginatedObject<>(page, summaryReports, (long) reports.getTotalPages(), reports.getTotalElements());
     }
 
-    public List<CsrReport> getReportListByTechnicianId(Long technicianId){
-        List<CsrReport> reportsById = csrReportDb.findByTechnicianId(technicianId);
-        if(reportsById.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return reportsById;
-    }
+//    public PaginatedObject<CsrReport> getReportListByTechnicianId(Long technicianId){
+//        List<CsrReport> reportsById = csrReportDb.findByTechnicianId(technicianId);
+//        if(reportsById.isEmpty()) {
+//            throw new NoSuchElementException();
+//        }
+//        return reportsById;
+//    }
 
 }

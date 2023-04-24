@@ -1,3 +1,4 @@
+import { Tag } from "@components/general/Tag";
 import { Outlet } from "@models/customer/outlet";
 import { Schedule } from "@models/pestcontrol/schedules";
 import { useRouter } from "next/router";
@@ -37,13 +38,8 @@ export const ScheduleCard: FC<Schedule> = ({
           </div>
         </div>
       </div>
-      <div
-        className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 ${
-          isApproved ? "bg-teal" : !!comment ? "bg-coral" : "bg-blue"
-        }`}
-      >
-        {isApproved ? "Disetujui" : !!comment ? "Ditolak" : "Diajukan"}
-      </div>
+      <Tag title={isApproved ? "Disetujui" : !!comment ? "Ditolak" : "Diajukan"} 
+           className={isApproved ? "bg-teal" : !!comment ? "bg-coral" : "bg-blue"}></Tag>
     </div>
   );
 };
