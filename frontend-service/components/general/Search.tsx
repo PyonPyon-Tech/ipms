@@ -20,7 +20,7 @@ export const Search: FC<{
             setSearchTerm(term);
           }
         }}
-        className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal projectFont"
+        className="w-full rounded-md border border-black py-2 pl-10 pr-4 projectFont"
         placeholder={placeholder}
       />
     </div>

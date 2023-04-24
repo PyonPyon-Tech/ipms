@@ -39,18 +39,19 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
             </header>
             <main className="mt-16 flex min-h-screen md:mt-0">
                 <SideBar role={user?.role ?? 4} />
-                <div className="hidden w-1/3 max-w-[300px] md:flex " />
                 <SideMenu
                     role={user?.role ?? 4}
                     openSideMenu={openSideMenu}
                     setOpenSideMenu={setOpenSideMenu}
                 />
-                <div className="px-8 md:px-12 grow overflow-x-hidden md:mt-20">
+                <div className="md:pl-[300px] grow overflow-x-hidden md:mt-20">
+                  <div className="px-8 md:px-12 ">
                   <div >
                     <Breadcrumbs/>
                   </div>
                   <div>
                     {children}
+                  </div>
                   </div>
                 </div>
             </main>

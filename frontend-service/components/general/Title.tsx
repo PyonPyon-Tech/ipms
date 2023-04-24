@@ -24,15 +24,6 @@ export const Title: FC<{
                         }}
                     ></Button>
                 )}
-
-                    {/* {!!action && (
-                        <button
-                            onClick={() => router.push(action.path)}
-                            className="cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm"
-                        >
-                            <p>{action.name}</p>
-                        </button>
-                    )} */}
                 </div>
             </div>
             {children}

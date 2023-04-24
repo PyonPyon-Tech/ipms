@@ -64,14 +64,7 @@ export const CustomerForm: FC<{ }> = ({
             <input required placeholder="Start" type="date" {...register("startContract")} />
             <input required placeholder="End" type="date" {...register("endContract")} />
         </div>
-        
-        <Button
-            action={{
-                name: `Submit`,
-                submit: true,
-                func: () => {}
-            }}
-        ></Button>
+        <Button action={{ name: "Simpan", submit:true }}></Button>
       </form>
     </Container>
   );

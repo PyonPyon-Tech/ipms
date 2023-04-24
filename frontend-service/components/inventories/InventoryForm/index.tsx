@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { TargetPestContainer } from "./targetPest";
 import { Pest } from "@models/pestcontrol/Pest";
 import { formatInventoryForm, validateInventoryForm } from "./helper";
+import { Button } from "@components/general/Button";
 
 export const InventoryForm: FC<{}> = ({}) => {
   const router = useRouter();
@@ -71,12 +72,8 @@ export const InventoryForm: FC<{}> = ({}) => {
             <option value="titik">Titik</option>
           </select>
           <TargetPestContainer pestData={pestData} />
-          <button
-            type="submit"
-            className="mt-4 w-full cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-          >
-            Simpan
-          </button>
+          <Button className="w-full" action={{ name: "Simpan", submit:true }}></Button>
+
         </form>
       </FormProvider>
     </div>
