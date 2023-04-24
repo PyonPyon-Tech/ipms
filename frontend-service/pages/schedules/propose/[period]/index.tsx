@@ -1,4 +1,5 @@
 import { Container } from "@components/general/Container";
+import { Tag } from "@components/general/Tag";
 import { ScheduleCalendar } from "@components/schedules/Calender";
 import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
@@ -49,7 +50,7 @@ const CreateSchedule: FC = () => {
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
             <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
-            <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
+            <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
           </div>
           {visitations.length > 0 && <ScheduleCalendar data={visitations} /> }
           <div className="my-4 md:my-6">

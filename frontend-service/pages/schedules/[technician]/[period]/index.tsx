@@ -1,4 +1,6 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
+import { Tag } from "@components/general/Tag";
 import { ScheduleCalendar } from "@components/schedules/Calender";
 import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
@@ -18,11 +20,6 @@ const statusmap = {
   "Ditolak": "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",
   "Belum Diajukan": "bg-orange",
-};
-
-const colormap = {
-  "Setujui": ["bg-blue", "bg-blue-200"],
-  "Tolak": ["bg-red-600", "bg-red-300"],
 };
 
 const ApproveSchedule: FC = () => {
@@ -49,30 +46,32 @@ const ApproveSchedule: FC = () => {
           <div className="flex justify-between gap-x-4">
           {data?.id &&
             <>
-              <div
-                onClick={() => {
-                  approveSchedule(technicianId, periodId, comment, 0).then(() => {
-                    setTimeout(() => {
-                      router.push(window.location.pathname);
-                    }, 50)
-                  });
+              <Button
+                className={statusmap["Ditolak"]}
+                action={{
+                    name: `Tolak`,
+                    func: () => {
+                      approveSchedule(technicianId, periodId, comment, 0).then(() => {
+                        setTimeout(() => {
+                          router.push(window.location.pathname);
+                        }, 50)
+                      });
+                    }
                 }}
-                className="cursor-pointer rounded-md bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-              >
-                Tolak
-              </div>
-              <div
-                onClick={() => {
-                  approveSchedule(technicianId, periodId, comment, 1).then(() => {
-                    setTimeout(() => {
-                      router.push(window.location.pathname);
-                    }, 50)
-                  });
+              ></Button>
+              <Button
+                className={statusmap["Disetujui"]}
+                action={{
+                    name: `Setujui`,
+                    func: () => {
+                      approveSchedule(technicianId, periodId, comment, 1).then(() => {
+                        setTimeout(() => {
+                          router.push(window.location.pathname);
+                        }, 50)
+                      });
+                    }
                 }}
-                className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-              >
-                Setujui
-              </div>
+              ></Button>
             </>}
           </div>
         </div>
@@ -80,8 +79,7 @@ const ApproveSchedule: FC = () => {
       <Container className="w-full mb-6 md:mb-8 rounded-xl overflow-x-auto overflow-y-hidden">
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
-            <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
-            <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
+            <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
           </div>
           <ScheduleCalendar data={visitations} />
           <div className="my-4 md:my-6">

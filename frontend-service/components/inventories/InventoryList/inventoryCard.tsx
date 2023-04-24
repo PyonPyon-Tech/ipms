@@ -15,7 +15,7 @@ export const InventoryCard: FC<Pesticide> = ({
             onClick={() => {
                 router.push(`inventories/${id}`);
             }}
-            className="shadow-basic mt-4 flex flex-col justify-between rounded-md p-4 align-middle sm:flex-row"
+            className="shadow-basic mb-4 flex flex-col justify-between rounded-md p-4 align-middle sm:flex-row"
         >
             <div className="flex-col">
                 <div className="text pb-1 text-xl font-bold">

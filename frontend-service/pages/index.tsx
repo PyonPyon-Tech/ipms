@@ -1,3 +1,4 @@
+import { Tag } from "@components/general/Tag";
 import Breadcrumbs from "@components/layout/breadcrumbs";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
@@ -7,8 +8,9 @@ import { ReactElement, useState } from "react";
 const Home: NextPage = () => {
   const [amount, setAmount] = useState<number>();
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
-      Test Page
+    <div className="mb-4 w-full">
+      <Tag title="Default tag"></Tag>
+      <Tag title="Custom tag" className="bg-orange"></Tag>
     </div>
   );
 };
