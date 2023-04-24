@@ -18,7 +18,7 @@ export const Button: FC<{
       {img == null && action.name != null && (
         <button
           onClick={action.func}
-          className={`cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm ${className}`}
+          className={`cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:py-2 md:px-3 md:text-sm ${className}`}
           type={submit}
         >
           <p>{action.name}</p>
@@ -27,7 +27,7 @@ export const Button: FC<{
       {img != null && action.name != null && (
         <button
           onClick={action.func}
-          className={`flex cursor-pointer items-center gap-2 rounded-md bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm ${className}`}
+          className={`flex cursor-pointer items-center gap-2 rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:py-2 md:px-3 md:text-sm ${className}`}
           type={submit}
         >
           <p>{action.name}</p>
@@ -37,7 +37,7 @@ export const Button: FC<{
       {img != null && action.name == null && (
         <button
           onClick={action.func}
-          className={`flex cursor-pointer items-center rounded-md bg-blue py-2 px-3 text-xs font-bold text-white md:py-2 md:px-3 md:text-sm ${className}`}
+          className={`flex cursor-pointer items-center rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:py-2 md:px-3 md:text-sm ${className}`}
           type={submit}
         >
           <img style={{ width: "16px" }} src={img} />

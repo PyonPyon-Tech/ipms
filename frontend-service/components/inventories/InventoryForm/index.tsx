@@ -72,7 +72,7 @@ export const InventoryForm: FC<{}> = ({}) => {
             <option value="titik">Titik</option>
           </select>
           <TargetPestContainer pestData={pestData} />
-          <Button action={{ name: "Simpan", submit:true }}></Button>
+          <Button className="w-full" action={{ name: "Simpan", submit:true }}></Button>
 
         </form>
       </FormProvider>
