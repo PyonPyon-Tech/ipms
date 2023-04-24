@@ -23,7 +23,7 @@ const AddOutlet: NextPage = () => {
   }, [user, router, id]);
 
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full md:pt-0">
       <section>
         <Title title="Tambah Outlet" />
         {<OutletForm />}

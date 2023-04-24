@@ -107,7 +107,7 @@ public class SupervisorRestController {
     }
 
     @GetMapping(value = "/technicians")
-    private List<Technician> retrieveAllSupervisorTechniciansByPrincipa(Principal principal) {
+    private List<Technician> retrieveAllSupervisorTechniciansByPrincipal(Principal principal) {
         Supervisor supervisor = supervisorRestService.getSupervisorByUsername(principal.getName());
         return supervisorRestService.getSupervisorTechnicianList(supervisor.getId());
     }
@@ -125,19 +125,39 @@ public class SupervisorRestController {
     
     // Retrieve all schedules under supervisor
     @GetMapping(value = "/{id}/schedules")
-    private List<Schedule> retrieveAllSupervisorSchedules(@PathVariable("id") Long id, Principal principal) {
-        return supervisorRestService.getSupervisorScheduleList(id);
+    private List<Schedule> retrieveAllSupervisorSchedules(@PathVariable("id") Long id, @RequestParam(required = false) String approval, Principal principal) {
+        if (approval == null) {
+            return supervisorRestService.getSupervisorScheduleList(id, -1);
+        }
+        
+        if (approval.equals("0"))
+            return supervisorRestService.getSupervisorScheduleList(id, 0);
+        else if (approval.equals("1"))
+            return supervisorRestService.getSupervisorScheduleList(id, 1);
+          
+        return supervisorRestService.getSupervisorScheduleList(id, -1);
     }
     
     // Retrieve all schedules under supervisor 2
     @GetMapping(value = "/schedules")
-    private List<Schedule> retrieveSupervisorOutlets(Principal principal) { 
+    private List<Schedule> retrieveSupervisorOutlets(@RequestParam(required = false) String approval, Principal principal) { 
         Supervisor supervisor = supervisorRestService.getSupervisorByUsername(principal.getName());
         
         if(supervisor == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         
-        return supervisorRestService.getSupervisorScheduleList(supervisor.getId());
+        Long id = supervisor.getId();
+        
+        if (approval == null) {
+            return supervisorRestService.getSupervisorScheduleList(id, -1);
+        }
+        
+        if (approval.equals("0"))
+            return supervisorRestService.getSupervisorScheduleList(id, 0);
+        else if (approval.equals("1"))
+            return supervisorRestService.getSupervisorScheduleList(id, 1);
+          
+        return supervisorRestService.getSupervisorScheduleList(id, -1);
     }
 }

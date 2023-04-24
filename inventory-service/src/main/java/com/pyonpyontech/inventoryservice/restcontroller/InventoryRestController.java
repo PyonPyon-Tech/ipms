@@ -90,7 +90,18 @@ public class InventoryRestController {
     }
     
     @PostMapping("/pesticide-requests")
-    private PesticideRequest createPesticideRequest(@Valid @RequestBody PesticideRequest pesticideRequest, BindingResult bindingResult) {
-        return inventoryRestService.createPesticideRequest(pesticideRequest);
+    private List<PesticideRequest> createPesticideRequest(@Valid @RequestBody List<PesticideRequest> lstPesticideRequest, BindingResult bindingResult) {
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                List<PesticideRequest> createdPesticideRequest = inventoryRestService.createPesticideRequest(lstPesticideRequest);
+                return createdPesticideRequest;
+            } catch (NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch (DataIntegrityViolationException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            }
+        }
     }
 }

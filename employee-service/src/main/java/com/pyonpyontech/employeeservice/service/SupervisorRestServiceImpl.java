@@ -13,6 +13,7 @@ import com.pyonpyontech.employeeservice.model.customer.Outlet;
 import com.pyonpyontech.employeeservice.model.pest_control.PesticideRequest;
 import com.pyonpyontech.employeeservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.employeeservice.model.pest_control.Schedule;
+import com.pyonpyontech.employeeservice.model.Period;
 
 import com.pyonpyontech.employeeservice.model.UserModel;
 
@@ -21,6 +22,7 @@ import com.pyonpyontech.employeeservice.repository.pest_control.employee_db.Supe
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -138,7 +140,38 @@ public class SupervisorRestServiceImpl implements SupervisorRestService {
         return getSupervisorById(id).getOutlets();
     }
     
-    public List<Schedule> getSupervisorScheduleList(Long id) {
-        return getSupervisorById(id).getSchedules();
+    @Override
+    public List<Schedule> getSupervisorScheduleList(Long id, Integer isApproved) {
+        List<Schedule> schedules = getSupervisorById(id).getSchedules();
+        
+        Collections.sort(schedules, new Comparator<Schedule>(){
+            public int compare(Schedule s1, Schedule s2) {
+                Period s1Period = s1.getPeriod();
+                Period s2Period = s2.getPeriod();
+                
+                LocalDate s1PeriodDate = LocalDate.of(s1Period.getYear(), s1Period.getMonth(), 1);
+                LocalDate s2PeriodDate = LocalDate.of(s2Period.getYear(), s2Period.getMonth(), 1);
+                
+                if(!s1PeriodDate.isEqual(s2PeriodDate)) {
+                    return s1PeriodDate.compareTo(s2PeriodDate);
+                }
+                
+                String s1TechnicianName = s1.getTechnician().getUser().getName().toLowerCase();
+                String s2TechnicianName = s2.getTechnician().getUser().getName().toLowerCase();
+                
+                return s1TechnicianName.compareTo(s2TechnicianName);
+            }
+        });
+        
+        if (isApproved == -1)
+            return schedules;
+        
+        List<Schedule> filteredSchedules = new ArrayList<>();
+        
+        for (Schedule s : schedules)
+            if (s.getIsApproved() == isApproved)
+                filteredSchedules.add(s);
+              
+        return filteredSchedules;
     }
 }

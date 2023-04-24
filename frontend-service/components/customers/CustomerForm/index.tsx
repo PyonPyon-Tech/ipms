@@ -1,12 +1,10 @@
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_CUSTOMER } from "@constants/api";
-import { PATH_ROLES } from "@constants/roles";
-import { Customer, CustomerMutation } from "@models/customer/customer";
+import { CustomerMutation } from "@models/customer/customer";
 import {
   CustomerFields,
   CustomerFormFactory,
 } from "@models/customer/customer/form";
-
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
@@ -68,7 +66,7 @@ export const CustomerForm: FC<{ }> = ({
         
         <button
           type="submit"
-          className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+          className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
         >
           Submit
         </button>

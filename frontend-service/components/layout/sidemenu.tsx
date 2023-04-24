@@ -29,7 +29,7 @@ export const SideMenu: FC<{
         <Greetings />
       </div>
       <div className="pl-8 w-full">
-        <div onClick={logout} className="pl-8 py-4 cursor-pointer bg-red-800 font-semibold text-xs text-white rounded-l-lg text-base flex justify-between">
+        <div onClick={logout} className="pl-8 py-4 cursor-pointer bg-red-800 font-semibold text-white rounded-l-lg text-base flex justify-between">
           <h4>Keluar</h4>
           <img className="object-fill h-6 w-6" src="/icons/logout.svg" />
         </div>

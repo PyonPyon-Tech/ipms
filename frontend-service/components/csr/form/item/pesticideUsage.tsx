@@ -20,7 +20,8 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
   useEffect(() => {
     if (!selectedBrand) return;
     const selectedPesticide = initialData?.pesticides.find((p) => p.id == selectedBrand.value);
-    const targetNDose = selectedPesticide?.targets.split(",");
+    if(!selectedPesticide) return;
+    const targetNDose = (selectedPesticide?.targets as string).split(",");
     const result = targetNDose?.map((x) => {
       const y = x.substring(x.indexOf("(") + 1);
       return {
@@ -32,8 +33,8 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
   }, [selectedBrand]);
 
   if (!initialData) return <div></div>;
-  const { pesticides } = initialData;
-  const satuan = pesticides.find((p) => p.id == selectedBrand?.value)?.unit.toUpperCase() ?? "";
+  let { pesticides } = initialData;
+  const satuan = (pesticides.find((p) => p.id == selectedBrand?.value)?.unit ?? "").toUpperCase() ?? "";
 
   return (
     <div key={id} className="mb-8 flex items-baseline">

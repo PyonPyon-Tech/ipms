@@ -1,7 +1,6 @@
-import { Layout } from "@components/layout";
+import Breadcrumbs from "@components/layout/breadcrumbs";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
-import Breadcrumbs from "@components/layout/breadcrumbs";
 import { NextPage } from "next";
 import { ReactElement, useState } from "react";
 

@@ -13,7 +13,7 @@ INSERT IGNORE INTO `period` (`id`, `month`, `year`) VALUES
 	('12', '11', '2023');
 
 INSERT IGNORE INTO `user` (`uuid`, `is_employee`, `nama`, `password`, `role`, `username`, `is_active`) VALUES
-	('f614eab0-bcd0-11ed-afa1-0242ac120002 ', '1', 'si manajer', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '1', 'manajer', '1'),
+	('f614eab0-bcd0-11ed-afa1-0242ac120002', '1', 'si manajer', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '1', 'manajer', '1'),
 	('f614eab0-bcd0-11ed-afa1-0242ac120003', '1', 'si admin', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '2', 'admin', '1'),
 	('f614eab0-bcd0-11ed-afa1-0242ac120004', '1', 'si supervisor X', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '3', 'supervisor_x', '1'),
 	('f614eab0-bcd0-11ed-afa1-0242ac120005', '1', 'si teknisi B', '$2a$10$xEUTSc4LQfBLPGbec1p.K.kSfBmGWKHAy1XKIruwrF3nuCMB12Mtu', '4', 'teknisi_a', '1'),
