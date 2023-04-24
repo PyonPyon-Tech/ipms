@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { useAuth } from "@hooks/useAuth";
 import { NextPage } from "next";
 import { ReactElement, useEffect, useState } from "react";
@@ -72,12 +73,13 @@ const SignIn: NextPage = () => {
               </div>
               <p>Ingat Saya?</p>
             </div>
-            <div
-              onClick={onLogin}
-              className="cursor-pointer rounded-md bg-blue py-2 px-4 text-center text-white md:w-full"
-            >
-              Log In
-            </div>
+            <Button
+              className="w-full"
+              action={{
+                name: "Login",
+                func: onLogin,
+              }}
+            ></Button>
           </div>
         </section>
       </div>

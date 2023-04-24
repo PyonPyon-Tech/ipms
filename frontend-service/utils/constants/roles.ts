@@ -61,7 +61,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Lihat Jadwal Treatment", path: "/" },
     { name: "Ajukan Jadwal Treatment", path: "/" },
     { name: "Realokasi Jadwal Treatment", path: "/" },
-    { name: "Stok Chemical Saya", path: "/" },
+    { name: "Stok Chemical Saya", path: "/inventories/out" },
     { name: "Lihat Umpan Balik", path: "/" },
   ], // teknisi
 ];

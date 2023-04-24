@@ -1,9 +1,5 @@
-import { classNames } from "@functions/classNames";
-import { Container } from "@components/general/Container";
 import { Pesticide } from "@models/pestcontrol/Pesticide";
-import { useRouter } from "next/router";
-import { FC, ReactNode, useEffect, useState } from "react";
-import { constants } from "buffer";
+import { FC, useEffect, useState } from "react";
 import { Button } from "@components/general/Button";
 
 export const PesticideCard: FC<{
@@ -72,16 +68,6 @@ export const PesticideCard: FC<{
                                                 },
                                             }}
                                         ></Button>
-                                        {/* <button
-                                            className={`rounded-md bg-orange py-1 px-3 text-center text-xs font-semibold text-white md:text-base`}
-                                            onClick={() => {
-                                                setAmount(amount - 1);
-
-                                                console.log(cart);
-                                            }}
-                                        >
-                                            -
-                                        </button> */}
                                     </div>
                                     <div>
                                         <h5 className="text-xl font-bold">
@@ -105,22 +91,6 @@ export const PesticideCard: FC<{
                                             },
                                         }}
                                     ></Button>
-                                    {/* <button
-                                        className={`rounded-md bg-teal py-1 px-3 text-center text-xs font-semibold text-white md:text-base`}
-                                        onClick={() => {
-                                            if (amount < pesticide.stock) {
-                                                setCart(
-                                                    cart.set(
-                                                        pesticide.id,
-                                                        amount + 1
-                                                    )
-                                                );
-                                                setAmount(amount + 1);
-                                            }
-                                        }}
-                                    >
-                                        +
-                                    </button> */}
                                 </div>
                             )}
                         </div>
@@ -177,17 +147,6 @@ export const PesticideCard: FC<{
                                         },
                                     }}
                                 ></Button>
-
-                                {/* <button
-                                    className={`rounded-md bg-orange py-1 px-3 text-center text-xs font-semibold text-white md:text-base`}
-                                    onClick={() => {
-                                        setAmount(amount - 1);
-
-                                        console.log(cart);
-                                    }}
-                                >
-                                    -
-                                </button> */}
                             </div>
                             <div>
                                 <h5 className="text-xl font-bold">{amount}</h5>
@@ -203,16 +162,6 @@ export const PesticideCard: FC<{
                                   },
                                 }}
                             ></Button>
-                            {/* <button
-                                className={`rounded-md bg-teal py-1 px-3 text-center text-xs font-semibold text-white md:text-base`}
-                                onClick={() => {
-                                    setCart(cart.set(pesticide.id, amount + 1));
-                                    setAmount(amount + 1);
-                                    console.log(cart);
-                                }}
-                            >
-                                +
-                            </button> */}
                         </div>
                     )}
                 </div>

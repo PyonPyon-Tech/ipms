@@ -1,4 +1,5 @@
 // import { MyOption } from "@contexts/optionProps";
+import { Button } from "@components/general/Button";
 import { Outlet } from "@models/customer/outlet";
 import {
   ComponentType,
@@ -74,20 +75,21 @@ export const TechnicianOutletsDetailForm: FC<{
             components={{ Option: MyOption }}
           />
         </div>
-        <div
-          onClick={() => {
-            if (outlets.findIndex((outlet) => outlet.id == selected?.id) >= 0) {
-              toast.error("Sudah ditambahkan");
-            } else if (!!selected) {
-              const x = outlets.concat([selected]);
-              setSaved(x);
-              setOutlets(x);
+        <Button
+          className="w-full"
+          action={{
+            name: "Tambah Outlet",
+            func: () => {
+              if (outlets.findIndex((outlet) => outlet.id == selected?.id) >= 0) {
+                toast.error("Sudah ditambahkan");
+              } else if (!!selected) {
+                const x = outlets.concat([selected]);
+                setSaved(x);
+                setOutlets(x);
+              }
             }
           }}
-          className="cursor-pointer rounded-md border-2 border-blue bg-blue px-2 py-1 text-center text-white"
-        >
-          Tambah Outlet
-        </div>{" "}
+        ></Button>
       </div>
     </div>
   );

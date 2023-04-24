@@ -1,11 +1,9 @@
 import { useCsrForm } from "@hooks/useCsrForm";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import { CsrFormGroupContainer } from "./container";
-import { Thumbs } from "../item/thumbs";
-import { CsrDetailPest } from "@models/report/CsrAnswer/CsrDetailPest";
-import { CsrDetailPestField } from "@models/report/CsrReportField";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { CsrFormFindingPestDetail } from "../item/detailPest";
+import { Button } from "@components/general/Button";
 
 export const CsrFormPestFinding: FC = () => {
   const { initialData } = useCsrForm();
@@ -16,16 +14,23 @@ export const CsrFormPestFinding: FC = () => {
 
   return (
     <div>
-      <CsrFormGroupContainer
-        key={"pest"}
-        title="Temuan Hama"
-        section=""
-      >
+      <CsrFormGroupContainer key={"pest"} title="Temuan Hama" section="">
         {fields.map((field, index) => (
-          <CsrFormFindingPestDetail id={field.id} index={index} remove={remove} key={field.id} />
+          <CsrFormFindingPestDetail
+            id={field.id}
+            index={index}
+            remove={remove}
+            key={field.id}
+          />
         ))}
         <div className="flex w-full flex-col items-start">
-          <div  onClick={() => append(defaultPest)} className="flex cursor-pointer rounded-xl bg-blue px-3 py-2 font-semibold text-white">Tambah</div>
+          <Button
+            className="w-full"
+            action={{
+              name: "Tambah",
+              func: () => append(defaultPest)
+            }}
+          ></Button>
         </div>
       </CsrFormGroupContainer>
     </div>
