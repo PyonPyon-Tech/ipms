@@ -17,7 +17,7 @@ const categoryChoices: ReportCategories[][] = [
 
 export const ReportFilter: FC<{
   setPartialFilterData: (key: keyof ListReportFilterDataInterface, value: any) => void;
-  category: ReportCategories | "";
+  category: ReportCategories | "DEFAULT";
 }> = ({ setPartialFilterData, category }) => {
   const { user } = useAuth();
   const [options, setOptions] = useState<{ [K in ReportCategories]: LabelValue[] }>();
@@ -60,8 +60,8 @@ export const ReportFilter: FC<{
             setPartialFilterData("category", e.target.value);
           }}
         >
-          <option disabled value={"DEFAULT"}>
-            Pilih Filter...
+          <option value={"DEFAULT"}>
+            Tanpa Filter
           </option>
           {categoryChoices[user.role].map((category) => (
             <option key={"categoryChoices" + category} value={category}>
@@ -70,7 +70,7 @@ export const ReportFilter: FC<{
           ))}
         </select>
       </div>
-      {category && !!options ? (
+      {category != "DEFAULT" && !!options ? (
         <div className="grid grid-cols-3 items-baseline sm:grid-cols-1">
           <label htmlFor="item" className="capitalize">
             Pilih {category}

@@ -13,12 +13,18 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
+interface ReportListDataInterface {
+  data: CsrReportClass[];
+  page: number;
+  totalPages: number;
+  count: number;
+}
 
 export const ReportListPage: NextPage = () => {
-  const [data, setData] = useState<CsrReportClass[]>([]);
+  const [data, setData] = useState<ReportListDataInterface>();
   const [filterData, setFilterData] = useState<ListReportFilterDataInterface>({
     period: getPeriodFromDate(new Date()),
-    category: "",
+    category: "DEFAULT",
     page: 1,
   });
   const setPartialFilterData = (key: keyof ListReportFilterDataInterface, value: any) => {
@@ -34,14 +40,25 @@ export const ReportListPage: NextPage = () => {
   const { user } = useAuth();
   useEffect(() => {
     const { category, page, period, item } = filterData;
-    if (!user || !period || (category && item == "DEFAULT")) return;
+    console.log(filterData);
+    if (!user || !period) return;
+    if (category != "DEFAULT" && item == "DEFAULT" && page != 1) {
+      toast.error(`Silahkan pilih ${category} terlebih dahulu`);
+      return;
+    }
     async function loadEmployeeReports() {
       let url = listReportCreateBaseURL(user as User, period, category, item, page);
-      console.log(url)
+      console.log(url);
       AxiosClient.get(url)
         .then((response) => {
           console.log(response.data);
-          setData(response.data.map((x: any) => new CsrReportClass(x)));
+          const { count, data, page, totalPages } = response.data;
+          setData({
+            count: count,
+            data: data.map((x: any) => new CsrReportClass(x)),
+            page: page,
+            totalPages: totalPages,
+          });
         })
         .catch((err) => {
           toast.error("Error");
@@ -54,8 +71,14 @@ export const ReportListPage: NextPage = () => {
   return (
     <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
       <ReportFilter category={filterData.category} setPartialFilterData={setPartialFilterData} />
-      <ReportContainer data={data} />
-      <Pagination page={filterData.page} />
+      <ReportContainer data={data?.data ?? []} count={data?.count ?? 0} />
+      <Pagination
+        page={filterData.page ?? 1}
+        count={data?.totalPages ?? 1}
+        onChange={(_, value) => {
+          setPartialFilterData("page", Number(value));
+        }}
+      />
     </div>
   );
 };
