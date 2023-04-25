@@ -37,7 +37,7 @@ export const CsrReportDetailPage: NextPage = () => {
   }, [user, router]);
 
   return (
-    <div className="w-full">
+    <div className="w-0 min-w-full">
 
       {!!csrReport && <CsrReportDetail {...csrReport} />}
 

@@ -80,7 +80,6 @@ export class CsrReportFieldClass implements CsrReportField {
       const namesplit = name.split("-");
       const index = Number(namesplit[1]);
       if (namesplit[0] == "detailAreas") {
-        console.log("KKKKK", index);
         this.detailAreas[index-1].imageUrls.push(url); // detailAreas mulai dari 1
       } else if (namesplit[0] == "detailPests") {
         this.detailPests[index].imageUrls.push(url); // ini mulai dari 0

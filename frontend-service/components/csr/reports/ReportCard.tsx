@@ -7,6 +7,7 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
   data,
 }) => {
   const router = useRouter();
+  console.log(data);
   return (
     <div
       style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)"}}
@@ -16,16 +17,14 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
         <Checkbox/>
         <div className="">
           <h5 className="text-sm font-bold md:mb-1 md:text-xl">
-            {data.outlet.name}
+            {data.outlet.name} / CSR-{data.id}
           </h5>
           <div>
             <table className="table-auto text-xs font-medium md:text-sm">
               <tbody>
                 <tr>
                   <td className="pr-2">Tanggal:</td>
-                  <td className="pr-4">
-                    {data.date}
-                    </td>
+                  <td className="pr-4">{data.summaryDate}</td>
                 </tr>
               </tbody>
             </table>

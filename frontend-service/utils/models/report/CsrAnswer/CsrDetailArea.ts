@@ -4,6 +4,7 @@ export interface CsrDetailArea {
   area: CsrArea;
   displayNumber: string;
   finding: string;
+  id: number;
   status: number;
   recommendation: string[];
   imageUrl: string[];

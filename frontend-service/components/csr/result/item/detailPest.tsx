@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { Controller, UseFieldArrayRemove, useFormContext, useWatch } from "react-hook-form";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { CsrFormAdditionalDetail } from "./additionalDetail";
+import { CsrResultAdditionalDetail } from "./additionalDetail";
 export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: UseFieldArrayRemove }> = ({
   index,
   id,
@@ -83,7 +83,7 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
         {/* ini buat foto */}
         <div className="flex items-start gap-x-4 pl-1">
           <div className="grow">
-            <CsrFormAdditionalDetail id={index} recommendations={recommendations} type="detailPests" yes />
+            <CsrResultAdditionalDetail id={index} recommendations={recommendations} type="detailPests" />
           </div>
         </div>
       </div>
