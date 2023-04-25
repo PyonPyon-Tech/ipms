@@ -5,7 +5,8 @@ import { CsrFormGroupContainer } from "./container";
 
 export const CsrFormAreaFinding: FC = () => {
   const { initialData } = useCsrForm();
-  if (!initialData) return <div></div>;
+  console.log(initialData)
+;  if (!initialData) return <div></div>;
   return (
     <div>
       {initialData.areas.map(({ area, id, findings }, index) => {

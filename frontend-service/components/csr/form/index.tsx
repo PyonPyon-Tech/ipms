@@ -26,9 +26,10 @@ export const CsrForm: FC = () => {
           const csrData = await upload(e);
           if (!csrData) return;
           AxiosClient.post(URL_REPORT, csrData)
-            .then((response) => {
+            .then(({data}) => {
               toast.success("Sukses menyimpan report");
-              console.log(response.data);
+              console.log(data);
+              router.push(`/reports/detail/${data.id}`)
             })
             .catch((error) => {
               console.error(error);

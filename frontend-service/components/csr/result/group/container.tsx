@@ -1,12 +1,12 @@
 import { CsrArea } from "@models/report/CsrQuestion/CsrFindingArea";
 import { FC, ReactNode, useState } from "react";
 
-export const CsrFormGroupContainer: FC<{ children: ReactNode; title: string; section: string }> = ({
+export const CsrResultGroupContainer: FC<{ children: ReactNode; title: string; section: string }> = ({
   children,
   section,
   title,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <section className="mb-8 rounded-[20px] border border-[#1E1E1E] bg-[#FCFCFC]">
       <div
