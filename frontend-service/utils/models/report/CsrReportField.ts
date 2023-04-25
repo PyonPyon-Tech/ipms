@@ -16,7 +16,7 @@ export class CsrReportFieldClass implements CsrReportField {
   visitationPhoto: string;
   detailAreas: { status: string; recommendations: string[]; imageUrls: string[] }[];
   detailPests: { status: string; pest: string; recommendations: string[]; imageUrls: string[] }[];
-  pesticideUsages: { id: string; amount: string }[];
+  pesticideUsages: { pesticide: Id; amount: string }[];
 
   constructor(form: any, technicianId: any) {
     this.reportType = 1;
@@ -59,7 +59,9 @@ export class CsrReportFieldClass implements CsrReportField {
     });
     this.pesticideUsages = form.pesticideUsages.map((detail: any) => {
       return {
-        id: detail.name.value,
+        pesticide:{
+          id: detail.name.value,
+        } as Id,
         amount: detail.amount,
       };
     });
@@ -78,7 +80,8 @@ export class CsrReportFieldClass implements CsrReportField {
       const namesplit = name.split("-");
       const index = Number(namesplit[1]);
       if (namesplit[0] == "detailAreas") {
-        this.detailAreas[index].imageUrls.push(url); // detailAreas mulai dari 1
+        console.log("KKKKK", index);
+        this.detailAreas[index-1].imageUrls.push(url); // detailAreas mulai dari 1
       } else if (namesplit[0] == "detailPests") {
         this.detailPests[index].imageUrls.push(url); // ini mulai dari 0
       }
@@ -100,7 +103,7 @@ export interface CsrReportField {
   visitationPhoto: string;
   detailAreas: { status: string; recommendations: string[]; imageUrls: string[] }[];
   detailPests: { status: string; pest: string; recommendations: string[]; imageUrls: string[] }[];
-  pesticideUsages: { id: string; amount: string }[];
+  pesticideUsages: { pesticide: Id; amount: string }[];
 }
 
 interface Id {

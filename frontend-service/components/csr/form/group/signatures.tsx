@@ -30,13 +30,12 @@ export const CsrFormSignatures: FC = () => {
     setValue("picSignature", file);
   }, [picRef]);
 
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       <div className="flex w-full flex-col items-center justify-center overflow-hidden">
         <h6 className="font-bold md:text-lg lg:text-[20px]">Tanda Tangan Teknisi</h6>
         <div className="relative">
-          <div className="relative my-2 flex items-center rounded-xl  border-2 border-[rgb(200,200,200)] overflow-hidden">
+          <div className="relative my-2 flex items-center overflow-hidden  rounded-xl border-2 border-[rgb(200,200,200)]">
             <SignatureCanvas
               onEnd={captureTechnicianSignature}
               ref={technicianRef}
@@ -46,7 +45,7 @@ export const CsrFormSignatures: FC = () => {
             <div
               className="absolute right-1/2 bottom-0 flex translate-x-1/2 cursor-pointer items-center justify-center gap-x-2 rounded-md bg-coral-dark p-2 font-bold text-white"
               onClick={() => {
-                (technicianRef.current as any).clear()
+                (technicianRef.current as any).clear();
                 setValue("technicianSignature", null);
               }}
             >
@@ -60,7 +59,7 @@ export const CsrFormSignatures: FC = () => {
       <div className="flex w-full flex-col items-center justify-center overflow-hidden">
         <h6 className="font-bold md:text-lg lg:text-[20px]">Tanda Tangan PIC Outlet</h6>
         <div className="relative">
-          <div className="relative my-2 flex items-center rounded-xl border-2 border-[rgb(200,200,200)] overflow-hidden">
+          <div className="relative my-2 flex items-center overflow-hidden rounded-xl border-2 border-[rgb(200,200,200)]">
             <SignatureCanvas
               onEnd={capturePicSignature}
               ref={picRef}
@@ -70,7 +69,7 @@ export const CsrFormSignatures: FC = () => {
             <div
               className="absolute right-1/2 bottom-0 flex translate-x-1/2 cursor-pointer items-center justify-center gap-x-2 rounded-md bg-coral-dark p-2 font-bold text-white"
               onClick={() => {
-                (picRef.current as any).clear()
+                (picRef.current as any).clear();
                 setValue("picSignature", null);
               }}
             >
