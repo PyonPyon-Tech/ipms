@@ -8,7 +8,7 @@ import { CsrReportDetailPage } from "@components/csr/result";
 const AddReportPage: NextPage = () => {
   return (
     <CsrFormProvider>
-      <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+      <div className="mb-4 w-full">
         <CsrReportDetailPage />
       </div>
     </CsrFormProvider>
