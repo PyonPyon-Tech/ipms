@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { CsrFormAdditionalDetail } from "./additionalDetail";
+import { CsrResultAdditionalDetail } from "./additionalDetail";
 import { CsrDetailArea } from "@models/report/CsrAnswer/CsrDetailArea";
 
 export const CsrFindingAreaDetail: FC<CsrDetailArea> = ({
@@ -26,7 +26,7 @@ export const CsrFindingAreaDetail: FC<CsrDetailArea> = ({
             <label htmlFor="type-1">{answerOption[status-1]}</label>
           </div>
         </div>
-        {/* <CsrFormAdditionalDetail type="detailAreas" id={id} recommendations={recommendation} yes={yes} /> */}
+        <CsrResultAdditionalDetail type="detailAreas" id={id} recommendations={recommendation}/>
       </div>
     </div>
   );

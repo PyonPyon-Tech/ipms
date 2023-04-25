@@ -15,6 +15,7 @@ export interface CsrReport {
     period: Period;
     technician: EmployeeTechnician;
     outlet: OutletExtended,
+    summaryDate: string;
     date: string;
     start: string;
     end: string;
@@ -45,6 +46,7 @@ export class CsrReportClass implements CsrReport {
     period: Period;
     technician: EmployeeTechnician;
     outlet: OutletExtended;
+    summaryDate: string;
     date: string;
     start: string;
     end: string;
@@ -64,6 +66,7 @@ export class CsrReportClass implements CsrReport {
         this.technician = obj.technician;
         this.outlet = obj.outlet;
         this.date = obj.date;
+        this.summaryDate = obj.visitationDate;
         this.start = obj.start;
         this.end = obj.end;
         this.technicianSignature = obj.technicianSignature;

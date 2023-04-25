@@ -6,7 +6,7 @@ export const CsrResultGroupContainer: FC<{ children: ReactNode; title: string; s
   section,
   title,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <section className="mb-8 rounded-[20px] border border-[#1E1E1E] bg-[#FCFCFC]">
       <div
