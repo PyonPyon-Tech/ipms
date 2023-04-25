@@ -141,7 +141,7 @@ public class ReportSummaryController {
                     return reportRestService.summaryReportsByPeriodAndOutlet(period, outlet, page);
                 case 4:
                     UserModel technicianUser = userRestService.getTechnicianByOutletId(outlet);
-                    if (technicianUser.getUsername().equals(username)) {
+                    if (!technicianUser.getUsername().equals(username)) {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
                     }
                     return  reportRestService.summaryReportsByPeriodAndOutlet(period, outlet, page);
