@@ -29,13 +29,13 @@ const SearchEmployees: NextPage = () => {
           data.push(new EmployeeClass(employee));
         });
       });
-      console.log(data);
       setEmployees(data);
+      console.log(employees);
     }
     retrieveAllEmployees();
   }, [user]);
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full md:pt-0">
       <section>
         <Title
           title="Daftar Karyawan"

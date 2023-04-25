@@ -33,7 +33,7 @@ const OutletEdit: NextPage = () => {
       retrieveEmployee();
     }, [user, router]);
 
-  return <div className="w-full p-8 md:p-12 md:pt-0">
+  return <div className="w-full">
     <Title title="Ubah Detail Outlet" />
     {!!outlet && <OutletEditForm data={outlet} />}
   </div>;

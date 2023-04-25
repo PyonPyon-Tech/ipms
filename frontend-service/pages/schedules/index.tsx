@@ -11,36 +11,55 @@ import { Schedule, ScheduleClass } from "@models/pestcontrol/schedules";
 import { User } from "@models/user";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const SearchSchedules: NextPage = () => {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [term, setTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+
   const { user } = useAuth();
+  const router = useRouter();
+
   useEffect(() => {
     if (!user) return;
     async function retrieveAllSchedules() {
-      const results = await Promise.all([
-        AxiosClient.get(`${URL_EMPLOYEE}/supervisors/schedules`),
-      ]);
-      const data: Schedule[] = [];
-      results.forEach((result) => {
-        result.data.forEach((schedule: any) => {
-          let scheduleObj = new ScheduleClass(schedule);
+      let requestParams = ``;
 
-          data.push(scheduleObj);
-        });
+      switch (router.pathname) {
+        case `/schedules/allocate`:
+          requestParams = `?approval=1`;
+          setTitle("Daftar Jadwal Disetujui");
+          break;
+        case `/schedules/approve`:
+          requestParams = `?approval=0`;
+          setTitle("Daftar Jadwal Belum Disetujui");
+          break;
+        default:
+          setTitle("Daftar Jadwal");
+      }
+
+      const result = await AxiosClient.get(`${URL_EMPLOYEE}/supervisors/schedules${requestParams}`);
+
+      const data: Schedule[] = [];
+
+      result.data.forEach((schedule: any) => {
+        console.log(`sche ${schedule.id}`);
+        let scheduleObj = new ScheduleClass(schedule);
+
+        data.push(scheduleObj);
       });
-      console.log(data);
+
       setSchedules(data);
     }
     retrieveAllSchedules();
-  }, [user]);
+  }, [user, router]);
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full md:pt-0">
       <section>
         <Title
-          title="Daftar Jadwal"
+          title={title}
         >
           <h4>Total: {schedules.length} jadwal</h4>
         </Title>
@@ -57,7 +76,7 @@ const SearchSchedules: NextPage = () => {
                 setSearchTerm(term);
               }
             }}
-            className="w-full rounded-lg border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
+            className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
             placeholder="Cari Teknisi"
           />
         </div>
@@ -65,6 +84,7 @@ const SearchSchedules: NextPage = () => {
       <section>
         <ScheduleContainer
           data={filterData(schedules, searchTerm, ["technicianName"])}
+          pathname={router.pathname}
         />
       </section>
     </div>

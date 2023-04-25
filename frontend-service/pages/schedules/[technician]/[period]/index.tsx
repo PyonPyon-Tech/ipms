@@ -1,5 +1,6 @@
 import { Container } from "@components/general/Container";
 import { ScheduleCalendar } from "@components/schedules/Calender";
+import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 import { ScheduleProvider } from "@contexts/schedule";
 import { withAuth } from "@functions/withAuth";
@@ -41,7 +42,7 @@ const ApproveSchedule: FC = () => {
   }, [data]);
 
   return (
-    <div className="relative w-full p-8 md:p-12 md:pt-0">
+    <div className="relative w-full">
       <div className="mb-4 font-bold">
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
@@ -56,7 +57,7 @@ const ApproveSchedule: FC = () => {
                     }, 50)
                   });
                 }}
-                className="cursor-pointer rounded-lg bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+                className="cursor-pointer rounded-md bg-red-600 py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
               >
                 Tolak
               </div>
@@ -68,7 +69,7 @@ const ApproveSchedule: FC = () => {
                     }, 50)
                   });
                 }}
-                className="cursor-pointer rounded-lg bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
+                className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
               >
                 Setujui
               </div>
@@ -103,6 +104,9 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </Container>
+      {visitations.length > 0 && (
+        <OutletVisitationContainer data={visitations} type="supervisor" technicianId={technicianId} />
+      )}
     </div>
   );
 };

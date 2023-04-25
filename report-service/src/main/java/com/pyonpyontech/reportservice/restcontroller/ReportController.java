@@ -101,10 +101,10 @@ public class ReportController {
         }
     }
 
-    @GetMapping(value = "/technicians")
-    private List<CsrReport> retrieveAllTechniciansReports(Principal principal) {
-        UserModel user = userRestService.getUserByUsername(principal.getName());
-        Technician technician = userRestService.getTechnicianByUuid(user.getUuid());
-        return reportRestService.getReportListByTechnicianId(technician.getId());
-    }
+//    @GetMapping(value = "/technicians")
+//    private List<CsrReport> retrieveAllTechniciansReports(Principal principal) {
+//        UserModel user = userRestService.getUserByUsername(principal.getName());
+//        Technician technician = userRestService.getTechnicianByUuid(user.getUuid());
+//        return reportRestService.getReportListByTechnicianId(technician.getId());
+//    }
 }
