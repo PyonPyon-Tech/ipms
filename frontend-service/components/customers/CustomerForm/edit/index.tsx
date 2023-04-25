@@ -51,13 +51,7 @@ export const CustomerEditForm: FC<{data: Customer}> = ({data})=>{
             <option value="1">Aktif</option>
           </select>
 
-          <Button
-            action={{
-                name: `Submit`,
-                submit: true,
-                func: () => {}
-            }}
-          ></Button>
+          <Button action={{ name: "Simpan", submit:true }}></Button>
         </form>
       </Container>
     );

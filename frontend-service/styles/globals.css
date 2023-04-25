@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
-h1,h2,h3,h4,h5,h6,p,td{
-  font-family: 'Poppins', sans-serif;
+html *
+{
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .employee-detail > h5 {
@@ -35,7 +35,7 @@ h1,h2,h3,h4,h5,h6,p,td{
   margin-bottom: 0.5rem;
 }
 
-form  h5 {
+form h5 {
   font-size: 16px;
 }
 

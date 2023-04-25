@@ -16,8 +16,8 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const statusmap = {
-  "Disetujui": "bg-teal-dark",
-  "Ditolak": "bg-coral-dark",
+  Disetujui: "bg-teal-dark",
+  Ditolak: "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",
   "Belum Diajukan": "bg-orange",
 };
@@ -27,12 +27,21 @@ const ApproveSchedule: FC = () => {
   // If they don't, create a new schedule
   const { user } = useAuth();
   const router = useRouter();
-  const { data, visitations, checkVisitDate, approveSchedule } = useScheduleForm();
-  const [comment, setComment] = useState('');
+  const { data, visitations, checkVisitDate, approveSchedule } =
+    useScheduleForm();
+  const [comment, setComment] = useState("");
 
-  const status = data?.isApproved == 1 ? "Disetujui" :  (data?.id && data?.comment) ? "Ditolak" : (data?.id) ? "Sedang Diajukan": "Belum Diajukan"
+  const status =
+    data?.isApproved == 1
+      ? "Disetujui"
+      : data?.id && data?.comment
+      ? "Ditolak"
+      : data?.id
+      ? "Sedang Diajukan"
+      : "Belum Diajukan";
 
-  const technicianId = Number(router.query.technician), periodId = Number(router.query.period);
+  const technicianId = Number(router.query.technician),
+    periodId = Number(router.query.period);
 
   useEffect(() => {
     setComment(data?.comment ?? "");
@@ -76,7 +85,7 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </div>
-      <Container className="w-full mb-6 md:mb-8 rounded-xl overflow-x-auto overflow-y-hidden">
+      <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
             <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
@@ -85,25 +94,31 @@ const ApproveSchedule: FC = () => {
           <div className="my-4 md:my-6">
             <h4 className="card-title">Pesan Supervisor:</h4>
             <p>
-              {(!!comment) &&
+              {!!comment && (
                 <textarea
                   className="appearance-none bg-zinc-100"
                   value={comment}
                   onChange={(event) => setComment(event.target.value)}
-                ></textarea>}
-              {(!comment) && 
+                ></textarea>
+              )}
+              {!comment && (
                 <textarea
                   className="appearance-none bg-zinc-100"
                   placeholder={!!data?.id ? "Pesan Anda" : "-"}
                   disabled={!data?.id}
                   onChange={(event) => setComment(event.target.value)}
-                ></textarea>}
+                ></textarea>
+              )}
             </p>
           </div>
         </div>
       </Container>
       {visitations.length > 0 && (
-        <OutletVisitationContainer data={visitations} type="supervisor" technicianId={technicianId} />
+        <OutletVisitationContainer
+          data={visitations}
+          type="supervisor"
+          technicianId={technicianId}
+        />
       )}
     </div>
   );

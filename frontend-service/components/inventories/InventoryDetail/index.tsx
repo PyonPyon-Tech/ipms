@@ -1,8 +1,10 @@
-import { Container } from "@components/general/Container";
 import { Pesticide } from "@models/pestcontrol/Pesticide";
 import { FC } from "react";
 
-export const InventoryDetail: FC<{ data: Pesticide; children?: React.ReactNode }> = ({
+export const InventoryDetail: FC<{
+  data: Pesticide;
+  children?: React.ReactNode;
+}> = ({
   data: { id, name, activeIngredient, stock, targets, unit, targetPests },
   children,
 }) => {
@@ -15,9 +17,8 @@ export const InventoryDetail: FC<{ data: Pesticide; children?: React.ReactNode }
         <div className="flex w-1/2 flex-col">
           <h5 className="text-base font-bold">Bahan Aktif</h5>
           <p className="pb-1 text-base">{activeIngredient}</p>
-
           <h5 className="font-bold">Target Pest</h5>
-          <ul className="list-disc pl-4">
+          <ul className="list-disc pl-6">
             {targetPests?.map((targetPest) => (
               <li className="text-base">{targetPest.name}</li>
             ))}
@@ -25,7 +26,7 @@ export const InventoryDetail: FC<{ data: Pesticide; children?: React.ReactNode }
         </div>
         <div className="w-1/2 flex-col">
           <h5 className="font-bold">Target Chemical</h5>
-          <ul className="list-disc pl-4">
+          <ul className="list-disc pl-6">
             {targets?.split(",").map((x, idx) => {
               return <li key={"li" + idx}>{x}</li>;
             })}
