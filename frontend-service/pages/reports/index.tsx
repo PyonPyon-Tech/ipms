@@ -1,5 +1,6 @@
 import { ReportFilter } from "@components/csr/reports/ReportFilter";
 import { ReportContainer } from "@components/csr/reports/ReportsContainer";
+import { Title } from "@components/general/Title";
 import { AxiosClient } from "@constants/api";
 import { getPeriodFromDate } from "@functions/getPeriodFromDate";
 import { withAuth } from "@functions/withAuth";
@@ -69,7 +70,8 @@ export const ReportListPage: NextPage = () => {
   }, [user, filterData]);
 
   return (
-    <div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+    <div className="mb-4 w-full">
+      <Title title="Lihat Laporan Treatment"></Title>
       <ReportFilter category={filterData.category} setPartialFilterData={setPartialFilterData} />
       <ReportContainer data={data?.data ?? []} count={data?.count ?? 0} />
       <Pagination
