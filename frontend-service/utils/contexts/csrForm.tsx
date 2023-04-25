@@ -30,7 +30,7 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
     const t = toast.loading("Mengambil data...");
     AxiosClient.get(`${URL_REPORT}/${technician}/${getPeriodFromDate(date)}`)
       .then((response) => {
-        console.log(response)
+        console.log(response);
         setInitialData(new CsrInitialDataClass(response.data));
         console.log(new CsrInitialDataClass(response.data));
       })
@@ -52,8 +52,8 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
       });
       return null;
     }
-
     const uploadedPhoto = await uploadImages(form, q.technician, toast);
+    if (uploadedPhoto.length == 0) return null;
     console.log(uploadedPhoto);
     csrReportField.setImages(uploadedPhoto);
     console.log(csrReportField);
