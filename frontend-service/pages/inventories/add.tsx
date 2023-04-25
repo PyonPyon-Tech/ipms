@@ -14,7 +14,7 @@ const ManageInventory: NextPage = () => {
         if (!user) return;
     }, [user, router]);
     return(
-        <div className="w-full pr-8 md:pr-12 md:pt-0">
+        <div className="w-full">
             <section>
                 <Title title="Tambah Barang Baru" />
                 {<InventoryForm/>}

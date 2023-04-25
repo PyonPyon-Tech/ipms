@@ -1,3 +1,4 @@
+import { Tag } from "@components/general/Tag";
 import { ROLES } from "@constants/roles";
 import { Customer } from "@models/customer/customer";
 import { useRouter } from "next/router";
@@ -8,7 +9,6 @@ export const CustomerCard: FC<Customer> = ({
   user: { username, role, isActive, name },
   outlets
 }) => {
-  console.log(outlets);
   const router = useRouter()
   return (
     <div
@@ -36,13 +36,7 @@ export const CustomerCard: FC<Customer> = ({
           </div>
         </div>
       </div>
-      <div
-        className={`text-xs md:text-base font-semibold py-1 text-white rounded-md text-center px-3 ${
-          isActive ? "bg-teal" : "bg-coral"
-        }`}
-      >
-        {isActive ? "Aktif" : "Non-Aktif"}
-      </div>
+      <Tag isActive = {isActive} ></Tag>
     </div>
   );
 };

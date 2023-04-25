@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
 import { Employee } from "@models/pestcontrol/employee";
@@ -73,12 +74,7 @@ export const EmployeeSupervisorEditForm: FC<{ data: Employee }> = ({
         <select hidden disabled required {...register("role")}>
           <option value="3">Supervisor</option>
         </select>
-        <button
-          type="submit"
-          className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-        >
-          Submit
-        </button>
+        <Button action={{ name: "Simpan", submit:true }}></Button>
       </form>
     </Container>
   );

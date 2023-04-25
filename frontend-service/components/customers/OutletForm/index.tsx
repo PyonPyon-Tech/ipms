@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
 import { AxiosClient, URL_CUSTOMER, URL_EMPLOYEE } from "@constants/api";
 import { PATH_ROLES } from "@constants/roles";
@@ -14,67 +15,73 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const OutletForm: FC<{}> = ({}) => {
-  const router = useRouter();
-  const { register, handleSubmit } = useForm<OutletFields>();
-  const [supervisors, setSupervisors] = useState<EmployeeSupervisor[]>([]);
+    const router = useRouter();
+    const { register, handleSubmit } = useForm<OutletFields>();
+    const [supervisors, setSupervisors] = useState<EmployeeSupervisor[]>([]);
 
-  useEffect(() => {
-    AxiosClient.get(`${URL_EMPLOYEE}/supervisors`)
-      .then((response) => {
-        setSupervisors(response.data.map((x: any) => new EmployeeClass(x)));
-      })
-      .catch((err: AxiosError) => {
-        console.log(err);
-      });
-  }, [router]);
+    useEffect(() => {
+        AxiosClient.get(`${URL_EMPLOYEE}/supervisors`)
+            .then((response) => {
+                setSupervisors(
+                    response.data.map((x: any) => new EmployeeClass(x))
+                );
+            })
+            .catch((err: AxiosError) => {
+                console.log(err);
+            });
+    }, [router]);
 
-  const onSubmit = async (data: OutletFields) => {
-    let outlet: OutletMutation | null = null;
+    const onSubmit = async (data: OutletFields) => {
+        let outlet: OutletMutation | null = null;
 
-    outlet = OutletFormFactory.outletMutationFromData(data);
-    outlet.customer.id = parseInt(router.query.id as string);
-    const customerId = outlet.customer.id;
+        outlet = OutletFormFactory.outletMutationFromData(data);
+        outlet.customer.id = parseInt(router.query.id as string);
+        const customerId = outlet.customer.id;
 
-    AxiosClient.post(`${URL_CUSTOMER}/${customerId}/outlets`, outlet)
-      .then((response) => {
-        console.log(response.data);
-        toast.success("Sukses membuat outlet", {
-          duration: 5000,
-        });
-        router.push(`/customers/${customerId}`);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-        console.log(error);
-      });
-  };
+        AxiosClient.post(`${URL_CUSTOMER}/${customerId}/outlets`, outlet)
+            .then((response) => {
+                console.log(response.data);
+                toast.success("Sukses membuat outlet", {
+                    duration: 5000,
+                });
+                router.push(`/customers/${customerId}`);
+            })
+            .catch((error) => {
+                toast.error(error.message);
+                console.log(error);
+            });
+    };
 
-  return (
-    <Container className="justify-evenly gap-x-10">
-      <img
-        src="/icons/account.svg"
-        className="w-1/4 max-w-[200px] md:max-w-[400px]"
-      />
-      <form onSubmit={handleSubmit(onSubmit)} className="detail-form">
-        <h5>Nama Outlet</h5>
-        <input required {...register("name")} />
-        <h5>Daerah</h5>
-        <input required {...register("region")} />
-        <h5>Alamat</h5>
-        <input required {...register("address")} />
-        <h5>Supervisor</h5>
-        <select {...register("supervisorId")}>
-          {supervisors.map(({ id, user: { name }, region }) => (
-            <option value={id} key={id}>{`${name} (${region})`}</option>
-          ))}
-        </select>
+    return (
+        <Container className="justify-evenly gap-x-10">
+            <img
+                src="/icons/account.svg"
+                className="w-1/4 max-w-[200px] md:max-w-[400px]"
+            />
+            <form onSubmit={handleSubmit(onSubmit)} className="detail-form">
+                <h5>Nama Outlet</h5>
+                <input required {...register("name")} />
+                <h5>Daerah</h5>
+                <input required {...register("region")} />
+                <h5>Alamat</h5>
+                <input required {...register("address")} />
+                <h5>Supervisor</h5>
+                <select {...register("supervisorId")}>
+                    {supervisors.map(({ id, user: { name }, region }) => (
+                        <option
+                            value={id}
+                            key={id}
+                        >{`${name} (${region})`}</option>
+                    ))}
+                </select>
 
-        <button
-          type="submit"
-          className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-        >
-          Submit
-        </button>
+        <Button
+            action={{
+                name: `Submit`,
+                submit: true,
+                func: () => {}
+            }}
+        ></Button>
       </form>
     </Container>
   );

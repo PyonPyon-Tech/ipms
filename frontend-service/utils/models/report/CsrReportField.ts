@@ -16,7 +16,7 @@ export class CsrReportFieldClass implements CsrReportField {
   visitationPhoto: string;
   detailAreas: { status: string; recommendations: string[]; imageUrls: string[] }[];
   detailPests: { status: string; pest: string; recommendations: string[]; imageUrls: string[] }[];
-  pesticideUsages: { id: string; amount: string }[];
+  pesticideUsages: { pesticide: Id; amount: string }[];
 
   constructor(form: any, technicianId: any) {
     this.reportType = 1;
@@ -59,7 +59,9 @@ export class CsrReportFieldClass implements CsrReportField {
     });
     this.pesticideUsages = form.pesticideUsages.map((detail: any) => {
       return {
-        id: detail.name.value,
+        pesticide:{
+          id: detail.name.value,
+        } as Id,
         amount: detail.amount,
       };
     });
@@ -100,7 +102,7 @@ export interface CsrReportField {
   visitationPhoto: string;
   detailAreas: { status: string; recommendations: string[]; imageUrls: string[] }[];
   detailPests: { status: string; pest: string; recommendations: string[]; imageUrls: string[] }[];
-  pesticideUsages: { id: string; amount: string }[];
+  pesticideUsages: { pesticide: Id; amount: string }[];
 }
 
 interface Id {

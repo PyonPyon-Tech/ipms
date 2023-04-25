@@ -1,3 +1,4 @@
+import { Button } from "@components/general/Button";
 import { TechnicianOutlets } from "@models/pestcontrol/employee/technician";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -7,9 +8,7 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
 }) => {
   const router = useRouter();
   return (
-    <div
-      className="mb-4 flex w-full shadow-basic cursor-pointer items-center justify-between rounded-md py-2 px-4 md:py-4 md:px-12"
-    >
+    <div className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-md py-2 px-4 shadow-basic md:py-4 md:px-12">
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         <img
           className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16"
@@ -35,14 +34,14 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
           </div>
         </div>
       </div>
-      <div
-        onClick={() => {
-          router.push("/assignments/" + data.id);
+      <Button
+        action={{
+          name: "Lihat Outlet",
+          func: () => {
+            router.push("/assignments/" + data.id);
+          },
         }}
-        className={`rounded- bg-blue py-1 px-3 text-center text-xs font-semibold text-white  md:text-base`}
-      >
-        Lihat Outlet
-      </div>
+      ></Button>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { TechnicianOutletsDetailForm } from "./TechnicianOutletDetailForm";
+import { Button } from "@components/general/Button";
 
 export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
   data,
@@ -15,7 +16,7 @@ export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
   const [allOutlets, setAllOutlets] = useState<Outlet[]>([]);
   const { user } = useAuth();
   const router = useRouter();
-  
+
   useEffect(() => {
     if (!user) return;
     async function loadAllOutlet() {
@@ -35,10 +36,15 @@ export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
   const updateOutlet = async () => {
     const id = router?.query?.technician;
     if (!id || toBeSavedOutlet.length == 0) return;
-    AxiosClient.put(`${URL_EMPLOYEE}/technicians/${id}/outlets`, toBeSavedOutlet)
+    AxiosClient.put(
+      `${URL_EMPLOYEE}/technicians/${id}/outlets`,
+      toBeSavedOutlet
+    )
       .then((response) => {
         toast.success("Berhasil Diupdate");
-        console.log(response.data)
+        console.log(response.data);
+        setEditMode(false);
+        router.push(`/assignments/${id}`);
       })
       .catch((err) => {
         toast.error("Ada Masalah");
@@ -81,23 +87,28 @@ export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
         </h5>
         {editMode ? (
           <div className="flex gap-x-3 text-sm md:text-base">
-            <div
-              onClick={() => setEditMode(false)}
-              className="cursor-pointer rounded-md border-2 border-coral px-2 py-1 text-coral"
-            >
-              Batalkan
-            </div>
-            <div onClick={updateOutlet} className="cursor-pointer rounded-md border-2 border-teal-dark bg-teal-dark px-2 py-1 text-white">
-              Simpan
-            </div>
+            <Button
+              className="bg-coral"
+              action={{
+                name: "Batalkan",
+                func: () => setEditMode(false),
+              }}
+            ></Button>
+            <Button
+              className="bg-teal-dark"
+              action={{
+                name: "Simpan",
+                func: updateOutlet,
+              }}
+            ></Button>
           </div>
         ) : (
-          <div
-            onClick={() => setEditMode(true)}
-            className="cursor-pointer rounded-md border-2 border-blue bg-blue px-2 py-1 text-white"
-          >
-            Edit Outlet
-          </div>
+          <Button
+            action={{
+              name: "Edit Outlet",
+              func: () => setEditMode(true),
+            }}
+          ></Button>
         )}
       </div>
       {!editMode ? (

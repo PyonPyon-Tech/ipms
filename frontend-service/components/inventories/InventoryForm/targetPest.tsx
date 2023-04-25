@@ -29,9 +29,9 @@ export const TargetPestContainer: FC<{ pestData: Pest[] }> = ({ pestData }) => {
         ))}
       </div>
       <Button
-        className="bg-teal-dark"
+        className="bg-teal-dark mb-4 ml-4"
         action={{
-          name: "tambah",
+          name: "Tambah",
           func: () => append({}),
         }}
       />
@@ -72,7 +72,7 @@ const TargetPestItem: FC<any> = ({ id, index, remove, pestData }) => {
           <Button
             className="mt-4 -translate-y-2 bg-coral sm:mt-0"
             action={{
-              name: "hapus",
+              name: "Hapus",
               func: remove,
             }}
           />

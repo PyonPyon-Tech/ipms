@@ -88,6 +88,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         if(updatedCustomerUser.getPassword() != null)
             customerUser.setPassword(jwtUserDetailsService.encrypt(updatedCustomerUser.getPassword()));
         
+        if(updatedCustomer.getContact() != null)
+            customer.setContact(updatedCustomer.getContact());
         
         if(updatedCustomerUser.getIsActive() != null)
             customerUser.setIsActive(updatedCustomerUser.getIsActive());

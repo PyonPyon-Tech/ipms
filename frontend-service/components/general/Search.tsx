@@ -7,7 +7,7 @@ export const Search: FC<{
     const [term, setTerm] = useState<string>("");
 
   return (
-    <div className="relative w-4/5 max-w-[500px]">
+    <div className="relative w-4/5 max-w-[500px] mb-4">
       <img
         src="/icons/search.svg"
         className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
@@ -20,7 +20,7 @@ export const Search: FC<{
             setSearchTerm(term);
           }
         }}
-        className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal projectFont"
+        className="w-full rounded-md border border-black py-2 pl-10 pr-4 projectFont"
         placeholder={placeholder}
       />
     </div>

@@ -2,7 +2,7 @@ import { Search } from "@components/general/Search";
 import { Title } from "@components/general/Title";
 import { InventoryContainer } from "@components/inventories/InventoryList";
 import { AxiosClient, URL_INVENTORY } from "@constants/api";
-import { filterData, filterDataNested } from "@functions/filterData";
+import { filterData } from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
@@ -32,7 +32,7 @@ const ManageInventory: NextPage = () => {
         retrieveAllInventory();
     }, [user]);
     return (
-        <div className="w-full pr-8 md:pr-12 md:pt-0">
+        <div className="w-full">
             <section>
                 <Title
                     title="Stok Chemical"
@@ -46,7 +46,7 @@ const ManageInventory: NextPage = () => {
                 <Search
                     setSearchTerm={setSearchTerm}
                     placeholder={"Cari pestisida"}
-                ></Search>{" "}
+                ></Search>
             </div>
             <section>
                 {/* Start card */}

@@ -1,16 +1,24 @@
+import { Button } from "@components/general/Button";
 import { useCsrForm } from "@hooks/useCsrForm";
 import { FC, useEffect, useState } from "react";
-import { Controller, UseFieldArrayRemove, useFormContext, useWatch } from "react-hook-form";
+import {
+  Controller,
+  UseFieldArrayRemove,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import Select from "react-select";
 
-export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove: UseFieldArrayRemove }> = ({
-  id,
-  index,
-  remove,
-}) => {
+export const CsrFormPesticideUsageDetail: FC<{
+  index: number;
+  id: string;
+  remove: UseFieldArrayRemove;
+}> = ({ id, index, remove }) => {
   const { initialData } = useCsrForm();
   const { register, control, setValue } = useFormContext();
-  const [pesticideTarget, setpesticideTarget] = useState<{ target: string; dose: string }[]>([]);
+  const [pesticideTarget, setpesticideTarget] = useState<
+    { target: string; dose: string }[]
+  >([]);
   const [applicationNdosage, setApplicationNDosage] = useState("");
   const namepath = `pesticideUsages.${index}`;
   const selectedBrand = useWatch({
@@ -19,8 +27,10 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
   });
   useEffect(() => {
     if (!selectedBrand) return;
-    const selectedPesticide = initialData?.pesticides.find((p) => p.id == selectedBrand.value);
-    if(!selectedPesticide) return;
+    const selectedPesticide = initialData?.pesticides.find(
+      (p) => p.id == selectedBrand.value
+    );
+    if (!selectedPesticide) return;
     const targetNDose = (selectedPesticide?.targets as string).split(",");
     const result = targetNDose?.map((x) => {
       const y = x.substring(x.indexOf("(") + 1);
@@ -34,7 +44,10 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
 
   if (!initialData) return <div></div>;
   let { pesticides } = initialData;
-  const satuan = (pesticides.find((p) => p.id == selectedBrand?.value)?.unit ?? "").toUpperCase() ?? "";
+  const satuan =
+    (
+      pesticides.find((p) => p.id == selectedBrand?.value)?.unit ?? ""
+    ).toUpperCase() ?? "";
 
   return (
     <div key={id} className="mb-8 flex items-baseline">
@@ -45,7 +58,9 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
             control={control}
             render={({ field }) => (
               <div className="grow">
-                <h6 className="mb-1 font-bold">{`(${String.fromCharCode(index + 65)}) Brand`}</h6>
+                <h6 className="mb-1 font-bold">{`(${String.fromCharCode(
+                  index + 65
+                )}) Brand`}</h6>
                 <Select
                   {...field}
                   isSearchable
@@ -62,18 +77,20 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
               </div>
             )}
           />
-          <div
-            onClick={() => remove(index)}
-            className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-lg bg-orange px-3 py-1 md:h-10 md:w-14 md:px-4 md:py-2"
-          >
-            <img src="/icons/trash-white.svg" />
-          </div>
+          <Button
+            className="bg-orange"
+            action={{
+              func: () => remove(index),
+            }}
+            img="/icons/trash-white.svg"
+          ></Button>
         </div>
         <div className="mb-2 w-full">
           <label className="mb-1 font-bold">Bahan Aktif</label>
           <Select
             value={{
-              label: pesticides.find((p) => p.id == selectedBrand?.value)?.activeIngredient,
+              label: pesticides.find((p) => p.id == selectedBrand?.value)
+                ?.activeIngredient,
               value: "",
             }}
           />
@@ -111,13 +128,17 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
         <div className="mb-2 flex w-full">
           <div>
             <label className="mb-1 font-bold">
-              Jumlah Digunakan {selectedBrand && `[dalam ${satuan.toUpperCase()}]`}
+              Jumlah Digunakan{" "}
+              {selectedBrand && `[dalam ${satuan.toUpperCase()}]`}
             </label>
             <input
               min={1}
               type="number"
               onChange={(e) => {
-                setValue(`${namepath}.amount`, `${e.target.value} ${satuan.toUpperCase()}`);
+                setValue(
+                  `${namepath}.amount`,
+                  `${e.target.value} ${satuan.toUpperCase()}`
+                );
               }}
             />
           </div>

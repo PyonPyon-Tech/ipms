@@ -1,4 +1,6 @@
+import { Button } from "@components/general/Button";
 import { Container } from "@components/general/Container";
+import { Tag } from "@components/general/Tag";
 import { ScheduleCalendar } from "@components/schedules/Calender";
 import { OutletVisitationContainer } from "@components/schedules/OutletVisitationContainer";
 import { AxiosClient, URL_EMPLOYEE } from "@constants/api";
@@ -17,8 +19,8 @@ const statusmap = {
   Disetujui: "bg-teal-dark",
   Ditolak: "bg-coral-dark",
   "Sedang Diajukan": "bg-blue",
-  "Belum Diajukan": "bg-orange"
-}
+  "Belum Diajukan": "bg-orange",
+};
 
 const CreateSchedule: FC = () => {
   // Get their schedule, if they exist then show the schedule.
@@ -26,32 +28,39 @@ const CreateSchedule: FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { data, visitations, checkVisitDate, submit } = useScheduleForm();
-  const status = data?.isApproved == 1 ? "Disetujui" :  (data?.id && data?.comment) ? "Ditolak" : (data?.id) ? "Sedang Diajukan": "Belum Diajukan";
+  const status =
+    data?.isApproved == 1
+      ? "Disetujui"
+      : data?.id && data?.comment
+      ? "Ditolak"
+      : data?.id
+      ? "Sedang Diajukan"
+      : "Belum Diajukan";
 
   return (
     <div className="relative w-full">
       <div className="mb-4 font-bold">
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
-          <div
-            onClick={() => {
-              if (checkVisitDate()) {
-                submit();
-              }
+          <Button
+            action={{
+              name: "Submit",
+              func: () => {
+                if (checkVisitDate()) {
+                  submit();
+                }
+              },
             }}
-            className="cursor-pointer rounded-md bg-blue py-1 px-2 text-xs font-medium text-white md:py-2 md:px-3 md:text-sm"
-          >
-            Submit
-          </div>
+          ></Button>
         </div>
       </div>
-      <Container className="w-full mb-6 md:mb-8 rounded-xl overflow-x-auto overflow-y-hidden">
+      <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
             <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>
-            <div className={`${statusmap[status] ?? "bg-blue"} text-white text-sm p-1 font-medium rounded-md`}>{status}</div>
+            <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>
           </div>
-          {visitations.length > 0 && <ScheduleCalendar data={visitations} /> }
+          {visitations.length > 0 && <ScheduleCalendar data={visitations} />}
           <div className="my-4 md:my-6">
             <h4 className="card-title">Pesan Supervisor:</h4>
             <p>
@@ -65,7 +74,11 @@ const CreateSchedule: FC = () => {
         </div>
       </Container>
       {visitations.length > 0 && status != "Disetujui" && (
-        <OutletVisitationContainer data={visitations} type="technician" technicianId={-1} />
+        <OutletVisitationContainer
+          data={visitations}
+          type="technician"
+          technicianId={-1}
+        />
       )}
     </div>
   );

@@ -50,7 +50,7 @@ const SearchInventory: NextPage = () => {
     retrieveAllPesticide();
   }, [user]);
   return (
-<div className="mb-4 w-full p-8 md:p-12 md:pt-0">
+<div className="mb-4 w-full">
       <section>
         {isCart?
         <TitleInventoryOut
@@ -76,7 +76,7 @@ const SearchInventory: NextPage = () => {
           <h4>Total: {pesticides.length} pestisida</h4>
         </TitleInventoryOut>
         }
-        <div className="relative w-4/5 max-w-[500px]">
+        <div className="relative w-4/5 max-w-[500px] mb-4">
           <img
             src="/icons/search.svg"
             className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
