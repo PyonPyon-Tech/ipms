@@ -16,6 +16,7 @@ export const CustomerCard: FC<Customer> = ({
       router.push(`/customers/${id}`)
     }}
       className="shadow-basic mb-4 cursor-pointer rounded-md py-2 px-4 md:py-4 md:px-12 flex justify-between items-center w-full"
+      key={username + "k"}
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         <img
@@ -36,7 +37,7 @@ export const CustomerCard: FC<Customer> = ({
           </div>
         </div>
       </div>
-      <Tag isActive = {isActive} ></Tag>
+      <Tag isActive = {isActive} key={username + "kt"}></Tag>
     </div>
   );
 };

@@ -24,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.pyonpyontech.customerservice.dto.PaginatedObject;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -33,6 +35,9 @@ import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.service.CustomerRestService;
+import com.pyonpyontech.customerservice.service.UserRestService;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -40,6 +45,9 @@ import com.pyonpyontech.customerservice.service.CustomerRestService;
 public class CustomerRestController {
     @Autowired
     private CustomerRestService customerRestService;
+    
+    @Autowired
+    private UserRestService userRestService;
 
     // Retrieve by ID
     @GetMapping(value = "/{id}")
@@ -51,10 +59,53 @@ public class CustomerRestController {
         }
     }
     
+    // Filter, paged
+    @GetMapping(value = "/filter")
+    private PaginatedObject<Customer> filterCustomerPages(
+            @RequestParam("name") String name, 
+            @RequestParam("page") Long page,
+            Principal principal) {
+        Integer role = userRestService.getRole(principal);
+        String username = principal.getName();
+
+        try {
+            switch (role) {
+                case 1:
+                    return customerRestService.getFilteredPagedCustomer(name, page);
+            }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(e.getStatus());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        }
+    }
+    
     // Retrieve all
     @GetMapping
     private List<Customer> retrieveAllCustomers() {
         return customerRestService.getCustomerList();
+    }
+    
+    // Retrieve paginated
+    @GetMapping("/pages/{page}")
+    private PaginatedObject<Customer> retrieveAllCustomerPages(
+            @PathVariable("page") Long page,
+            Principal principal) {
+        Integer role = userRestService.getRole(principal);
+        String username = principal.getName();
+
+        try {
+            switch (role) {
+                case 1:
+                    return customerRestService.getPagedCustomerList(page);
+            }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(e.getStatus());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        }
     }
     
     // Create customer

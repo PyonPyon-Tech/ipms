@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.customerservice.dto.PaginatedObject;
 
 public interface CustomerRestService {
     Customer getCustomerById(Long id);
+    PaginatedObject<Customer> getFilteredPagedCustomer(String query, Long page);
     List<Customer> getCustomerList();
+    PaginatedObject<Customer> getPagedCustomerList(Long page);
     Customer createCustomer(Customer customer);
     Customer updateCustomer(Long id, Customer updatedCustomer);
     

@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
+
 @Service
 @Transactional
 public class UserRestServiceImpl implements UserRestService {
@@ -54,6 +56,13 @@ public class UserRestServiceImpl implements UserRestService {
         String pass = jwtUserDetailsService.encrypt(user.getPassword());
         user.setPassword(pass);
         return userDb.save(user);
+    }
+    
+    @Override
+    public Integer getRole(Principal principal) {
+        String username = principal.getName();
+        UserModel user = getUserByUsername(username);
+        return user.getRole();
     }
   
 }
