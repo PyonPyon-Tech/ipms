@@ -1,6 +1,7 @@
 import { Pesticide } from "@models/pestcontrol/Pesticide";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@components/general/Button";
+import toast from "react-hot-toast";
 
 export const PesticideCard: FC<{
     pesticide: Pesticide;
@@ -9,6 +10,22 @@ export const PesticideCard: FC<{
     setCart: (cart: Map<number, number>) => void;
 }> = ({ pesticide, isCart, cart, setCart }) => {
     const [amount, setAmount] = useState<number>(0);
+
+    function plusAmount(){
+        if (amount < pesticide.stock){
+            setCart(cart.set(pesticide.id, amount+1))
+            setAmount(amount + 1)
+        }else{
+            toast.error("Stock tidak mencukupi");
+        }
+        console.log(cart)
+    }
+    function minusAmount(){
+        setCart(cart.set(pesticide.id, amount-1))
+        setAmount(amount - 1)
+        console.log(cart)
+    }
+
     useEffect(() => {
         if (amount >= 0) {
             setCart(cart.set(pesticide.id, amount));
@@ -50,8 +67,7 @@ export const PesticideCard: FC<{
                                     action={{
                                         name: "Tambah",
                                         func: () => {
-                                            setAmount(amount + 1);
-                                            console.log(cart);
+                                            plusAmount()
                                         },
                                     }}
                                 ></Button>
@@ -63,8 +79,7 @@ export const PesticideCard: FC<{
                                             action={{
                                                 name: "-",
                                                 func: () => {
-                                                    setAmount(amount - 1);
-                                                    console.log(cart);
+                                                    minusAmount()
                                                 },
                                             }}
                                         ></Button>
@@ -79,15 +94,7 @@ export const PesticideCard: FC<{
                                         action={{
                                             name: "+",
                                             func: () => {
-                                                if (amount < pesticide.stock) {
-                                                    setCart(
-                                                        cart.set(
-                                                            pesticide.id,
-                                                            amount + 1
-                                                        )
-                                                    );
-                                                    setAmount(amount + 1);
-                                                }
+                                                plusAmount()
                                             },
                                         }}
                                     ></Button>
@@ -129,8 +136,7 @@ export const PesticideCard: FC<{
                             action={{
                                 name: "Tambah",
                                 func: () => {
-                                    setAmount(amount + 1);
-                                    console.log(cart);
+                                    plusAmount()
                                 },
                             }}
                         ></Button>
@@ -142,8 +148,7 @@ export const PesticideCard: FC<{
                                     action={{
                                         name: "-",
                                         func: () => {
-                                            setAmount(amount - 1);
-                                            console.log(cart);
+                                           minusAmount()
                                         },
                                     }}
                                 ></Button>
@@ -156,9 +161,7 @@ export const PesticideCard: FC<{
                                 action={{
                                     name: "+",
                                     func: () => {
-                                      setCart(cart.set(pesticide.id, amount + 1));
-                                      setAmount(amount + 1);
-                                      console.log(cart);
+                                      plusAmount()
                                   },
                                 }}
                             ></Button>
