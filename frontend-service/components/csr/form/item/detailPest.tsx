@@ -69,17 +69,10 @@ export const CsrFormFindingPestDetail: FC<{
           <Button
             className="bg-orange"
             action={{
-              name: "Login",
               func: () => remove(index)
             }}
             img="/icons/trash-white.svg"
           ></Button>
-          <div
-            onClick={() => remove(index)}
-            className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-lg bg-orange px-3 py-1 md:h-10 md:w-14 md:px-4 md:py-2"
-          >
-            <img src="/icons/trash-white.svg" />
-          </div>
         </div>
         <div className="mb-1 flex gap-x-4 pl-1">
           <div className="text-sm font-medium md:text-base lg:text-lg">

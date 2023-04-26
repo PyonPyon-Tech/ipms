@@ -3,18 +3,16 @@ import { Checkbox } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
-  data,
-}) => {
+export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({ data }) => {
   const router = useRouter();
   console.log(data);
   return (
     <div
-      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)"}}
+      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)" }}
       className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12"
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
-        <Checkbox/>
+        {/* <Checkbox/> */}
         <div className="">
           <h5 className="text-sm font-bold md:mb-1 md:text-xl">
             {data.outlet.name} / CSR-{data.id}
@@ -23,8 +21,15 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({
             <table className="table-auto text-xs font-medium md:text-sm">
               <tbody>
                 <tr>
-                  <td className="pr-2">Tanggal:</td>
-                  <td className="pr-4">{data.summaryDate}</td>
+                  <td className="pr-2">Hari & Tanggal:</td>
+                  <td>
+                    {new Date(data.summaryDate).toLocaleDateString("id", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -17,6 +17,11 @@ import com.pyonpyontech.customerservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.SupervisorDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import com.pyonpyontech.customerservice.dto.PaginatedObject;
 
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -54,8 +59,34 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
+    public PaginatedObject<Customer> getFilteredPagedCustomer(String query, Long page) {
+        Pageable pageRequest = PageRequest.of((int) (page - 1), 10, Sort.by("user.name").ascending());
+        Page<Customer> customers = customerDb.filterAllByNameWithPagination(query, pageRequest);
+        List<Customer> customerList = new ArrayList<>();
+        
+        for(Customer customer : customers.getContent()){
+            customerList.add(customer);
+        }
+        
+        return new PaginatedObject<>(page, customerList, (long) customers.getTotalPages(), customers.getTotalElements());
+    }
+    
+    @Override
     public List<Customer> getCustomerList() {
         return customerDb.findAll();
+    }
+    
+    @Override
+    public PaginatedObject<Customer> getPagedCustomerList(Long page){
+        Pageable pageRequest = PageRequest.of((int) (page - 1), 10, Sort.by("user.name").ascending());
+        Page<Customer> customers = customerDb.findAll(pageRequest);
+        List<Customer> customerList = new ArrayList<>();
+        
+        for(Customer customer : customers.getContent()){
+            customerList.add(customer);
+        }
+        
+        return new PaginatedObject<>(page, customerList, (long) customers.getTotalPages(), customers.getTotalElements());
     }
     
     @Override

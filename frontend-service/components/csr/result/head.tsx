@@ -15,7 +15,7 @@ export const CsrFormHead: FC = () => {
   const disabled = allOutlets.length == 0;
   const placeholder = disabled ? "Pilih Tanggal Terlebih Dahulu" : "Pilih Outlet";
   const { register, control } = useFormContext();
-  getInitialData(user?.id, new Date('2023-02-28'));
+  // getInitialData(user?.id, new Date('2023-02-28'));
   return (
     <section className={styles.csrFormHead}>
       <div className="csr-form-head">
