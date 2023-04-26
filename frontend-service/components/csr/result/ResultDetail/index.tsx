@@ -34,6 +34,8 @@ export const CsrReportDetail: FC<CsrReport> = ({
   pesticideUsages,
 }) => {
   // console.log(detailAreas);
+  const signature = [technicianSignature, picSignature];
+
 
   //date lokal
   moment.locale("id");
@@ -232,10 +234,10 @@ export const CsrReportDetail: FC<CsrReport> = ({
               <CsrResultPesticideUsage data={pesticideUsages} />
             </div>
             <div>
-              <CsrResultSignatures />
+            <CsrResultSignatures data={signature} />
             </div>
             <div>
-              <CsrResultVisitationPhoto />
+              <CsrResultVisitationPhoto data={visitationPhoto}/>
             </div>
           </section>
         </div>
