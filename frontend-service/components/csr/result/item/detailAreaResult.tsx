@@ -10,9 +10,9 @@ export const CsrFindingAreaDetail: FC<CsrDetailArea> = ({
   finding,
   status,
   recommendation,
-  imageUrl,
+  imageUrls,
 }) => {
-  // console.log(id);
+  console.log(imageUrls);
   const [yes, setYes] = useState(false);
   const answerOption = ["Tidak Ada", "Ya", "Tidak"];
   return (
@@ -26,7 +26,7 @@ export const CsrFindingAreaDetail: FC<CsrDetailArea> = ({
             <label htmlFor="type-1">{answerOption[status-1]}</label>
           </div>
         </div>
-        <CsrResultAdditionalDetail type="detailAreas" id={id} recommendations={recommendation}/>
+        <CsrResultAdditionalDetail type="detailAreas" id={id} recommendations={recommendation} imageUrls={imageUrls}/>
       </div>
     </div>
   );
