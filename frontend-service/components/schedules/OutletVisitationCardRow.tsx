@@ -100,13 +100,31 @@ export const OutletVisitationCardRow: FC<{
             <div>
               {dateDisabled ? (
                 <div className="flex gap-x-3">
-                  <div
+                  <Button
+                    action={{
+                      name: "Edit",
+                      func: () => setDateDisabled(false),
+                    }}
+                  ></Button>
+                  {/* <div
                     className="cursor-pointer rounded-md border-2 border-blue bg-blue py-1.5 px-3 text-white"
                     onClick={() => setDateDisabled(false)}
                   >
                     Edit
-                  </div>
-                  <div
+                  </div> */}
+
+                  <Button
+                    className="bg-coral-dark"
+                    action={{
+                      name: "Hapus",
+                      func: () => {
+                        setDateDisabled(false);
+                        setValue("");
+                        changeVisitDate(data.outletId, index, "");
+                      },
+                    }}
+                  ></Button>
+                  {/* <div
                     className="border-coral-bg-coral-dark cursor-pointer rounded-md border-2 bg-coral-dark py-1.5 px-3 text-white"
                     onClick={() => {
                       setDateDisabled(false);
@@ -115,7 +133,7 @@ export const OutletVisitationCardRow: FC<{
                     }}
                   >
                     Hapus
-                  </div>
+                  </div> */}
                 </div>
               ) : (
                 <div className="flex gap-x-3">
@@ -206,6 +224,22 @@ export const OutletVisitationCardRow: FC<{
                     />
                   </div>
                   <div
+                    className="cursor-pointer rounded-md border-2 border-coral py-2 px-3 text-xs font-semibold text-coral hover:bg-opacity-70 md:text-base"
+                    onClick={() => {}}
+                  >
+                    Batalkan
+                  </div>
+                  <div
+                    className="cursor-pointer rounded-md border-2 border-teal-dark bg-teal-dark py-2 px-3 text-xs font-semibold text-white hover:bg-opacity-70 md:text-base"
+                    onClick={() => {
+                      changeVisitDate(data.outletId, index, value);
+                      setDateDisabled(true);
+                    }}
+                  >
+                    Simpan
+                  </div>
+
+                  <div
                     className="cursor-pointer rounded-md border-2 border-coral py-1.5 px-3 text-coral"
                     onClick={() => {
                       setTechnicianDisabled(true);
@@ -234,14 +268,31 @@ export const OutletVisitationCardRow: FC<{
           {type == "technician" && (
             <div>
               {dateDisabled ? (
-                <div className="flex gap-x-3">
-                  <div
+                <div className="flex gap-x-2">
+                  <Button
+                    className="bg-coral-dark"
+                    action={{
+                      name: "Hapus",
+                      func: () => {
+                        setDateDisabled(false);
+                        setValue("");
+                        changeVisitDate(data.outletId, index, "");
+                      },
+                    }}
+                  ></Button>
+                  <Button
+                    action={{
+                      name: "Edit",
+                      func: () => setDateDisabled(false),
+                    }}
+                  ></Button>
+                  {/* <div
                     className="cursor-pointer rounded-md border-2 border-blue bg-blue py-1.5 px-3 text-white"
                     onClick={() => setDateDisabled(false)}
                   >
                     Edit
-                  </div>
-                  <div
+                  </div> */}
+                  {/* <div
                     className="border-coral-bg-coral-dark cursor-pointer rounded-md border-2 bg-coral-dark py-1.5 px-3 text-white"
                     onClick={() => {
                       setDateDisabled(false);
@@ -250,12 +301,12 @@ export const OutletVisitationCardRow: FC<{
                     }}
                   >
                     Hapus
-                  </div>
+                  </div> */}
                 </div>
               ) : (
-                <div className="flex gap-x-3">
+                <div className="flex gap-x-2">
                   <div
-                    className="cursor-pointer rounded-md border-2 border-coral py-1.5 px-3 text-coral"
+                    className="cursor-pointer rounded-md border-2 border-coral py-2 px-3 text-xs font-semibold text-coral hover:bg-opacity-70 md:text-base"
                     onClick={() => {
                       setValue(date);
                       setDateDisabled(true);
@@ -264,7 +315,7 @@ export const OutletVisitationCardRow: FC<{
                     Batalkan
                   </div>
                   <div
-                    className="cursor-pointer rounded-md border-2 bg-teal py-1.5 px-3 text-white"
+                    className="cursor-pointer rounded-md border-2 border-teal-dark bg-teal-dark py-2 px-3 text-xs font-semibold text-white hover:bg-opacity-70 md:text-base"
                     onClick={() => {
                       changeVisitDate(data.outletId, index, value);
                       setDateDisabled(true);

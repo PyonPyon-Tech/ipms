@@ -26,7 +26,7 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
   if (!initialData) return <div></div>;
   const { pests } = initialData;
   return (
-    <div key={id} className="mb-8 flex items-baseline text-sm md:text-base lg:text-lg">
+    <div key={id} className="mb-4 flex items-baseline text-sm md:text-base lg:text-lg">
       <div className="grow">
         <div className="mb-1 text-sm font-medium md:text-base lg:text-lg">{`(${String.fromCharCode(index + 65)}) Temuan Hama`}</div>
         <div className="mb-1 flex justify-between gap-x-3 md:gap-x-8">

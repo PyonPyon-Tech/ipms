@@ -10,10 +10,10 @@ export const Button: FC<{
   img?: string;
 }> = ({ action, className, img }) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center">
       <button
         onClick={action.func}
-        className={`cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:py-2 md:px-3 md:text-sm ${className}`}
+        className={`hover:bg-opacity-70 hover:bg- cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:text-base flex flex-row gap-2 justify-center ${className}`}
         type={!action.submit ? "button" : "submit"}
       >
         {action.name ? <p>{action.name}</p> : <></>}
