@@ -50,7 +50,7 @@ export const CsrFormPesticideUsageDetail: FC<{
     ).toUpperCase() ?? "";
 
   return (
-    <div key={id} className="mb-8 flex items-baseline">
+    <div key={id} className="mb-4 flex items-baseline">
       <div className="grow">
         <div className="mb-2 flex w-full items-end justify-between gap-3 md:gap-8">
           <Controller

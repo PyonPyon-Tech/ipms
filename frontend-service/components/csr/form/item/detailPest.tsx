@@ -37,7 +37,7 @@ export const CsrFormFindingPestDetail: FC<{
   return (
     <div
       key={id}
-      className="mb-8 flex items-baseline text-sm md:text-base lg:text-lg"
+      className="mb-4 flex items-baseline text-sm md:text-base lg:text-lg"
     >
       <div className="grow">
         <div className="mb-1 text-sm font-medium md:text-base lg:text-lg">{`(${String.fromCharCode(

@@ -85,7 +85,7 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </div>
-      <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
+      <Container className="mb-4 w-full overflow-x-auto overflow-y-hidden rounded-md md:mb-4">
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
             <Tag title={status} className={statusmap[status] ?? "bg-blue"}></Tag>

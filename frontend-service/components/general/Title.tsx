@@ -14,7 +14,7 @@ export const Title: FC<{
     return (
         <div className="mb-4 font-bold">
             <div className="flex items-center justify-between">
-                <h2 className="text-xl md:text-3xl">{title}</h2>
+                <h2 className="text-xl items-center md:text-3xl">{title}</h2>
                 <div className="flex items-center justify-between">
                 {!!action && (
                     <Button
