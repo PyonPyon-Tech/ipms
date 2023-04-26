@@ -21,7 +21,6 @@ export const AssignmentListPage: NextPage = () => {
       AxiosClient.get(`${URL_EMPLOYEE}/supervisors/technicians`)
         .then((response) => {
           console.log(response.data);
-          console.log("KKK")
           setData(response.data.map((x: any) => new TechnicianOutletsClass(x)));
         })
         .catch((err) => {

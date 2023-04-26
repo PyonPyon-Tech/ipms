@@ -8,49 +8,49 @@ export const ROLES = ["Customer", "Manajer", "Administrator", "Supervisor", "Tek
 export const NAVCARDS: NavigationCardProps[][] = [
   [
     { name: "Dashboard", path: "/" },
-    { name: "Laporan Treatment", path: "/" },
-    { name: "Jadwal Treatment", path: "/" },
-    { name: "Beri Feedback", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    // { name: "Jadwal Treatment", path: "/" },
+    // { name: "Beri Feedback", path: "/" },
   ], // customer
   [
     { name: "Dashboard", path: "/" },
-    { name: "Akun Karyawan", path: "/employees" },
-    { name: "Akun Customer", path: "/customers" },
-    { name: "Buat Laporan Treatment", path: "/" },
-    { name: "Lihat Laporan Treatment", path: "/reports" },
-    { name: "Lihat Jadwal Treatment", path: "/schedules" },
-    { name: "Realokasi Jadwal Treatment", path: "/" },
-    { name: "Supervisor Outlet", path: "/" },
+    { name: "Karyawan", path: "/employees" },
+    { name: "Customer & Outlet", path: "/customers" },
+    // { name: "Buat Laporan Treatment", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    // { name: "Lihat Jadwal Treatment", path: "/schedules" }, ?? Butuh ngga sih??
+    // { name: "Realokasi Jadwal Treatment", path: "/" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
     { name: "Stok Chemical", path: "/inventories" },
-    { name: "Lihat Feedback", path: "/" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // manager
   [
     { name: "Dashboard", path: "/" },
-    { name: "Akun Customer", path: "/customers" },
-    { name: "Lihat Laporan Treatment", path: "/reports" },
-    { name: "Lihat Jadwal Treatment", path: "/" },
+    { name: "Karyawan", path: "/employees" },
+    { name: "Customer & Outlet", path: "/customers" },
+    { name: "Laporan Treatment", path: "/reports" },
     { name: "Stok Chemical", path: "/inventories" },
-    { name: "Lihat Feedback", path: "/" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // administrator
   [
     { name: "Dashboard", path: "/" },
-    { name: "Penanggung Jawab Outlet", path: "/assignments" },
-    { name: "Buat Laporan Treatment", path: "/" },
-    { name: "Lihat Laporan Treatment", path: "/reports" },
-    { name: "Lihat Jadwal Treatment", path: "/schedules" },
-    { name: "Setujui Jadwal Treatment", path: "/schedules/approve" },
-    { name: "Realokasi Jadwal Treatment", path: "/schedules/allocate" },
-    { name: "Stok Chemical", path: "/inventories" },
-    { name: "Lihat Feedback", path: "/" },
+    { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Buat Laporan Treatment", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    { name: "Jadwal Teknisi", path: "/schedules" },
+    { name: "Menyetujui Jadwal Teknisi", path: "/schedules/approve" },
+    { name: "Mengganti Kunjungan Teknisi", path: "/schedules/allocate" },
+    // { name: "Stok Chemical", path: "/inventories" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // supervisor
   [
     { name: "Dashboard", path: "/" },
-    { name: "Buat Laporan Treatment", path: "/" },
-    { name: "Lihat Laporan Treatment", path: "/reports" },
-    { name: "Lihat Jadwal Treatment", path: "/" },
-    { name: "Ajukan Jadwal Treatment", path: "/" },
-    { name: "Realokasi Jadwal Treatment", path: "/" },
+    { name: "Buat Laporan Treatment", path: "/reports/add" }, // done
+    // { name: "Lihat Laporan Treatment", path: "/reports" },
+    { name: "Jadwal Treatment", path: "/schedules/propose" }, // done
+    // { name: "Realokasi Jadwal Treatment", path: "/" },
     { name: "Stok Chemical Saya", path: "/inventories/out" },
-    { name: "Lihat Umpan Balik", path: "/" },
+    // { name: "Lihat Umpan Balik", path: "/" },
   ], // teknisi
 ];

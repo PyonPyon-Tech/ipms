@@ -70,17 +70,19 @@ export const ReportListPage: NextPage = () => {
   }, [user, filterData]);
 
   return (
-    <div className="mb-4 w-full">
-      <Title title="Lihat Laporan Treatment"></Title>
+    <div className="mb-4 w-full md:pt-0">
+      <Title title="Daftar Laporan Treatment" />
       <ReportFilter category={filterData.category} setPartialFilterData={setPartialFilterData} />
       <ReportContainer data={data?.data ?? []} count={data?.count ?? 0} />
-      <Pagination
-        page={filterData.page ?? 1}
-        count={data?.totalPages ?? 1}
-        onChange={(_, value) => {
-          setPartialFilterData("page", Number(value));
-        }}
-      />
+      <div className="w-full flex items-center justify-center my-10">
+        <Pagination
+          page={filterData.page ?? 1}
+          count={data?.totalPages ?? 1}
+          onChange={(_, value) => {
+            setPartialFilterData("page", Number(value));
+          }}
+        />
+      </div>
     </div>
   );
 };

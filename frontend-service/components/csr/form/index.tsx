@@ -13,13 +13,13 @@ import { toast } from "react-hot-toast";
 import { Button } from "@components/general/Button";
 
 export const CsrForm: FC = () => {
-  const { initialData, getInitialData, upload } = useCsrForm();
+  const { upload } = useCsrForm();
   const methods = useForm();
   const router = useRouter();
   return (
     <FormProvider {...methods}>
       <form
-        className="w-0 min-w-full"
+        className="w-0 min-w-full mb-20"
         onSubmit={methods.handleSubmit(async (e) => {
           if (!upload) return;
           console.log(e)

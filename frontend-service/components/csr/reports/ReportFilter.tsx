@@ -39,9 +39,9 @@ export const ReportFilter: FC<{
   if (!user) return <div></div>;
 
   return (
-    <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3 lg:gap-x-8">
+    <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3 mt-4 lg:gap-x-8">
       <div className="grid grid-cols-3 items-baseline sm:grid-cols-1">
-        <label htmlFor="periode">Pilih Bulan</label>
+        <label className="md:text-lg font-bold capitalize" htmlFor="periode">Pilih Bulan</label>
         <input
           type="month"
           defaultValue={new Date().toISOString().substring(0, 7)}
@@ -51,7 +51,7 @@ export const ReportFilter: FC<{
         />
       </div>
       <div className="grid grid-cols-3 items-baseline sm:grid-cols-1">
-        <label htmlFor="category">Pilih Filter</label>
+        <label className="md:text-lg font-bold capitalize" htmlFor="category">Pilih Filter</label>
         <select
           id="category"
           defaultValue={"DEFAULT"}
@@ -72,7 +72,7 @@ export const ReportFilter: FC<{
       </div>
       {category != "DEFAULT" && !!options ? (
         <div className="grid grid-cols-3 items-baseline sm:grid-cols-1">
-          <label htmlFor="item" className="capitalize">
+          <label className="md:text-lg font-bold capitalize" htmlFor="item">
             Pilih {category}
           </label>
           <select

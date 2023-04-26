@@ -55,7 +55,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
                   </div>
                 </div>
             </main>
-            <footer></footer>
+            <footer className="h-28 md:h-10"></footer>
         </>
     );
 };

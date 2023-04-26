@@ -20,9 +20,9 @@ export const CsrFormContext = createContext<{
 });
 
 export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
   const router = useRouter();
-  const q = router.query;
+  // const q = router.query;
+  const { user } = useAuth();
 
   const [initialData, setInitialData] = useState<CsrInitialData | null>(null);
 
@@ -33,9 +33,17 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
         console.log(response);
         setInitialData(new CsrInitialDataClass(response.data));
         console.log(new CsrInitialDataClass(response.data));
+        toast.dismiss()
       })
       .catch((error: AxiosError) => {
-        toast.error((error.response as any).data?.message ?? "Error");
+        toast.error(
+          `Belum ada jadwal di ${date.toLocaleDateString("id", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}`
+        );
       })
       .finally(() => {
         toast.dismiss(t);
@@ -43,7 +51,7 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
   };
 
   const upload = async (form: any): Promise<CsrReportField | null> => {
-    const csrReportField = new CsrReportFieldClass(form, Number(q.technician));
+    const csrReportField = new CsrReportFieldClass(form, Number(user?.id));
     console.log(csrReportField);
     const err = validateForm(form);
     if (err) {
@@ -52,7 +60,7 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
       });
       return null;
     }
-    const uploadedPhoto = await uploadImages(form, q.technician, toast);
+    const uploadedPhoto = await uploadImages(form, user?.id, toast);
     if (uploadedPhoto.length == 0) return null;
     console.log(uploadedPhoto);
     csrReportField.setImages(uploadedPhoto);

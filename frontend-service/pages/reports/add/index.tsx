@@ -6,11 +6,11 @@ import { CsrFormProvider } from "@contexts/csrForm";
 import { Title } from "@components/general/Title";
 
 const AddReportPage: NextPage = () => {
-    return (
-        <CsrFormProvider>
-            <Title title={"Membuat Laporan Treatment"} />
-            <CsrForm />
-        </CsrFormProvider>
-    );
+  return (
+    <CsrFormProvider>
+      <Title title={"Membuat Laporan Treatment"} />
+      <CsrForm />
+    </CsrFormProvider>
+  );
 };
 export default withAuth(withLayout(AddReportPage));
