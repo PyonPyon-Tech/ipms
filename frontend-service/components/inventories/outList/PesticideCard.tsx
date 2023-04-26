@@ -37,11 +37,7 @@ export const PesticideCard: FC<{
                 <div>
                     {amount > 0 ? (
                         <div
-                            style={{
-                                boxShadow:
-                                    " 0px 0px 5px 0px rgba(197, 197, 197, 1)",
-                            }}
-                            className="mt-4 flex flex-wrap justify-between rounded-[10px] p-4 align-middle"
+                            className="mt-4 flex flex-wrap justify-between rounded-[10px] p-4 align-middle shadow-basic"
                         >
                             <div>
                                 <div className="text text pb-1 text-xl font-bold max-lg:text-center">
@@ -107,10 +103,7 @@ export const PesticideCard: FC<{
                 </div>
             ) : (
                 <div
-                    style={{
-                        boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)",
-                    }}
-                    className="mt-4 flex flex-wrap justify-between rounded-[10px] p-4 align-middle"
+                    className="shadow-basic mt-4 flex flex-wrap justify-between rounded-[10px] p-4 align-middle"
                 >
                     <div>
                         <div className="text text pb-1 text-xl font-bold max-lg:text-center">

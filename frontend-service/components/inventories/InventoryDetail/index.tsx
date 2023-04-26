@@ -17,12 +17,14 @@ export const InventoryDetail: FC<{
         <div className="flex w-1/2 flex-col">
           <h5 className="text-base font-bold">Bahan Aktif</h5>
           <p className="pb-1 text-base">{activeIngredient}</p>
-          <h5 className="font-bold">Target Pest</h5>
+          <h5 className="font-bold">Unit</h5>
+          <p className="pb-1 text-base">{unit}</p>
+          {/* <h5 className="font-bold">Target Pest</h5>
           <ul className="list-disc pl-6">
             {targetPests?.map((targetPest) => (
               <li className="text-base">{targetPest.name}</li>
             ))}
-          </ul>
+          </ul> */}
         </div>
         <div className="w-1/2 flex-col">
           <h5 className="font-bold">Target Chemical</h5>
@@ -31,8 +33,6 @@ export const InventoryDetail: FC<{
               return <li key={"li" + idx}>{x}</li>;
             })}
           </ul>
-          <h5 className="font-bold">Unit</h5>
-          <p className="pb-1 text-base">{unit}</p>
         </div>
       </div>
       {children}

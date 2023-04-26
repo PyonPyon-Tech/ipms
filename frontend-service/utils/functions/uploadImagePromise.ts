@@ -1,7 +1,7 @@
 import { AxiosClient, URL_AUTH, URL_IMAGE } from "@constants/api";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
- const uploadImagePromise = (files: File[], outlet: any, id: any): Promise<AxiosResponse<any, any>> => {
+const uploadImagePromise = (files: File[], outlet: any, id: any): Promise<AxiosResponse<any, any>> => {
   const bodyFormData: any = new FormData();
   files.forEach((file) => {
     bodyFormData.append("file", file);
@@ -13,7 +13,11 @@ import axios, { AxiosError, AxiosResponse } from "axios";
   });
 };
 
-export const uploadImages = async (form: any, technician: any, toast: any): Promise<{ name: string; url: string }[]> => {
+export const uploadImages = async (
+  form: any,
+  technician: any,
+  toast: any
+): Promise<{ name: string; url: string }[]> => {
   const { area, main, pest } = extractImage(form);
   const promises: Promise<AxiosResponse<any, any>>[] = [];
   if (area.length > 0) {
@@ -26,7 +30,7 @@ export const uploadImages = async (form: any, technician: any, toast: any): Prom
     promises.push(uploadImagePromise(pest, form.outlet, technician));
   }
   const images: { name: string; url: string }[] = [];
-  const t = toast.loading("Mengupload foto")
+  const t = toast.loading("Mengupload foto");
   await Promise.all(promises)
     .then((results) => {
       results.forEach(({ data }) => {
@@ -41,10 +45,11 @@ export const uploadImages = async (form: any, technician: any, toast: any): Prom
     })
     .catch((error) => {
       console.error(error);
-      toast.error("Tidak bisa mengupload")
-    }).finally(()=>{
-      toast.dismiss(t)
+      toast.error("Tidak bisa mengupload");
     })
+    .finally(() => {
+      toast.dismiss(t);
+    });
   return images;
 };
 
@@ -56,8 +61,17 @@ export const validateForm = (x: any): string => {
     return "Pastikan tanda tangan dan foto kunjungan terisi";
   }
   if (
-    x.detailAreas?.find((detailArea: any) => {
-      return (detailArea?.status == "2" && !detailArea?.images) || !detailArea?.recommendation;
+    x.detailAreas?.find((detailArea: any, index: number) => {
+      if (typeof detailArea == "undefined") {
+        return false;
+      }
+      if (detailArea?.status == "2") {
+        if (Array.isArray(detailArea.recommendation)) {
+          return !detailArea?.images || detailArea?.recommendation.length > 0;
+        }
+        return !detailArea?.images || !detailArea?.recommendation;
+      }
+      return false;
     })
   ) {
     return "Semua kolom temuan area wajib diisi";

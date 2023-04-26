@@ -8,8 +8,7 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({ data }) =>
   console.log(data);
   return (
     <div
-      style={{ boxShadow: " 0px 0px 5px 0px rgba(197, 197, 197, 1)" }}
-      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12"
+      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12 shadow-basic"
     >
       <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
         {/* <Checkbox/> */}

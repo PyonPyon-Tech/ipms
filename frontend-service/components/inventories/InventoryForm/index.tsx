@@ -34,24 +34,28 @@ export const InventoryForm: FC<{}> = ({}) => {
       targets: targets,
       targetPests: targetPests,
     };
-    console.log(submittedData);
-    const loading = toast.loading("Menyimpan...");
-    AxiosClient.post(`${URL_INVENTORY}/pesticides`, submittedData)
-      .then((response) => {
-        console.log(response.data);
-        toast.success("Sukses menambahkan pestisida", {
-          duration: 5000,
+    if(submittedData.stock < 0){
+      toast.error("Stok tidak boleh kurang dari 0!")
+    } else{
+      const loading = toast.loading("Menyimpan...");
+      AxiosClient.post(`${URL_INVENTORY}/pesticides`, submittedData)
+        .then((response) => {
+          console.log(response.data);
+          toast.success("Sukses menambahkan pestisida", {
+            duration: 5000,
+          });
+          router.push(`/inventories/${response.data.id}`);
+        })
+        .catch((error) => {
+          toast.error(error.message);
+          console.log(error);
+        })
+        .finally(() => {
+          toast.dismiss(loading);
         });
-        router.push(`/inventories/${response.data.id}`);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-        console.log(error);
-      })
-      .finally(() => {
-        toast.dismiss(loading);
-      });
-  };
+    };
+    }
+
   if (!pestData || pestData.length == 0) return <div></div>;
   return (
     <div className="mt-4 w-full flex-col justify-evenly rounded-md p-4 pb-5 align-middle shadow-basic">

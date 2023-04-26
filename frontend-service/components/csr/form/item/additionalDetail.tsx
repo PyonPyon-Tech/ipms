@@ -98,7 +98,7 @@ export const CsrFormAdditionalDetail: FC<{
               )}
               <div {...field} {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} />
-                <p className="rounded-md bg-teal-dark p-2 text-xs font-bold text-white transition-all hover:cursor-pointer">
+                <p className="rounded-md bg-teal p-2 text-xs font-semibold text-white md:text-base transition-all hover:cursor-pointer">
                   <span>Unggah atau Ubah Foto</span>
                 </p>
               </div>

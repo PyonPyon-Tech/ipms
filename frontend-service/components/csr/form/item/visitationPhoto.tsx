@@ -65,7 +65,7 @@ export const CsrFormVisitationPhoto: FC = () => {
             {files.length > 0 && <aside className="my-3 flex flex-row flex-wrap gap-4 overflow-hidden">{thumbs}</aside>}
             <div {...field} {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
-              <p className="rounded-xl bg-teal px-3 py-2 text-lg font-bold text-white transition-all hover:cursor-pointer md:text-lg">
+              <p className="rounded-md bg-teal px-3 py-2 text-sm font-semibold text-white transition-all hover:cursor-pointer md:text-base">
                 <span>Unggah atau Ubah Foto</span>
               </p>
             </div>

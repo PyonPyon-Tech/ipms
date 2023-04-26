@@ -36,16 +36,16 @@ public class StorageRestController {
     return fileUploadResponse;
   }
 
-  @GetMapping("/{fileName}")
-  public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
-    byte[] data = service.downloadFile(fileName);
+  @GetMapping("/{a}/{b}/{fileName}")
+  public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String a, @PathVariable String b, @PathVariable String fileName) {
+    byte[] data = service.downloadFile(a + "/" + b + "/" + fileName);
     ByteArrayResource resource = new ByteArrayResource(data);
     return ResponseEntity
-      .ok()
-      .contentLength(data.length)
-      .header("Content-Type", "application/octet-stream")
-      .header("Content-Disposition", "attachment; fileName=\"" + fileName + "\"")
-      .body(resource);
+            .ok()
+            .contentLength(data.length)
+            .header("Content-Type", "application/octet-stream")
+            .header("Content-Disposition", "attachment; fileName=\"" + fileName + "\"")
+            .body(resource);
   }
 
   @DeleteMapping("/{fileName}")

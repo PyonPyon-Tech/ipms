@@ -16,7 +16,7 @@ const ManageInventory: NextPage = () => {
     return(
         <div className="w-full">
             <section>
-                <Title title="Tambah Barang Baru" />
+                <Title title="Tambah Chemical Baru" />
                 {<InventoryForm/>}
             </section>
         </div>
