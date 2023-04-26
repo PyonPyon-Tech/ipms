@@ -54,96 +54,54 @@ export const CsrReportDetail: FC<CsrReport> = ({
     });
   };
 
-  //   function makePDF() {
+    function makePDF() {
 
-  //     var quotes = document.getElementById('container-fluid');
-  //     html2canvas(quotes).then((canvas) => {
-  //          //! MAKE YOUR PDF
-  //          var pdf = new jsPDF('p', 'pt', 'letter');
+      const quotes = document.getElementById("divToPrint");
+      html2canvas(quotes!).then((canvas) => {
+           //! MAKE YOUR PDF
+           var pdf = new jsPDF({ format: "a4", unit: "px" });
 
-  //          for (var i = 0; i <= quotes.clientHeight/980; i++) {
-  //              //! This is all just html2canvas stuff
-  //              var srcImg  = canvas;
-  //              var sX      = 0;
-  //              var sY      = 980*i; // start 980 pixels down for every new page
-  //              var sWidth  = 900;
-  //              var sHeight = 980;
-  //              var dX      = 0;
-  //              var dY      = 0;
-  //              var dWidth  = 900;
-  //              var dHeight = 980;
+           for (var i = 0; i <= quotes!.clientHeight/2110; i++) {
+               //! This is all just html2canvas stuff
+               var srcImg  = canvas;
+               var sX      = 0;
+               var sY      = 2110*i; // start 2110 pixels down for every new page
+               var sWidth  = 1500;
+               var sHeight = 2110;
+               var dX      = 0;
+               var dY      = 0;
+               var dWidth  = 1500;
+               var dHeight = 2110;
 
-  //              window.onePageCanvas = document.createElement("canvas");
-  //              onePageCanvas.setAttribute('width', 900);
-  //              onePageCanvas.setAttribute('height', 980);
-  //              var ctx = onePageCanvas.getContext('2d');
-  //              // details on this usage of this function:
-  //              // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-  //              ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+               var onePageCanvas = document.createElement("canvas");
+               onePageCanvas.setAttribute('width', "1500");
+               onePageCanvas.setAttribute('height', "2110");
+               var ctx = onePageCanvas.getContext('2d');
+               // details on this usage of this function:
+               // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
+               ctx!.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
 
-  //              // document.body.appendChild(canvas);
-  //              var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+               // document.body.appendChild(canvas);
+               var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
-  //              var width         = onePageCanvas.width;
-  //              var height        = onePageCanvas.clientHeight;
+               var width         = onePageCanvas.width;
+               var height        = onePageCanvas.clientHeight;
 
-  //              //! If we're on anything other than the first page,
-  //              // add another page
-  //              if (i > 0) {
-  //                  pdf.addPage(612, 791); //8.5" x 11" in pts (in*72)
-  //              }
-  //              //! now we declare that we're working on that page
-  //              pdf.setPage(i+1);
-  //              //! now we add content to that page!
-  //              pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
+               //! If we're on anything other than the first page,
+               // add another page
+               if (i > 0) {
+                   pdf.addPage('a4', 'portrait'); //8.5" x 11" in pts (in*72)
+               }
+               //! now we declare that we're working on that page
+               pdf.setPage(i+1);
+               //! now we add content to that page!
+               pdf.addImage(canvasDataURL, 'PNG', 7, 0, (width*.3), (height*.3));
 
-  //          }
-  //          //! after the for loop is finished running, we save the pdf.
-  //          pdf.save('Test.pdf');
-  //    });
-  //  }
-
-  //          for (var i = 0; i <= quotes.clientHeight/980; i++) {
-  //              //! This is all just html2canvas stuff
-  //              var srcImg  = canvas;
-  //              var sX      = 0;
-  //              var sY      = 980*i; // start 980 pixels down for every new page
-  //              var sWidth  = 900;
-  //              var sHeight = 980;
-  //              var dX      = 0;
-  //              var dY      = 0;
-  //              var dWidth  = 900;
-  //              var dHeight = 980;
-
-  //              window.onePageCanvas = document.createElement("canvas");
-  //              onePageCanvas.setAttribute('width', 900);
-  //              onePageCanvas.setAttribute('height', 980);
-  //              var ctx = onePageCanvas.getContext('2d');
-  //              // details on this usage of this function:
-  //              // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-  //              ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
-
-  //              // document.body.appendChild(canvas);
-  //              var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
-
-  //              var width         = onePageCanvas.width;
-  //              var height        = onePageCanvas.clientHeight;
-
-  //              //! If we're on anything other than the first page,
-  //              // add another page
-  //              if (i > 0) {
-  //                  pdf.addPage(612, 791); //8.5" x 11" in pts (in*72)
-  //              }
-  //              //! now we declare that we're working on that page
-  //              pdf.setPage(i+1);
-  //              //! now we add content to that page!
-  //              pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
-
-  //          }
-  //          //! after the for loop is finished running, we save the pdf.
-  //          pdf.save('Test.pdf');
-  //    });
-  //  }
+           }
+           //! after the for loop is finished running, we save the pdf.
+           pdf.save('Test.pdf');
+     });
+   }
 
   const visitationTypeOption = ["Layanan Rutin", "Single Job", "Follow Up", "Komplain", "Inspeksi", "Lainnya"];
   let areaIdCounter = 1;
@@ -167,9 +125,6 @@ export const CsrReportDetail: FC<CsrReport> = ({
           <section className="w-0 min-w-full">
             <div className="flex items-start justify-between">
             <Title title={`Laporan ECO-101 / CSR-${id}`} />{" "}
-            <Button
-              action={{ name: "Download", func: printDocument }}
-            ></Button>
             </div>
             <div className={styles.csrFormHead}>
               <div className="csr-form-head">
@@ -247,7 +202,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
           <Title title="Download Dokumen"></Title>
           <Button
             className="w-full"
-            action={{ name: "Download", func: printDocument }}
+            action={{ name: "Download", func: makePDF }}
           ></Button>
         </div>
       </Container>

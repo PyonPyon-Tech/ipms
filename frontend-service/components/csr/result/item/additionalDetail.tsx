@@ -14,7 +14,7 @@ export const CsrResultAdditionalDetail: FC<{
     <div className="mb-2 w-0 min-w-full max-w-full">
       <div
         style={{ borderColor: "hsl(0, 0%, 80%)" }}
-        className="my-2 flex w-full flex-row items-start justify-center rounded-md border-2 border-solid border-[rgba(0,0,0)] bg-gray-200 p-2"
+        className="my-2 flex w-full flex-wrap flex-row items-start justify-center rounded-md border-2 border-solid border-[rgba(0,0,0)] bg-gray-200 p-2"
       >
         {imageUrls.length != 0 ? (
           imageUrls.map((item) => {
