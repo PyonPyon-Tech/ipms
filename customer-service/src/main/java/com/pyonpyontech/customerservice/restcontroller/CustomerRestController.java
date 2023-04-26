@@ -71,6 +71,7 @@ public class CustomerRestController {
         try {
             switch (role) {
                 case 1:
+                case 2:
                     return customerRestService.getFilteredPagedCustomer(name, page);
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -98,6 +99,7 @@ public class CustomerRestController {
         try {
             switch (role) {
                 case 1:
+                case 2:
                     return customerRestService.getPagedCustomerList(page);
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
