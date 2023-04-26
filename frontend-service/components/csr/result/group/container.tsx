@@ -8,7 +8,7 @@ export const CsrResultGroupContainer: FC<{ children: ReactNode; title: string; s
 }) => {
   const [open, setOpen] = useState(true);
   return (
-    <section className="4 rounded-md border border-[#1E1E1E] bg-[#FCFCFC]">
+    <section className="mt-4 rounded-md border border-[#1E1E1E] bg-[#FCFCFC]">
       <div
         onClick={() => setOpen(!open)}
         className={`relative flex cursor-pointer p-4 font-bold transition-colors duration-200 hover:bg-[#f4f4f4] rounded-[20px] md:p-5 md:text-lg lg:text-[20px] ${
