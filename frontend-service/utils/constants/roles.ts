@@ -47,7 +47,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
   [
     { name: "Dashboard", path: "/" },
     { name: "Buat Laporan Treatment", path: "/reports/add" }, // done
-    // { name: "Lihat Laporan Treatment", path: "/reports" },
+    { name: "Lihat Laporan Treatment", path: "/reports" },
     { name: "Jadwal Treatment", path: "/schedules/propose" }, // done
     // { name: "Realokasi Jadwal Treatment", path: "/" },
     { name: "Stok Chemical Saya", path: "/inventories/out" },

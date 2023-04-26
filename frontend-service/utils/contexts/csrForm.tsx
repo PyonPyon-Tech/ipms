@@ -51,8 +51,6 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
   };
 
   const upload = async (form: any): Promise<CsrReportField | null> => {
-    const csrReportField = new CsrReportFieldClass(form, Number(user?.id));
-    console.log(csrReportField);
     const err = validateForm(form);
     if (err) {
       toast.error(err, {
@@ -60,6 +58,8 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
       });
       return null;
     }
+    const csrReportField = new CsrReportFieldClass(form, Number(user?.id));
+    console.log(csrReportField);
     const uploadedPhoto = await uploadImages(form, user?.id, toast);
     if (uploadedPhoto.length == 0) return null;
     console.log(uploadedPhoto);
