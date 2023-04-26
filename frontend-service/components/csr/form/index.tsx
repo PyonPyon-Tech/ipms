@@ -45,12 +45,6 @@ export const CsrForm: FC = () => {
         <CsrFormVisitationPhoto />
         <div className="flex items-center justify-center">
           <Button className="bg-teal" action={{ name: "Simpan", submit:true }}></Button>
-          {/* <button
-            type="submit"
-            className="mx-auto rounded-xl bg-teal px-3 py-2 font-bold text-white md:text-lg lg:text-[20px]"
-          >
-            Simpan Laporan
-          </button> */}
         </div>
       </form>
     </FormProvider>

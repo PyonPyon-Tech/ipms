@@ -54,7 +54,7 @@ const CreateSchedule: FC = () => {
           ></Button>
         </div>
       </div>
-      <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden rounded-xl md:mb-8">
+      <Container className="mb-6 w-full overflow-x-auto overflow-y-hidden md:mb-8">
         <div className="w-full">
           <div className="w-full flex mb-2 md:mb-4" >
             <div className="bg-orange bg-blue bg-coral-dark bg-teal-dark" ></div>

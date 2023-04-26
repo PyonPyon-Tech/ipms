@@ -8,10 +8,10 @@ export const CsrFormGroupContainer: FC<{ children: ReactNode; title: string; sec
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <section className="mb-8 rounded-[20px] border border-[#1E1E1E] bg-[#FCFCFC]">
+    <section className="mb-4 rounded-md border border-[#1E1E1E] bg-[#FCFCFC]">
       <div
         onClick={() => setOpen(!open)}
-        className={`relative flex cursor-pointer p-4 font-bold transition-colors duration-200 hover:bg-[#f4f4f4] rounded-[20px] md:p-5 md:text-lg lg:text-[20px] ${
+        className={`relative flex cursor-pointer p-4 font-bold transition-colors duration-200 hover:bg-[#f4f4f4] rounded-[20px] md:p-5 md:text-lg lg:text-xl ${
           open && "border-b border-[#000000] rounded-b-[0px] "
         }`}
       >
