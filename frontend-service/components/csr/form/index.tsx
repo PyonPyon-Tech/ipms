@@ -19,7 +19,7 @@ export const CsrForm: FC = () => {
   return (
     <FormProvider {...methods}>
       <form
-        className="w-0 min-w-full"
+        className="w-0 min-w-full mb-20"
         onSubmit={methods.handleSubmit(async (e) => {
           if (!upload) return;
           console.log(e)

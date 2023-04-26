@@ -20,7 +20,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Laporan Treatment", path: "/reports" },
     // { name: "Lihat Jadwal Treatment", path: "/schedules" }, ?? Butuh ngga sih??
     // { name: "Realokasi Jadwal Treatment", path: "/" },
-    { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
     { name: "Stok Chemical", path: "/inventories" },
     // { name: "Lihat Feedback", path: "/" },
   ], // manager
@@ -30,7 +30,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Customer & Outlet", path: "/customers" },
     { name: "Laporan Treatment", path: "/reports" },
     { name: "Stok Chemical", path: "/inventories" },
-    { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
     // { name: "Lihat Feedback", path: "/" },
   ], // administrator
   [
@@ -41,13 +41,13 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Jadwal Teknisi", path: "/schedules" },
     { name: "Menyetujui Jadwal Teknisi", path: "/schedules/approve" },
     { name: "Mengganti Kunjungan Teknisi", path: "/schedules/allocate" },
-    { name: "Stok Chemical", path: "/inventories" },
+    // { name: "Stok Chemical", path: "/inventories" },
     // { name: "Lihat Feedback", path: "/" },
   ], // supervisor
   [
     { name: "Dashboard", path: "/" },
     { name: "Buat Laporan Treatment", path: "/reports/add" }, // done
-    { name: "Lihat Laporan Treatment", path: "/reports" },
+    // { name: "Lihat Laporan Treatment", path: "/reports" },
     { name: "Jadwal Treatment", path: "/schedules/propose" }, // done
     // { name: "Realokasi Jadwal Treatment", path: "/" },
     { name: "Stok Chemical Saya", path: "/inventories/out" },

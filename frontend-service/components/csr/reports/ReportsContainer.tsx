@@ -13,7 +13,7 @@ export const ReportContainer: FC<{ data: CsrReportClass[]; count: number }> = ({
     <section>
       {/* <Search setSearchTerm={setSearchTerm} placeholder="Nama Customer atau Laporan" /> */}
       <div className="flex flex-row items-center space-x-4">
-        <h3 className="my-2 text-lg font-semibold">Ditemukan {count} laporan</h3>
+        <p className="my-2 text-sm md:text-base  font-semibold">Ditemukan {count} laporan</p>
         {/* <Checkbox/> */}
         {/* <h4>0 Selected</h4> */}
         {/* <img className="object-fill h-6 w-6" src="/icons/download.svg" /> */}

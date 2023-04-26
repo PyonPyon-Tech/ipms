@@ -1,3 +1,4 @@
+import { Loading } from "@components/general/Loading";
 import { getPeriodFromDate } from "@functions/getPeriodFromDate";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
@@ -11,7 +12,9 @@ const DefaultPropose: NextPage = () => {
   useEffect(() => {
     router.replace("/schedules/propose/" + getPeriodFromDate(new Date()));
   }, [router]);
-  return <div></div>;
+  return <div className="w-full h-[75vh]">
+    <Loading/>
+  </div>;
 };
 
 export default withAuth(withLayout(DefaultPropose));
