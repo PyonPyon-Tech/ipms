@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 import { Button } from "@components/general/Button";
 
 export const CsrForm: FC = () => {
-  const { initialData, getInitialData, upload } = useCsrForm();
+  const { upload } = useCsrForm();
   const methods = useForm();
   const router = useRouter();
   return (

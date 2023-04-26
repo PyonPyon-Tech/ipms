@@ -5,9 +5,11 @@ import { FC } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import Select from "react-select";
 import styles from "./Csr.module.css";
+import { useAuth } from "@hooks/useAuth";
 
 export const CsrFormHead: FC = () => {
   const { initialData, getInitialData } = useCsrForm();
+  const { user } = useAuth();
   const router = useRouter();
   const allOutlets = initialData?.outlets ?? [];
   const disabled = allOutlets.length == 0;
@@ -23,7 +25,7 @@ export const CsrFormHead: FC = () => {
         <input
           {...register("date", {
             onChange: (e) => {
-              getInitialData(router.query.technician, new Date(e.target.value));
+              getInitialData(user?.id, new Date(e.target.value));
             },
           })}
           type="date"
