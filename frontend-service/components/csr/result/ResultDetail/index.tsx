@@ -30,7 +30,8 @@ export const CsrReportDetail: FC<CsrReport> = ({
   detailPests,
   pesticideUsages,
 }) => {
-  // console.log(detailAreas);
+  const signature = [technicianSignature, picSignature];
+  console.log(visitationPhoto);
 
   //function to make the page as a image and convert it to PDF
   const printDocument = () => {
@@ -187,10 +188,10 @@ export const CsrReportDetail: FC<CsrReport> = ({
             <CsrResultPesticideUsage data={pesticideUsages} />
           </div>
           <div>
-            <CsrResultSignatures />
+            <CsrResultSignatures data={signature} />
           </div>
           <div>
-            <CsrResultVisitationPhoto />
+            <CsrResultVisitationPhoto data={visitationPhoto}/>
           </div>
         </section>
       <div className="mb5">

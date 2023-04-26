@@ -8,7 +8,7 @@ export const CsrResultAreaFinding: FC<{data: CsrDetailArea[][]}> = ({data}) => {
   return (
     <div>
       {data.map((csrAreaDetail, index) => {
-        // console.log(csrAreaDetail[0].area.id);
+        console.log(csrAreaDetail);
         return (
           // <div></div>
           <CsrResultGroupContainer key={`area-${csrAreaDetail[0].area.id}`} title={csrAreaDetail[0].area.area} section={String.fromCharCode(index + 65)}>
