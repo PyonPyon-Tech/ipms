@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -31,10 +33,10 @@ public class CsrReport {
     private Long id;
 
     @Column(nullable = false)
-    private int reportType;
+    private Integer reportType;
 
     @Column(nullable = false)
-    private int visitationType;
+    private Integer visitationType;
 
     @OneToOne
     @JoinColumn(name = "feedback_id")
@@ -52,11 +54,14 @@ public class CsrReport {
     @JoinColumn(name = "outlet_id", nullable = false)
     private Outlet outlet;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime start;
+    private LocalTime start;
 
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime end;
+    private LocalTime end;
 
     @Column(name = "technician_signature", nullable = false)
     private String technicianSignature;
@@ -72,9 +77,6 @@ public class CsrReport {
 
     @OneToMany(mappedBy = "report")
     private List<CsrDetailPest> detailPests;
-
-    @OneToOne(mappedBy = "report")
-    private CsrDetailAction detailAction;
 
     @OneToMany(mappedBy = "report")
     private List<CsrPesticideUsage> pesticideUsages;

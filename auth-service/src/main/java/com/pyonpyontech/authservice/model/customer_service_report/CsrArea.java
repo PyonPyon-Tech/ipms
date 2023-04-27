@@ -28,5 +28,5 @@ public class CsrArea {
     private String area;
 
     @OneToMany(mappedBy = "area")
-    private List<CsrFinding> findings;
+    private List<CsrFindingArea> findings;
 }

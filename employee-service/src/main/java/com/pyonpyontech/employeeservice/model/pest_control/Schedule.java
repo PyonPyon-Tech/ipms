@@ -37,7 +37,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "technician_id", nullable = false)
-    @JsonIncludeProperties("id")
+    @JsonIncludeProperties({"id", "user"})
     private Technician technician;
 
     @ManyToOne
@@ -54,6 +54,6 @@ public class Schedule {
     private Integer isApproved;
 
     @OneToMany(mappedBy = "schedule")
-    @JsonIncludeProperties({"id", "date"})
+    @JsonIncludeProperties({"id", "date", "outlet"})
     private List<Visitation> visitations;
 }

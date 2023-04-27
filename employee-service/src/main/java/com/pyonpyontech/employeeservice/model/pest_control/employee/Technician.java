@@ -61,7 +61,7 @@ public class Technician implements Serializable {
     private Supervisor supervisor;
 
     @OneToMany(mappedBy = "technician")
-    @JsonIgnore
+    @JsonIncludeProperties({"id", "name", "customer", "address", "region"})
     private List<Outlet> outlets;
 
     @OneToMany(mappedBy = "requester")

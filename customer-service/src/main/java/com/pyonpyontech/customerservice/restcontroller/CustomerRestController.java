@@ -24,13 +24,20 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.pyonpyontech.customerservice.dto.PaginatedObject;
+
 import java.util.Map;
 import java.util.HashMap;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
+import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.service.CustomerRestService;
+import com.pyonpyontech.customerservice.service.UserRestService;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -38,6 +45,9 @@ import com.pyonpyontech.customerservice.service.CustomerRestService;
 public class CustomerRestController {
     @Autowired
     private CustomerRestService customerRestService;
+    
+    @Autowired
+    private UserRestService userRestService;
 
     // Retrieve by ID
     @GetMapping(value = "/{id}")
@@ -49,10 +59,55 @@ public class CustomerRestController {
         }
     }
     
+    // Filter, paged
+    @GetMapping(value = "/filter")
+    private PaginatedObject<Customer> filterCustomerPages(
+            @RequestParam("name") String name, 
+            @RequestParam("page") Long page,
+            Principal principal) {
+        Integer role = userRestService.getRole(principal);
+        String username = principal.getName();
+
+        try {
+            switch (role) {
+                case 1:
+                case 2:
+                    return customerRestService.getFilteredPagedCustomer(name, page);
+            }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(e.getStatus());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        }
+    }
+    
     // Retrieve all
     @GetMapping
     private List<Customer> retrieveAllCustomers() {
         return customerRestService.getCustomerList();
+    }
+    
+    // Retrieve paginated
+    @GetMapping("/pages/{page}")
+    private PaginatedObject<Customer> retrieveAllCustomerPages(
+            @PathVariable("page") Long page,
+            Principal principal) {
+        Integer role = userRestService.getRole(principal);
+        String username = principal.getName();
+
+        try {
+            switch (role) {
+                case 1:
+                case 2:
+                    return customerRestService.getPagedCustomerList(page);
+            }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(e.getStatus());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        }
     }
     
     // Create customer
@@ -64,9 +119,7 @@ public class CustomerRestController {
             try {
                 Customer createdCustomer = customerRestService.createCustomer(customer);
                 return createdCustomer;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
+            } catch(NullPointerException | DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             }
         }
@@ -87,6 +140,76 @@ public class CustomerRestController {
             Customer savedUpdatedCustomer = customerRestService.updateCustomer(id, updatedCustomer);
 
             return savedUpdatedCustomer;
+        }
+    }
+    
+    // Retrieve Outlets by Customer ID
+    @GetMapping(value = "/{id}/outlets")
+    private List<Outlet> retrieveOutletsByCustomerId(@PathVariable("id") Long id) {
+        try {
+            return customerRestService.getOutletsByCustomerId(id);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with ID " + id + " not found.");
+        }
+    }
+    
+    // Create Outlet by Customer ID
+    @PostMapping(value = "/{id}/outlets")
+    private Outlet createOutletByCustomerId(@PathVariable("id") Long id, @Valid @RequestBody Outlet outlet, BindingResult bindingResult) {
+        try {
+            return customerRestService.createOutletByCustomerId(id, outlet);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with ID " + id + " not found.");
+        }
+    }
+    
+    // Retrieve Outlet by Outlet ID
+    @GetMapping(value = "/outlets/{id}")
+    private Outlet retrieveOutletById(@PathVariable("id") Long id) {
+        try {
+            return customerRestService.getOutletById(id);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Outlet by Customer and Outlet ID
+    @GetMapping(value = "/{customerId}/outlets/{outletId}")
+    private Outlet updateOutletByCustomerId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId) {
+        try {
+            return customerRestService.getOutletByCustomerOutletId(customerId, outletId);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Update Outlet by Customer and Outlet ID
+    @PutMapping(value = "/{customerId}/outlets/{outletId}")
+    private Outlet updateOutletByCustomerId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId, @Valid @RequestBody Outlet outlet, BindingResult bindingResult) {
+        try {
+            return customerRestService.updateOutletByCustomerOutletId(customerId, outletId, outlet);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Reports by Customer and Outlet ID
+    @GetMapping(value = "/{customerId}/outlets/{outletId}/reports")
+    private List<CsrReport> retrieveReportsByCustomerOutletId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId) {
+        try {
+            return customerRestService.getOutletReportsByCustomerOutletId(customerId, outletId);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Reports by Customer ID
+    @GetMapping(value = "/{id}/reports")
+    private List<CsrReport> retrieveReportsByCustomerId(@PathVariable("id") Long id) {
+        try {
+            return customerRestService.getReportsByCustomerId(id);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
         }
     }
 }

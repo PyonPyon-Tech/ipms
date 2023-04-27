@@ -159,36 +159,41 @@ All API endpoints start with `/api/v1/`. Request bodies shall use JSON. Request 
         }
     }
     ```
-* [ ] `GET /{id}/outlets`
+* [x] `GET /{id}/outlets`
 
 
     Return outlets of customer with id `id`.
 
-* [ ] `POST /{id}/outlets`
+* [x] `POST /{id}/outlets`
 
 
     Create new outlet for customer with id `id`.
 
-* [ ] `PUT /{id}/outlets/{outlet_id}`
+* [x] `GET /outlets/{outlet_id}`
 
 
-    Update outlet with id `outlet_id` for customer with id `id`.
+    Return outlet with id `outlet_id`.
 
-* [ ] `GET /{id}/outlets/{outlet_id}/reports`
+* [x] `GET /{id}/outlets/{outlet_id}`
+
+
+    Return outlet with id `outlet_id` of customer with id `id`.
+
+* [x] `PUT /{id}/outlets/{outlet_id}`
+
+
+    Update outlet with id `outlet_id` for customer with id `id`. Any combination of the attributes may be changed; not all attributes have to be present.
+
+* [x] `GET /{id}/outlets/{outlet_id}/reports`
 
 
     Return reports for outlets with id `outlet_id` of customer with id `id`.
 
-* [ ] `GET /{id}/reports`
+* [x] `GET /{id}/reports`
 
 
     Return reports for customer with id `id`.
-
-* [ ] `GET /{id}/feedbacks`
-
-
-    Return feedbacks for customer with id `id`.
-
+    
 
 ### Report Service - `/reports`
 * [ ] `GET /`
@@ -326,22 +331,22 @@ Employee role name could either be `administrators`, `supervisors`, or `technici
 
 
 ### Notification Service - `/notifications`
-* [ ] `GET /`
+* [x] `GET /`
 
 
     Return all notifications.
 
-* [ ] `POST /`
+* [x] `POST /`
 
 
     Create new notification.
 
-* [ ] `GET /{id}`
+* [x] `GET /{id}`
 
 
     Return notification with id `id`.
 
-* [ ] `PUT /{id}`
+* [x] `PUT /{id}`
 
 
-    Update notification with id `id`.
+    Update notification with id `id`. Any combination of the attributes may be changed; not all attributes have to be present. `isSeen` may only be changed once, and only to the value `1`. Any other value will result it being changed to `1`.
