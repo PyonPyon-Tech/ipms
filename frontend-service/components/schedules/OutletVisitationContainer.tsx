@@ -36,7 +36,7 @@ export const OutletVisitationContainer: FC<{ data: OutletVisitations[], type: st
     
     if (type === `supervisor`)
       retrieveAllTechnicians();
-  }, [type]);
+  }, [type, router.query.period]);
 
   return (
     <section>
