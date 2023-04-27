@@ -62,12 +62,9 @@ export const validateForm = (x: any): string => {
   }
   if (
     x.detailAreas?.find((detailArea: any, index: number) => {
-      if (typeof detailArea == "undefined") {
-        return false;
-      }
-      if (detailArea?.status == "2") {
+      if (typeof detailArea != "undefined" && detailArea?.status == "2") {
         if (Array.isArray(detailArea.recommendation)) {
-          return !detailArea?.images || detailArea?.recommendation.length > 0;
+          return !detailArea?.images || detailArea?.recommendation.length == 0;
         }
         return !detailArea?.images || !detailArea?.recommendation;
       }
