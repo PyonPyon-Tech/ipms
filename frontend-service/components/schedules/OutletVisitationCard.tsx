@@ -12,10 +12,12 @@ import { OutletVisitationCardRow } from "./OutletVisitationCardRow";
 
 export const OutletVisitationCard: FC<{ data: OutletVisitations, 
                                         type: string,
-                                        technicians?: EmployeeClass[], }> = ({
+                                        technicians?: EmployeeClass[], 
+                                        status: string, }> = ({
   data,
   type,
   technicians,
+  status,
 }) => {
   const [open, setOpen] = useState(false);
   const { changeVisitDate } = useScheduleForm();
@@ -65,6 +67,7 @@ export const OutletVisitationCard: FC<{ data: OutletVisitations,
                   index={idx}
                   technicians={technicians ?? []}
                   type={type}
+                  status={status}
                 />
               ))}
             </tbody>

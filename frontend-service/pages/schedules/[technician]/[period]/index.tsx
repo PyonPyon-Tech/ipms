@@ -118,6 +118,7 @@ const ApproveSchedule: FC = () => {
           data={visitations}
           type="supervisor"
           technicianId={technicianId}
+          status={status}
         />
       )}
     </div>

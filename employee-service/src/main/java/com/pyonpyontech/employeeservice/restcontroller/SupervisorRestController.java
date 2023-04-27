@@ -107,8 +107,11 @@ public class SupervisorRestController {
     }
 
     @GetMapping(value = "/technicians")
-    private List<Technician> retrieveAllSupervisorTechniciansByPrincipal(Principal principal) {
+    private List<Technician> retrieveAllSupervisorTechniciansByPrincipal(@RequestParam(required = false) Long period, Principal principal) {
         Supervisor supervisor = supervisorRestService.getSupervisorByUsername(principal.getName());
+        if(period != null) {
+          return supervisorRestService.getSupervisorTechnicianListByPeriod(supervisor.getId(), period);
+        }
         return supervisorRestService.getSupervisorTechnicianList(supervisor.getId());
     }
     @GetMapping(value = "/outlets")
