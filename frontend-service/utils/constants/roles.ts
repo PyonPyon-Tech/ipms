@@ -1,32 +1,56 @@
+import { useAuth } from "@hooks/useAuth";
 import { NavigationCardProps } from "@type/navigationCardProps";
 
-export const ROLES = [
-  "Customer",
-  "Manajer",
-  "Administrator",
-  "Supervisor",
-  "Teknisi",
-];
+export const PATH_ROLES = ["customers", "managers", "administrators", "supervisors", "technicians"]; // ini versi english plural buat routes
+export const ROLES_ENGLISH = ["customer", "manager", "administrator", "supervisor", "technician"];
+export const ROLES = ["Customer", "Manajer", "Administrator", "Supervisor", "Teknisi"];
 
 export const NAVCARDS: NavigationCardProps[][] = [
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Dashboard", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    // { name: "Jadwal Treatment", path: "/" },
+    // { name: "Beri Feedback", path: "/" },
   ], // customer
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Dashboard", path: "/" },
+    { name: "Karyawan", path: "/employees" },
+    { name: "Customer & Outlet", path: "/customers" },
+    // { name: "Buat Laporan Treatment", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    // { name: "Lihat Jadwal Treatment", path: "/schedules" }, ?? Butuh ngga sih??
+    // { name: "Realokasi Jadwal Treatment", path: "/" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
+    { name: "Stok Chemical", path: "/inventories" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // manager
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Dashboard", path: "/" },
+    { name: "Karyawan", path: "/employees" },
+    { name: "Customer & Outlet", path: "/customers" },
+    { name: "Laporan Treatment", path: "/reports" },
+    { name: "Stok Chemical", path: "/inventories" },
+    // { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // administrator
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Dashboard", path: "/" },
+    { name: "Penugasan Outlet", path: "/assignments" },
+    // { name: "Buat Laporan Treatment", path: "/" },
+    { name: "Laporan Treatment", path: "/reports" },
+    { name: "Jadwal Teknisi", path: "/schedules" },
+    { name: "Menyetujui Jadwal Teknisi", path: "/schedules/approve" },
+    { name: "Mengganti Kunjungan Teknisi", path: "/schedules/allocate" },
+    // { name: "Stok Chemical", path: "/inventories" },
+    // { name: "Lihat Feedback", path: "/" },
   ], // supervisor
   [
-    { icon: "home", name: "Home", path: "/" },
-    { icon: "store", name: "Kelola Customer", path: "/customers" },
+    { name: "Dashboard", path: "/" },
+    { name: "Buat Laporan Treatment", path: "/reports/add" }, // done
+    { name: "Lihat Laporan Treatment", path: "/reports" },
+    { name: "Jadwal Treatment", path: "/schedules/propose" }, // done
+    // { name: "Realokasi Jadwal Treatment", path: "/" },
+    { name: "Stok Chemical Saya", path: "/inventories/out" },
+    // { name: "Lihat Umpan Balik", path: "/" },
   ], // teknisi
 ];

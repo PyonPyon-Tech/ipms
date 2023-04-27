@@ -7,12 +7,8 @@ export const Container: FC<{ children: ReactNode; className?: string }> = ({
 }) => {
   return (
     <div
-      style={{
-        boxShadow:
-          "4px 4px 4px rgba(0, 0, 0, 0.25), -4px -4px 4px rgba(0, 0, 0, 0.25)",
-      }}
       className={classNames(
-        "flex w-full flex-col items-center p-6 md:flex-row md:gap-x-10 md:p-12 lg:gap-x-16 xl:p-16 ",
+        "shadow-basic flex w-full flex-col items-center rounded-md p-4 md:flex-row md:gap-x-10 md:p-8 lg:gap-x-16 xl:p-10 ",
         className
       )}
     >

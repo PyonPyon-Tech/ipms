@@ -1,46 +1,23 @@
 package com.pyonpyontech.scheduleservice.restcontroller;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Map;
-
+import java.security.Principal;
+import java.util.*;
 import javax.validation.Valid;
 
+import com.pyonpyontech.scheduleservice.model.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.core.Authentication;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import lombok.extern.slf4j.Slf4j;
-
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Administrator;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Manager;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Supervisor;
-import com.pyonpyontech.scheduleservice.model.pest_control.employee.Technician;
-import com.pyonpyontech.scheduleservice.model.pest_control.Schedule;
-import com.pyonpyontech.scheduleservice.model.customer.Outlet;
-import com.pyonpyontech.scheduleservice.model.pest_control.PesticideRequest;
-import com.pyonpyontech.scheduleservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.scheduleservice.model.pest_control.Schedule;
 import com.pyonpyontech.scheduleservice.model.pest_control.Visitation;
 
 import com.pyonpyontech.scheduleservice.service.ScheduleRestService;
+import com.pyonpyontech.scheduleservice.dto.VisitationTransferRequest;
 
 @Slf4j
 @RestController
@@ -83,9 +60,67 @@ public class ScheduleRestController {
             } catch(NullPointerException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             } catch(DataIntegrityViolationException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+            }
+        }
+    }
+
+    @PostMapping(value = "/period/{id}")
+    private Schedule createSchedule(@PathVariable("id") Long periodId, @Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                return scheduleRestService.createSchedule(visitations, periodId, principal.getName());
+            } catch(NullPointerException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  e.getLocalizedMessage());
             }
         }
     }
     
+    @PutMapping(value = "/visitations")
+    private List<Visitation> updateSchedule(@Valid @RequestBody List<Visitation> visitations, BindingResult bindingResult,  Principal principal){
+        if(bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+        } else {
+            try {
+                return scheduleRestService.updateSchedule(visitations);
+            } catch(NullPointerException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
+            } catch(Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  e.getLocalizedMessage());
+            }
+        }
+    }
+
+    @GetMapping(value = "/period/{month}/{year}")
+    private Map<String, String> findPeriod(@PathVariable("month") Long month, @PathVariable("year") Long year ) {
+        try {
+            Map<String, String> result = new HashMap<>();
+            Period period = scheduleRestService.findPeriod(month, year);
+            result.put("id", "" + period.getId());
+            result.put("month", period.getMonth().name());
+            result.put("year", period.getYear().toString());
+            return result;
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @PostMapping(value = "/technicians/{technicianId}/period/{periodId}")
+    private Schedule approveSchedule(@PathVariable("technicianId") Long technicianId, @PathVariable("periodId") Long periodId, @RequestBody Map<String, Object> payload) {
+        return scheduleRestService.approveSchedule(technicianId, periodId, String.valueOf(payload.get("comment")), Integer.parseInt(String.valueOf(payload.get("isApproved"))));
+    }
+    
+    @PostMapping(value = "/visitations/transfer")
+    private Visitation transferVisitation(@Valid @RequestBody VisitationTransferRequest transferRequest, 
+                                          Principal principal) {
+        return scheduleRestService.transferVisitation(transferRequest.getVisitation(), 
+                                                      transferRequest.getTechnician(), 
+                                                      principal.getName());
+    }
+    
+
 }

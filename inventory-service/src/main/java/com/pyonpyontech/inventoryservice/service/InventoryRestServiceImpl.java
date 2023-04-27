@@ -25,6 +25,7 @@ import com.pyonpyontech.inventoryservice.repository.pest_control.employee_db.Tec
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -126,26 +127,34 @@ public class InventoryRestServiceImpl implements InventoryRestService {
     }
     
     @Override
-    public PesticideRequest createPesticideRequest(PesticideRequest pesticideRequest) {
+    public List<PesticideRequest> createPesticideRequest(List<PesticideRequest> lstPesticideRequest) {
         // Reset all fields that might've been supplied by user
-        pesticideRequest.setId(null);
-        
-        Pesticide requestedPesticide = getPesticideById(pesticideRequest.getPesticide().getId());
-        
-        if(requestedPesticide.getStock() < pesticideRequest.getAmount())
-            throw new IllegalStateException("There is not enough stock of the requested pesticide.");
-        
-        requestedPesticide.setStock(requestedPesticide.getStock() - pesticideRequest.getAmount());
-        
-        Pesticide savedRequestedPesticide = pesticideDb.save(requestedPesticide);
-        
-        pesticideRequest.setPesticide(savedRequestedPesticide);
-        pesticideRequest.setRequester(getTechnicianById(pesticideRequest.getRequester().getId()));
-        pesticideRequest.setPeriod(getPeriodById(pesticideRequest.getPeriod().getId()));
-        
-        PesticideRequest createdPesticideRequest = pesticideRequestDb.save(pesticideRequest);
-        
-        return createdPesticideRequest;
+        LocalDate currentDate = LocalDate.now();
+        List<PesticideRequest> lstCreatedPesticideRequest = new ArrayList<PesticideRequest>();
+
+        for (PesticideRequest pesticideRequest : lstPesticideRequest){
+            pesticideRequest.setId(null);
+
+            pesticideRequest.setRequestedAt(currentDate);
+            pesticideRequest.setPeriod(getPeriodByMonthAndYear(currentDate.getMonthValue() - 1, currentDate.getYear()));
+
+            Pesticide requestedPesticide = getPesticideById(pesticideRequest.getPesticide().getId());
+
+            if(requestedPesticide.getStock() < pesticideRequest.getAmount())
+                throw new IllegalStateException("There is not enough stock of the requested pesticide.");
+
+            requestedPesticide.setStock(requestedPesticide.getStock() - pesticideRequest.getAmount());
+
+            Pesticide savedRequestedPesticide = pesticideDb.save(requestedPesticide);
+
+            pesticideRequest.setPesticide(savedRequestedPesticide);
+            pesticideRequest.setRequester(getTechnicianById(pesticideRequest.getRequester().getId()));
+
+//            PesticideRequest createdPesticideRequest = pesticideRequestDb.save(pesticideRequest);
+            lstCreatedPesticideRequest.add(pesticideRequest);
+        }
+
+        return pesticideRequestDb.saveAll(lstCreatedPesticideRequest);
     }
     
     private Pest getPestById(Long id) {
@@ -168,6 +177,15 @@ public class InventoryRestServiceImpl implements InventoryRestService {
     
     private Period getPeriodById(Long id) {
         Optional<Period> period = periodDb.findById(id);
+        if(period.isPresent()) {
+            return period.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Period getPeriodByMonthAndYear(Integer month, Integer year) {
+        Optional<Period> period = periodDb.findByMonthAndYear(month, year);
         if(period.isPresent()) {
             return period.get();
         } else {

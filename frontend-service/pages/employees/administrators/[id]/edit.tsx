@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { EmployeeForm } from "@components/employees/EmployeeForm";
+import { EmployeeAdminEditForm } from "@components/employees/EmployeeForm/edit/admin";
 
 const AdminEdit: NextPage = () => {
     const { user } = useAuth();
@@ -34,9 +35,9 @@ const AdminEdit: NextPage = () => {
       retrieveEmployee();
     }, [user, router]);
 
-  return <div className="w-full p-8 md:p-12 md:pt-0">
+  return <div className="w-full">
     <Title title="Ubah Detail Karyawan" />
-    {!!employee && <EmployeeForm data={employee} />}
+    {!!employee && <EmployeeAdminEditForm data={employee} />}
   </div>;
 };
 

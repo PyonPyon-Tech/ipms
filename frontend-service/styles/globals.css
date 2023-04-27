@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html *
+{
+  font-family: 'Poppins', sans-serif !important;
+}
+
 .employee-detail > h5 {
   font-weight: 600;
   /* margin-bottom: 0.5rem; */
@@ -9,13 +14,51 @@
 }
 
 .employee-detail > p {
-  font-weight: 500;
+  font-weight: 300;
   margin-bottom: 0.5rem;
 }
-form  h5 {
+
+.customer-detail > h1 {
+  font-weight: 600;
+  /* margin-bottom: 0.5rem; */
+  font-size: 32px;
+}
+
+.customer-detail > h5 {
+  font-weight: 600;
+  /* margin-bottom: 0.5rem; */
+  font-size: 20px;
+}
+
+.customer-detail > p {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+form h5 {
   font-size: 16px;
 }
-form  input, select {
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    margin-right: 35px;
+  }
+}
+
+.outletDate {
+  display: block;
+  border: 1px solid #1e1e1e;
+  padding: 4px 8px;
+  width: 100%;
+  border-radius: 10px;
+  margin-left: 0.5rem;
+  font-size: 12px;
+  max-width: 400px;
+}
+
+form  input, select, .monthInput {
   display: block;
   border: 1px solid #1e1e1e;
   padding: 0.5rem 1rem;
@@ -31,13 +74,52 @@ form select {
   max-width: 200px;
 }
 
+.rbc-row-segment {
+  font-size: 12px;
+}
+.rbc-toolbar-label{
+  font-size: 20px;
+  font-weight: 700;
+}
+.rbc-agenda-table  tr > th:nth-child(2){
+  display: none;
+}
+.rbc-agenda-time-cell{
+  display: none;
+}
+.rbc-calendar {
+  height: 500px!important;
+}
+.card-title{
+  font-size: 20px;
+  font-weight: 700;
+  color: rgb(0 79 156);
+}
+
+@media(min-width:500px){
+  .rbc-calendar{
+    height: 600px!important;
+  }
+
+}
 @media (min-width: 768px) {
   .employee-detail > h5 {
     /* margin-bottom: 0.5rem; */
     font-size: 24px;
   }
-
+  .rbc-toolbar-label{
+    font-size: 28px;
+  }
   .employee-detail > p {
+    margin-bottom: 1rem;
+  }
+
+  .customer-detail > h5 {
+    /* margin-bottom: 0.5rem; */
+    font-size: 24px;
+  }
+
+  .customer-detail > p {
     margin-bottom: 1rem;
   }
 
@@ -48,4 +130,28 @@ form select {
   form input {
     width: 100%;
   }
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.projectFont::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: 'Poppins', sans-serif;
+  opacity: 1; /* Firefox */
+}
+
+.projectFont:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-family: 'Poppins', sans-serif;
+}
+
+.projectFont::-ms-input-placeholder { /* Microsoft Edge */
+  font-family: 'Poppins', sans-serif;
 }

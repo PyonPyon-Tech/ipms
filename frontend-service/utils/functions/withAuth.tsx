@@ -1,3 +1,4 @@
+import { Loading } from "@components/general/Loading";
 import { AxiosClient, setToken, URL_AUTH } from "@constants/api";
 import { useAuth } from "@hooks/useAuth";
 import { AxiosError } from "axios";
@@ -5,6 +6,7 @@ import Cookies from "js-cookie";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export const withAuth = (Component: NextPage) => {
   const AuthenticatedComponent = () => {
@@ -18,15 +20,24 @@ export const withAuth = (Component: NextPage) => {
           setToken(token);
           retrieveUser(token);
         } else {
-          console.log("No Token");
-          router.push("/");
+          toast.dismiss();
+          toast.error("Anda harus login terlebih dahulu");
+          router.replace("/signin");
         }
       }
-      if(!user){
-        console.log("Load from cookies")
+      if (!user) {
+        console.log("Load from cookies");
         loadUserFromCookies();
       }
     }, [user]);
+
+    if (!user) {
+      return (
+        <div className="h-screen w-screen">
+          <Loading />
+        </div>
+      );
+    }
 
     return <Component />; // Render whatever you want while the authentication occurs
   };
