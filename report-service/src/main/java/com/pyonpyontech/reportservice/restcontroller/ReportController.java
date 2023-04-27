@@ -86,9 +86,7 @@ public class ReportController {
                 return report;
             }
             if(role == 3){
-                if(author.getUser().getUsername().equals(principal.getName())){
-                    return report;
-                }
+                return report;
             }
             if(role == 4){
                 if(author.getUser().getUsername().equals(principal.getName())){
