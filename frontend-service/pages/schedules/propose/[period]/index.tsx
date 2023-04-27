@@ -78,6 +78,7 @@ const CreateSchedule: FC = () => {
           data={visitations}
           type="technician"
           technicianId={-1}
+          status={status}
         />
       )}
     </div>

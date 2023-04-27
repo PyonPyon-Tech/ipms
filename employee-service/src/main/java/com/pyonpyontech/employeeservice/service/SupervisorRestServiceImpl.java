@@ -136,6 +136,25 @@ public class SupervisorRestServiceImpl implements SupervisorRestService {
     }
     
     @Override
+    public List<Technician> getSupervisorTechnicianListByPeriod(Long id, Long period) {
+        List<Technician> technicianList = getSupervisorById(id).getSubordinates();
+        List<Technician> returnedTechnicians = new ArrayList<>();
+        for (Technician t : technicianList) {
+            boolean isApproved = false;
+            for (Schedule s : t.getSchedules()) 
+                if (s.getPeriod().getId() == period) {
+                    isApproved = true;
+                    break;
+                }
+
+            if (isApproved)
+                returnedTechnicians.add(t);
+        }
+        
+        return returnedTechnicians;
+    }
+    
+    @Override
     public List<Outlet> getSupervisorOutletList(Long id) {
         return getSupervisorById(id).getOutlets();
     }

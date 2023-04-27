@@ -61,7 +61,6 @@ const SearchSchedules: NextPage = () => {
   }, [user, router]);
 
   useEffect(() => {
-    console.log(`periodt'; ${period}`);
     if (isNaN(period))
       return setPeriod(-1);
     
