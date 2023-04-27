@@ -15,6 +15,7 @@ import { User } from "@models/user";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const SearchInventory: NextPage = () => {
 
@@ -25,6 +26,38 @@ const SearchInventory: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter()
   const { user } = useAuth();
+
+  const onSubmit = async () => {
+    const pestisidePostDataLst : object[] = []
+    cart.forEach((jml, id) => {
+      if (jml > 0){
+        const payload = {
+        pesticide: { id: id},
+        requester: { id: user?.id },
+        amount: jml
+        };
+        pestisidePostDataLst.push(payload)
+      }
+    });
+    const loading = toast.loading("Menyimpan...");
+    console.log(pestisidePostDataLst)
+    AxiosClient.post(`${URL_INVENTORY}/pesticide-requests`, pestisidePostDataLst)
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Pengambilan Sukses", {
+          duration: 5000,
+        });
+        window.location.reload();
+        router.push(`/inventories/out`);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        console.log(error);
+      })
+      .finally(() => {
+        toast.dismiss(loading);
+      });
+  }
 
   function countCart(){
     return Array.from(cart.entries())
@@ -57,11 +90,8 @@ const SearchInventory: NextPage = () => {
         title="Keranjang Pengambilan"
         action={{
           name: "Submit",
-          func: () => {setIsCart(true)},
-          }}
-        isCart = {{
-          func: () => {setIsCart(false)},
-        }}    
+          func: () => {onSubmit()}
+          }} 
         >
           <h4>Total: {countCart()} pestisida</h4>
         </TitleInventoryOut>
