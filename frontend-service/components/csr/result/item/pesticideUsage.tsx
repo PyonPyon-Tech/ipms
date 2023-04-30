@@ -1,4 +1,5 @@
 import { useCsrForm } from "@hooks/useCsrForm";
+import { PesticideClass } from "@models/pestcontrol/Pesticide";
 import { FC, useEffect, useState } from "react";
 import { Controller, UseFieldArrayRemove, useFormContext, useWatch } from "react-hook-form";
 import Select from "react-select";
@@ -20,7 +21,7 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
   useEffect(() => {
     if (!selectedBrand) return;
     const selectedPesticide = initialData?.pesticides.find((p) => p.id == selectedBrand.value);
-    const targetNDose = selectedPesticide?.targets.split(",");
+    const targetNDose = selectedPesticide?.targets?.split(",");
     const result = targetNDose?.map((x) => {
       const y = x.substring(x.indexOf("(") + 1);
       return {
@@ -33,7 +34,7 @@ export const CsrFormPesticideUsageDetail: FC<{ index: number; id: string; remove
 
   if (!initialData) return <div></div>;
   const { pesticides } = initialData;
-  const satuan = pesticides.find((p) => p.id == selectedBrand?.value)?.unit.toUpperCase() ?? "";
+  const satuan = pesticides.find((p) => p.id == selectedBrand?.value)?.unit?.toUpperCase() ?? "";
 
   return (
     <div key={id} className="mb-4 flex items-baseline">

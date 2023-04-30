@@ -35,6 +35,8 @@ export class CustomerFormFactory {
       startContract: startContract,
       endContract: endContract,
       user: {
+        id: 0,
+        uuid: 0,
         name,
         username,
         role,

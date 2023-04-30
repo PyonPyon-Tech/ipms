@@ -83,7 +83,7 @@ export const CsrFormFindingPestDetail: FC<{ index: number; id: string; remove: U
         {/* ini buat foto */}
         <div className="flex items-start gap-x-4 pl-1">
           <div className="grow">
-            <CsrResultAdditionalDetail id={index} recommendations={recommendations} type="detailPests" />
+            <CsrResultAdditionalDetail id={index} recommendations={recommendations} type="detailPests" imageUrls={[]} />
           </div>
         </div>
       </div>
