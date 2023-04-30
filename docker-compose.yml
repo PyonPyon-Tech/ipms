@@ -107,7 +107,11 @@ services:
       - frontend-network
       - backend-network
     ports:
-      - "9000:80"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/fullchain.pem:/certificates/fullchain.pem:ro
+      - ./nginx/privkey.pem:/certificates/privkey.pem:ro
     depends_on:
       - frontend-service
       
