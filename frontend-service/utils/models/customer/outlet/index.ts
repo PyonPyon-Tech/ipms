@@ -5,6 +5,7 @@ export interface Outlet {
   region: string;
   address: string;
   supervisor: { id: number, user: { name: string }};
+  technician?: { id: number, user: { name: string }};
 }
 
 export interface OutletMutation {
@@ -13,6 +14,7 @@ export interface OutletMutation {
   region: string;
   address: string;
   supervisor: { id: number, user: { name: string }};
+  technician?: { id: number, user: { name: string }};
 }
   
 export class OutletClass implements Outlet {
@@ -22,6 +24,7 @@ export class OutletClass implements Outlet {
   region: string;
   address: string;
   supervisor: { id: number, user: { name: string }};
+  technician?: { id: number, user: { name: string }};
 
   constructor(obj: any) {
     this.customer = obj.customer;
@@ -30,5 +33,6 @@ export class OutletClass implements Outlet {
     this.region = obj.region;
     this.address = obj.address;
     this.supervisor = obj.supervisor;
+    this.technician = obj.technician;
   }
 } 

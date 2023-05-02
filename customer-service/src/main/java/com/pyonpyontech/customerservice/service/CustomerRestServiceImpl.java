@@ -167,9 +167,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         
         outlet.setCustomer(targetCustomer);
         outlet.setSupervisor(getSupervisorById(outlet.getSupervisor().getId()));
-        
-        if(outlet.getTechnician() != null)
-            outlet.setTechnician(getTechnicianById(outlet.getTechnician().getId()));
+        outlet.setTechnician(null);
         
         Outlet createdOutlet = outletDb.save(outlet);
         
