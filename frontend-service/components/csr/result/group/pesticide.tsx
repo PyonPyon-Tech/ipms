@@ -13,7 +13,22 @@ export const CsrResultPesticideUsage: FC<{data: CsrPesticideUsage[]}> = ({data})
         section=""
       >
         {data.map((item, index) => (
-          <h2>test</h2>
+          <table className="w-full table-auto border-collapse border border-slate-500">
+          <thead>
+            <tr>
+              <th className="border border-slate-600">Nama Pestisida</th>
+              <th className="border border-slate-600">Jumlah</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+            <tr>
+              <td className="border border-slate-600">{item.pesticide.name}</td>
+              <td className="border border-slate-600">{item.amount}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
         ))}
       </CsrResultGroupContainer>
     </div>
