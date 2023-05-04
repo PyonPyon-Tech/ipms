@@ -36,6 +36,8 @@ export const CsrFormProvider: FC<{ children: React.ReactNode }> = ({ children })
         toast.dismiss()
       })
       .catch((error: AxiosError) => {
+        toast.dismiss()
+        setInitialData(null)
         toast.error(
           `Belum ada jadwal di ${date.toLocaleDateString("id", {
             weekday: "long",

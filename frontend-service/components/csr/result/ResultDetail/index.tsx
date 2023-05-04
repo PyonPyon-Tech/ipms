@@ -24,8 +24,8 @@ export const CsrReportDetail: FC<CsrReport> = ({
   technician,
   outlet,
   date,
-  start,
-  end,
+  picName,
+  time,
   technicianSignature,
   picSignature,
   visitationPhoto,
@@ -35,7 +35,6 @@ export const CsrReportDetail: FC<CsrReport> = ({
 }) => {
   // console.log(detailAreas);
   const signature = [technicianSignature, picSignature];
-
 
   //date lokal
   moment.locale("id");
@@ -54,54 +53,52 @@ export const CsrReportDetail: FC<CsrReport> = ({
     });
   };
 
-    function makePDF() {
+  function makePDF() {
+    const quotes = document.getElementById("divToPrint");
+    html2canvas(quotes!).then((canvas) => {
+      //! MAKE YOUR PDF
+      var pdf = new jsPDF({ format: "a4", unit: "px" });
 
-      const quotes = document.getElementById("divToPrint");
-      html2canvas(quotes!).then((canvas) => {
-           //! MAKE YOUR PDF
-           var pdf = new jsPDF({ format: "a4", unit: "px" });
+      for (var i = 0; i <= quotes!.clientHeight / 2110; i++) {
+        //! This is all just html2canvas stuff
+        var srcImg = canvas;
+        var sX = 0;
+        var sY = 2110 * i; // start 2110 pixels down for every new page
+        var sWidth = 1500;
+        var sHeight = 2110;
+        var dX = 0;
+        var dY = 0;
+        var dWidth = 1500;
+        var dHeight = 2110;
 
-           for (var i = 0; i <= quotes!.clientHeight/2110; i++) {
-               //! This is all just html2canvas stuff
-               var srcImg  = canvas;
-               var sX      = 0;
-               var sY      = 2110*i; // start 2110 pixels down for every new page
-               var sWidth  = 1500;
-               var sHeight = 2110;
-               var dX      = 0;
-               var dY      = 0;
-               var dWidth  = 1500;
-               var dHeight = 2110;
+        var onePageCanvas = document.createElement("canvas");
+        onePageCanvas.setAttribute("width", "1500");
+        onePageCanvas.setAttribute("height", "2110");
+        var ctx = onePageCanvas.getContext("2d");
+        // details on this usage of this function:
+        // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
+        ctx!.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
 
-               var onePageCanvas = document.createElement("canvas");
-               onePageCanvas.setAttribute('width', "1500");
-               onePageCanvas.setAttribute('height', "2110");
-               var ctx = onePageCanvas.getContext('2d');
-               // details on this usage of this function:
-               // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-               ctx!.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+        // document.body.appendChild(canvas);
+        var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
-               // document.body.appendChild(canvas);
-               var canvasDataURL = onePageCanvas.toDataURL("image/png");
+        var width = onePageCanvas.width;
+        var height = onePageCanvas.clientHeight;
 
-               var width         = onePageCanvas.width;
-               var height        = onePageCanvas.clientHeight;
-
-               //! If we're on anything other than the first page,
-               // add another page
-               if (i > 0) {
-                   pdf.addPage('a4', 'portrait'); //8.5" x 11" in pts (in*72)
-               }
-               //! now we declare that we're working on that page
-               pdf.setPage(i+1);
-               //! now we add content to that page!
-               pdf.addImage(canvasDataURL, 'PNG', 7, 0, (width*.3), (height*.3));
-
-           }
-           //! after the for loop is finished running, we save the pdf.
-           pdf.save('Test.pdf');
-     });
-   }
+        //! If we're on anything other than the first page,
+        // add another page
+        if (i > 0) {
+          pdf.addPage("a4", "portrait"); //8.5" x 11" in pts (in*72)
+        }
+        //! now we declare that we're working on that page
+        pdf.setPage(i + 1);
+        //! now we add content to that page!
+        pdf.addImage(canvasDataURL, "PNG", 7, 0, width * 0.3, height * 0.3);
+      }
+      //! after the for loop is finished running, we save the pdf.
+      pdf.save("Test.pdf");
+    });
+  }
 
   const visitationTypeOption = ["Layanan Rutin", "Single Job", "Follow Up", "Komplain", "Inspeksi", "Lainnya"];
   let areaIdCounter = 1;
@@ -124,9 +121,16 @@ export const CsrReportDetail: FC<CsrReport> = ({
         <div className="w-0 min-w-full" id="divToPrint">
           <section className="w-0 min-w-full">
             <div className="flex items-start justify-between">
-            <Title title={`Laporan ECO-101 / CSR-${id}`} />{" "}
+              <Title title={`Laporan ECO-101 / CSR-${id}`} />{" "}
             </div>
             <div className={styles.csrFormHead}>
+              <div className="csr-form-head">
+                <label htmlFor="date">
+                  <img src="/icons/person.svg" className="mr-1.5" />
+                  <p>Nama PIC</p>
+                </label>
+                <h2 className="ml-8">{picName}</h2>
+              </div>
               <div className="csr-form-head">
                 <label htmlFor="date">
                   <img src="/icons/calendar.svg" />
@@ -146,16 +150,9 @@ export const CsrReportDetail: FC<CsrReport> = ({
                 <div className="w-1/2">
                   <label htmlFor="start">
                     <img src="/icons/clock.svg" className="scale-75" />
-                    <p>Waktu Mulai</p>
+                    <p>Waktu</p>
                   </label>
-                  <h2 className="ml-8">{start}</h2>
-                </div>
-                <div className="w-1/2">
-                  <label htmlFor="end">
-                    <img src="/icons/clock.svg" />
-                    <p>Waktu Selesai</p>
-                  </label>
-                  <h2 className="ml-8">{end}</h2>
+                  <h2 className="ml-8">{time}</h2>
                 </div>
               </div>
 
@@ -164,16 +161,8 @@ export const CsrReportDetail: FC<CsrReport> = ({
                   <label>Jenis Layanan</label>
                   <div className="ml-8 grid grid-cols-3">
                     <div>
-                      <input
-                        checked
-                        disabled
-                        type="radio"
-                        id="type-1"
-                        value="1"
-                      />
-                      <label htmlFor="type-1">
-                        {visitationTypeOption[visitationType - 1]}
-                      </label>
+                      <input checked disabled type="radio" id="type-1" value="1" />
+                      <label htmlFor="type-1">{visitationTypeOption[visitationType - 1]}</label>
                     </div>
                   </div>
                 </fieldset>
@@ -189,10 +178,11 @@ export const CsrReportDetail: FC<CsrReport> = ({
               <CsrResultPesticideUsage data={pesticideUsages} />
             </div>
             <div>
-            <CsrResultSignatures data={signature} />
+              <CsrResultSignatures data={signature} />
             </div>
+
             <div>
-              <CsrResultVisitationPhoto data={visitationPhoto}/>
+              <CsrResultVisitationPhoto data={visitationPhoto} />
             </div>
           </section>
         </div>
@@ -200,10 +190,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
       <Container className="mt-4">
         <div className="w-full">
           <Title title="Download Dokumen"></Title>
-          <Button
-            className="w-full"
-            action={{ name: "Download", func: makePDF }}
-          ></Button>
+          <Button className="w-full" action={{ name: "Download", func: makePDF }}></Button>
         </div>
       </Container>
     </div>

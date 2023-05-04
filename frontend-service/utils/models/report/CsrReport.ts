@@ -17,8 +17,8 @@ export interface CsrReport {
     outlet: OutletExtended,
     summaryDate: string;
     date: string;
-    start: string;
-    end: string;
+    time: string; // TODO: GANTI JADI TIME
+    picName: string;
     technicianSignature: string;
     picSignature: string;
     visitationPhoto: string;
@@ -48,8 +48,8 @@ export class CsrReportClass implements CsrReport {
     outlet: OutletExtended;
     summaryDate: string;
     date: string;
-    start: string;
-    end: string;
+    time: string;
+    picName: string;
     technicianSignature: string;
     picSignature: string;
     visitationPhoto: string;
@@ -67,8 +67,8 @@ export class CsrReportClass implements CsrReport {
         this.outlet = obj.outlet;
         this.date = obj.date;
         this.summaryDate = obj.visitationDate;
-        this.start = obj.start;
-        this.end = obj.end;
+        this.time = obj.time;
+        this.picName = obj.picName;
         this.technicianSignature = obj.technicianSignature;
         this.picSignature = obj.picSignature;
         this.visitationPhoto = obj.visitationPhoto;
