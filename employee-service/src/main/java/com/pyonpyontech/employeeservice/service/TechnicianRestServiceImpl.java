@@ -143,8 +143,8 @@ public class TechnicianRestServiceImpl implements TechnicianRestService {
             map.put("id", report.getId());
             map.put("reportType", report.getReportType());
             map.put("outlet", report.getOutlet());
-            map.put("start", report.getStart());
-            map.put("end", report.getEnd());
+            map.put("time", report.getTime());
+//            map.put("end", report.getEnd());
             technicianReportList.add(map);
         }
         return technicianReportList;
