@@ -31,7 +31,7 @@ public class Feedback {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "feedback")
+    @OneToOne(mappedBy = "feedback", optional = true)
     private CsrReport report;
 
     @ManyToOne
