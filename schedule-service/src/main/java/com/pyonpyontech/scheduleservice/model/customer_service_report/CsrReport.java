@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.pyonpyontech.scheduleservice.model.Period;
-import com.pyonpyontech.scheduleservice.model.customer.Feedback;
+import com.pyonpyontech.scheduleservice.model.customer.Complaint;
 import com.pyonpyontech.scheduleservice.model.customer.Outlet;
 import com.pyonpyontech.scheduleservice.model.pest_control.Visitation;
 import com.pyonpyontech.scheduleservice.model.pest_control.employee.*;
@@ -39,8 +39,8 @@ public class CsrReport {
     private Integer visitationType;
 
     @OneToOne
-    @JoinColumn(name = "feedback_id")
-    private Feedback feedback;
+    @JoinColumn(name = "complaint_id")
+    private Complaint complaint;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)

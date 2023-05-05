@@ -37,9 +37,9 @@ public class CsrReport {
     private int visitationType;
 
     @OneToOne
-    @JoinColumn(name = "feedback_id")
+    @JoinColumn(name = "complaint_id")
     @JsonIncludeProperties({"id", "content"})
-    private Feedback feedback;
+    private Complaint complaint;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
