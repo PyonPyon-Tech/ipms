@@ -50,6 +50,9 @@ public class Notification {
     
     @Min(value = 0)
     @Max(value = 1)
-    @Column(name="seen", nullable = false)
+    @Column(name="seen", columnDefinition = "bigint default 0")
     private Integer isSeen;
+
+    @Column(name = "url", nullable = false)
+    private String url;
 }
