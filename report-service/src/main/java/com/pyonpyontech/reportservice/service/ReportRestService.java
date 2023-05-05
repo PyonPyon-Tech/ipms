@@ -51,6 +51,9 @@ public class ReportRestService {
     @Autowired
     private TechnicianDb technicianDb;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -81,7 +84,9 @@ public class ReportRestService {
         for(CsrPesticideUsage pesticideUsage: report.getPesticideUsages()){
             pesticideUsage.setReport(report);
         }
-        return csrReportDb.save(report);
+        CsrReport result = csrReportDb.save(report);
+        notificationService.reportCreated(result.getId());
+        return result;
     }
 
     public CsrReport detailReport(Long id){
