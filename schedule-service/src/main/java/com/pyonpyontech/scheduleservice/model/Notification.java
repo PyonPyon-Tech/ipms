@@ -12,6 +12,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 
 @Getter
