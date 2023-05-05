@@ -71,7 +71,7 @@ public class ReportRestService {
         return result;
     }
     public CsrReport createReport(CsrReport report){
-        System.out.println(report.getEnd());
+//        System.out.println(report.getEnd());
         for(CsrDetailArea detailArea: report.getDetailAreas()){
             detailArea.setReport(report);
         }
