@@ -12,6 +12,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
 
 @Getter
@@ -33,7 +36,16 @@ public class Notification {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "body", nullable = false)
+    @Column(name = "topic", nullable = false)
+    private String topic;
+
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
+
+    @Column(name = "body", nullable = false, columnDefinition = "TEXT")
     private String body;
     
     @Min(value = 0)
