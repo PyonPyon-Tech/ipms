@@ -12,6 +12,8 @@ import com.pyonpyontech.customerservice.model.pest_control.employee.Supervisor;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.customerservice.repository.NotificationDb;
 import com.pyonpyontech.customerservice.repository.customer_db.CustomerDb;
+import com.pyonpyontech.customerservice.repository.customer_db.OutletDb;
+import com.pyonpyontech.customerservice.repository.customer_service_report_db.CsrReportDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.AdministratorDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.ManagerDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +30,21 @@ import java.util.List;
 public class NotificationService {
     @Autowired
     private NotificationDb notificationDb;
-
     @Autowired
     private ManagerDb managerDb;
-
     @Autowired
     private AdministratorDb administratorDb;
+    @Autowired
+    private CustomerDb customerDb;
+    @Autowired
+    private OutletDb outletDb;
+    @Autowired
+    private CsrReportDb csrReportDb;
+
     public void complaint(Complaint complaint){
         // ini kasih ke manajer dan administrator
-        Customer customer = complaint.getCustomer();
+        // result yg hasil save() nampaknya shallow copy dong, jadi customer cm ada id saja
+        Customer customer = customerDb.findById(complaint.getCustomer().getId()).get();
 
         List<Notification> notifications = new ArrayList<>();
         List<Manager> managers = managerDb.findAll();
@@ -60,15 +68,17 @@ public class NotificationService {
             notification.setUrl("/"); // TODO: Isi ini kalau komplainnya udah jalan
             notification.setTopic("COMPLAINT-GENERAL");
             notification.setBody("");
+            notification.setIsSeen(0);
         }
 
         notificationDb.saveAll(notifications);
     }
 
-    public void complaintReport(Complaint complaint, CsrReport report){
+    public void complaintReport(Complaint complaint, Long reportId){
+        CsrReport report = csrReportDb.findById(reportId).get();
         // ini kalau mau komplain report
         // kasih ke manajer, admin, supervisor dan technician
-        Customer customer = complaint.getCustomer();
+        Customer customer = customerDb.findById(complaint.getCustomer().getId()).get();
         Outlet outlet = report.getOutlet();
         Technician technician = report.getTechnician();
         Supervisor supervisor = technician.getSupervisor();
@@ -104,6 +114,7 @@ public class NotificationService {
             notification.setUrl("/"); // TODO: Isi ini kalau komplainnya udah jalan
             notification.setTopic("COMPLAINT-REPORT");
             notification.setBody("");
+            notification.setIsSeen(0);
         }
     }
 }

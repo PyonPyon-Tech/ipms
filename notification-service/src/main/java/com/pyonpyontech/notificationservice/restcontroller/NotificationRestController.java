@@ -1,8 +1,7 @@
 package com.pyonpyontech.notificationservice.restcontroller;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -25,7 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,46 +38,17 @@ import com.pyonpyontech.notificationservice.service.NotificationRestService;
 public class NotificationRestController {
     @Autowired
     private NotificationRestService notificationRestService;
-    
+
     @GetMapping
-    private List<Notification> retrieveAllNotifications() {
-        return notificationRestService.getNotificationList();
+    private List<Notification> retrieveAllNotifications(@RequestParam("start") String start, @RequestParam("end") String end, Principal principal) {
+        return notificationRestService.getNotificationBetween(principal.getName(), start, end);
     }
-    
-    @PostMapping
-    private Notification createNotification(@Valid @RequestBody Notification notification, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-        } else {
-            try {
-                Notification createdNotification = notificationRestService.createNotification(notification);
-                return createdNotification;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            }
-        }
+
+    @GetMapping("/unread")
+    private Map<String, Object> getUnread(Principal principal){
+        Map<String, Object> result = new HashMap<>();
+        result.put("count", notificationRestService.getUnreadNotification(principal.getName()));
+        return result;
     }
-    
-    @GetMapping("/{id}")
-    private Notification retrieveNotification(@PathVariable("id") Long id) {
-        return notificationRestService.getNotificationById(id);
-    }
-    
-    @PutMapping("/{id}")
-    private Notification updateNotification(@PathVariable("id") Long id, @Valid @RequestBody Notification notification, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-        } else {
-            try {
-                Notification updatedNotification = notificationRestService.updateNotification(id, notification);
-                return updatedNotification;
-            } catch(NullPointerException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            } catch(DataIntegrityViolationException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
-            }
-        }
-    }
+
 }

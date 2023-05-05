@@ -10,10 +10,13 @@ import com.pyonpyontech.scheduleservice.model.pest_control.employee.Administrato
 import com.pyonpyontech.scheduleservice.model.pest_control.employee.Manager;
 import com.pyonpyontech.scheduleservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.scheduleservice.repository.NotificationDb;
+import com.pyonpyontech.scheduleservice.repository.PeriodDb;
+import com.pyonpyontech.scheduleservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.scheduleservice.repository.pest_control.ScheduleDb;
 import com.pyonpyontech.scheduleservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.scheduleservice.repository.pest_control.employee_db.AdministratorDb;
 import com.pyonpyontech.scheduleservice.repository.pest_control.employee_db.ManagerDb;
+import com.pyonpyontech.scheduleservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,18 +41,24 @@ public class NotificationService {
     private ScheduleDb scheduleDb;
     @Autowired
     private VisitationDb visitationDb;
+    @Autowired
+    private PeriodDb periodDb;
+    @Autowired
+    private TechnicianDb technicianDb;
+    @Autowired
+    private OutletDb outletDb;
 
     public void approveSchedule(Long scheduleId){
         // Ke Manajer, Admin, dan teknisi
         Schedule schedule = scheduleDb.findById(scheduleId).get();
 
-        Period period = schedule.getPeriod();
+        Period period = periodDb.findById(schedule.getPeriod().getId()).get();
         String bulan = period.getMonth().name();
         Integer tahun = period.getYear();
         List<Notification> notifications = new ArrayList<>();
 
         Notification technicianNotif = new Notification();
-        Technician technician = schedule.getTechnician();
+        Technician technician = technicianDb.findById(schedule.getTechnician().getId()).get();
         UserModel technicianUser = technician.getUser();
         technicianNotif.setUser(technicianUser);
         technicianNotif.setUrl("/schedule/propose/"+schedule.getPeriod().getId());
@@ -77,6 +86,7 @@ public class NotificationService {
             notification.setTitle("Jadwal "+technicianUser.getName()+" untuk "+ bulan+" "+ tahun+" Telah Disetujui");
             notification.setTopic("SCHEDULE-APPROVED");
             notification.setBody("");
+            notification.setIsSeen(0);
         }
 
         notificationDb.saveAll(notifications);
@@ -86,12 +96,12 @@ public class NotificationService {
         // Ke Teknisi saja
         Schedule schedule = scheduleDb.findById(scheduleId).get();
 
-        Period period = schedule.getPeriod();
+        Period period = periodDb.findById(schedule.getPeriod().getId()).get();
         String bulan = period.getMonth().name();
         Integer tahun = period.getYear();
 
         Notification notification = new Notification();
-        Technician technician = schedule.getTechnician();
+        Technician technician = technicianDb.findById(schedule.getTechnician().getId()).get();
         UserModel technicianUser = technician.getUser();
         notification.setUser(technicianUser);
         notification.setUrl("/schedule/propose/"+schedule.getPeriod().getId());
@@ -100,13 +110,14 @@ public class NotificationService {
         notification.setTitle("Jadwal kamu untuk "+ bulan+" "+ tahun+" Ditolak");
         notification.setTopic("SCHEDULE-REJECTED");
         notification.setBody("");
+        notification.setIsSeen(0);
         notificationDb.save(notification);
     }
 
     public void reallocateVisitation(Visitation visitation, Technician oldTechnician, Technician newTechnician){
         // Ke teknisi saja
         List<Notification> notifications = new ArrayList<>();
-        Outlet outlet = visitation.getOutlet();
+        Outlet outlet = outletDb.findById(visitation.getOutlet().getId()).get();
         LocalDate date = visitation.getDate();
         Notification oldTechNotif = new Notification();
         oldTechNotif.setUser(oldTechnician.getUser());
@@ -123,6 +134,7 @@ public class NotificationService {
             notification.setTime(LocalTime.now());
             notification.setTopic("SCHEDULE-REALLOCATED");
             notification.setBody("");
+            notification.setIsSeen(0);
         }
 
         notificationDb.saveAll(notifications);
