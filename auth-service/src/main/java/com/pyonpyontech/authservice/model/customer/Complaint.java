@@ -1,10 +1,10 @@
-package com.pyonpyontech.customerservice.model.customer;
+package com.pyonpyontech.authservice.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.pyonpyontech.customerservice.model.Period;
-import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.authservice.model.Period;
+import com.pyonpyontech.authservice.model.customer_service_report.CsrReport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class Feedback {
+public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,7 +31,7 @@ public class Feedback {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "feedback", optional = true)
+    @OneToOne(mappedBy = "complaint", optional = true)
     private CsrReport report;
 
     @ManyToOne

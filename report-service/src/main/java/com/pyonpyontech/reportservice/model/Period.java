@@ -3,7 +3,7 @@ package com.pyonpyontech.reportservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.pyonpyontech.reportservice.model.customer.Feedback;
+import com.pyonpyontech.reportservice.model.customer.Complaint;
 import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.PesticideRequest;
 import com.pyonpyontech.reportservice.model.pest_control.Schedule;
@@ -43,7 +43,7 @@ public class Period implements Serializable {
 
     @OneToMany(mappedBy = "period")
     @JsonIgnore
-    private List<Feedback> feedbacks;
+    private List<Complaint> complaints;
 
     @OneToMany(mappedBy = "period")
     @JsonIgnore

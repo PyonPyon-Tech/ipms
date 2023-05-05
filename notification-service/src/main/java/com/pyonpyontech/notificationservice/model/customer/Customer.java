@@ -31,7 +31,7 @@ public class Customer {
     
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private List<Feedback> feedbacks;
+    private List<Complaint> complaints;
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore

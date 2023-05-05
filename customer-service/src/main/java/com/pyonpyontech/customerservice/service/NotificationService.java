@@ -2,8 +2,8 @@ package com.pyonpyontech.customerservice.service;
 
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.pyonpyontech.customerservice.model.Notification;
+import com.pyonpyontech.customerservice.model.customer.Complaint;
 import com.pyonpyontech.customerservice.model.customer.Customer;
-import com.pyonpyontech.customerservice.model.customer.Feedback;
 import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Administrator;
@@ -34,7 +34,7 @@ public class NotificationService {
 
     @Autowired
     private AdministratorDb administratorDb;
-    public void complaint(Feedback complaint){
+    public void complaint(Complaint complaint){
         // ini kasih ke manajer dan administrator
         Customer customer = complaint.getCustomer();
 
@@ -65,7 +65,7 @@ public class NotificationService {
         notificationDb.saveAll(notifications);
     }
 
-    public void complaintReport(Feedback complaint, CsrReport report){
+    public void complaintReport(Complaint complaint, CsrReport report){
         // ini kalau mau komplain report
         // kasih ke manajer, admin, supervisor dan technician
         Customer customer = complaint.getCustomer();
