@@ -5,6 +5,9 @@ import java.util.*;
 import javax.validation.Valid;
 
 import com.pyonpyontech.scheduleservice.model.Period;
+import com.pyonpyontech.scheduleservice.service.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -25,7 +28,10 @@ import com.pyonpyontech.scheduleservice.dto.VisitationTransferRequest;
 public class ScheduleRestController {
     @Autowired
     private ScheduleRestService scheduleRestService;
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleRestController.class);
+
+
     // Retrieve by ID
     @GetMapping(value = "/{id}")
     private Schedule retrieveSchedule(@PathVariable("id") Long id) {
@@ -86,7 +92,8 @@ public class ScheduleRestController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
         } else {
             try {
-                return scheduleRestService.updateSchedule(visitations);
+                logger.info("updateSchedule by "+principal.getName());
+                return scheduleRestService.updateSchedule(principal.getName(), visitations);
             } catch(NullPointerException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
             } catch(Exception e) {

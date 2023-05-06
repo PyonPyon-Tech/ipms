@@ -57,9 +57,9 @@ public class NotificationService {
         for(Notification notification: notifications){
             notification.setDate(LocalDate.now());
             notification.setTime(LocalTime.now());
-            notification.setTitle("Laporan "+outletName+" Baru Dibuat Oleh Teknisi "+technicianName);
+            notification.setTitle("Laporan treatment baru telah dibuat!");
+            notification.setBody("Outlet "+outletName+" Telah Menerima Treatment Oleh Teknisi "+technicianName);
             notification.setTopic("REPORT");
-            notification.setBody("");
             notification.setIsSeen(0);
             notification.setUrl("/reports/detail/"+report.getId());
         }

@@ -16,6 +16,7 @@ export const NotificationPanel: FC<{ data: Notification[]; onClose: any }> = ({ 
         toast.error("Terdapat masalah");
       });
   };
+  const reversedData = [...data].reverse()
   return (
     <div
       onClick={(e) => {
@@ -37,8 +38,8 @@ export const NotificationPanel: FC<{ data: Notification[]; onClose: any }> = ({ 
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <div className="max-h-60 overflow-y-auto px-4 pt-2">
-        {data.map((item) => {
+      <div className="max-h-60 overflow-y-auto pt-2">
+        {reversedData.map((item) => {
           return <PanelNotificationCard key={"notif" + item.id} {...item} />;
         })}
         {data.length == 0 && <PanelEmpty />}
@@ -81,10 +82,11 @@ const PanelNotificationCard: FC<Notification> = ({ id, title, time, body, url })
         e.stopPropagation();
         onClick();
       }}
-      className="mt-2 border-b border-b-grey-dark pb-1"
+      className="pt-2 px-4 pb-0 cursor-pointer hover:bg-slate-200"
     >
       <h2 className="text-sm font-medium">{title}</h2>
       <p className="my-1 text-xs font-normal">{body}</p>
+      <div className="bg-grey-dark h-[1px] mt-1"></div>
     </div>
   );
 };
