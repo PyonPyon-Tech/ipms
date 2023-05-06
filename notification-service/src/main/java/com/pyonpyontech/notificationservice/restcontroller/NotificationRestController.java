@@ -5,6 +5,8 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,16 +41,36 @@ public class NotificationRestController {
     @Autowired
     private NotificationRestService notificationRestService;
 
+    private static final Logger logger = LoggerFactory.getLogger(NotificationRestController.class);
+
+
     @GetMapping
     private List<Notification> retrieveAllNotifications(@RequestParam("start") String start, @RequestParam("end") String end, Principal principal) {
         return notificationRestService.getNotificationBetween(principal.getName(), start, end);
     }
 
-    @GetMapping("/unread")
-    private Map<String, Object> getUnread(Principal principal){
+    @PostMapping("/{id}")
+    private Map<String, Object> haveRead(Principal principal,@PathVariable("id") Long id){
+        List<Long> notifications = new ArrayList<>();
+        notifications.add(id);
+        logger.info("Have read a notification with id: "+notifications.get(0));
         Map<String, Object> result = new HashMap<>();
-        result.put("count", notificationRestService.getUnreadNotification(principal.getName()));
+        Integer count = notificationRestService.haveReadNotification(notifications);
+        result.put("count", count);
         return result;
+    }
+
+    @PostMapping("/all")
+    private Map<String, Object> haveReadAll(Principal principal){
+        Map<String, Object> result = new HashMap<>();
+        Integer count = notificationRestService.haveReadAllNotification(principal.getName());
+        result.put("count", count);
+        return result;
+    }
+
+    @GetMapping("/unread")
+    private List<Notification> getUnread(Principal principal){
+        return notificationRestService.getUnreadNotification(principal.getName());
     }
 
 }

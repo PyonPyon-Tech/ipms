@@ -41,17 +41,34 @@ public class NotificationRestServiceImpl implements NotificationRestService {
     public List<Notification> getNotificationBetween(String username, String start, String end) {
         UserModel userModel = userDb.findByUsername(username).get();
         List<Notification> notifications = notificationDb.findAllByUserAndDateBetween(userModel, LocalDate.parse(start), LocalDate.parse(end));
+        return notifications;
+    }
+    @Override
+    public List<Notification> getUnreadNotification(String username) {
+        UserModel userModel = userDb.findByUsername(username).get();
+        return notificationDb.findAllByUserAndIsSeen(userModel, 0);
+    }
+
+    @Override
+    public Integer haveReadNotification(List<Long> notificationsId) {
+        List<Notification> notifications = notificationDb.findByIdIn(notificationsId);
         for(Notification notification: notifications){
             if(notification.getIsSeen() == 0){
                 notification.setIsSeen(1);
             }
         }
-        notificationDb.saveAll(notifications);
-        return notifications;
+        return notificationDb.saveAll(notifications).size();
     }
+
     @Override
-    public Integer getUnreadNotification(String username) {
+    public Integer haveReadAllNotification(String username) {
         UserModel userModel = userDb.findByUsername(username).get();
-        return notificationDb.findAllByUserAndIsSeen(userModel, 0).size();
+        List<Notification> notifications = notificationDb.findAllByUserAndIsSeen(userModel, 0);
+        for(Notification notification: notifications){
+            if(notification.getIsSeen() == 0){
+                notification.setIsSeen(1);
+            }
+        }
+        return notificationDb.saveAll(notifications).size();
     }
 }

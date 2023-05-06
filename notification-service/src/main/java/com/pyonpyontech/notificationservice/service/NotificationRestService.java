@@ -11,5 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface NotificationRestService {
     List<Notification> getNotificationBetween(String username, String start, String end);
 
-    Integer getUnreadNotification(String username);
+    List<Notification> getUnreadNotification(String username);
+
+    Integer haveReadNotification(List<Long> notifications);
+
+    Integer haveReadAllNotification(String username);
 }

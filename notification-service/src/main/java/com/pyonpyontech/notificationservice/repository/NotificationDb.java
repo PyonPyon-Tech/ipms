@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface NotificationDb extends JpaRepository<Notification, Long> {
+    List<Notification> findByIdIn(List<Long> ids);
+
     List<Notification> findAllByUserAndIsSeen(UserModel user, Integer seen);
     List<Notification> findAllByUserAndDateBetween(UserModel user, LocalDate start, LocalDate end);
 }
