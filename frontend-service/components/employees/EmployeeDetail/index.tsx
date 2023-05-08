@@ -17,7 +17,7 @@ export const EmployeeDetail: FC<Employee> = ({
     <Container>
       <img
         src="/icons/account.svg"
-        className="w-1/4 max-w-[200px] md:max-w-[400px]"
+        className="w-1/4 min-w-[120px] md:max-w-[400px]"
       />
       <div className="mt-8 flex w-full flex-col justify-evenly md:mt-0 md:flex-row">
         <div className="employee-detail w-full md:w-2/5">

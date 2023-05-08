@@ -8,11 +8,11 @@ export const TechnicianOutletsCard: FC<{ data: TechnicianOutlets }> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-md py-2 px-4 shadow-basic md:py-4 md:px-12">
-      <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
+    <div className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-2 shadow-basic md:py-4 md:px-8">
+        <div className="flex items-center gap-x-2 md:gap-x-4">
         <img
-          className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16"
-          src="/icons/person.svg"
+            className="h-8 w-8 sm:h-8 sm:w-8 md:h-12 md:w-12"
+            src="/icons/person.svg"
         />
         <div className="">
           <h5 className="text-sm font-bold md:mb-1 md:text-xl">
