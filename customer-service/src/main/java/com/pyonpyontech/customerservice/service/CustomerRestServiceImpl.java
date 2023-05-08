@@ -12,16 +12,24 @@ import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.model.UserModel;
+import com.pyonpyontech.customerservice.model.Period;
+import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.customerservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.SupervisorDb;
 import com.pyonpyontech.customerservice.repository.pest_control.employee_db.TechnicianDb;
+import com.pyonpyontech.customerservice.repository.customer_db.CustomerDb;
+import com.pyonpyontech.customerservice.repository.customer_db.ComplaintDb;
+import com.pyonpyontech.customerservice.repository.customer_service_report_db.CsrReportDb;
+import com.pyonpyontech.customerservice.repository.PeriodDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import com.pyonpyontech.customerservice.dto.PaginatedObject;
+import com.pyonpyontech.customerservice.model.customer.Complaint;
+import com.pyonpyontech.customerservice.dto.CreateComplaintDto;
 
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -42,6 +50,15 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     @Autowired
     private TechnicianDb technicianDb;
     
+    @Autowired
+    private ComplaintDb complaintDb;
+    
+    @Autowired
+    private PeriodDb periodDb;
+    
+    @Autowired
+    private CsrReportDb csrReportDb;
+  
     @Autowired
     private UserRestService userRestService;
     
@@ -226,6 +243,110 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         return reportList;
     }
     
+    @Override
+    public List<Complaint> getComplaints(String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        List<Complaint> complaints = new ArrayList<>();
+        
+        if (user.getRole().equals(0)) {
+            Customer customer = getCustomerByUsername(username);
+            complaints = customer.getComplaints();
+        } else if (user.getRole().equals(1) || user.getRole().equals(2)) {
+            complaints = complaintDb.findAll();
+        } else if (user.getRole().equals(3)) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+            
+            for (Technician t : supervisor.getSubordinates())
+                for (CsrReport r : csrReportDb.findAllByTechnician(t))
+                    if (r.getComplaint() != null)
+                        complaints.add(r.getComplaint());
+        } else if (user.getRole().equals(4)) {
+            Technician technician = getTechnicianByUsername(username);
+            
+            for (CsrReport r : csrReportDb.findAllByTechnician(technician))
+                if (r.getComplaint() != null)
+                    complaints.add(r.getComplaint());
+        }
+
+        return complaints;
+    }
+    
+    @Override
+    public Complaint getComplaint(Long id, String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        Complaint complaint = getComplaintById(id);
+        
+        if (user.getRole() == 0 && !complaint.getCustomer().getUser().getUuid().equals(user.getUuid()))
+            throw new IllegalStateException();
+          
+        if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+            boolean isAuthorized = false;
+            
+            techloop:
+            for (Technician t : supervisor.getSubordinates())
+                for (CsrReport r : csrReportDb.findAllByTechnician(t))
+                    if (r.getId().equals(complaint.getReport().getId())) {
+                        isAuthorized = true;
+                        break techloop;
+                    }
+            
+            if (!isAuthorized) throw new IllegalStateException();
+        }
+        
+        if (user.getRole() == 4) {
+            Technician technician = getTechnicianByUsername(username);
+            boolean isAuthorized = false;
+            
+            for (CsrReport r : csrReportDb.findAllByTechnician(technician)) {
+                if (r.getId().equals(complaint.getReport().getId())) {
+                    isAuthorized = true;
+                    break;
+                }
+            }
+            
+            if (!isAuthorized) throw new IllegalStateException();
+        }
+        
+        return complaint;
+    }
+    
+    @Override
+    public Complaint createComplaint(CreateComplaintDto complaint, String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        
+        if (!user.getRole().equals(0))
+            throw new UnsupportedOperationException();
+        
+        Customer customer = getCustomerByUsername(username);
+        Complaint createdComplaint = new Complaint();
+        createdComplaint.setCustomer(customer);
+        createdComplaint.setPeriod(getPeriodById(complaint.getPeriod()));
+        createdComplaint.setContent(complaint.getContent());
+        CsrReport targetReport = null;
+        
+        if (complaint.getReport() != null) {
+            targetReport = getCsrReportById(complaint.getReport());
+            
+            if (!targetReport.getOutlet().getCustomer().getId().equals(customer.getId()))
+                throw new UnsupportedOperationException();
+            
+            if (targetReport.getComplaint() != null)
+                throw new IllegalStateException();
+            
+            createdComplaint.setReport(targetReport);
+        }
+        
+        Complaint savedComplaint = complaintDb.save(createdComplaint);
+        
+        if (targetReport != null) {
+            targetReport.setComplaint(savedComplaint);
+            csrReportDb.save(targetReport);
+        }
+
+        return savedComplaint;
+    }
+    
     private Supervisor getSupervisorById(Long id) {
         Optional<Supervisor> supervisor = supervisorDb.findById(id);
         if(supervisor.isPresent()) {
@@ -235,10 +356,64 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         }
     }
     
+    private Supervisor getSupervisorByUsername(String username) {
+        Optional<Supervisor> supervisor = supervisorDb.findByUser_Username(username);
+        if(supervisor.isPresent()) {
+            return supervisor.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Technician getTechnicianByUsername(String username) {
+        Optional<Technician> technician = technicianDb.findByUser_Username(username);
+        if(technician.isPresent()) {
+            return technician.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
     private Technician getTechnicianById(Long id) {
         Optional<Technician> technician = technicianDb.findById(id);
         if(technician.isPresent()) {
             return technician.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Customer getCustomerByUsername(String username) {
+        Optional<Customer> customer = customerDb.findByUser_Username(username);
+        if(customer.isPresent()) {
+            return customer.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Period getPeriodById(Long id) {
+        Optional<Period> period = periodDb.findById(id);
+        if(period.isPresent()) {
+            return period.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private CsrReport getCsrReportById(Long id) {
+        Optional<CsrReport> csrReport = csrReportDb.findById(id);
+        if(csrReport.isPresent()) {
+            return csrReport.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    private Complaint getComplaintById(Long id) {
+        Optional<Complaint> complaint = complaintDb.findById(id);
+        if(complaint.isPresent()) {
+            return complaint.get();
         } else {
             throw new NoSuchElementException();
         }

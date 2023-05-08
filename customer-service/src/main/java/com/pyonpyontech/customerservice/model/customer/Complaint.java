@@ -2,6 +2,7 @@ package com.pyonpyontech.customerservice.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import com.pyonpyontech.customerservice.model.Period;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
@@ -26,15 +27,18 @@ public class Complaint {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIncludeProperties({"id", "name"})
     private Customer customer;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
     @OneToOne(mappedBy = "complaint", optional = true)
+    @JsonIncludeProperties({"id", "outlet", "date"})
     private CsrReport report;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
+    @JsonIncludeProperties({"id", "month", "year"})
     private Period period;
 }

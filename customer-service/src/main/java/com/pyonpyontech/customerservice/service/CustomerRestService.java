@@ -8,6 +8,8 @@ import com.pyonpyontech.customerservice.model.customer.Outlet;
 import com.pyonpyontech.customerservice.model.customer.Customer;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.dto.PaginatedObject;
+import com.pyonpyontech.customerservice.model.customer.Complaint;
+import com.pyonpyontech.customerservice.dto.CreateComplaintDto;
 
 public interface CustomerRestService {
     Customer getCustomerById(Long id);
@@ -25,4 +27,8 @@ public interface CustomerRestService {
     
     List<CsrReport> getOutletReportsByCustomerOutletId(Long customerId, Long outletId);
     List<CsrReport> getReportsByCustomerId(Long id);
+    
+    Complaint createComplaint(CreateComplaintDto complaint, String username);
+    List<Complaint> getComplaints(String username);
+    Complaint getComplaint(Long id, String username);
 }
