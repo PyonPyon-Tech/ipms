@@ -35,6 +35,12 @@ export class OutletFormFactory {
         user: {
           name: supervisorName,
         }
+      },
+      technician: {
+        id: -1,
+        user: {
+          name: "-"
+        }
       }
     };
   }

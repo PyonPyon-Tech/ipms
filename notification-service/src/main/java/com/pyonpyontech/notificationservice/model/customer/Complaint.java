@@ -18,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class Feedback {
+public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,7 +31,7 @@ public class Feedback {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "feedback")
+    @OneToOne(mappedBy = "complaint", optional = true)
     private CsrReport report;
 
     @ManyToOne

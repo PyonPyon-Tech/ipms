@@ -8,12 +8,14 @@ export const ROLES = ["Customer", "Manajer", "Administrator", "Supervisor", "Tek
 export const NAVCARDS: NavigationCardProps[][] = [
   [
     { name: "Dashboard", path: "/" },
+    { name: "Notifikasi", path: `/notifications` },
     { name: "Laporan Treatment", path: "/reports" },
     // { name: "Jadwal Treatment", path: "/" },
     // { name: "Beri Feedback", path: "/" },
   ], // customer
   [
     { name: "Dashboard", path: "/" },
+    { name: "Notifikasi", path: `/notifications` },
     { name: "Karyawan", path: "/employees" },
     { name: "Customer & Outlet", path: "/customers" },
     // { name: "Buat Laporan Treatment", path: "/" },
@@ -26,6 +28,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
   ], // manager
   [
     { name: "Dashboard", path: "/" },
+    { name: "Notifikasi", path: `/notifications` },
     { name: "Karyawan", path: "/employees" },
     { name: "Customer & Outlet", path: "/customers" },
     { name: "Laporan Treatment", path: "/reports" },
@@ -35,6 +38,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
   ], // administrator
   [
     { name: "Dashboard", path: "/" },
+    { name: "Notifikasi", path: `/notifications` },
     { name: "Penugasan Outlet", path: "/assignments" },
     // { name: "Buat Laporan Treatment", path: "/" },
     { name: "Laporan Treatment", path: "/reports" },
@@ -46,6 +50,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
   ], // supervisor
   [
     { name: "Dashboard", path: "/" },
+    { name: "Notifikasi", path: `/notifications` },
     { name: "Buat Laporan Treatment", path: "/reports/add" }, // done
     { name: "Lihat Laporan Treatment", path: "/reports" },
     { name: "Jadwal Treatment", path: "/schedules/propose" }, // done

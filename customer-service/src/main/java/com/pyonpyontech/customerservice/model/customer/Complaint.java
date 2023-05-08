@@ -1,10 +1,11 @@
-package com.pyonpyontech.employeeservice.model.customer;
+package com.pyonpyontech.customerservice.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-import com.pyonpyontech.employeeservice.model.Period;
-import com.pyonpyontech.employeeservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.customerservice.model.Period;
+import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class Feedback {
+public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,15 +27,18 @@ public class Feedback {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIncludeProperties({"id", "name"})
     private Customer customer;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @OneToOne(mappedBy = "feedback")
+    @OneToOne(mappedBy = "complaint", optional = true)
+    @JsonIncludeProperties({"id", "outlet", "date"})
     private CsrReport report;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
+    @JsonIncludeProperties({"id", "month", "year"})
     private Period period;
 }

@@ -37,9 +37,9 @@ public class CsrReport {
     private int visitationType;
 
     @OneToOne
-    @JoinColumn(name = "feedback_id")
+    @JoinColumn(name = "complaint_id")
     @JsonIncludeProperties({"id", "content"})
-    private Feedback feedback;
+    private Complaint complaint;
 
     @ManyToOne
     @JoinColumn(name = "period_id", nullable = false)
@@ -59,11 +59,11 @@ public class CsrReport {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalTime start;
+    @Column(name = "pic_name", nullable = false)
+    private String picName;
 
-    @Column(name = "end_time", nullable = false)
-    private LocalTime end;
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
 
     @Column(name = "technician_signature", nullable = false)
     @JsonIgnore

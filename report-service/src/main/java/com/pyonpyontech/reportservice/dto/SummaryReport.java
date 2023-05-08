@@ -22,8 +22,8 @@ public class SummaryReport {
     private int reportType;
     private int visitationType;
     private LocalDate visitationDate;
-    private LocalTime start;
-    private LocalTime end;
+    private LocalTime time;
+    private String picName;
 
     public SummaryReport(CsrReport report){
         this.id = report.getId();
@@ -33,7 +33,7 @@ public class SummaryReport {
         this.reportType = report.getReportType();
         this.visitationType = report.getVisitationType();
         this.visitationDate = report.getDate();
-        this.start = report.getStart();
-        this.end = report.getEnd();
+        this.time = report.getTime();
+        this.picName = report.getPicName();
     } // To minimize size, as the detail is too big
 }

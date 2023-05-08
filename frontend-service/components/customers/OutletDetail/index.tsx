@@ -8,8 +8,11 @@ export const OutletDetail: FC<Outlet> = ({
   name,
   address,
   region,
-  supervisor: { id: supervisorId, user: { name: supervisorName } }
+  supervisor: { id: supervisorId, user: { name: supervisorName } },
+  technician,
 }) => {
+  const technicianId = technician?.id;
+  const technicianName = technician?.user.name;
   return (
     <Container>
       <img
@@ -31,7 +34,7 @@ export const OutletDetail: FC<Outlet> = ({
             <h5>Supervisor</h5>
             <p>{supervisorName}</p>
             <h5>Teknisi</h5>
-            <p>Seseorang (dummy)</p>
+            <p>{technicianName ?? "-"}</p>
           </div>
         </div>
       </div>
