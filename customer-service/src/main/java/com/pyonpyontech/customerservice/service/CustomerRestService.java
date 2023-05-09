@@ -27,6 +27,7 @@ public interface CustomerRestService {
     
     List<CsrReport> getOutletReportsByCustomerOutletId(Long customerId, Long outletId);
     List<CsrReport> getReportsByCustomerId(Long id);
+    List<CsrReport> getReports(String username);
     
     Complaint createComplaint(CreateComplaintDto complaint, String username);
     List<Complaint> getComplaints(String username);

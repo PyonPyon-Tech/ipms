@@ -33,6 +33,7 @@ import com.pyonpyontech.customerservice.dto.CreateComplaintDto;
 
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 
 @Service
 @Transactional
@@ -244,6 +245,19 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
+    public List<CsrReport> getReports(String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        if (!user.getRole().equals(0))
+            throw new UnsupportedOperationException();
+          
+        Customer customer = getCustomerByUsername(username);
+        List<CsrReport> reports = csrReportDb.findAllByOutlet_Customer(customer);
+        Collections.reverse(reports);
+          
+        return reports;
+    }
+    
+    @Override
     public List<Complaint> getComplaints(String username) {
         UserModel user = userRestService.getUserByUsername(username);
         List<Complaint> complaints = new ArrayList<>();
@@ -267,7 +281,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
                 if (r.getComplaint() != null)
                     complaints.add(r.getComplaint());
         }
-
+        
+        Collections.reverse(complaints);
         return complaints;
     }
     
@@ -314,6 +329,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     @Override
     public Complaint createComplaint(CreateComplaintDto complaint, String username) {
         UserModel user = userRestService.getUserByUsername(username);
+        
+        System.out.println("ROLE! " + user.getRole());
         
         if (!user.getRole().equals(0))
             throw new UnsupportedOperationException();

@@ -216,6 +216,16 @@ public class CustomerRestController {
         }
     }
     
+    // Retrieve Reports
+    @GetMapping(value = "/reports")
+    private List<CsrReport> retrieveReports(Principal principal) {
+        try {
+            return customerRestService.getReports(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
     // Retrieve Complaints
     @GetMapping(value = "/complaints")
     private List<Complaint> retrieveComplaints(Principal principal) {

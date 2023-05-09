@@ -10,6 +10,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Dashboard", path: "/" },
     { name: "Notifikasi", path: `/notifications` },
     { name: "Laporan Treatment", path: "/reports" },
+    { name: "Komplain", path: "/complaints" },
     // { name: "Jadwal Treatment", path: "/" },
     // { name: "Beri Feedback", path: "/" },
   ], // customer
@@ -24,6 +25,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     // { name: "Realokasi Jadwal Treatment", path: "/" },
     // { name: "Penugasan Outlet", path: "/assignments" },
     { name: "Stok Chemical", path: "/inventories" },
+    { name: "Komplain", path: "/complaints" },
     // { name: "Lihat Feedback", path: "/" },
   ], // manager
   [
@@ -33,6 +35,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Customer & Outlet", path: "/customers" },
     { name: "Laporan Treatment", path: "/reports" },
     { name: "Stok Chemical", path: "/inventories" },
+    { name: "Komplain", path: "/complaints" },
     // { name: "Penugasan Outlet", path: "/assignments" },
     // { name: "Lihat Feedback", path: "/" },
   ], // administrator
@@ -45,6 +48,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Jadwal Teknisi", path: "/schedules" },
     { name: "Menyetujui Jadwal Teknisi", path: "/schedules/approve" },
     { name: "Mengganti Kunjungan Teknisi", path: "/schedules/allocate" },
+    { name: "Komplain", path: "/complaints" },
     // { name: "Stok Chemical", path: "/inventories" },
     // { name: "Lihat Feedback", path: "/" },
   ], // supervisor
@@ -56,6 +60,7 @@ export const NAVCARDS: NavigationCardProps[][] = [
     { name: "Jadwal Treatment", path: "/schedules/propose" }, // done
     // { name: "Realokasi Jadwal Treatment", path: "/" },
     { name: "Stok Chemical Saya", path: "/inventories/out" },
+    { name: "Komplain", path: "/complaints" },
     // { name: "Lihat Umpan Balik", path: "/" },
   ], // teknisi
 ];

@@ -27,14 +27,14 @@ public class Complaint {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIncludeProperties({"id", "name"})
+    @JsonIncludeProperties({"id", "user"})
     private Customer customer;
 
     @Column(name = "content", nullable = false)
     private String content;
 
     @OneToOne(mappedBy = "complaint", optional = true)
-    @JsonIncludeProperties({"id", "outlet", "date"})
+    @JsonIncludeProperties({"id", "outlet", "date", "technician"})
     private CsrReport report;
 
     @ManyToOne
