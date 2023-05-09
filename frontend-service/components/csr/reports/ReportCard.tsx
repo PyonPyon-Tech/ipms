@@ -8,9 +8,9 @@ export const TechnicianReportsCard: FC<{ data: CsrReportClass }> = ({ data }) =>
   console.log(data);
   return (
     <div
-      className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-4 md:py-4 md:px-12 shadow-basic"
+    className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-2 md:py-4 md:px-8 shadow-basic"
     >
-      <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
+        <div className="flex items-center gap-x-2 md:gap-x-4">
         {/* <Checkbox/> */}
         <div className="">
           <h5 className="text-sm font-bold md:mb-1 md:text-xl">

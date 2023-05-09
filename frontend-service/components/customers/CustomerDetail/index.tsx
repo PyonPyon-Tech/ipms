@@ -17,7 +17,7 @@ export const CustomerDetail: FC<Customer> = ({
     <Container>
       <img
         src="/icons/account.svg"
-        className="w-1/4 max-w-[200px] md:max-w-[400px]"
+        className="w-1/4 min-w-[120px] md:max-w-[400px]"
       />
       <div>
         <div className="customer-detail">
