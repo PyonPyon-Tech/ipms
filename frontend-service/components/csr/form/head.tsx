@@ -22,14 +22,7 @@ export const CsrFormHead: FC = () => {
 
   return (
     <section className={styles.csrFormHead}>
-      <div className="csr-form-head">
-        <label htmlFor="picName">
-          <img src="/icons/person.svg" />
-          <p>Nama PIC</p>
-        </label>
-        <input id="picName" placeholder="nama petugas" required {...register("picName")} />
-      </div>
-      <div className="csr-form-head">
+      <div className="hidden">
         <label htmlFor="date">
           <img src="/icons/calendar.svg" />
           <p>Tanggal Layanan</p>

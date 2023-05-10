@@ -14,15 +14,24 @@ import { Button } from "@components/general/Button";
 import { useAuth } from "@hooks/useAuth";
 
 export const CsrForm: FC = () => {
-  const { upload } = useCsrForm();
+  const { upload, initialData, getInitialData } = useCsrForm();
   const methods = useForm({
     defaultValues:{
       date: new Date().toISOString().substring(0, 10)
     }
   });
 
+  const { user } = useAuth();
   const router = useRouter();
-  return (
+
+  let tanggal = new Date();
+
+  useEffect(() => {
+    if (!user) return;
+    getInitialData(user?.id, tanggal);
+  }, [user]);
+
+  return initialData != null? (
     <FormProvider {...methods}>
       <form
         className="mb-20 w-0 min-w-full"
@@ -51,12 +60,28 @@ export const CsrForm: FC = () => {
         <CsrFormAreaFinding />
         <CsrFormPestFinding />
         <CsrFormPesticideUsage />
-        <CsrFormSignatures />
+        <CsrFormSignatures technicianName={user?.name!}/>
         <CsrFormVisitationPhoto />
         <div className="flex items-center justify-center">
           <Button className="bg-teal" action={{ name: "Simpan", submit: true }}></Button>
         </div>
       </form>
     </FormProvider>
-  );
+  ):
+  <div className="md:flex md:flex-row">
+    <div className="flex justify-center px-3">
+      <img className="max-w-[128px] min-w-[60px]" src="/icons/warning-circle.svg"></img>
+    </div>
+    <div className="items-start">
+      <h2 className="text-gray text-xl text-center md:text-start md:items-start md:text-2xl font-bold pb-3">TIDAK ADA JADWAL UNTUK TANGGAL, {tanggal.toLocaleDateString("id", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).toUpperCase()}!</h2>
+      <h6 className="text-gray text-center md:text-start md:text-lg lg:text-[20px]">
+        Sepertinya Anda belum memiliki jadwal untuk tanggal 24 Maret 2023,<br></br> tambahkan jadwal atau minta supervisor untuk menambahkan jadwal Anda!
+      </h6>
+    </div>
+  </div>
+  ;
 };
