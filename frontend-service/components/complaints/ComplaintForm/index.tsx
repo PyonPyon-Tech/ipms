@@ -6,22 +6,46 @@ import {
   ComplaintFields,
   ComplaintFormFactory,
 } from "@models/customer/complaint/form";
-import { CsrReport } from "@models/report/CsrReport";
+import { Outlet } from "@models/customer/outlet";
+import { CsrReport, CsrReportClass } from "@models/report/CsrReport";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export const ComplaintForm: FC<{ reports: CsrReport[] }> = ({
-  reports,
+export const ComplaintForm: FC<{ outlets: Outlet[]  }> = ({
+  outlets,
 }) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<ComplaintFields>();
+  const [outletId, setOutletId] = useState<string>('');
+  const [reports, setReports] = useState<CsrReport[]>([]);
+
+  useEffect(() => {
+    async function retrieveReports(outletId: string) {
+      if (!outletId) return setReports([]);
+      
+      AxiosClient.get(`${URL_CUSTOMER}/outlets/${outletId}/reports`)
+        .then((response) => {
+          setReports(response.data.map((x: any) => new CsrReportClass(x)));
+          console.log(response.data);
+        })
+        .catch((err: AxiosError) => {
+          toast.error(err.message);
+          console.log(err);
+        });
+    }
+    retrieveReports(outletId);
+  }, [outletId]);
 
   const onSubmit = async (data: ComplaintFields) => {
     let complaint: ComplaintMutation | null = null;
 
     complaint = ComplaintFormFactory.complaintMutationFromData(data);
+
+    if (!complaint.outlet)
+      return toast.error(`Mohon pilih outlet untuk dikomplain.`);
 
     AxiosClient.post(
       `${URL_CUSTOMER}/complaints`,
@@ -44,8 +68,22 @@ export const ComplaintForm: FC<{ reports: CsrReport[] }> = ({
   return (
     <div className="shadow-basic w-full flex-col items-center rounded-md p-4 md:flex-row xl:p-8 block">
       <form onSubmit={handleSubmit(onSubmit)} className="detail-form">
+        <h5>Outlet</h5>
+        <select {...register("outlet")} className="w-full  max-w-screen-sm min-[320px]:max-w-md" 
+                onChange={(e) => setOutletId(e.target.value)} >
+            <option selected disabled value=''>
+              -
+            </option>
+            {outlets.map((outlet) => (
+                <option
+                    value={outlet.id}
+                    key={"out" + outlet.id}
+                >{`${outlet.name}`}</option>
+            ))}
+        </select>
+
         <h5>Kunjungan</h5>
-        <select {...register("report")} className="w-full" >
+        <select {...register("report")} className="w-full max-w-screen-sm min-[320px]:max-w-md" >
             <option selected value=''>
               -
             </option>
