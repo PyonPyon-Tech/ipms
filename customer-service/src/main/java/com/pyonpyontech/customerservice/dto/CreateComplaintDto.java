@@ -8,6 +8,7 @@ import lombok.Getter;
 public class CreateComplaintDto {
     private Long id;
     private Long customer;
+    private Long outlet;
     private String content;
     private Long report = null;
     private Long period;

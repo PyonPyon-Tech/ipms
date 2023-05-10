@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Technician;
+import com.pyonpyontech.customerservice.model.customer.Customer;
 
 @Repository
 public interface CsrReportDb extends JpaRepository<CsrReport, Long> {
     Optional<CsrReport> findById(Long id);
     List<CsrReport> findAllByTechnician(Technician technician);
+    List<CsrReport> findAllByOutlet_Customer(Customer customer);
 }

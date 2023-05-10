@@ -33,6 +33,9 @@ import com.pyonpyontech.customerservice.dto.CreateComplaintDto;
 
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 @Transactional
@@ -154,6 +157,12 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
+    public List<Outlet> getOutlets(String username) {
+        Customer customer = getCustomerByUsername(username);
+        return customer.getOutlets();
+    }
+    
+    @Override
     public Outlet getOutletByCustomerOutletId(Long customerId, Long outletId) {
         Optional<Outlet> outlet = outletDb.findByCustomerOutletId(customerId, outletId);
         if(outlet.isPresent()) {
@@ -231,6 +240,17 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     }
     
     @Override
+    public List<CsrReport> getOutletReportsByOutletId(String username, Long outletId) {
+        Customer customer = getCustomerByUsername(username);
+        Outlet outlet = getOutletById(outletId);
+        
+        if (!outlet.getCustomer().getId().equals(customer.getId()))
+            throw new UnsupportedOperationException();
+          
+        return outlet.getReports();
+    }
+    
+    @Override
     public List<CsrReport> getReportsByCustomerId(Long id) {
         List<CsrReport> reportList = new ArrayList<>();
         
@@ -241,6 +261,19 @@ public class CustomerRestServiceImpl implements CustomerRestService {
                 reportList.add(csrReport);
             
         return reportList;
+    }
+    
+    @Override
+    public List<CsrReport> getReports(String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        if (!user.getRole().equals(0))
+            throw new UnsupportedOperationException();
+          
+        Customer customer = getCustomerByUsername(username);
+        List<CsrReport> reports = csrReportDb.findAllByOutlet_Customer(customer);
+        Collections.reverse(reports);
+          
+        return reports;
     }
     
     @Override
@@ -267,7 +300,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
                 if (r.getComplaint() != null)
                     complaints.add(r.getComplaint());
         }
-
+        
+        Collections.reverse(complaints);
         return complaints;
     }
     
@@ -279,34 +313,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         if (user.getRole() == 0 && !complaint.getCustomer().getUser().getUuid().equals(user.getUuid()))
             throw new IllegalStateException();
           
-        if (user.getRole() == 3) {
-            Supervisor supervisor = getSupervisorByUsername(username);
-            boolean isAuthorized = false;
-            
-            techloop:
-            for (Technician t : supervisor.getSubordinates())
-                for (CsrReport r : csrReportDb.findAllByTechnician(t))
-                    if (r.getId().equals(complaint.getReport().getId())) {
-                        isAuthorized = true;
-                        break techloop;
-                    }
-            
-            if (!isAuthorized) throw new IllegalStateException();
-        }
-        
-        if (user.getRole() == 4) {
-            Technician technician = getTechnicianByUsername(username);
-            boolean isAuthorized = false;
-            
-            for (CsrReport r : csrReportDb.findAllByTechnician(technician)) {
-                if (r.getId().equals(complaint.getReport().getId())) {
-                    isAuthorized = true;
-                    break;
-                }
-            }
-            
-            if (!isAuthorized) throw new IllegalStateException();
-        }
+        if (user.getRole() > 0)
+            authorizeEmployeeToComplaint(user, complaint);
         
         return complaint;
     }
@@ -323,7 +331,22 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         createdComplaint.setCustomer(customer);
         createdComplaint.setPeriod(getPeriodById(complaint.getPeriod()));
         createdComplaint.setContent(complaint.getContent());
+        createdComplaint.setIsAcknowledged(0);
+        createdComplaint.setDate(LocalDate.now());
+        createdComplaint.setTime(LocalTime.now());
+        
+        Outlet targetOutlet = null;
         CsrReport targetReport = null;
+        
+        if (complaint.getOutlet() == null)
+            throw new NoSuchElementException();
+        
+        targetOutlet = getOutletById(complaint.getOutlet());
+        
+        if (!targetOutlet.getCustomer().getId().equals(customer.getId()))
+            throw new UnsupportedOperationException();
+          
+        createdComplaint.setOutlet(targetOutlet);
         
         if (complaint.getReport() != null) {
             targetReport = getCsrReportById(complaint.getReport());
@@ -333,6 +356,10 @@ public class CustomerRestServiceImpl implements CustomerRestService {
             
             if (targetReport.getComplaint() != null)
                 throw new IllegalStateException();
+              
+            if (complaint.getOutlet() != null && 
+                !targetReport.getOutlet().getId().equals(targetOutlet.getId()))
+                throw new UnsupportedOperationException();
             
             createdComplaint.setReport(targetReport);
         }
@@ -345,6 +372,63 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         }
 
         return savedComplaint;
+    }
+    
+    @Override
+    public Complaint acknowledgeComplaint(Long id, String username) {
+        UserModel user = userRestService.getUserByUsername(username);
+        
+        if (user.getRole().equals(0))
+            throw new UnsupportedOperationException();
+          
+        Complaint complaint = getComplaintById(id);
+        
+        try {
+            authorizeEmployeeToComplaint(user, complaint);
+        } catch (IllegalStateException e) {
+            throw new UnsupportedOperationException();
+        }
+        
+        complaint.setIsAcknowledged(1);
+        Complaint savedComplaint = complaintDb.save(complaint);
+        
+        return savedComplaint;
+    }
+    
+    private void authorizeEmployeeToComplaint(UserModel user, Complaint complaint) {
+        String username = user.getUsername();
+        if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+            boolean isAuthorized = false;
+            
+            if (complaint.getReport() != null) {
+              techloop:
+              for (Technician t : supervisor.getSubordinates())
+                  for (CsrReport r : csrReportDb.findAllByTechnician(t))
+                      if (r.getId().equals(complaint.getReport().getId())) {
+                          isAuthorized = true;
+                          break techloop;
+                      }
+            } else isAuthorized = supervisor.getId().equals(complaint.getOutlet().getSupervisor().getId());
+            
+            if (!isAuthorized) throw new IllegalStateException();
+        }
+        
+        if (user.getRole() == 4) {
+            Technician technician = getTechnicianByUsername(username);
+            boolean isAuthorized = false;
+            
+            if (complaint.getReport() != null) {
+              for (CsrReport r : csrReportDb.findAllByTechnician(technician)) {
+                  if (r.getId().equals(complaint.getReport().getId())) {
+                      isAuthorized = true;
+                      break;
+                  }
+              }
+            } else isAuthorized = technician.getId().equals(complaint.getOutlet().getTechnician().getId());
+            
+            if (!isAuthorized) throw new IllegalStateException();
+        }
     }
     
     private Supervisor getSupervisorById(Long id) {
