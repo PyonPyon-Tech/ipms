@@ -53,7 +53,7 @@ const ApproveSchedule: FC = () => {
         <div className="flex justify-between gap-x-4">
           <h2 className="text-xl md:text-3xl">Kelola Jadwal</h2>
           <div className="flex justify-between gap-x-4">
-          {data?.id &&
+          {data?.id && status != "Disetujui" &&
             <>
               <Button
                 className={statusmap["Ditolak"]}
@@ -113,7 +113,7 @@ const ApproveSchedule: FC = () => {
           </div>
         </div>
       </Container>
-      {visitations.length > 0 && (
+      {visitations.length > 0 && status != "Belum Diajukan" && (
         <OutletVisitationContainer
           data={visitations}
           type="supervisor"

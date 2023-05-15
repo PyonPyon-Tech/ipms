@@ -85,7 +85,7 @@ public class ReportRestService {
             pesticideUsage.setReport(report);
         }
         CsrReport result = csrReportDb.save(report);
-        notificationService.reportCreated(result.getId());
+        notificationService.reportCreated(report);
         return result;
     }
 

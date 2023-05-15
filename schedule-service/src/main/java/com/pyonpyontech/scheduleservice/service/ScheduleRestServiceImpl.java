@@ -114,7 +114,9 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         newSchedule.setVisitations(newVisitations);
         newSchedule.setIsApproved(0);
         newSchedule.setComment("");
-        return scheduleDb.save(newSchedule);
+        Schedule result = scheduleDb.save(newSchedule);
+        notificationService.createSchedule(result.getId());
+        return result;
     }
     
     @Override
@@ -135,7 +137,7 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     }
     
     @Override
-    public List<Visitation> updateSchedule(List<Visitation> visitations) {
+    public List<Visitation> updateSchedule(String username, List<Visitation> visitations) {
         List<Visitation> toBeSaved = new ArrayList<>();
         for(Visitation v : visitations){
             Visitation currentVisitation = visitationDb.findById(v.getId()).orElse(null);
@@ -146,7 +148,9 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
             currentVisitation.setDate(v.getDate());
             toBeSaved.add(currentVisitation);
         }
-        return visitationDb.saveAll(toBeSaved);
+        List<Visitation> result = visitationDb.saveAll(toBeSaved);
+        notificationService.updateSchedule(username, result);
+        return result;
     }
 
     @Override

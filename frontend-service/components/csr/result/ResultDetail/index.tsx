@@ -126,13 +126,6 @@ export const CsrReportDetail: FC<CsrReport> = ({
             <div className={styles.csrFormHead}>
               <div className="csr-form-head">
                 <label htmlFor="date">
-                  <img src="/icons/person.svg" className="mr-1.5" />
-                  <p>Nama PIC</p>
-                </label>
-                <h2 className="ml-8">{picName}</h2>
-              </div>
-              <div className="csr-form-head">
-                <label htmlFor="date">
                   <img src="/icons/calendar.svg" />
                   <p>Tanggal Layanan</p>
                 </label>
@@ -178,7 +171,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
               <CsrResultPesticideUsage data={pesticideUsages} />
             </div>
             <div>
-              <CsrResultSignatures data={signature} />
+              <CsrResultSignatures data={signature} technicianName={technician.user.name} picName={picName} />
             </div>
 
             <div>

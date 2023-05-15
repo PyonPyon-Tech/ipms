@@ -8,7 +8,7 @@ import Axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { ST } from "next/dist/shared/lib/utils";
 
-export const CsrResultSignatures: FC<{ data: String[] }> = ({ data }) => {
+export const CsrResultSignatures: FC<{ data: String[], technicianName:String, picName:String }> = ({ data, technicianName, picName }) => {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       <div className="flex w-full flex-col items-center justify-center overflow-hidden">
@@ -26,6 +26,9 @@ export const CsrResultSignatures: FC<{ data: String[] }> = ({ data }) => {
             />
           </div>
         </div>
+        <p className="font-bold md:text-lg lg:text-[16px]">
+          {technicianName}
+        </p>
       </div>
 
       <div className="flex w-full flex-col items-center justify-center overflow-hidden">
@@ -43,6 +46,9 @@ export const CsrResultSignatures: FC<{ data: String[] }> = ({ data }) => {
             />
           </div>
         </div>
+        <p className="font-bold md:text-lg lg:text-[16px]">
+          {picName}
+        </p>
       </div>
     </div>
   );

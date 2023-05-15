@@ -26,7 +26,8 @@ export const CsrFindingAreaDetail: FC<CsrDetailArea> = ({
             <label htmlFor="type-1">{answerOption[status-1]}</label>
           </div>
         </div>
-        <CsrResultAdditionalDetail type="detailAreas" id={id} recommendations={recommendation} imageUrls={imageUrls}/>
+        {answerOption[status-1] == "Ya"? <CsrResultAdditionalDetail type="detailAreas" id={id} recommendations={recommendation} imageUrls={imageUrls}/>:
+        <text></text>}
       </div>
     </div>
   );

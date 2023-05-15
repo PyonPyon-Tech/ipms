@@ -45,3 +45,18 @@ export function filterDataNested<T extends Object, V extends Object>(data: T[], 
         return flag
     })
 }
+
+export function filterDataDoublyNested<T extends Object, V1 extends Object, V2 extends Object>(data: T[], key1: keyof T, key2: keyof V1, term: string, propertiesV: (keyof V2)[]): T[] {
+    return data.filter((item) => {
+      let flag = false;
+  
+      propertiesV.forEach((propertyV) => {
+        if ((((item[key1] as V1)[key2] as V2)[propertyV] as string).toLowerCase().includes(term.toLowerCase()) && !flag) {
+          flag = true;
+        }
+      });
+  
+      return flag;
+    });
+  }
+  

@@ -12,7 +12,6 @@ export const SideMenu: FC<{
   setOpenSideMenu: React.Dispatch<boolean>;
 }> = ({ role, openSideMenu, setOpenSideMenu }) => {
   const { user, logout } = useAuth();
-  console.log(user);
   const router = useRouter();
 
   function userLogout() {
@@ -23,7 +22,7 @@ export const SideMenu: FC<{
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className={`overflow-y-scroll scrollbar-hide fixed right-0 top-0 z-50 h-screen w-3/5 transform bg-white pt-20 transition-all sm:w-1/2 md:hidden ${
+      className={`overflow-y-scroll scrollbar-hide fixed right-0 top-0 z-50 h-screen min-w-[300px] w-3/5 transform bg-white pt-20 transition-all sm:w-1/2 md:hidden ${
         openSideMenu ? "" : "translate-x-full"
       }`}
     >

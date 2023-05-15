@@ -8,7 +8,9 @@ import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Supervisor;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.reportservice.repository.NotificationDb;
+import com.pyonpyontech.reportservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.reportservice.repository.customer_service_report_db.CsrReportDb;
+import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +30,20 @@ public class NotificationService {
     @Autowired
     private CsrReportDb csrReportDb;
 
-    public void reportCreated(Long reportId){
+    @Autowired
+    private TechnicianDb technicianDb;
+    @Autowired
+    private OutletDb outletDb;
+
+    public void reportCreated(CsrReport report){
         // Kasih ke customer dan supervisor
-        CsrReport report = csrReportDb.findById(reportId).get();
-        Technician technician = report.getTechnician();
+        // Harus kayak gini karena reportnya cuma shallow copy (technician cuma ada id doang)
+        Technician technician = technicianDb.findById(report.getTechnician().getId()).get();
+
         Supervisor supervisor = technician.getSupervisor();
-        Outlet outlet = report.getOutlet();
+
+        Outlet outlet = outletDb.findById(report.getOutlet().getId()).get();
+
         Customer customer = outlet.getCustomer();
         String technicianName = technician.getUser().getName();
         String outletName = outlet.getName();
@@ -47,10 +57,11 @@ public class NotificationService {
         for(Notification notification: notifications){
             notification.setDate(LocalDate.now());
             notification.setTime(LocalTime.now());
-            notification.setTitle("Laporan "+outletName+" Baru Dibuat Oleh Teknisi "+technicianName);
+            notification.setTitle("Laporan treatment baru telah dibuat!");
+            notification.setBody("Outlet "+outletName+" Telah Menerima Treatment Oleh Teknisi "+technicianName);
             notification.setTopic("REPORT");
-            notification.setBody("");
-            notification.setUrl("/reports/detail/"+reportId);
+            notification.setIsSeen(0);
+            notification.setUrl("/reports/detail/"+report.getId());
         }
         customerNotif.setUser(customer.getUser());
         supervisorNotif.setUser(supervisor.getUser());
