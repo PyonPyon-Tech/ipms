@@ -32,20 +32,13 @@ public class StorageRestController {
       if (uploadedFileName.length() > 0)
         fileUploadResponse.setSuccessAmount(fileUploadResponse.getSuccessAmount() + 1);
     }
-    System.out.println(fileUploadResponse.getStatus().keySet().toString());
+
     return fileUploadResponse;
   }
 
   @GetMapping("/{a}/{b}/{fileName}")
-  public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String a, @PathVariable String b, @PathVariable String fileName) {
-    byte[] data = service.downloadFile(a + "/" + b + "/" + fileName);
-    ByteArrayResource resource = new ByteArrayResource(data);
-    return ResponseEntity
-            .ok()
-            .contentLength(data.length)
-            .header("Content-Type", "application/octet-stream")
-            .header("Content-Disposition", "attachment; fileName=\"" + fileName + "\"")
-            .body(resource);
+  public ResponseEntity<String> downloadFile(@PathVariable String a, @PathVariable String b, @PathVariable String fileName) {
+    return new ResponseEntity<>(service.downloadFile(a + "/" + b + "/" + fileName), HttpStatus.OK);
   }
 
   @DeleteMapping("/{fileName}")
