@@ -25,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.pyonpyontech.customerservice.dto.PaginatedObject;
+import com.pyonpyontech.customerservice.dto.CreateComplaintDto;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -36,6 +37,8 @@ import com.pyonpyontech.customerservice.model.customer.Customer;
 import com.pyonpyontech.customerservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.customerservice.service.CustomerRestService;
 import com.pyonpyontech.customerservice.service.UserRestService;
+
+import com.pyonpyontech.customerservice.model.customer.Complaint;
 
 import java.security.Principal;
 
@@ -193,6 +196,16 @@ public class CustomerRestController {
         }
     }
     
+    // Retrieve Outlets
+    @GetMapping(value = "/outlets")
+    private List<Outlet> retrieveOutlets(Principal principal) {
+        try {
+            return customerRestService.getOutlets(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer with the specified ID not found.");
+        }
+    }
+    
     // Retrieve Reports by Customer and Outlet ID
     @GetMapping(value = "/{customerId}/outlets/{outletId}/reports")
     private List<CsrReport> retrieveReportsByCustomerOutletId(@PathVariable("customerId") Long customerId, @PathVariable("outletId") Long outletId) {
@@ -203,6 +216,18 @@ public class CustomerRestController {
         }
     }
     
+    // Retrieve Reports by Principal and Outlet ID
+    @GetMapping(value = "/outlets/{outletId}/reports")
+    private List<CsrReport> retrieveReportsByCustomerOutletId(@PathVariable("outletId") Long outletId, Principal principal) {
+        try {
+            return customerRestService.getOutletReportsByOutletId(principal.getName(), outletId);
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Outlet with the specified ID not found.");
+        } catch(UnsupportedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not authorized to perfom operation.");
+        }
+    }
+    
     // Retrieve Reports by Customer ID
     @GetMapping(value = "/{id}/reports")
     private List<CsrReport> retrieveReportsByCustomerId(@PathVariable("id") Long id) {
@@ -210,6 +235,64 @@ public class CustomerRestController {
             return customerRestService.getReportsByCustomerId(id);
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Reports
+    @GetMapping(value = "/reports")
+    private List<CsrReport> retrieveReports(Principal principal) {
+        try {
+            return customerRestService.getReports(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve Complaints
+    @GetMapping(value = "/complaints")
+    private List<Complaint> retrieveComplaints(Principal principal) {
+        try {
+            return customerRestService.getComplaints(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer or outlet with the specified ID not found.");
+        }
+    }
+    
+    // Retrieve complaint
+    @GetMapping(value = "/complaints/{id}")
+    private Complaint retrieveComplaint(@PathVariable("id") Long id, Principal principal) {
+        try {
+            return customerRestService.getComplaint(id, principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Complaint with the specified ID not found.");
+        } catch(IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Cannot access specified complaint.");
+        }
+    }
+    
+    // Retrieve complaint
+    @PostMapping(value = "/complaints/{id}/acknowledge")
+    private Complaint acknowledgeComplaint(@PathVariable("id") Long id, Principal principal) {
+        try {
+            return customerRestService.acknowledgeComplaint(id, principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Complaint with the specified ID not found.");
+        } catch(UnsupportedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized to perform operation.");
+        }
+    }
+    
+    // Create Complaint
+    @PostMapping(value = "/complaints")
+    private Complaint createComplaint(@Valid @RequestBody CreateComplaintDto complaint, Principal principal) {
+        try {
+            return customerRestService.createComplaint(complaint, principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "One of the specified IDs not found or not provided.");
+        } catch(UnsupportedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not authorized to perfom operation.");
+        } catch(IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Report already has a complaint.");
         }
     }
 }

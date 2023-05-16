@@ -3,11 +3,10 @@ package com.pyonpyontech.reportservice.restcontroller;
 import com.pyonpyontech.reportservice.model.UserModel;
 import com.pyonpyontech.reportservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.reportservice.model.pest_control.employee.Technician;
-import com.pyonpyontech.reportservice.repository.pest_control.employee_db.TechnicianDb;
+import com.pyonpyontech.reportservice.service.NotificationService;
 import com.pyonpyontech.reportservice.service.ReportRestService;
 import com.pyonpyontech.reportservice.service.UserRestServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +85,7 @@ public class ReportController {
                 return report;
             }
             if(role == 3){
-                if(author.getUser().getUsername().equals(principal.getName())){
-                    return report;
-                }
+                return report;
             }
             if(role == 4){
                 if(author.getUser().getUsername().equals(principal.getName())){

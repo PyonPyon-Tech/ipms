@@ -1,5 +1,6 @@
 package com.pyonpyontech.notificationservice.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.NoSuchElementException;
 
+import com.pyonpyontech.notificationservice.model.UserModel;
+import com.pyonpyontech.notificationservice.repository.UserDb;
 import com.pyonpyontech.notificationservice.service.UserRestService;
 
 import com.pyonpyontech.notificationservice.model.Notification;
@@ -31,55 +34,41 @@ public class NotificationRestServiceImpl implements NotificationRestService {
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
-    
+
+    @Autowired
+    private UserDb userDb;
     @Override
-    public List<Notification> getNotificationList() {
-        return notificationDb.findAll();
+    public List<Notification> getNotificationBetween(String username, String start, String end) {
+        UserModel userModel = userDb.findByUsername(username).get();
+        List<Notification> notifications = notificationDb.findAllByUserAndDateBetween(userModel, LocalDate.parse(start), LocalDate.parse(end));
+        return notifications;
     }
-    
     @Override
-    public Notification getNotificationById(Long id) {
-        Optional<Notification> notification = notificationDb.findById(id);
-        if(notification.isPresent()) {
-            return notification.get();
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
-    
-    @Override
-    public Notification createNotification(Notification notification) {
-        // Reset all fields that might've been supplied by user
-        notification.setId(null);
-        notification.setIsSeen(0);
-        
-        notification.setUser(userRestService.getUserByUuid(notification.getUser().getUuid()));
-        
-        Notification createdNotification = notificationDb.save(notification);
-        
-        return createdNotification;
+    public List<Notification> getUnreadNotification(String username) {
+        UserModel userModel = userDb.findByUsername(username).get();
+        return notificationDb.findAllByUserAndIsSeen(userModel, 0);
     }
 
     @Override
-    public Notification updateNotification(Long id, Notification notification) {
-        Notification targetNotification = getNotificationById(id);
-        
-        if(notification.getUser() != null && notification.getUser().getUuid() != null)
-            targetNotification.setUser(userRestService.getUserByUuid(notification.getUser().getUuid()));
-        
-        if(notification.getTitle() != null)
-            targetNotification.setTitle(notification.getTitle());
-        
-        if(notification.getBody() != null)
-            targetNotification.setBody(notification.getBody());
-        
-        if(notification.getIsSeen() != null && targetNotification.getIsSeen() != 1)
-            targetNotification.setIsSeen(1);
-        
-        Notification updatedNotification = notificationDb.save(targetNotification);
-        
-        return updatedNotification;
+    public Integer haveReadNotification(List<Long> notificationsId) {
+        List<Notification> notifications = notificationDb.findByIdIn(notificationsId);
+        for(Notification notification: notifications){
+            if(notification.getIsSeen() == 0){
+                notification.setIsSeen(1);
+            }
+        }
+        return notificationDb.saveAll(notifications).size();
     }
-    
-   
+
+    @Override
+    public Integer haveReadAllNotification(String username) {
+        UserModel userModel = userDb.findByUsername(username).get();
+        List<Notification> notifications = notificationDb.findAllByUserAndIsSeen(userModel, 0);
+        for(Notification notification: notifications){
+            if(notification.getIsSeen() == 0){
+                notification.setIsSeen(1);
+            }
+        }
+        return notificationDb.saveAll(notifications).size();
+    }
 }

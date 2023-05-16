@@ -1,9 +1,6 @@
 package com.pyonpyontech.scheduleservice.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import com.pyonpyontech.scheduleservice.model.customer.Outlet;
 import com.pyonpyontech.scheduleservice.model.Period;
@@ -56,6 +53,8 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private EntityManager entityManager;
@@ -115,21 +114,30 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         newSchedule.setVisitations(newVisitations);
         newSchedule.setIsApproved(0);
         newSchedule.setComment("");
-        return scheduleDb.save(newSchedule);
+        Schedule result = scheduleDb.save(newSchedule);
+        notificationService.createSchedule(result.getId());
+        return result;
     }
     
     @Override
     public Schedule approveSchedule(Long technicianId, Long periodId, String comment, Integer isApproved) {
         Schedule targetSchedule = getScheduleByTechnicianPeriodId(technicianId, periodId);
-        
+        if(isApproved == 0 && Objects.equals(comment, "")){
+            throw new IllegalStateException("Penolakan harus dengan comment feedback");
+        }
         targetSchedule.setComment(comment);
         targetSchedule.setIsApproved(isApproved);
-        
-        return scheduleDb.save(targetSchedule);
+        Schedule result = scheduleDb.save(targetSchedule);
+        if(isApproved == 0){
+            notificationService.rejectSchedule(result.getId());
+        }else{
+            notificationService.approveSchedule(result.getId());
+        }
+        return result;
     }
     
     @Override
-    public List<Visitation> updateSchedule(List<Visitation> visitations) {
+    public List<Visitation> updateSchedule(String username, List<Visitation> visitations) {
         List<Visitation> toBeSaved = new ArrayList<>();
         for(Visitation v : visitations){
             Visitation currentVisitation = visitationDb.findById(v.getId()).orElse(null);
@@ -140,7 +148,9 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
             currentVisitation.setDate(v.getDate());
             toBeSaved.add(currentVisitation);
         }
-        return visitationDb.saveAll(toBeSaved);
+        List<Visitation> result = visitationDb.saveAll(toBeSaved);
+        notificationService.updateSchedule(username, result);
+        return result;
     }
 
     @Override
@@ -177,7 +187,7 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         Optional<Supervisor> supervisorOptional = supervisorDb.findByUsername(supervisorUsername);
         Optional<Technician> targetTechnicianOptional = technicianDb.findById(targetTechnicianId);
         Visitation visitation = getVisitationById(visitationId);
-        
+        Technician oldTechnician = visitation.getSchedule().getTechnician();
         if (supervisorOptional.isEmpty() 
             || targetTechnicianOptional.isEmpty() 
             || visitation == null) {
@@ -198,7 +208,7 @@ public class ScheduleRestServiceImpl implements ScheduleRestService {
         Schedule targetSchedule = getScheduleByTechnicianPeriodId(targetTechnician.getId(), sourcePeriod.getId());
         visitation.setSchedule(targetSchedule);
         Visitation transferredVisitation = visitationDb.save(visitation);
-        
+        notificationService.reallocateVisitation(transferredVisitation, oldTechnician, targetTechnician);
         return transferredVisitation;
     }
     

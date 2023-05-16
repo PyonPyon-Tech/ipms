@@ -13,7 +13,7 @@ public interface ScheduleRestService {
     List<Visitation> getVisitationsBySchedulePeriodId(Long scheduleId, Long periodId);
 
     Schedule createSchedule(List<Visitation> visitations, Long periodId, String technicianUsername);
-    List<Visitation> updateSchedule(List<Visitation> visitations);
+    List<Visitation> updateSchedule(String username, List<Visitation> visitations);
 
     Visitation createVisitation(Long id, Visitation visitation);
 

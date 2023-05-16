@@ -4,11 +4,11 @@ import SignatureCanvas from "react-signature-canvas";
 import styles from "./CsrSignature.module.css";
 import { Button } from "@components/general/Button";
 
-export const CsrFormSignatures: FC = () => {
+export const CsrFormSignatures: FC<{ technicianName:String }> = ({ technicianName })  => {
   const technicianRef = useRef(null);
   const picRef = useRef(null);
 
-  const { setValue } = useFormContext();
+  const { register, setValue } = useFormContext();
   const captureTechnicianSignature = useCallback(async () => {
     if (!technicianRef.current) return;
     const imageSrc = (technicianRef.current as any).toDataURL("image/jpeg");
@@ -60,6 +60,9 @@ export const CsrFormSignatures: FC = () => {
             </div>
           </div>
         </div>
+        <p className="font-bold md:text-lg lg:text-[16px]">
+          {technicianName}
+        </p>
       </div>
 
       <div className="flex w-full flex-col items-center justify-center overflow-hidden">
@@ -88,6 +91,9 @@ export const CsrFormSignatures: FC = () => {
               ></Button>
             </div>
           </div>
+        </div>
+        <div>
+          <input id="picName" placeholder="nama PIC outlet" required {...register("picName")} />
         </div>
       </div>
     </div>

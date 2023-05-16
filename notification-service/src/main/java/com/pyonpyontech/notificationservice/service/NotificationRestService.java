@@ -9,8 +9,11 @@ import com.pyonpyontech.notificationservice.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public interface NotificationRestService {
-    List<Notification> getNotificationList();
-    Notification getNotificationById(Long id);
-    Notification createNotification(Notification notification);
-    Notification updateNotification(Long id, Notification notification);
+    List<Notification> getNotificationBetween(String username, String start, String end);
+
+    List<Notification> getUnreadNotification(String username);
+
+    Integer haveReadNotification(List<Long> notifications);
+
+    Integer haveReadAllNotification(String username);
 }

@@ -78,6 +78,8 @@ export class EmployeeFormFactory {
       contact,
       gender,
       user: {
+        id: 0,
+        uuid: 0,
         name,
         username,
         role,

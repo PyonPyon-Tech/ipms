@@ -8,7 +8,7 @@ export const Container: FC<{ children: ReactNode; className?: string }> = ({
   return (
     <div
       className={classNames(
-        "shadow-basic flex w-full flex-col items-center rounded-md p-4 md:flex-row md:gap-x-10 md:p-8 lg:gap-x-16 xl:p-10 ",
+        "shadow-basic flex w-full flex-col items-center rounded-md p-4 md:flex-row xl:p-8",
         className
       )}
     >

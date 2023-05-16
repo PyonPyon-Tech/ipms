@@ -13,6 +13,10 @@ export interface Customer {
 
 export interface CustomerMutation {
   user: User;
+  contact: string;
+  visitationFrequency: number;
+  startContract: Date;
+  endContract: Date;
 }
 
 export class CustomerClass implements Customer {

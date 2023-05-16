@@ -8,13 +8,16 @@ export const OutletDetail: FC<Outlet> = ({
   name,
   address,
   region,
-  supervisor: { id: supervisorId, user: { name: supervisorName } }
+  supervisor: { id: supervisorId, user: { name: supervisorName } },
+  technician,
 }) => {
+  const technicianId = technician?.id;
+  const technicianName = technician?.user.name;
   return (
     <Container>
       <img
         src="/icons/account.svg"
-        className="w-1/4 max-w-[200px] md:max-w-[400px]"
+        className="w-1/4 min-w-[120px] md:max-w-[400px]"
       />
       <div>
         <div className="customer-detail">
@@ -31,7 +34,7 @@ export const OutletDetail: FC<Outlet> = ({
             <h5>Supervisor</h5>
             <p>{supervisorName}</p>
             <h5>Teknisi</h5>
-            <p>Seseorang (dummy)</p>
+            <p>{technicianName ?? "-"}</p>
           </div>
         </div>
       </div>

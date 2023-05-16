@@ -54,7 +54,7 @@ export const uploadImages = async (
 };
 
 export const validateForm = (x: any): string => {
-  if (!x.date || !x.start || !x.outlet || !x.end || !x.type) {
+  if (!x.date || !x.picName || !x.outlet || !x.type) {
     return "Pastikan semua kolom data terisi";
   }
   if (!x.technicianSignature || !x.picSignature || !x.visitationPhoto) {

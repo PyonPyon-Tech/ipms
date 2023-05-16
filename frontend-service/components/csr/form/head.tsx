@@ -1,7 +1,7 @@
 import { MyOption } from "@components/assignments/TechnicianOutletDetailForm";
 import { useCsrForm } from "@hooks/useCsrForm";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import Select from "react-select";
 import styles from "./Csr.module.css";
@@ -10,14 +10,19 @@ import { useAuth } from "@hooks/useAuth";
 export const CsrFormHead: FC = () => {
   const { initialData, getInitialData } = useCsrForm();
   const { user } = useAuth();
-  const router = useRouter();
   const allOutlets = initialData?.outlets ?? [];
   const disabled = allOutlets.length == 0;
   const placeholder = disabled ? "Pilih Tanggal Terlebih Dahulu" : "Pilih Outlet";
   const { register, control } = useFormContext();
+
+  useEffect(() => {
+    if (!user) return;
+    getInitialData(user?.id, new Date());
+  }, [user]);
+
   return (
     <section className={styles.csrFormHead}>
-      <div className="csr-form-head">
+      <div className="hidden">
         <label htmlFor="date">
           <img src="/icons/calendar.svg" />
           <p>Tanggal Layanan</p>
@@ -47,33 +52,6 @@ export const CsrFormHead: FC = () => {
             </option>
           ))}
         </select>
-      </div>
-
-      <div className="csr-form-head flex w-full gap-x-4 sm:w-3/4 md:w-3/5 xl:w-2/5">
-        <div className="w-1/2">
-          <label htmlFor="start">
-            <img src="/icons/clock.svg" className="scale-75" />
-            <p>Waktu Mulai</p>
-          </label>
-          <input
-            {...register("start")}
-            defaultValue={new Date().toLocaleTimeString("en-ID", { hour: "2-digit", minute: "2-digit", hour12: false })}
-            id="start"
-            type="time"
-          />
-        </div>
-        <div className="w-1/2">
-          <label htmlFor="end">
-            <img src="/icons/clock.svg" />
-            <p>Waktu Selesai</p>
-          </label>
-          <input
-            defaultValue={new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })}
-            {...register("end")}
-            id="end"
-            type="time"
-          />
-        </div>
       </div>
 
       <div className="csr-form-head w-full sm:w-3/4 lg:w-1/2">

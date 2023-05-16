@@ -9,8 +9,8 @@ export class CsrReportFieldClass implements CsrReportField {
   technician: Id;
   outlet: Id;
   date: string;
-  start: string;
-  end: string;
+  time: string;
+  picName: string;
   technicianSignature: string;
   picSignature: string;
   visitationPhoto: string;
@@ -22,8 +22,8 @@ export class CsrReportFieldClass implements CsrReportField {
     this.reportType = 1;
     this.visitationType = Number(form.type);
     this.date = form.date;
-    this.start = form.start;
-    this.end = form.end;
+    this.time = form.time;
+    this.picName = form.picName;
     this.outlet = {
       id: Number(form.outlet),
     };
@@ -95,8 +95,8 @@ export interface CsrReportField {
   outlet: Id;
   technician: Id;
   date: string;
-  start: string;
-  end: string;
+  time: string;
+  picName: string;
   technicianSignature: string;
   picSignature: string;
   visitationPhoto: string;

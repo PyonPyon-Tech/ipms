@@ -24,11 +24,11 @@ export const EmployeeCard: FC<Employee> = ({
                     }/${id}`
                 );
             }}
-            className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-md py-2 px-4 shadow-basic md:py-4 md:px-12"
-        >
-            <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
+            className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-[5px] py-2 px-2 md:py-4 md:px-8 shadow-basic"
+            >
+              <div className="flex items-center gap-x-2 md:gap-x-4">
                 <img
-                    className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16"
+                    className="h-8 w-8 sm:h-8 sm:w-8 md:h-12 md:w-12"
                     src="/icons/person.svg"
                 />
                 <div className="">
