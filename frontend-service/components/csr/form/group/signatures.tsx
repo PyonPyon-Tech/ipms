@@ -92,8 +92,8 @@ export const CsrFormSignatures: FC<{ technicianName:String }> = ({ technicianNam
             </div>
           </div>
         </div>
-        <div>
-          <input id="picName" placeholder="nama PIC outlet" required {...register("picName")} />
+        <div className="flex w-full items-center justify-center">
+          <input className="text-center flex w-full items-center justify-center rounded-md border-2 " id="picName" placeholder="Nama PIC Outlet" required {...register("picName")} />
         </div>
       </div>
     </div>
