@@ -4,15 +4,18 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Title, Legend } from 'chart.js';
 import { ComplaintData } from "@models/dashboard/customer/complaint";
 import { useRouter } from "next/router";
+import { CsrReport } from "@models/report/CsrReport";
 
 Chart.register(ArcElement, Tooltip, Title, Legend);
 
 export const CustomerDashboard = ({
   monthlyVisitationData,
   complaintData,
+  recentReportsData,
 }: {  
   monthlyVisitationData: MonthlyVisitationData, 
   complaintData: ComplaintData,
+  recentReportsData: CsrReport[],
 }) => {
   const router = useRouter();
   const [monthlyVisitationChartData, setMonthlyVisitationChartData] = useState({
@@ -59,8 +62,8 @@ export const CustomerDashboard = ({
         complaintData.totalComplaints - complaintData.acknowledgedComplaints,
       ],
       backgroundColor: [
-        'rgb(0, 107, 211)',
-        'rgb(217, 217, 217)',
+        'rgb(34, 197, 94)',
+        'rgb(239, 68, 68)',
       ],
       hoverOffset: 4
     }]
@@ -127,8 +130,8 @@ export const CustomerDashboard = ({
           complaintData.totalComplaints - complaintData.acknowledgedComplaints,
         ],
         backgroundColor: [
-          'rgb(0, 107, 211)',
-          'rgb(217, 217, 217)',
+          'rgb(34, 197, 94)',
+          'rgb(239, 68, 68)',
         ],
         hoverOffset: 4
       }]
@@ -178,6 +181,7 @@ export const CustomerDashboard = ({
               {complaintData.totalComplaints > 0 && <Doughnut
                   data={complaintChartData}
                   options={complaintChartOptions}
+                  className="cursor-pointer"
                 />}
               {complaintData.totalComplaints == 0 && <p className="text-gray-500 text-center my-20">Belum ada komplain.</p>}
             </div>
@@ -186,10 +190,33 @@ export const CustomerDashboard = ({
       </div>
 
       <div className="mt-8">
-        {/* Table */}
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          {/* Table content */}
-        </table>
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h1 className="font-bold text-xl text-center">
+            Laporan Terbaru
+          </h1>
+          <div className="overflow-x-auto mt-4">
+            <table className="min-w-full bg-white rounded-lg">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="py-2 px-4">Outlet</th>
+                  <th className="py-2 px-4">Tanggal</th>
+                  <th className="py-2 px-4">Teknisi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentReportsData.map((report) => {
+                  return (<tr className="border-t border-gray-200 cursor-pointer hover:bg-gray-100" onClick={
+                        () => router.push(`/reports/detail/${report.id}`)
+                      }>
+                    <td className="py-2 px-4">{report.outlet.name}</td>
+                    <td className="py-2 px-4">{report.date}</td>
+                    <td className="py-2 px-4">{report.technician.user.name}</td>
+                  </tr>);
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </>
   )

@@ -10,11 +10,13 @@ import { MonthlyVisitationData } from "@models/dashboard/customer/monthlyVisitat
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { ROLES } from "@constants/roles";
+import { CsrReport, CsrReportClass } from "@models/report/CsrReport";
 
 const Home: NextPage = () => {
   const { user } = useAuth();
   const [customerMonthlyVisitationData, setCustomerMonthlyVisitationData] = useState<MonthlyVisitationData>({ completedVisitations: 0, totalVisitations: 0 });
   const [customerComplaintData, setCustomerComplaintData] = useState<ComplaintData>({ acknowledgedComplaints: 0, totalComplaints: 0 });
+  const [customerRecentReportsData, setCustomerRecentReportsData] = useState<CsrReport[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -25,6 +27,14 @@ const Home: NextPage = () => {
 
       const customerComplaintsResult = await AxiosClient.get(`${URL_DASHBOARD}/customers/complaints`);
       setCustomerComplaintData(customerComplaintsResult.data);
+
+      const customerRecentReportsResult = await AxiosClient.get(`${URL_DASHBOARD}/customers/recent-reports`);
+      let reportArr = [];
+      for (let report of customerRecentReportsResult.data) {
+        reportArr.push(new CsrReportClass(report));
+      }
+
+      setCustomerRecentReportsData(reportArr);
     }
 
     if (ROLES[user?.role ?? 0] == "Customer") {
@@ -38,6 +48,7 @@ const Home: NextPage = () => {
       {ROLES[user?.role ?? 0] == "Customer" && <CustomerDashboard 
         monthlyVisitationData={customerMonthlyVisitationData} 
         complaintData={customerComplaintData}
+        recentReportsData={customerRecentReportsData}
       />}
     </div>
   );
