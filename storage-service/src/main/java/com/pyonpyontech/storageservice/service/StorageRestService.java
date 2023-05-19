@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.Base64Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +65,7 @@ public class StorageRestService {
     return fileName;
   }
 
-  public byte[] downloadFile(String fileName) {
+  public String downloadFile(String fileName) {
     S3Object s3Object = s3Client.getObject(bucketName, fileName);
     S3ObjectInputStream inputStream = s3Object.getObjectContent();
     
@@ -72,7 +73,7 @@ public class StorageRestService {
       byte[] content = IOUtils.toByteArray(inputStream);
       logger.info("File downloaded: " + fileName);
       
-      return content;
+      return new String(Base64Utils.encode(content));
     } catch (IOException e) {
       e.printStackTrace();
     }
