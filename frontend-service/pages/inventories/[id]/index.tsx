@@ -23,12 +23,9 @@ const PesticideDetail: NextPage = () => {
       AxiosClient.get(`${URL_INVENTORY}/pesticides/${router.query.id}`)
         .then((response) => {
           setPesticide(new PesticideClass(response.data));
-          console.log("print response data");
-          console.log(response.data);
         })
         .catch((err: AxiosError) => {
           toast.error(err.message);
-          console.log(err);
         });
     }
     retrievePesticide();
