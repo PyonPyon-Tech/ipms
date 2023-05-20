@@ -5,6 +5,8 @@ import { Chart, ArcElement, Tooltip, Title, Legend } from 'chart.js';
 import { ComplaintData } from "@models/dashboard/customer/complaint";
 import { useRouter } from "next/router";
 import { CsrReport } from "@models/report/CsrReport";
+import { ComplaintChartData, ComplaintChartOptions } from "@components/charts/complaintChart";
+import { MonthlyVisitationChartData, MonthlyVisitationChartOptions } from "@components/charts/monthlyVisitationChart";
 
 Chart.register(ArcElement, Tooltip, Title, Legend);
 
@@ -18,140 +20,17 @@ export const CustomerDashboard = ({
   recentReportsData: CsrReport[],
 }) => {
   const router = useRouter();
-  const [monthlyVisitationChartData, setMonthlyVisitationChartData] = useState({
-    labels: [
-      'Akan Dikerjakan',
-      'Selesai',
-    ],
-    datasets: [{
-      label: 'Service',
-      data: [
-        monthlyVisitationData.totalVisitations - monthlyVisitationData.completedVisitations,
-        monthlyVisitationData.completedVisitations, 
-      ],
-      backgroundColor: [
-        'rgb(217, 217, 217)',
-        'rgb(0, 107, 211)',
-      ],
-      hoverOffset: 4
-    }]
-  });
+  const [monthlyVisitationChartData, setMonthlyVisitationChartData] = useState(MonthlyVisitationChartData(monthlyVisitationData));
+  const [monthlyVisitationChartOptions, setMonthlyVisitationChartOptions] = useState(MonthlyVisitationChartOptions(monthlyVisitationData));
 
-  const [monthlyVisitationChartOptions, setMonthlyVisitationChartOptions] = useState({
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: `Service Selesai: ${monthlyVisitationData.completedVisitations}/${monthlyVisitationData.totalVisitations}`,
-      },
-      legend: {
-        position: "top" as const,
-      },
-    }
-  });
-
-  const [complaintChartData, setComplaintChartData] = useState({
-    labels: [
-      'Diproses',
-      'Belum Diproses',
-    ],
-    datasets: [{
-      label: 'Komplain',
-      data: [
-        complaintData.acknowledgedComplaints,
-        complaintData.totalComplaints - complaintData.acknowledgedComplaints,
-      ],
-      backgroundColor: [
-        'rgb(34, 197, 94)',
-        'rgb(239, 68, 68)',
-      ],
-      hoverOffset: 4
-    }]
-  });
-
-  const [complaintChartOptions, setComplaintChartOptions] = useState({
-    responsive: true,
-    onClick: () => {
-      router.push(`/complaints`)
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: `Komplain Diproses: ${complaintData.acknowledgedComplaints}/${complaintData.totalComplaints}`,
-      },
-      legend: {
-        position: "top" as const,
-      },
-    }
-  });
+  const [complaintChartData, setComplaintChartData] = useState(ComplaintChartData(complaintData));
+  const [complaintChartOptions, setComplaintChartOptions] = useState(ComplaintChartOptions(complaintData, router));
 
   useEffect(() => {
-    setMonthlyVisitationChartData({
-      labels: [
-        'Akan Dikerjakan',
-        'Selesai',
-      ],
-      datasets: [{
-        label: 'Service',
-        data: [
-          monthlyVisitationData.totalVisitations - monthlyVisitationData.completedVisitations,
-          monthlyVisitationData.completedVisitations, 
-        ],
-        backgroundColor: [
-          'rgb(217, 217, 217)',
-          'rgb(0, 107, 211)',
-        ],
-        hoverOffset: 4
-      }]
-    });
-
-    setMonthlyVisitationChartOptions({
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: `Service Selesai: ${monthlyVisitationData.completedVisitations}/${monthlyVisitationData.totalVisitations}`,
-        },
-        legend: {
-          position: "top" as const,
-        },
-      }
-    });
-
-    setComplaintChartData({
-      labels: [
-        'Diproses',
-        'Belum Diproses',
-      ],
-      datasets: [{
-        label: 'Komplain',
-        data: [
-          complaintData.acknowledgedComplaints,
-          complaintData.totalComplaints - complaintData.acknowledgedComplaints,
-        ],
-        backgroundColor: [
-          'rgb(34, 197, 94)',
-          'rgb(239, 68, 68)',
-        ],
-        hoverOffset: 4
-      }]
-    });
-
-    setComplaintChartOptions({
-      responsive: true,
-      onClick: () => {
-        router.push(`/complaints`)
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: `Komplain Diproses: ${complaintData.acknowledgedComplaints}/${complaintData.totalComplaints}`,
-        },
-        legend: {
-          position: "top" as const,
-        },
-      }
-    });
+    setMonthlyVisitationChartData(MonthlyVisitationChartData(monthlyVisitationData));
+    setMonthlyVisitationChartOptions(MonthlyVisitationChartOptions(monthlyVisitationData));
+    setComplaintChartData(ComplaintChartData(complaintData));
+    setComplaintChartOptions(ComplaintChartOptions(complaintData, router));
   }, [monthlyVisitationData, complaintData]);
 
   return (

@@ -24,7 +24,7 @@ export const NotificationPanel: FC<{ data: Notification[]; onClose: any }> = ({ 
       }}
       className="absolute right-0 top-[40px] shadow-lg w-96 cursor-default rounded-md bg-white text-black"
     >
-      <div className="flex p-4 py-3 shadow-md">
+      <div className="flex p-4 py-3 shadow-basic">
         <h2 className="grow">Notifikasi</h2>
         <svg
           onClick={onClose}
