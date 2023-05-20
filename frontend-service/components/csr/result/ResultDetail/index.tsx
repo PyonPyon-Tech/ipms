@@ -14,6 +14,7 @@ import html2canvas from "html2canvas";
 import moment from "moment";
 import "moment/locale/id";
 import { Button } from "@components/general/Button";
+import { toast } from "react-hot-toast";
 
 export const CsrReportDetail: FC<CsrReport> = ({
   id,
@@ -55,9 +56,9 @@ export const CsrReportDetail: FC<CsrReport> = ({
 
   function makePDF() {
     const quotes = document.getElementById("divToPrint");
+    toast.loading("Menyimpan...")
     html2canvas(quotes!).then((canvas) => {
       //! MAKE YOUR PDF
-
       var pdf = new jsPDF({ format: "a4", unit: "px" });
       const pdfWidth = 1500
       const pdfHeight = 2110
@@ -66,9 +67,6 @@ export const CsrReportDetail: FC<CsrReport> = ({
       const canvasWidth = canvas.width
       const canvasHeight = canvas.height
       const scale = pdfWidth / canvasWidth
-      // canvas.width = 1500
-      // canvas.height = canvasHeight * scale
-
       console.log(scale)
       for (var i = 0; i <= canvasHeight / (pdfInnerHeight / scale); i++) {
         //! This is all just html2canvas stuff
@@ -90,11 +88,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
         // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
         ctx!.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
         // ctx?.scale(scale, scale);
-        // document.body.appendChild(canvas);
-        // onePageCanvas.width = pdfWidth
-        // onePageCanvas.height = pdfHeight
         console.log(ctx?.canvas.width, ctx?.canvas.height)
-
         var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
         var width = onePageCanvas.width;
@@ -107,12 +101,12 @@ export const CsrReportDetail: FC<CsrReport> = ({
         //! now we declare that we're working on that page
         pdf.setPage(i + 1);
         //! now we add content to that page!
-        pdf.addImage(canvasDataURL, "PNG", 7, 0, width * 0.3, height * 0.3);
+        pdf.addImage(canvasDataURL, "JPEG", 7, 0, width * 0.3, height * 0.3);
       }
       //! after the for loop is finished running, we save the pdf.
+      toast.dismiss()
       console.log("DONE")
-      pdf.save("Test.pdf");
-      console.log("DONE")
+      pdf.save(`report-${outlet.name}-${date}.pdf`);
     });
   }
 
