@@ -36,6 +36,10 @@ const nextConfig = {
         source: "/api/v1/notifications/:path*",
         destination: "http://localhost:8087/api/v1/notifications/:path*",
       },
+      {
+        source: "/api/v1/dashboard/:path*",
+        destination: "http://localhost:8088/api/v1/dashboard/:path*",
+      },
     ];
   },
 };

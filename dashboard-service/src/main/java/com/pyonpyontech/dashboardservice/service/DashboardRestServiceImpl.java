@@ -5,6 +5,7 @@ import java.util.*;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.model.customer.Customer;
 import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.dashboardservice.model.customer.Complaint;
 import com.pyonpyontech.dashboardservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.dashboardservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.dashboardservice.repository.customer_service_report_db.CsrReportDb;
@@ -43,6 +44,9 @@ public class DashboardRestServiceImpl implements DashboardRestService {
         LocalDate now = LocalDate.now();
         
         for (Visitation v : visitationList) {
+            if (!v.getDate().getMonth().equals((new Date()).getMonth()))
+                continue;
+              
             customerVisitationData.setTotalVisitations(customerVisitationData.getTotalVisitations() + 1);
             if (now.isAfter(v.getDate()))
                 customerVisitationData.setCompletedVisitations(customerVisitationData.getCompletedVisitations() + 1);
@@ -52,9 +56,16 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     
     @Override
     public CustomerComplaintDto getComplaintsByCustomerUsername(String username) {
-        return new CustomerComplaintDto(Long.valueOf(
-          getCustomerByUsername(username).getComplaints().size()
-         ));
+        List<Complaint> complaintList = getCustomerByUsername(username).getComplaints();
+        List<Complaint> acknowledgedComplaintList = new ArrayList<>();
+        
+        for (Complaint c : complaintList)
+          if (c.getIsAcknowledged() == 1)
+            acknowledgedComplaintList.add(c);
+        
+        return new CustomerComplaintDto(
+          Long.valueOf(acknowledgedComplaintList.size()), Long.valueOf(complaintList.size())
+        );
     }
     
     @Override

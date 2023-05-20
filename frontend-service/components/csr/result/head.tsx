@@ -76,4 +76,4 @@
 //     </section>
 //   );
 // };
-export default {};
+export {}
