@@ -54,11 +54,11 @@ export const uploadImages = async (
 };
 
 export const validateForm = (x: any): string => {
-  if (!x.date || !x.picName || !x.outlet || !x.type) {
+  if (!x.date || !x.outlet || !x.type) {
     return "Pastikan semua kolom data terisi";
   }
-  if (!x.technicianSignature || !x.picSignature || !x.visitationPhoto) {
-    return "Pastikan tanda tangan dan foto kunjungan terisi";
+  if (!x.technicianSignature || !x.picSignature || !x.picName ) {
+    return "Pastikan tanda tangan dan nama PIC terisi";
   }
   if (
     x.detailAreas?.find((detailArea: any, index: number) => {
@@ -105,7 +105,7 @@ export const extractImage = (
   // if (!validate(x)) return;
   const techsignature = x.technicianSignature;
   const picsignature = x.picSignature;
-  const visitationPhoto: any[] = x.visitationPhoto;
+  const visitationPhoto: any[] = x.visitationPhoto ?? [];
   const mainImage = [techsignature, picsignature, ...visitationPhoto];
   // get all image from detailAreas
   const areasImages: File[] = [];
