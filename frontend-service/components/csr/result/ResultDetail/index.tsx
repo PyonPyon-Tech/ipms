@@ -57,34 +57,48 @@ export const CsrReportDetail: FC<CsrReport> = ({
     const quotes = document.getElementById("divToPrint");
     html2canvas(quotes!).then((canvas) => {
       //! MAKE YOUR PDF
-      var pdf = new jsPDF({ format: "a4", unit: "px" });
 
-      for (var i = 0; i <= quotes!.clientHeight / 2110; i++) {
+      var pdf = new jsPDF({ format: "a4", unit: "px" });
+      const pdfWidth = 1500
+      const pdfHeight = 2110
+      const pdfInnerHeight = 2010
+      const pdfInnerWidth = 1400
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+      const scale = pdfWidth / canvasWidth
+      // canvas.width = 1500
+      // canvas.height = canvasHeight * scale
+
+      console.log(scale)
+      for (var i = 0; i <= canvasHeight / (pdfInnerHeight / scale); i++) {
         //! This is all just html2canvas stuff
         var srcImg = canvas;
         var sX = 0;
-        var sY = 2110 * i; // start 2110 pixels down for every new page
-        var sWidth = 1500;
-        var sHeight = 2110;
-        var dX = 0;
-        var dY = 0;
-        var dWidth = 1500;
-        var dHeight = 2110;
+        var sY = Math.floor(pdfInnerHeight / scale * i);
+        var sWidth = canvasWidth;
+        var sHeight = Math.floor(pdfInnerHeight / scale);
+        var dX = 50;
+        var dY = 50;
+        var dWidth = pdfInnerWidth-50;
+        var dHeight = pdfInnerHeight;
 
         var onePageCanvas = document.createElement("canvas");
-        onePageCanvas.setAttribute("width", "1500");
-        onePageCanvas.setAttribute("height", "2110");
+        onePageCanvas.setAttribute("width", String(pdfWidth));
+        onePageCanvas.setAttribute("height", String(pdfHeight));
         var ctx = onePageCanvas.getContext("2d");
         // details on this usage of this function:
         // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
         ctx!.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-
+        // ctx?.scale(scale, scale);
         // document.body.appendChild(canvas);
+        // onePageCanvas.width = pdfWidth
+        // onePageCanvas.height = pdfHeight
+        console.log(ctx?.canvas.width, ctx?.canvas.height)
+
         var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
         var width = onePageCanvas.width;
         var height = onePageCanvas.clientHeight;
-
         //! If we're on anything other than the first page,
         // add another page
         if (i > 0) {
@@ -96,7 +110,9 @@ export const CsrReportDetail: FC<CsrReport> = ({
         pdf.addImage(canvasDataURL, "PNG", 7, 0, width * 0.3, height * 0.3);
       }
       //! after the for loop is finished running, we save the pdf.
+      console.log("DONE")
       pdf.save("Test.pdf");
+      console.log("DONE")
     });
   }
 
