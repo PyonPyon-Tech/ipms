@@ -17,4 +17,5 @@ public interface DashboardRestService {
     List<CsrReport> getRecentReportsByCustomerUsername(String username);
 
     List<CsrReport> getRecentReportsByEmployeeUsername(String username);
+    List<CustomerComplaintChartDto> getComplaintChartByEmployeeUsername(String username);
 }

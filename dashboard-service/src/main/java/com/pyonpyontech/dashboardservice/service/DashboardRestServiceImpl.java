@@ -177,16 +177,10 @@ public class DashboardRestServiceImpl implements DashboardRestService {
             complaintList = complaintDb.findAll();
         } else if (user.getRole() == 3) {
             Supervisor supervisor = getSupervisorByUsername(username);
-            List<Outlet> supervisorOutlet = supervisor.getOutlets();
-            for (Outlet o : supervisorOutlet){
-                complaintList.addAll(complaintDb.findAllByOutlet(o));
-            }
+            complaintList.addAll(complaintDb.findAllByOutlet_Supervisor(supervisor));
         } else if (user.getRole() == 4) {
             Technician technician = getTechnicianByUsername(username);
-            List<Outlet> technicianOutlet = technician.getOutlets();
-            for (Outlet o : technicianOutlet){
-                complaintList.addAll(complaintDb.findAllByOutlet(o));
-            }
+            complaintList.addAll(complaintDb.findAllByOutlet_Technician(technician));
         }
 
         for (Complaint c : complaintList)
@@ -215,6 +209,21 @@ public class DashboardRestServiceImpl implements DashboardRestService {
             throw new NoSuchElementException();
         }
         return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+    }
+
+    @Override
+    public List<CustomerComplaintChartDto> getComplaintChartByEmployeeUsername(String username) {
+        UserModel user = getEmployeeByUsername(username);
+        List<CustomerComplaintChartDto> customerComplaintChartData = new ArrayList<>();
+
+        if (user.getRole() == 1 || user.getRole() == 2 ) {
+//            reportList = csrReportDb.findAll();
+        } else if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+//            reportList = csrReportDb.findAllByTechnician_Supervisor(supervisor);
+        }
+
+        return customerComplaintChartData;
     }
 
     private Period getPeriodByDate(Date date) {

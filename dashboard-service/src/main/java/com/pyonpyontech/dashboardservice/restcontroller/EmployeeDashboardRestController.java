@@ -1,5 +1,6 @@
 package com.pyonpyontech.dashboardservice.restcontroller;
 
+import com.pyonpyontech.dashboardservice.dto.CustomerComplaintChartDto;
 import com.pyonpyontech.dashboardservice.dto.CustomerComplaintDto;
 import com.pyonpyontech.dashboardservice.dto.CustomerVisitationDto;
 import com.pyonpyontech.dashboardservice.model.Period;
@@ -42,7 +43,7 @@ public class EmployeeDashboardRestController {
     @GetMapping(value = "/complaints")
     private CustomerComplaintDto retrieveComplaints(Principal principal) {
         try {
-            return dashboardRestService.getComplaintsByCustomerUsername(principal.getName());
+            return dashboardRestService.getComplaintsByEmployeeUsername(principal.getName());
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
         }
@@ -51,7 +52,16 @@ public class EmployeeDashboardRestController {
     @GetMapping(value = "/recent-reports")
     private List<CsrReport> retrieveRecentReports(Principal principal) {
         try {
-            return dashboardRestService.getRecentReportsByCustomerUsername(principal.getName());
+            return dashboardRestService.getRecentReportsByEmployeeUsername(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+        }
+    }
+
+    @GetMapping(value = "/complaints-charts")
+    private List<CustomerComplaintChartDto> retrieveComplaintChart(Principal principal) {
+        try {
+            return dashboardRestService.getComplaintChartByEmployeeUsername(principal.getName());
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
         }
