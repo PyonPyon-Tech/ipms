@@ -1,6 +1,7 @@
 import { Container } from "@components/general/Container";
 import { CsrReport } from "@models/report/CsrReport";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import React from 'react';
 import styles from "../Csr.module.css";
 import { CsrDetailArea } from "@models/report/CsrAnswer/CsrDetailArea";
 import { CsrResultAreaFinding } from "../group/area";
@@ -14,6 +15,14 @@ import html2canvas from "html2canvas";
 import moment from "moment";
 import "moment/locale/id";
 import { Button } from "@components/general/Button";
+import { toast } from "react-hot-toast";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ReactPDF from '@react-pdf/renderer';
+import PDFFile from "./pdfTemplate";
+import { useAuth } from "@hooks/useAuth";
+import { AxiosClient, URL_IMAGE } from "@constants/api";
+import { AxiosError } from "axios";
+
 
 export const CsrReportDetail: FC<CsrReport> = ({
   id,
@@ -36,55 +45,88 @@ export const CsrReportDetail: FC<CsrReport> = ({
   // console.log(detailAreas);
   const signature = [technicianSignature, picSignature];
 
+  const { user } = useAuth();
+
+  const [imageDatas, setImageDatas] = useState<String[]>();
+
+  let arrString: String[] = [];
+
+  useEffect(() => {
+    if (!user) return;
+    async function retrieveImageDatas(imageUrls: String[]) {
+      let promises: Promise<any>[] = [];
+      for (let i = 0; i < imageUrls.length; i++) {
+        promises.push(AxiosClient.get(`${URL_IMAGE}/${imageUrls[i]}`));
+      }
+      await Promise.all(promises)
+        .then((responses: any[]) => {
+          console.log(responses);
+          responses.map((response) => {
+            console.log(response.data);
+            arrString.push(response.data);
+            setImageDatas(arrString);
+            console.log(arrString);
+          })
+          // for (let response in responses) {
+          //   console.log(response.data);
+          // }
+        })
+        .catch((err: AxiosError) => {
+          toast.error(err.message);
+          console.log(err);
+        });
+    }
+    retrieveImageDatas(signature);
+  }, [user]);
+  console.log(imageDatas);
+  imageDatas?.map((data)=>{
+    arrString.push(data);
+  })
+  console.log(arrString);
+
   //date lokal
   moment.locale("id");
   const dateFormatted = moment(new Date(date)).format("dddd, D MMMM, Y");
 
-  //function to make the page as a image and convert it to PDF
-  const printDocument = () => {
-    const pdf = new jsPDF({ format: "a4", unit: "px" });
-
-    const input = document.getElementById("divToPrint");
-    html2canvas(input!).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      pdf.addImage(imgData, "JPEG", 7, 0, 430, 2800);
-      // pdf.output('dataurlnewwindow');
-      pdf.save("download.pdf");
-    });
-  };
-
   function makePDF() {
     const quotes = document.getElementById("divToPrint");
+    toast.loading("Menyimpan...")
     html2canvas(quotes!).then((canvas) => {
       //! MAKE YOUR PDF
       var pdf = new jsPDF({ format: "a4", unit: "px" });
-
-      for (var i = 0; i <= quotes!.clientHeight / 2110; i++) {
+      const pdfWidth = 1500
+      const pdfHeight = 2110
+      const pdfInnerHeight = 2010
+      const pdfInnerWidth = 1400
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+      const scale = pdfWidth / canvasWidth
+      console.log(scale)
+      for (var i = 0; i <= canvasHeight / (pdfInnerHeight / scale); i++) {
         //! This is all just html2canvas stuff
         var srcImg = canvas;
         var sX = 0;
-        var sY = 2110 * i; // start 2110 pixels down for every new page
-        var sWidth = 1500;
-        var sHeight = 2110;
-        var dX = 0;
-        var dY = 0;
-        var dWidth = 1500;
-        var dHeight = 2110;
+        var sY = Math.floor(pdfInnerHeight / scale * i);
+        var sWidth = canvasWidth;
+        var sHeight = Math.floor(pdfInnerHeight / scale);
+        var dX = 50;
+        var dY = 50;
+        var dWidth = pdfInnerWidth-50;
+        var dHeight = pdfInnerHeight;
 
         var onePageCanvas = document.createElement("canvas");
-        onePageCanvas.setAttribute("width", "1500");
-        onePageCanvas.setAttribute("height", "2110");
+        onePageCanvas.setAttribute("width", String(pdfWidth));
+        onePageCanvas.setAttribute("height", String(pdfHeight));
         var ctx = onePageCanvas.getContext("2d");
         // details on this usage of this function:
         // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
         ctx!.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-
-        // document.body.appendChild(canvas);
+        // ctx?.scale(scale, scale);
+        console.log(ctx?.canvas.width, ctx?.canvas.height)
         var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
         var width = onePageCanvas.width;
         var height = onePageCanvas.clientHeight;
-
         //! If we're on anything other than the first page,
         // add another page
         if (i > 0) {
@@ -93,10 +135,12 @@ export const CsrReportDetail: FC<CsrReport> = ({
         //! now we declare that we're working on that page
         pdf.setPage(i + 1);
         //! now we add content to that page!
-        pdf.addImage(canvasDataURL, "PNG", 7, 0, width * 0.3, height * 0.3);
+        pdf.addImage(canvasDataURL, "JPEG", 7, 0, width * 0.3, height * 0.3);
       }
       //! after the for loop is finished running, we save the pdf.
-      pdf.save("Test.pdf");
+      toast.dismiss()
+      console.log("DONE")
+      pdf.save(`report-${outlet.name}-${date}-full.pdf`);
     });
   }
 
@@ -115,6 +159,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
     }
   }
   allAreaArr.push(singleAreaArr);
+
   return (
     <div className="mt-4">
       <Container className="w-0 min-w-full">
@@ -124,13 +169,6 @@ export const CsrReportDetail: FC<CsrReport> = ({
               <Title title={`Laporan ECO-101 / CSR-${id}`} />{" "}
             </div>
             <div className={styles.csrFormHead}>
-              <div className="csr-form-head">
-                <label htmlFor="date">
-                  <img src="/icons/person.svg" className="mr-1.5" />
-                  <p>Nama PIC</p>
-                </label>
-                <h2 className="ml-8">{picName}</h2>
-              </div>
               <div className="csr-form-head">
                 <label htmlFor="date">
                   <img src="/icons/calendar.svg" />
@@ -178,7 +216,7 @@ export const CsrReportDetail: FC<CsrReport> = ({
               <CsrResultPesticideUsage data={pesticideUsages} />
             </div>
             <div>
-              <CsrResultSignatures data={signature} />
+              <CsrResultSignatures data={signature} technicianName={technician.user.name} picName={picName} />
             </div>
 
             <div>
@@ -189,8 +227,18 @@ export const CsrReportDetail: FC<CsrReport> = ({
       </Container>
       <Container className="mt-4">
         <div className="w-full">
-          <Title title="Download Dokumen"></Title>
-          <Button className="w-full" action={{ name: "Download", func: makePDF }}></Button>
+          <Title title="Download Dokumen Full"></Title>
+          <Button className="w-full" action={{ name: "Download Full", func: makePDF }}></Button>
+        </div>
+      </Container>
+      <Container className="mt-4">
+        <div className="w-full">
+          <Title title="Download Dokumen Ringkasan"></Title>
+          <PDFDownloadLink document={<PDFFile tanggal={dateFormatted} outlet={outlet.name} jenisTreatment={visitationTypeOption[visitationType - 1]} jam={time} technicianSignature={arrString[0]} picSignature={arrString[1]} technicianName={technician.user.name} picName={picName}/>} fileName={`report-${outlet.name}-${date}-ringkasan.pdf`}>
+            {({ blob, url, loading, error }) =>
+              loading ? <button className="w-full hover:bg-opacity-70 hover:bg- cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:text-base flex flex-row gap-2 justify-center">Loading document...</button> : <button className="w-full hover:bg-opacity-70 hover:bg- cursor-pointer rounded-md bg-blue py-2 px-3 text-xs font-semibold text-white md:text-base flex flex-row gap-2 justify-center">Download Ringkasan</button>
+            }
+          </PDFDownloadLink>
         </div>
       </Container>
     </div>

@@ -9,6 +9,7 @@ export const URL_CUSTOMER = `/api/v1/customers`;
 export const URL_IMAGE = `/api/v1/images`;
 export const URL_INVENTORY = `/api/v1/inventory`;
 export const URL_NOTIFICATIONS = `/api/v1/notifications`;
+export const URL_DASHBOARD = `/api/v1/dashboard`;
 
 const AxiosClient = axios.create({
   // baseURL: BASE_URL,// TODO: HAPUS INI 

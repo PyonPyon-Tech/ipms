@@ -21,8 +21,8 @@ spring:
     show-sql: true
 
 #  sql:
-#    init:
-#      mode: always
+#     init:
+#       mode: always
 
   main:
     allow-circular-references: true

@@ -37,13 +37,13 @@ export const EmployeeAdminEditForm: FC<{ data: Employee }> = ({ data }) => {
         <Container className="justify-evenly gap-x-10">
             <img
                 src="/icons/account.svg"
-                className="w-1/4 max-w-[200px] md:max-w-[400px]"
+                className="w-1/4 min-w-[120px] md:max-w-[400px]"
             />
             <form onSubmit={handleSubmit(onSubmit)} className="detail-form">
                 <h5>Nama Karyawan</h5>
                 <input required {...register("name")} />
                 <h5>Username</h5>
-                <input required {...register("username")} />
+                <input disabled className="bg-gray-300" {...register("username")} />
                 <h5>Password</h5>
                 <input {...register("password")} />
                 <h5>Kontak</h5>

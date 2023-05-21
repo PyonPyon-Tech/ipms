@@ -55,9 +55,9 @@ export const TechnicianOutletsDetail: FC<{ data: TechnicianOutlets }> = ({
   return (
     <Container className="md:flex-col">
       <div className="w-full">
-        <div className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8">
+        <div className="flex items-center gap-x-2 md:gap-x-4">
           <img
-            className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16"
+            className="h-8 w-8 sm:h-8 sm:w-8 md:h-12 md:w-12"
             src="/icons/person.svg"
           />
           <div className="">
