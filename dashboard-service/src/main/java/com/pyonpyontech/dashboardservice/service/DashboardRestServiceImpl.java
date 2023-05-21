@@ -5,17 +5,24 @@ import java.util.*;
 
 import com.pyonpyontech.dashboardservice.model.Period;
 import com.pyonpyontech.dashboardservice.model.UserModel;
+import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrDetailPest;
+import com.pyonpyontech.dashboardservice.model.pest_control.Pesticide;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.model.customer.Customer;
 import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.dashboardservice.model.customer.Complaint;
 import com.pyonpyontech.dashboardservice.model.pest_control.employee.Supervisor;
+import com.pyonpyontech.dashboardservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.dashboardservice.repository.PeriodDb;
 import com.pyonpyontech.dashboardservice.repository.UserDb;
+import com.pyonpyontech.dashboardservice.repository.customer_db.ComplaintDb;
+import com.pyonpyontech.dashboardservice.repository.customer_service_report_db.CsrDetailPestDb;
+import com.pyonpyontech.dashboardservice.repository.pest_control.PesticideDb;
 import com.pyonpyontech.dashboardservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.dashboardservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.dashboardservice.repository.customer_service_report_db.CsrReportDb;
 import com.pyonpyontech.dashboardservice.repository.pest_control.employee_db.SupervisorDb;
+import com.pyonpyontech.dashboardservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.pyonpyontech.dashboardservice.dto.*;
 
@@ -29,7 +36,6 @@ import java.time.LocalTime;
 @Service
 @Transactional
 public class DashboardRestServiceImpl implements DashboardRestService {
-    
     @Autowired
     private CustomerDb customerDb;
     
@@ -46,12 +52,21 @@ public class DashboardRestServiceImpl implements DashboardRestService {
 
     @Autowired
     private CsrReportDb csrReportDb;
+
+    @Autowired
+    private CsrDetailPestDb csrDetailPestDb;
     
     @Autowired
     private UserRestService userRestService;
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private ComplaintDb complaintDb;
+    @Autowired
+    private TechnicianDb technicianDb;
+    @Autowired
+    private PesticideDb pesticideDb;
     
     @Override
     public CustomerVisitationDto getVisitationsByCustomerUsername(String username) {
@@ -90,7 +105,74 @@ public class DashboardRestServiceImpl implements DashboardRestService {
         List<CsrReport> reportList = csrReportDb.findAllByOutlet_Customer_User_Username(username);
         return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
     }
-    
+
+    @Override
+    public List<Map<String, Integer>> getPestTrends(Integer year) {
+        List<Map<String, Integer>> result = new ArrayList<>();
+        // find flies, rodent, cockroach, others
+        List<Period> periods = periodDb.findByYear(year);
+        for(Period period: periods){
+            int flies = 0;
+            int rodent = 0;
+            int cocroach = 0;
+            int others = 0;
+            List<CsrDetailPest> pests = csrDetailPestDb.findByReportPeriodId(period.getId());
+            for(CsrDetailPest detailPest : pests){
+                String pest = detailPest.getPest().toLowerCase();
+                if(pest.contains("nyamuk") || pest.contains("lalat")){
+                    flies++;
+                } else if (pest.contains("tikus")) {
+                    rodent++;
+                }else if(pest.contains("kecoa")){
+                    cocroach++;
+                }else{
+                    others++;
+                }
+            }
+            Map<String, Integer> x = new HashMap<>();
+            x.put("flies", flies);
+            x.put("rodent", rodent);
+            x.put("cockroach", cocroach);
+            x.put("others", others);
+            result.add(x);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Pesticide> getLowStock() {
+        return pesticideDb.findByStockLessThan(10);
+    }
+
+    @Override
+    public List<Integer> getComplaintTrend(String username, Integer year) {
+        UserModel user = userDb.findByUsername(username).get();
+        List<Period> periods = periodDb.findByYear(year);
+        List<Integer> results = new ArrayList<>();
+        for(Period period: periods){
+            switch (user.getRole()){
+                case 1:
+                case 2:
+                    results.add(complaintDb.countByPeriodId(period.getId()));
+                    break;
+                case 3:
+                    Supervisor supervisor = supervisorDb.findByUser_Username(username).get();
+                    int num = 0;
+                    for(Technician technician: supervisor.getSubordinates()){
+                        num += complaintDb.countByPeriodIdAndReportTechnician(period.getId(),technician );
+                    }
+                    results.add(num);
+                    break;
+                case 4:
+                    Technician technician = technicianDb.findByUser_Username(username).get();
+                    results.add(complaintDb.countByPeriodIdAndReportTechnician(period.getId(), technician));
+                    break;
+            }
+        }
+        return results;
+    }
+
+
     private Customer getCustomerByUsername(String username) {
         Optional<Customer> customer = customerDb.findByUser_Username(username);
         if(customer.isPresent()) {
