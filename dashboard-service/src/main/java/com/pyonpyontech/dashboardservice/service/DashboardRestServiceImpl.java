@@ -5,26 +5,28 @@ import java.util.*;
 
 import com.pyonpyontech.dashboardservice.model.Period;
 import com.pyonpyontech.dashboardservice.model.UserModel;
+import com.pyonpyontech.dashboardservice.model.customer.Outlet;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.model.customer.Customer;
 import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.dashboardservice.model.customer.Complaint;
 import com.pyonpyontech.dashboardservice.model.pest_control.employee.Supervisor;
+import com.pyonpyontech.dashboardservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.dashboardservice.repository.PeriodDb;
 import com.pyonpyontech.dashboardservice.repository.UserDb;
+import com.pyonpyontech.dashboardservice.repository.customer_db.ComplaintDb;
 import com.pyonpyontech.dashboardservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.dashboardservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.dashboardservice.repository.customer_service_report_db.CsrReportDb;
 import com.pyonpyontech.dashboardservice.repository.pest_control.employee_db.SupervisorDb;
+import com.pyonpyontech.dashboardservice.repository.pest_control.employee_db.TechnicianDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.pyonpyontech.dashboardservice.dto.*;
 
 import javax.transaction.Transactional;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Service
 @Transactional
@@ -37,10 +39,17 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     private VisitationDb visitationDb;
 
     @Autowired
+    private ComplaintDb complaintDb;
+
+    @Autowired
     private UserDb userDb;
 
     @Autowired
     private SupervisorDb supervisorDb;
+
+    @Autowired
+    private TechnicianDb technicianDb;
+
     @Autowired
     private PeriodDb periodDb ;
 
@@ -101,7 +110,7 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     }
 
     @Override
-    public Period getVisitationsByEmployeeUsername(String username) {
+    public CustomerVisitationDto getVisitationsByEmployeeUsername(String username) {
         Date today = new Date();
         CustomerVisitationDto customerVisitationData = new CustomerVisitationDto(Long.valueOf(0), Long.valueOf(0));
         UserModel user = getEmployeeByUsername(username);
@@ -112,25 +121,102 @@ public class DashboardRestServiceImpl implements DashboardRestService {
             customerVisitationData.setCompletedVisitations(Long.valueOf(period.getReports().size()));
         } else if (user.getRole() == 3) {
             Supervisor supervisor = getSupervisorByUsername(username);
+            List<Outlet> supervisorOutlets = supervisor.getOutlets();
+
+            long totalVisitation = 0;
+            long completedVisitation = 0;
 
             for (Visitation v : period.getVisitations()){
-
+                if (supervisorOutlets.contains(v.getOutlet())){
+                    totalVisitation += 1;
+                }
             }
 
+            for (CsrReport r : period.getReports()){
+                if (supervisorOutlets.contains(r.getOutlet())){
+                    completedVisitation += 1;
+                }
+            }
 
-
+            customerVisitationData.setTotalVisitations(totalVisitation);
+            customerVisitationData.setCompletedVisitations(completedVisitation);
         } else if (user.getRole() == 4){
+            Technician technician = getTechnicianByUsername(username);
+            List<Outlet> technicianOutlets = technician.getOutlets();
 
+            long totalVisitation = 0;
+            long completedVisitation = 0;
+
+            for (Visitation v : period.getVisitations()){
+                if (technicianOutlets.contains(v.getOutlet())){
+                    totalVisitation += 1;
+                }
+            }
+
+            for (CsrReport r : period.getReports()){
+                if (technicianOutlets.contains(r.getOutlet())){
+                    completedVisitation += 1;
+                }
+            }
+
+            customerVisitationData.setTotalVisitations(totalVisitation);
+            customerVisitationData.setCompletedVisitations(completedVisitation);
         } else {
             throw new NoSuchElementException();
         }
-
-        return getPeriodByDate(today);
-
-
-//
-//        return customerVisitationData;
+        return customerVisitationData;
     }
+
+    @Override
+    public CustomerComplaintDto getComplaintsByEmployeeUsername(String username) {
+        UserModel user = getEmployeeByUsername(username);
+        List<Complaint> complaintList = new ArrayList<>();
+        List<Complaint> acknowledgedComplaintList = new ArrayList<>();
+
+        if (user.getRole() == 1 || user.getRole() == 2 ) {
+            complaintList = complaintDb.findAll();
+        } else if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+            List<Outlet> supervisorOutlet = supervisor.getOutlets();
+            for (Outlet o : supervisorOutlet){
+                complaintList.addAll(complaintDb.findAllByOutlet(o));
+            }
+        } else if (user.getRole() == 4) {
+            Technician technician = getTechnicianByUsername(username);
+            List<Outlet> technicianOutlet = technician.getOutlets();
+            for (Outlet o : technicianOutlet){
+                complaintList.addAll(complaintDb.findAllByOutlet(o));
+            }
+        }
+
+        for (Complaint c : complaintList)
+            if (c.getIsAcknowledged() == 1)
+                acknowledgedComplaintList.add(c);
+
+        return new CustomerComplaintDto(
+                Long.valueOf(acknowledgedComplaintList.size()), Long.valueOf(complaintList.size())
+        );
+    }
+
+    @Override
+    public List<CsrReport> getRecentReportsByEmployeeUsername(String username) {
+        UserModel user = getEmployeeByUsername(username);
+        List<CsrReport> reportList;
+
+        if (user.getRole() == 1 || user.getRole() == 2 ) {
+            reportList = csrReportDb.findAll();
+        } else if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+            reportList = csrReportDb.findAllByTechnician_Supervisor(supervisor);
+        } else if (user.getRole() == 4){
+            Technician technician = getTechnicianByUsername(username);
+            reportList = csrReportDb.findAllByTechnician(technician);
+        } else {
+            throw new NoSuchElementException();
+        }
+        return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+    }
+
     private Period getPeriodByDate(Date date) {
         Optional<Period> period = periodDb.findByMonthAndYear(Month.of(date.getMonth()+1), date.getYear() + 1900);
         if(period.isPresent()) {
@@ -150,6 +236,15 @@ public class DashboardRestServiceImpl implements DashboardRestService {
 
     private Supervisor getSupervisorByUsername(String username) {
         Optional<Supervisor> user = supervisorDb.findByUser_Username(username);
+        if(user.isPresent()) {
+            return user.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    private Technician getTechnicianByUsername(String username) {
+        Optional<Technician> user = technicianDb.findByUser_Username(username);
         if(user.isPresent()) {
             return user.get();
         } else {

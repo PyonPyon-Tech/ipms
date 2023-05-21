@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public interface DashboardRestService {
     CustomerVisitationDto getVisitationsByCustomerUsername(String username);
-    Period getVisitationsByEmployeeUsername(String username);
+    CustomerVisitationDto getVisitationsByEmployeeUsername(String username);
     CustomerComplaintDto getComplaintsByCustomerUsername(String username);
+    CustomerComplaintDto getComplaintsByEmployeeUsername(String username);
     List<CsrReport> getRecentReportsByCustomerUsername(String username);
+
+    List<CsrReport> getRecentReportsByEmployeeUsername(String username);
 }
