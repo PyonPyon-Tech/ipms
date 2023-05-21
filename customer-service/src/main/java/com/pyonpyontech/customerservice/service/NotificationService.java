@@ -11,6 +11,7 @@ import com.pyonpyontech.customerservice.model.pest_control.employee.Manager;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Supervisor;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.customerservice.repository.NotificationDb;
+import com.pyonpyontech.customerservice.repository.customer_db.ComplaintDb;
 import com.pyonpyontech.customerservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.customerservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.customerservice.repository.customer_service_report_db.CsrReportDb;
@@ -41,6 +42,8 @@ public class NotificationService {
     @Autowired
     private CsrReportDb csrReportDb;
 
+    @Autowired
+    private ComplaintDb complaintDb;
     public void complaintOutlet(Long complaintId, Long outletId){
         Outlet outlet = outletDb.findById(outletId).get();
         Notification notification = new Notification();
@@ -48,9 +51,26 @@ public class NotificationService {
         notification.setDate(LocalDate.now());
         notification.setTime(LocalTime.now());
         notification.setTitle(outlet.getCustomer().getUser().getName()+" Membuat Komplain");
-        notification.setUrl("/complaints/"+complaintId); // TODO: Isi ini kalau komplainnya udah jalan
+        notification.setUrl("/complaints/"+complaintId);
         notification.setTopic("COMPLAINT-GENERAL");
         notification.setBody("Terdapat complaint pada outlet "+outlet.getName());
+        notification.setIsSeen(0);
+
+        notificationDb.save(notification);
+    }
+
+    public void acknowledgeReport(Long complaintId){
+        Complaint c = complaintDb.findById(complaintId).get();
+
+        Outlet outlet = c.getOutlet();
+        Notification notification = new Notification();
+        notification.setUser(c.getCustomer().getUser());
+        notification.setDate(LocalDate.now());
+        notification.setTime(LocalTime.now());
+        notification.setTitle("Komplain diproses");
+        notification.setUrl("/complaints/"+complaintId);
+        notification.setTopic("COMPLAINT-GENERAL");
+        notification.setBody("Komplain Anda pada outlet "+outlet.getName()+" telah diproses");
         notification.setIsSeen(0);
 
         notificationDb.save(notification);
