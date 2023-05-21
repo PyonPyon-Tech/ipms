@@ -1,6 +1,7 @@
 import { Pesticide } from "@models/pestcontrol/Pesticide";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@components/general/Button";
+import { ButtonOut } from "@components/inventories/outList/ButtonOut";
 import toast from "react-hot-toast";
 
 export const PesticideCard: FC<{
@@ -58,7 +59,7 @@ export const PesticideCard: FC<{
                             </table>
                         </div>
                         <div className="flex items-center justify-between gap-2 max-lg:mx-auto max-lg:pt-2 md:w-3/12 lg:w-1/5 xl:w-2/12">
-                            <Button
+                            <ButtonOut
                                 className="bg-orange font-bold"
                                 action={{
                                     name: "-",
@@ -66,11 +67,11 @@ export const PesticideCard: FC<{
                                         minusAmount()
                                     },
                                 }}
-                            ></Button>
+                            ></ButtonOut>
                             <div>
                                 <h5 className="text-xl font-bold">{amount}</h5>
                             </div>
-                            <Button
+                            <ButtonOut
                                 className="bg-teal font-bold"
                                 action={{
                                     name: "+",
@@ -78,70 +79,9 @@ export const PesticideCard: FC<{
                                         plusAmount()
                                     },
                                 }}
-                            ></Button>
+                            ></ButtonOut>
                         </div>
                     </div>
-                        // <div
-                        //     className="mt-4 flex flex-wrap justify-between rounded-[10px] p-4 align-middle shadow-basic"
-                        // >
-                        //     <div>
-                        //         <div className="text text pb-1 text-xl font-bold max-lg:text-center">
-                        //             <h5>{pesticide.name}</h5>
-                        //         </div>
-                        //         <table className="table-auto text-xs font-medium md:text-sm">
-                        //             <tbody>
-                        //                 <tr>
-                        //                     <td className="pr-4">
-                        //                         Bahan aktif:{" "}
-                        //                         {pesticide.activeIngredient}
-                        //                     </td>
-                        //                     <td className="hidden md:table-cell">
-                        //                         Stock: {pesticide.stock}
-                        //                     </td>
-                        //                 </tr>
-                        //             </tbody>
-                        //         </table>
-                        //     </div>
-                        //     {amount < 1 ? (
-                        //         <Button
-                        //             className="bg-blue"
-                        //             action={{
-                        //                 name: "Tambah",
-                        //                 func: () => {
-                        //                     plusAmount()
-                        //                 },
-                        //             }}
-                        //         ></Button>
-                        //     ) : (
-                        //         <div className="flex items-center gap-2 max-lg:mx-auto max-lg:pt-2">
-                        //             <div className="flex h-6 w-6 items-center justify-center rounded bg-teal-dark">
-                        //                 <Button
-                        //                     className="bg-orange font-bold"
-                        //                     action={{
-                        //                         name: "-",
-                        //                         func: () => {
-                        //                             minusAmount()
-                        //                         },
-                        //                     }}
-                        //                 ></Button>
-                        //             </div>
-                        //             <div>
-                        //                 <h5 className="text-xl font-bold">
-                        //                     {amount}
-                        //                 </h5>
-                        //             </div>
-                        //             <Button
-                        //                 className="bg-teal font-bold"
-                        //                 action={{
-                        //                     name: "+",
-                        //                     func: () => {
-                        //                         plusAmount()
-                        //                     },
-                        //                 }}
-                        //             ></Button>
-                        //         </div>
-                        //     )}
-                        // </div>
                     ) : (
                         <div></div>
                     )}
@@ -169,7 +109,7 @@ export const PesticideCard: FC<{
                         </table>
                     </div>
                     {amount < 1 ? (
-                        <Button
+                        <ButtonOut
                             className="bg-teal "
                             action={{
                                 name: "Tambah",
@@ -177,10 +117,10 @@ export const PesticideCard: FC<{
                                     plusAmount()
                                 },
                             }}
-                        ></Button>
+                        ></ButtonOut>
                     ) : (
                         <div className="flex items-center justify-between gap-2 max-lg:mx-auto max-lg:pt-2 md:w-3/12 lg:w-1/5 xl:w-2/12">
-                            <Button
+                            <ButtonOut
                                 className="bg-orange font-bold"
                                 action={{
                                     name: "-",
@@ -188,11 +128,11 @@ export const PesticideCard: FC<{
                                         minusAmount()
                                     },
                                 }}
-                            ></Button>
+                            ></ButtonOut>
                             <div>
                                 <h5 className="text-xl font-bold">{amount}</h5>
                             </div>
-                            <Button
+                            <ButtonOut
                                 className="bg-teal font-bold"
                                 action={{
                                     name: "+",
@@ -200,7 +140,7 @@ export const PesticideCard: FC<{
                                       plusAmount()
                                   },
                                 }}
-                            ></Button>
+                            ></ButtonOut>
                         </div>
                     )}
                 </div>

@@ -19,6 +19,7 @@ export const CsrResultVisitationPhoto: FC<{ data: String }> = ({ data }) => {
     if (!user) return;
     async function retrieveImageDatas(imageUrls: String) {
       let promises: Promise<any>[] = [];
+      if (!imageUrls) return;
       promises.push(AxiosClient.get(`${URL_IMAGE}/${imageUrls}`));
       await Promise.all(promises)
         .then((responses: any[]) => {
@@ -28,7 +29,7 @@ export const CsrResultVisitationPhoto: FC<{ data: String }> = ({ data }) => {
             arrString.push(response.data);
             setImageDatas(arrString);
             console.log(arrString);
-          })
+          });
           // for (let response in responses) {
           //   console.log(response.data);
           // }
@@ -41,9 +42,9 @@ export const CsrResultVisitationPhoto: FC<{ data: String }> = ({ data }) => {
     retrieveImageDatas(data);
   }, [user]);
   console.log(imageDatas);
-  imageDatas?.map((item)=>{
+  imageDatas?.map((item) => {
     arrString.push(item);
-  })
+  });
   console.log(arrString);
   return (
     <div className="my-8 flex w-0 min-w-full flex-col items-center">
@@ -52,7 +53,7 @@ export const CsrResultVisitationPhoto: FC<{ data: String }> = ({ data }) => {
         style={{ borderColor: "hsl(0, 0%, 80%)" }}
         className={`my-2 flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-solid border-[rgba(230,230,230)] bg-gray-200 p-4`}
       >
-        <img src={`data:image/jpeg;base64, ${arrString[0]}`}/>
+        {!data ? <div>Tidak Ada Foto Kunjungan</div> : <img src={`data:image/jpeg;base64, ${arrString[0]}`} />}
       </div>
     </div>
   );
