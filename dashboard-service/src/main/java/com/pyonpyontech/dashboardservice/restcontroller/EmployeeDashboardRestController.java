@@ -5,6 +5,7 @@ import com.pyonpyontech.dashboardservice.dto.CustomerComplaintDto;
 import com.pyonpyontech.dashboardservice.dto.CustomerVisitationDto;
 import com.pyonpyontech.dashboardservice.model.Period;
 import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrReport;
+import com.pyonpyontech.dashboardservice.model.pest_control.Pesticide;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.service.DashboardRestService;
 import com.pyonpyontech.dashboardservice.service.UserRestService;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -64,6 +66,42 @@ public class EmployeeDashboardRestController {
             return dashboardRestService.getComplaintChartByEmployeeUsername(principal.getName());
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+        }
+    }
+
+    @GetMapping(value = "/period")
+    private CustomerVisitationDto retrievePeriod(Principal principal) {
+        try {
+            return dashboardRestService.getVisitationsByEmployeeUsername(principal.getName());
+        } catch(NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+        }
+    }
+
+    @GetMapping(value = "/pest-trend")
+    private List<Map<String, Integer>> retrievePestTrends(Principal principal){
+        try {
+            return dashboardRestService.getPestTrends(2023);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+        }
+    }
+
+    @GetMapping(value = "/complaints-trend")
+    private List<Integer> retrieveComplaintTrend(Principal principal){
+        try {
+            return  dashboardRestService.getComplaintTrend(principal.getName(), 2023);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/low-stock")
+    private List<Pesticide> retrieveLowPesticide(){
+        try {
+            return  dashboardRestService.getLowStock();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
     
