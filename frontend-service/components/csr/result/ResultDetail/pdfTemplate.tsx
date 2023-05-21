@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
     },
     data: {
       margin: 2,
-      fontSize: 14,
+      fontSize: 12,
       textAlign: 'justify',
       fontFamily: 'Times-Roman'
     },
     text: {
         marginTop: 12,
         marginBottom: 24,
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'justify',
         fontFamily: 'Times-Roman'
     },
@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'center',
         justifyContent: 'space-around',
         fontFamily: 'Times-Roman'
     },
     container2: {
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'justify',
         fontFamily: 'Times-Roman',
         alignItems: 'center'
