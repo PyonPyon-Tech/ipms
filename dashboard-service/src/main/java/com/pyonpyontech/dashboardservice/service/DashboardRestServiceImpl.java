@@ -1,18 +1,27 @@
 package com.pyonpyontech.dashboardservice.service;
 
+import java.time.Month;
 import java.util.*;
 
+import com.pyonpyontech.dashboardservice.model.Period;
+import com.pyonpyontech.dashboardservice.model.UserModel;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.model.customer.Customer;
 import com.pyonpyontech.dashboardservice.model.customer_service_report.CsrReport;
 import com.pyonpyontech.dashboardservice.model.customer.Complaint;
+import com.pyonpyontech.dashboardservice.model.pest_control.employee.Supervisor;
+import com.pyonpyontech.dashboardservice.repository.PeriodDb;
+import com.pyonpyontech.dashboardservice.repository.UserDb;
 import com.pyonpyontech.dashboardservice.repository.pest_control.VisitationDb;
 import com.pyonpyontech.dashboardservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.dashboardservice.repository.customer_service_report_db.CsrReportDb;
+import com.pyonpyontech.dashboardservice.repository.pest_control.employee_db.SupervisorDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.pyonpyontech.dashboardservice.dto.*;
 
 import javax.transaction.Transactional;
+
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +35,15 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     
     @Autowired
     private VisitationDb visitationDb;
-    
+
+    @Autowired
+    private UserDb userDb;
+
+    @Autowired
+    private SupervisorDb supervisorDb;
+    @Autowired
+    private PeriodDb periodDb ;
+
     @Autowired
     private CsrReportDb csrReportDb;
     
@@ -78,6 +95,63 @@ public class DashboardRestServiceImpl implements DashboardRestService {
         Optional<Customer> customer = customerDb.findByUser_Username(username);
         if(customer.isPresent()) {
             return customer.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    @Override
+    public Period getVisitationsByEmployeeUsername(String username) {
+        Date today = new Date();
+        CustomerVisitationDto customerVisitationData = new CustomerVisitationDto(Long.valueOf(0), Long.valueOf(0));
+        UserModel user = getEmployeeByUsername(username);
+        Period period = getPeriodByDate(today);
+
+        if (user.getRole() == 1 || user.getRole() == 2 ) {
+            customerVisitationData.setTotalVisitations(Long.valueOf(period.getVisitations().size()));
+            customerVisitationData.setCompletedVisitations(Long.valueOf(period.getReports().size()));
+        } else if (user.getRole() == 3) {
+            Supervisor supervisor = getSupervisorByUsername(username);
+
+            for (Visitation v : period.getVisitations()){
+
+            }
+
+
+
+        } else if (user.getRole() == 4){
+
+        } else {
+            throw new NoSuchElementException();
+        }
+
+        return getPeriodByDate(today);
+
+
+//
+//        return customerVisitationData;
+    }
+    private Period getPeriodByDate(Date date) {
+        Optional<Period> period = periodDb.findByMonthAndYear(Month.of(date.getMonth()+1), date.getYear() + 1900);
+        if(period.isPresent()) {
+            return period.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    private UserModel getEmployeeByUsername(String username) {
+        Optional<UserModel> user = userDb.findByUsername(username);
+        if(user.isPresent()) {
+            return user.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    private Supervisor getSupervisorByUsername(String username) {
+        Optional<Supervisor> user = supervisorDb.findByUser_Username(username);
+        if(user.isPresent()) {
+            return user.get();
         } else {
             throw new NoSuchElementException();
         }
