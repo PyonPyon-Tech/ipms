@@ -14,31 +14,37 @@ import { EmployeeForm } from "@components/employees/EmployeeForm";
 import { EmployeeAdminEditForm } from "@components/employees/EmployeeForm/edit/admin";
 
 const AdminEdit: NextPage = () => {
-    const { user } = useAuth();
-    const router = useRouter();
-  
-    const [employee, setEmployee] = useState<Employee>();
-    useEffect(() => {
-      if (!user) return;
-      if (!router.query.id) return;
-      async function retrieveEmployee() {
-        AxiosClient.get(`${URL_EMPLOYEE}/administrators/${router.query.id}`)
-          .then((response) => {
-            setEmployee(new EmployeeClass(response.data));
-            console.log(response.data);
-          })
-          .catch((err: AxiosError) => {
-            toast.error(err.message);
-            console.log(err);
-          });
-      }
-      retrieveEmployee();
-    }, [user, router]);
+  const { user } = useAuth();
+  const router = useRouter();
 
-  return <div className="w-full">
-    <Title title="Ubah Detail Karyawan" />
-    {!!employee && <EmployeeAdminEditForm data={employee} />}
-  </div>;
+  const [employee, setEmployee] = useState<Employee>();
+  useEffect(() => {
+    if (!user) return;
+    if (!router.query.id) return;
+    async function retrieveEmployee() {
+      AxiosClient.get(`${URL_EMPLOYEE}/administrators/${router.query.id}`)
+        .then((response) => {
+          setEmployee(new EmployeeClass(response.data));
+          console.log(response.data);
+        })
+        .catch((err: AxiosError) => {
+          toast.error(err.message);
+          console.log(err);
+        });
+    }
+    if (user.role == 0 || user.role == 4) {
+      router.push("/");
+    } else {
+      retrieveEmployee();
+    }
+  }, [user, router]);
+
+  return (
+    <div className="w-full">
+      <Title title="Ubah Detail Karyawan" />
+      {!!employee && <EmployeeAdminEditForm data={employee} />}
+    </div>
+  );
 };
 
 export default withAuth(withLayout(AdminEdit));

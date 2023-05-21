@@ -8,12 +8,15 @@ import {
   TechnicianOutletsClass,
 } from "@models/pestcontrol/employee/technician";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export const AssignmentListPage: NextPage = () => {
   const [data, setData] = useState<TechnicianOutlets[]>([]);
   const { user } = useAuth();
+  const router = useRouter();
+
   console.log(data);
   useEffect(() => {
     if (!user) return;
@@ -28,7 +31,11 @@ export const AssignmentListPage: NextPage = () => {
           console.error(err);
         });
     }
-    loadTechnicianOutlets();
+    if (user.role != 3) {
+      router.push("/");
+    } else {
+      loadTechnicianOutlets();
+    }
   }, [user]);
 
   return (

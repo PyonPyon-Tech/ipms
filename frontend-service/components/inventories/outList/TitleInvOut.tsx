@@ -10,12 +10,12 @@ export const TitleInventoryOut: FC<{
   return (
     <div className="mb-4 font-bold">
       <div className="flex items-center justify-between">
-        <div className="flex flex-row">
+        <div className="flex flex-row gap-2">
           {!!isCart && (
             <img
               onClick={isCart.func}
               src="/icons/arrow-up.svg"
-              className="-rotate-90"
+              className="-rotate-90 hover:cursor-pointer"
             />
           )}
           <h2 className="text-xl md:text-3xl">{title}</h2>
