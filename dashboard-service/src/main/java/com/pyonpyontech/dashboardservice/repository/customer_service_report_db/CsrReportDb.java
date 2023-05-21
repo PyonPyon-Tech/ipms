@@ -21,6 +21,7 @@ public interface CsrReportDb extends JpaRepository<CsrReport, Long> {
     List<CsrReport> findAllByOutlet_Customer_User_Username(String username);
 
     List<CsrReport> findAllByTechnician_Supervisor(Supervisor supervisor);
+    List<CsrReport> findAllByPeriodAndOutlet_Customer(Period period, Customer customer);
 
     List<CsrReport> findAllByPeriodAndTechnician(Period period, Technician technician);
 

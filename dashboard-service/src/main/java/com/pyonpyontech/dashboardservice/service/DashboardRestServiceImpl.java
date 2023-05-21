@@ -73,19 +73,27 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     
     @Override
     public CustomerVisitationDto getVisitationsByCustomerUsername(String username) {
-        List<Visitation> visitationList = visitationDb.findAllByOutlet_Customer_User_Username(username);
+        Customer customer = getCustomerByUsername(username);
+        Date today = new Date();
+        Period period = getPeriodByDate(today);
+        List<Visitation> visitationList = visitationDb.findAllByPeriodAndOutlet_Customer(period, customer);
+        List<CsrReport> csrReportsList = csrReportDb.findAllByPeriodAndOutlet_Customer(period, customer);
         
         CustomerVisitationDto customerVisitationData = new CustomerVisitationDto(Long.valueOf(0), Long.valueOf(0));
         LocalDate now = LocalDate.now();
+
+        customerVisitationData.setCompletedVisitations((long) csrReportsList.size());
+        customerVisitationData.setTotalVisitations((long) visitationList.size());
+
         
-        for (Visitation v : visitationList) {
-            if (!v.getDate().getMonth().equals((new Date()).getMonth()))
-                continue;
-              
-            customerVisitationData.setTotalVisitations(customerVisitationData.getTotalVisitations() + 1);
-            if (now.isAfter(v.getDate()))
-                customerVisitationData.setCompletedVisitations(customerVisitationData.getCompletedVisitations() + 1);
-        }
+//        for (Visitation v : visitationList) {
+//            if (!v.getDate().getMonth().equals((new Date()).getMonth()))
+//                continue;
+//
+//            customerVisitationData.setTotalVisitations(customerVisitationData.getTotalVisitations() + 1);
+//            if (now.isAfter(v.getDate()))
+//                customerVisitationData.setCompletedVisitations(customerVisitationData.getCompletedVisitations() + 1);
+//        }
         return customerVisitationData;
     }
     

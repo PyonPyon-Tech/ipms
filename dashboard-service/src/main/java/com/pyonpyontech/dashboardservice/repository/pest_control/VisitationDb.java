@@ -1,6 +1,7 @@
 package com.pyonpyontech.dashboardservice.repository.pest_control;
 
 import com.pyonpyontech.dashboardservice.model.Period;
+import com.pyonpyontech.dashboardservice.model.customer.Customer;
 import com.pyonpyontech.dashboardservice.model.customer.Outlet;
 import com.pyonpyontech.dashboardservice.model.pest_control.Visitation;
 import com.pyonpyontech.dashboardservice.model.pest_control.employee.Supervisor;
@@ -15,6 +16,7 @@ import java.util.*;
 @Repository
 public interface VisitationDb extends JpaRepository<Visitation, Long> {
     List<Visitation> findAllByOutlet_Customer_User_Username(String username);
+    List<Visitation> findAllByPeriodAndOutlet_Customer(Period period,Customer customer);
     List<Visitation> findAllByPeriodAndOutlet_Supervisor(Period period, Supervisor supervisor);
     List<Visitation> findAllByPeriodAndOutlet_Technician(Period period, Technician technician);
 

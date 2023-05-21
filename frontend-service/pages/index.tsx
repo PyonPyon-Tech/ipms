@@ -36,9 +36,26 @@ const Home: NextPage = () => {
 
       setCustomerRecentReportsData(reportArr);
     }
+    async function retrieveEmployeeDashboardData() {
+      const customerMonthlyVisitationsResult = await AxiosClient.get(`${URL_DASHBOARD}/employee/visitations`);
+      setCustomerMonthlyVisitationData(customerMonthlyVisitationsResult.data);
+
+      const customerComplaintsResult = await AxiosClient.get(`${URL_DASHBOARD}/employee/complaints`);
+      setCustomerComplaintData(customerComplaintsResult.data);
+
+      const customerRecentReportsResult = await AxiosClient.get(`${URL_DASHBOARD}/employee/recent-reports`);
+      let reportArr = [];
+      for (let report of customerRecentReportsResult.data) {
+        reportArr.push(new CsrReportClass(report));
+      }
+
+      setCustomerRecentReportsData(reportArr);
+    }
 
     if (ROLES[user?.role ?? 0] == "Customer") {
       retrieveCustomerDashboardData();
+    }else{
+      retrieveEmployeeDashboardData()
     }
   }, [user]);
   
@@ -46,6 +63,11 @@ const Home: NextPage = () => {
     <div className="mb-10">
       <Title title="Dashboard"></Title>
       {ROLES[user?.role ?? 0] == "Customer" && <CustomerDashboard 
+        monthlyVisitationData={customerMonthlyVisitationData} 
+        complaintData={customerComplaintData}
+        recentReportsData={customerRecentReportsData}
+      />}
+      {ROLES[user?.role ?? 0] != "Customer" && <CustomerDashboard 
         monthlyVisitationData={customerMonthlyVisitationData} 
         complaintData={customerComplaintData}
         recentReportsData={customerRecentReportsData}
