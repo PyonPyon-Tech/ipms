@@ -61,7 +61,7 @@ export const CsrResultAdditionalDetail: FC<{
         {arrString.length != 0 ? (
           arrString.map((item) => {
             return (
-              <img src={`data:image/jpeg;base64, ${item}`}/>
+              <img className="max-h-48" src={`data:image/jpeg;base64, ${item}`}/>
             );
           })
         ) : (
@@ -94,7 +94,7 @@ export const CsrResultAdditionalDetail: FC<{
         {imageUrls.length != 0 ? (
           imageUrls.map((item) => {
             return (
-              <img src={`data:image/jpeg;base64, ${item}`}/>
+              <img className="max-h-48" src={`data:image/jpeg;base64, ${item}`}/>
             );
           })
         ) : (

@@ -53,7 +53,7 @@ export const CsrResultVisitationPhoto: FC<{ data: String }> = ({ data }) => {
         style={{ borderColor: "hsl(0, 0%, 80%)" }}
         className={`my-2 flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-solid border-[rgba(230,230,230)] bg-gray-200 p-4`}
       >
-        {!data ? <div>Tidak Ada Foto Kunjungan</div> : <img src={`data:image/jpeg;base64, ${arrString[0]}`} />}
+        {!data ? <div>Tidak Ada Foto Kunjungan</div> : <img className="max-h-48" src={`data:image/jpeg;base64, ${arrString[0]}`} />}
       </div>
     </div>
   );
