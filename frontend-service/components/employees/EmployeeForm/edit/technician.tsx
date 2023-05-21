@@ -57,7 +57,7 @@ export const EmployeeTechnicianEditForm: FC<{ data: Employee }> = ({
                 <h5>Nama Karyawan</h5>
                 <input required {...register("name")} />
                 <h5>Username</h5>
-                <input required {...register("username")} />
+                <input disabled className="bg-gray-300" {...register("username")} />
                 <h5>Password</h5>
                 <input {...register("password")} />
                 <h5>Kontak</h5>
