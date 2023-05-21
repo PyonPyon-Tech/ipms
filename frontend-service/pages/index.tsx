@@ -51,6 +51,6 @@ const Home: NextPage = () => {
         recentReportsData={customerRecentReportsData}
       />}
     </div>
-  );c
+  );
 };
 export default withAuth(withLayout(Home));

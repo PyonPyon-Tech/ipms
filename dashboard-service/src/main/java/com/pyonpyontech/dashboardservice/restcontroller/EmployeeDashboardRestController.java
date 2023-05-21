@@ -35,7 +35,7 @@ public class EmployeeDashboardRestController {
     @GetMapping(value = "/visitations")
     private CustomerVisitationDto retrieveVisitations(Principal principal) {
         try {
-            return dashboardRestService.getVisitationsByCustomerUsername(principal.getName());
+            return dashboardRestService.getVisitationsByEmployeeUsername(principal.getName());
         } catch(NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
         }
@@ -60,7 +60,7 @@ public class EmployeeDashboardRestController {
     }
 
     @GetMapping(value = "/period")
-    private Period retrievePeriod(Principal principal) {
+    private CustomerVisitationDto retrievePeriod(Principal principal) {
         try {
             return dashboardRestService.getVisitationsByEmployeeUsername(principal.getName());
         } catch(NoSuchElementException e) {
