@@ -7,6 +7,7 @@ import { TargetPestContainer } from "./targetPest";
 import { Pest } from "@models/pestcontrol/Pest";
 import { formatInventoryForm, validateInventoryForm } from "./helper";
 import { Button } from "@components/general/Button";
+import { Container } from "@components/general/Container";
 
 export const InventoryForm: FC<{}> = ({}) => {
   const router = useRouter();
@@ -34,9 +35,9 @@ export const InventoryForm: FC<{}> = ({}) => {
       targets: targets,
       targetPests: targetPests,
     };
-    if(submittedData.stock < 0){
-      toast.error("Stok tidak boleh kurang dari 0!")
-    } else{
+    if (submittedData.stock < 0) {
+      toast.error("Stok tidak boleh kurang dari 0!");
+    } else {
       const loading = toast.loading("Menyimpan...");
       AxiosClient.post(`${URL_INVENTORY}/pesticides`, submittedData)
         .then((response) => {
@@ -47,18 +48,18 @@ export const InventoryForm: FC<{}> = ({}) => {
           router.push(`/inventories/${response.data.id}`);
         })
         .catch((error) => {
-          toast.error(error.message);
+          toast.error("Nama chemical tersebut sudah ada!");
           console.log(error);
         })
         .finally(() => {
           toast.dismiss(loading);
         });
-    };
     }
+  };
 
   if (!pestData || pestData.length == 0) return <div></div>;
   return (
-    <div className="mt-4 w-full flex-col justify-evenly rounded-md p-4 pb-5 align-middle shadow-basic">
+    <Container>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-col">
           <h5 className="text-base font-bold">Nama Chemical</h5>
@@ -76,11 +77,13 @@ export const InventoryForm: FC<{}> = ({}) => {
             <option value="titik">Titik</option>
           </select>
           <TargetPestContainer pestData={pestData} />
-          <Button className="w-full" action={{ name: "Simpan", submit:true }}></Button>
-
+          <Button
+            className="w-full"
+            action={{ name: "Simpan", submit: true }}
+          ></Button>
         </form>
       </FormProvider>
-    </div>
+    </Container>
   );
 };
 

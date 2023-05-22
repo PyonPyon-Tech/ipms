@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(indexes = @Index(columnList = "report_id"))
 public class CsrDetailPest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

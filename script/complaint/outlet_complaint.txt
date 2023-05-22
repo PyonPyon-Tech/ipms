@@ -1,0 +1,55 @@
+Bulan jan: 
+Customer 0 :
+Customer 1 :
+Customer 2 :5
+Customer 3 :
+Customer 4 :10
+Customer 5 :11
+Customer 6 :13
+Customer 7 :
+Customer 8 :15
+
+Bulan feb: 
+Customer 0 :17, 18
+Customer 1 :
+Customer 2 :
+Customer 3 :20, 21
+Customer 4 :
+Customer 5 :24
+Customer 6 :
+Customer 7 :28
+Customer 8 :
+
+Bulan mar: 
+Customer 0 :
+Customer 1 :
+Customer 2 :32
+Customer 3 :35
+Customer 4 :36
+Customer 5 :
+Customer 6 :39
+Customer 7 :41
+Customer 8 :
+
+Bulan apr: 
+Customer 0 :45, 46
+Customer 1 :
+Customer 2 :50
+Customer 3 :52
+Customer 4 :54
+Customer 5 :56
+Customer 6 :58, 59
+Customer 7 :
+Customer 8 :
+
+Bulan may: 
+Customer 0 :64
+Customer 1 :
+Customer 2 :68
+Customer 3 :
+Customer 4 :71
+Customer 5 :
+Customer 6 :
+Customer 7 :75
+Customer 8 :
+

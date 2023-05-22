@@ -34,15 +34,11 @@ export const ComplaintDetail: FC<Complaint> = ({
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data: any) => {
     console.log(data);
-    const submittedData = {
-      isAcknowledged: 1,
-    };
     if (isAcknowledged == 1) {
       toast.error("Komplain sudah diproses!");
     } else {
-      AxiosClient.put(
-        `${URL_CUSTOMER}/complaints/${router.query.id}`,
-        submittedData
+      AxiosClient.post(
+        `${URL_CUSTOMER}/complaints/${router.query.id}/acknowledge`
       )
         .then((response) => {
           console.log(response.data);
@@ -62,71 +58,73 @@ export const ComplaintDetail: FC<Complaint> = ({
     <Container>
       <div className="w-full">
         <div className="flex items-center justify-between">
-          <h1 className="mb-2 text-2xl font-bold">
+          <h1 className="mb-2 text-base font-bold md:text-2xl">
             {customer.user.name}-Komplain-{id}
           </h1>
-          <div className="flex gap-2">
-            {!!isAcknowledged && (
-              <Tag
-                key={id + "tag"}
-                title={"Diproses"}
-                className={"bg-teal"}
-              ></Tag>
-            )}
-            {!isAcknowledged && (
-              <Tag
-                key={id + "tag"}
-                title={"Belum Diproses"}
-                className={"bg-coral"}
-              ></Tag>
-            )}
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <input className="hidden" value={1} type="number" {...register("isAcknowledged")} />
-              {ROLES[user?.role ?? 0] == "Supervisor" &&
-                isAcknowledged == 0 && (
-                  <Button
-                    className="bg-teal"
-                    action={{
-                      name: "Proses Komplain",
-                      func: () => {
-                        router.push("/complaints/" + report?.id);
-                      },
-                      submit: true,
-                    }}
-                  ></Button>
-                )}
-            </form>
-          </div>
+
+          {!!isAcknowledged && (
+            <Tag
+              key={id + "tag"}
+              title={"Telah Diproses"}
+              className={"bg-teal"}
+            ></Tag>
+          )}
+          {!isAcknowledged && (
+            <Tag
+              key={id + "tag"}
+              title={"Belum Diproses"}
+              className={"bg-coral"}
+            ></Tag>
+          )}
         </div>
 
-        <div className="mb-4 flex gap-2">
-          <div>
-            <h6>Pengirim komplain</h6>
-            <h6>Tanggal komplain</h6>
-          </div>
-          <div>
-            <h6 className="font-bold">: {outlet.name}</h6>
-            <h6 className="font-bold">: {tanggalKomplain}</h6>
-          </div>
+        <div className="mb-4 flex flex-col ">
+          <h6 className="text-xs md:text-base">
+            Pengirim komplain: <b>{outlet.name}</b>
+          </h6>
+          <h6 className="text-xs md:text-base">
+            Tanggal komplain: <b>{tanggalKomplain}</b>
+          </h6>
         </div>
-        <div className="mb-4 flex items-center justify-between gap-8">
-          <p>
-            Komplain untuk treatment pada <b>{tanggalTreatment}</b> dengan
-            teknisi <b>{report?.technician.user.name}</b>
-          </p>
-          <Button
-            action={{
-              name: "Buka Report",
-              func: () => {
-                router.push("/reports/detail/" + report?.id);
-              },
-            }}
-          ></Button>
+        <div className="mb-2 flex items-center justify-between gap-8">
+          {report != null && (
+            <div>
+              <p>
+                Komplain untuk treatment pada <b>{tanggalTreatment}</b> dengan
+                teknisi <b>{report?.technician.user.name}</b>
+              </p>
+              <Button
+                action={{
+                  name: "Buka Report",
+                  func: () => {
+                    router.push("/reports/detail/" + report?.id);
+                  },
+                }}
+              ></Button>
+            </div>
+          )}
         </div>
         <Container className="mb-4 shadow-coral">
-          <p className="text-xl">"{content}"</p>
+          <p className="texl-base md:text-xl">"{content}"</p>
         </Container>
-        <h5 className="text-sm font-bold md:mb-1 md:text-xl"></h5>
+        <div className="flex justify-end">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {(ROLES[user?.role ?? 0] == "Supervisor" ||
+              ROLES[user?.role ?? 0] == "Teknisi") &&
+              isAcknowledged == 0 && (
+                <Button
+                  className="bg-teal"
+                  action={{
+                    name: "Tandai Selesai",
+                    func: () => {
+                      router.push("/complaints/" + router.query.id);
+                    },
+                    submit: true,
+                  }}
+                ></Button>
+              )}
+          </form>
+        </div>
       </div>
     </Container>
   );
