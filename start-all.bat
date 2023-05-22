@@ -24,6 +24,9 @@ start cmd /c "title report-service && cd report-service && gradlew.bat bootRun &
 echo Starting notification service....
 start cmd /c "title notification-service && cd notification-service && gradlew.bat bootRun && pause"
 
+echo Starting dashboard service....
+start cmd /c "title dashboard-service && cd dashboard-service && gradlew.bat bootRun && pause"
+
 echo Starting frontend service....
 start cmd /c "title frontend-service && cd frontend-service && npm run dev && pause"
 

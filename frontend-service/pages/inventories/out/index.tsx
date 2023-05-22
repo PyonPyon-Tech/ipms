@@ -3,8 +3,18 @@ import { TitleInventoryOut } from "@components/inventories/outList/TitleInvOut";
 import { PesticideContainer } from "@components/inventories/outList";
 import { PesticideCard } from "@components/inventories/outList/PesticideCard";
 import { ScheduleContainer } from "@components/schedules/ScheduleContainer";
-import { AxiosClient, URL_CUSTOMER, URL_EMPLOYEE, URL_INVENTORY, URL_SCHEDULE } from "@constants/api";
-import { filterData, filterDataNested, filterDataOnlyNested } from "@functions/filterData";
+import {
+  AxiosClient,
+  URL_CUSTOMER,
+  URL_EMPLOYEE,
+  URL_INVENTORY,
+  URL_SCHEDULE,
+} from "@constants/api";
+import {
+  filterData,
+  filterDataNested,
+  filterDataOnlyNested,
+} from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
@@ -18,30 +28,34 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const SearchInventory: NextPage = () => {
-
-  const [isCart, setIsCart] = useState(false)
-  const [cart, setCart] = useState<Map<number, number>>(new Map<number, number>);
+  const [isCart, setIsCart] = useState(false);
+  const [cart, setCart] = useState<Map<number, number>>(
+    new Map<number, number>()
+  );
   const [pesticides, setPesticide] = useState<Pesticide[]>([]);
   const [term, setTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const router = useRouter()
+  const router = useRouter();
   const { user } = useAuth();
 
   const onSubmit = async () => {
-    const pestisidePostDataLst : object[] = []
+    const pestisidePostDataLst: object[] = [];
     cart.forEach((jml, id) => {
-      if (jml > 0){
+      if (jml > 0) {
         const payload = {
-        pesticide: { id: id},
-        requester: { id: user?.id },
-        amount: jml
+          pesticide: { id: id },
+          requester: { id: user?.id },
+          amount: jml,
         };
-        pestisidePostDataLst.push(payload)
+        pestisidePostDataLst.push(payload);
       }
     });
     const loading = toast.loading("Menyimpan...");
-    console.log(pestisidePostDataLst)
-    AxiosClient.post(`${URL_INVENTORY}/pesticide-requests`, pestisidePostDataLst)
+    console.log(pestisidePostDataLst);
+    AxiosClient.post(
+      `${URL_INVENTORY}/pesticide-requests`,
+      pestisidePostDataLst
+    )
       .then((response) => {
         console.log(response.data);
         toast.success("Pengambilan Sukses", {
@@ -57,12 +71,11 @@ const SearchInventory: NextPage = () => {
       .finally(() => {
         toast.dismiss(loading);
       });
-  }
+  };
 
-  function countCart(){
-    return Array.from(cart.entries())
-    .filter(([key, value]) => value > 0)
-    .length;
+  function countCart() {
+    return Array.from(cart.entries()).filter(([key, value]) => value > 0)
+      .length;
   }
   useEffect(() => {
     if (!user) return;
@@ -80,65 +93,74 @@ const SearchInventory: NextPage = () => {
       console.log(data);
       setPesticide(data);
     }
-    retrieveAllPesticide();
+    if (user.role != 4) {
+      router.push("/");
+    } else {
+      retrieveAllPesticide();
+    }
   }, [user]);
   return (
-<div className="mb-4 w-full">
+    <div className="mb-4 w-full">
       <section>
-        {isCart?
+        {isCart ? (
           <TitleInventoryOut
-          title="Keranjang Pengambilan"
-          isCart={{
-            func: () => {setIsCart(false)}
-          }}
-          action={{
-            name: "Submit",
-            func: () => {onSubmit()}
-            }} 
+            title="Keranjang Pengambilan"
+            isCart={{
+              func: () => {
+                setIsCart(false);
+              },
+            }}
+            action={{
+              name: "Submit",
+              func: () => {
+                onSubmit();
+              },
+            }}
           >
             <h4>Total: {countCart()} pestisida</h4>
           </TitleInventoryOut>
-        :
-        <div>
-          <TitleInventoryOut
-            title="Pengambilan Pestisida"
-            action={{
-              name: "Keranjang",
-              func: () => {setIsCart(true)},
-            }} 
-          >
-            <h4>Total: {pesticides.length} pestisida</h4>
-          </TitleInventoryOut>
-          <div className="relative w-4/5 max-w-[500px] mb-4">
-            <img
-              src="/icons/search.svg"
-              className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
-            />
-            <input
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  setSearchTerm(term);
-                }
+        ) : (
+          <div>
+            <TitleInventoryOut
+              title="Pengambilan Pestisida"
+              action={{
+                name: "Keranjang",
+                func: () => {
+                  setIsCart(true);
+                },
               }}
-              className="w-full rounded-lg border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
-              placeholder="Cari Pestisida"
-            />
+            >
+              <h4>Total: {pesticides.length} pestisida</h4>
+            </TitleInventoryOut>
+            <div className="relative mb-4 w-4/5 max-w-[500px]">
+              <img
+                src="/icons/search.svg"
+                className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
+              />
+              <input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    setSearchTerm(term);
+                  }
+                }}
+                className="w-full rounded-lg border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
+                placeholder="Cari Pestisida"
+              />
+            </div>
           </div>
-        </div>
-        }
+        )}
       </section>
       <section>
         <PesticideContainer
-          data={filterData<Pesticide>(
-            pesticides,
-            searchTerm,
-            ["name", "activeIngredient"]
-          )}
-          isCart = {isCart}
-          cart = {cart}
-          setCart = {setCart}
+          data={filterData<Pesticide>(pesticides, searchTerm, [
+            "name",
+            "activeIngredient",
+          ])}
+          isCart={isCart}
+          cart={cart}
+          setCart={setCart}
         />
       </section>
     </div>
