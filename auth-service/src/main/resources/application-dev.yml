@@ -20,9 +20,10 @@ spring:
 
     show-sql: true
 
-#  sql:
-#     init:
-#       mode: always
+  sql:
+     init:
+       mode: always
+       data-locations: classpath:data/*.sql
 
   main:
     allow-circular-references: true
