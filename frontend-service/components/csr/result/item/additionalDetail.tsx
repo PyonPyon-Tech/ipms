@@ -106,7 +106,7 @@ export const CsrResultAdditionalDetail: FC<{
         style={{ borderColor: "hsl(0, 0%, 80%)" }}
         className="my-2 flex w-full flex-col items-center justify-center rounded-md border-2 border-solid border-[rgba(0,0,0)] p-2"
       >
-        <h2>Tidak ada rekomendasi tindakan.</h2>
+        <h2>Tidak ada rekomendasi tindakan aaa.</h2>
       </div>
     </div>
   );

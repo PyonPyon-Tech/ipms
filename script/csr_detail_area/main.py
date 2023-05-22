@@ -23,7 +23,7 @@ with open('result_data.txt', mode="w", newline="") as result_csv:
                 str((report_id-1)*29 + display_number),
                 display_number,
                 str(findings[display_number-1]),
-                "2",
+                "3",
                 areas[display_number-1],
                 report_id
             ])

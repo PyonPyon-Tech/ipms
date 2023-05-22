@@ -91,13 +91,16 @@ public class ReportRestService {
 
     public CsrReport detailReport(Long id){
         Optional<CsrReport> report = csrReportDb.findById(id);
+        logger.info("FIND REPORT WITH ID "+id);
         if(report.isEmpty()){
             throw new NoSuchElementException();
         }
         CsrReport r = report.get();
         for(CsrDetailArea detailArea: r.getDetailAreas()){
+            logger.info("WTF IS THIS "+detailArea.getArea().getArea());
             detailArea.getArea().setFindings(new ArrayList<>());
         }
+        logger.info("FIND REPORT WITH ID "+id+" FINISHED");
         return r;
     }
 

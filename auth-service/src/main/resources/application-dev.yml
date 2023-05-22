@@ -23,7 +23,10 @@ spring:
   sql:
      init:
        mode: always
-       data-locations: classpath:data/*.sql
+       data-locations:
+       - classpath:data/main.sql
+       - classpath:data/report.sql
+       - classpath:data/*.sql
 
   main:
     allow-circular-references: true
