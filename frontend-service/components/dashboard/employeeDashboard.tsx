@@ -7,6 +7,9 @@ import { VisitationRingChart } from "@components/dashboard/module/visitationRing
 import { ComplaintRingChart } from "./module/complaintRingChart";
 import { StockWarningTable } from "./module/stockWarningTable";
 import { RecentReportTable } from "./module/recentReportTable";
+import { PestTrendBarChart } from "./module/pestTrendBarChart";
+import { MonthlyPestTrendData } from "@models/dashboard/employee/monthlyPest";
+import { ComplaintTrendChart } from "./module/complaintTrendChart";
 
 Chart.register(ArcElement, Tooltip, Title, Legend);
 
@@ -16,12 +19,16 @@ export const EmployeeDashboard = ({
   complaintData,
   recentReportsData,
   stockWarningData,
+  pestTrendData,
+  complaintTrendData
 }: {  
   employeeRole: String,
   monthlyVisitationData: MonthlyVisitationData, 
   complaintData: ComplaintData,
   recentReportsData: CsrReport[],
   stockWarningData: Pesticide[],
+  pestTrendData: MonthlyPestTrendData[],
+  complaintTrendData: number[],
 }) => {
   return (
     <>
@@ -29,6 +36,13 @@ export const EmployeeDashboard = ({
         <VisitationRingChart monthlyVisitationData={monthlyVisitationData}/>
         <ComplaintRingChart complaintData={complaintData}/>
       </div>
+
+      {(employeeRole != "Teknisi") && 
+        <>
+          <PestTrendBarChart pestTrendData={pestTrendData} />
+          <ComplaintTrendChart complaintTrendData={complaintTrendData} />
+        </>
+      }
 
       {(employeeRole == "Administrator" || employeeRole == "Manajer") && 
         <StockWarningTable stockWarningData={stockWarningData}/>

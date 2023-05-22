@@ -13,13 +13,16 @@ import { useEffect, useState } from "react";
 import { ROLES } from "@constants/roles";
 import { CsrReport, CsrReportClass } from "@models/report/CsrReport";
 import { Pesticide, PesticideClass } from "@models/pestcontrol/Pesticide";
+import { MonthlyPestTrendData, MonthlyPestTrendDataClass } from "@models/dashboard/employee/monthlyPest";
 
 const Home: NextPage = () => {
   const { user } = useAuth();
   const [customerMonthlyVisitationData, setCustomerMonthlyVisitationData] = useState<MonthlyVisitationData>({ completedVisitations: 0, totalVisitations: 0 });
   const [customerComplaintData, setCustomerComplaintData] = useState<ComplaintData>({ acknowledgedComplaints: 0, totalComplaints: 0 });
   const [customerRecentReportsData, setCustomerRecentReportsData] = useState<CsrReport[]>([]);
-  const [stockWarningData, setstockWarningData] = useState<Pesticide[]>([]);
+  const [stockWarningData, setStockWarningData] = useState<Pesticide[]>([]);
+  const [pestTrendData, setPestTrendData] = useState<MonthlyPestTrendData[]>([]);
+  const [complaintTrendData, setComplaintTrendData] = useState<number[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -58,7 +61,17 @@ const Home: NextPage = () => {
       for (let pesticide of stockWarningResult.data) {
         lowStockArr.push(new PesticideClass(pesticide));
       }
-      setstockWarningData(lowStockArr);
+      setStockWarningData(lowStockArr);
+
+      const pestTrendResult = await AxiosClient.get(`${URL_DASHBOARD}/employee/pest-trend`);
+      let pestTrendArr = [];
+      for (let pestTrend of pestTrendResult.data) {
+        pestTrendArr.push(new MonthlyPestTrendDataClass(pestTrend));
+      }
+      setPestTrendData(pestTrendArr);
+
+      const complaintsTrendResult = await AxiosClient.get(`${URL_DASHBOARD}/employee/complaints-trend`);
+      setComplaintTrendData(complaintsTrendResult.data);
     }
 
     if (ROLES[user?.role ?? 0] == "Customer") {
@@ -77,12 +90,14 @@ const Home: NextPage = () => {
         recentReportsData={customerRecentReportsData}
       />}
       {ROLES[user?.role ?? 0] != "Customer" && <EmployeeDashboard
-        employeeRole={ROLES[user?.role ?? 0]} 
-        monthlyVisitationData={customerMonthlyVisitationData} 
+        employeeRole={ROLES[user?.role ?? 0]}
+        monthlyVisitationData={customerMonthlyVisitationData}
         complaintData={customerComplaintData}
         recentReportsData={customerRecentReportsData}
         stockWarningData={stockWarningData}
-      />}
+        pestTrendData={pestTrendData} 
+        complaintTrendData={complaintTrendData}
+        />}
     </div>
   );
 };
