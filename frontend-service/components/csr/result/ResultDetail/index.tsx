@@ -14,6 +14,7 @@ import html2canvas from "html2canvas";
 import moment from "moment";
 import "moment/locale/id";
 import { Button } from "@components/general/Button";
+import { toast } from "react-hot-toast";
 
 export const CsrReportDetail: FC<CsrReport> = ({
   id,
@@ -55,36 +56,43 @@ export const CsrReportDetail: FC<CsrReport> = ({
 
   function makePDF() {
     const quotes = document.getElementById("divToPrint");
+    toast.loading("Menyimpan...")
     html2canvas(quotes!).then((canvas) => {
       //! MAKE YOUR PDF
       var pdf = new jsPDF({ format: "a4", unit: "px" });
-
-      for (var i = 0; i <= quotes!.clientHeight / 2110; i++) {
+      const pdfWidth = 1500
+      const pdfHeight = 2110
+      const pdfInnerHeight = 2010
+      const pdfInnerWidth = 1400
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+      const scale = pdfWidth / canvasWidth
+      console.log(scale)
+      for (var i = 0; i <= canvasHeight / (pdfInnerHeight / scale); i++) {
         //! This is all just html2canvas stuff
         var srcImg = canvas;
         var sX = 0;
-        var sY = 2110 * i; // start 2110 pixels down for every new page
-        var sWidth = 1500;
-        var sHeight = 2110;
-        var dX = 0;
-        var dY = 0;
-        var dWidth = 1500;
-        var dHeight = 2110;
+        var sY = Math.floor(pdfInnerHeight / scale * i);
+        var sWidth = canvasWidth;
+        var sHeight = Math.floor(pdfInnerHeight / scale);
+        var dX = 50;
+        var dY = 50;
+        var dWidth = pdfInnerWidth-50;
+        var dHeight = pdfInnerHeight;
 
         var onePageCanvas = document.createElement("canvas");
-        onePageCanvas.setAttribute("width", "1500");
-        onePageCanvas.setAttribute("height", "2110");
+        onePageCanvas.setAttribute("width", String(pdfWidth));
+        onePageCanvas.setAttribute("height", String(pdfHeight));
         var ctx = onePageCanvas.getContext("2d");
         // details on this usage of this function:
         // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
         ctx!.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-
-        // document.body.appendChild(canvas);
+        // ctx?.scale(scale, scale);
+        console.log(ctx?.canvas.width, ctx?.canvas.height)
         var canvasDataURL = onePageCanvas.toDataURL("image/png");
 
         var width = onePageCanvas.width;
         var height = onePageCanvas.clientHeight;
-
         //! If we're on anything other than the first page,
         // add another page
         if (i > 0) {
@@ -93,10 +101,12 @@ export const CsrReportDetail: FC<CsrReport> = ({
         //! now we declare that we're working on that page
         pdf.setPage(i + 1);
         //! now we add content to that page!
-        pdf.addImage(canvasDataURL, "PNG", 7, 0, width * 0.3, height * 0.3);
+        pdf.addImage(canvasDataURL, "JPEG", 7, 0, width * 0.3, height * 0.3);
       }
       //! after the for loop is finished running, we save the pdf.
-      pdf.save("Test.pdf");
+      toast.dismiss()
+      console.log("DONE")
+      pdf.save(`report-${outlet.name}-${date}.pdf`);
     });
   }
 
