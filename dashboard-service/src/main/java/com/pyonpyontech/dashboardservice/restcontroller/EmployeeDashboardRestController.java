@@ -69,15 +69,6 @@ public class EmployeeDashboardRestController {
         }
     }
 
-    @GetMapping(value = "/period")
-    private CustomerVisitationDto retrievePeriod(Principal principal) {
-        try {
-            return dashboardRestService.getVisitationsByEmployeeUsername(principal.getName());
-        } catch(NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
-        }
-    }
-
     @GetMapping(value = "/pest-trend")
     private List<Map<String, Integer>> retrievePestTrends(Principal principal){
         try {
