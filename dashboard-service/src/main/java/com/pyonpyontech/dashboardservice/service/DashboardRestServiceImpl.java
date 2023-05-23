@@ -103,7 +103,10 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     @Override
     public List<CsrReport> getRecentReportsByCustomerUsername(String username) {
         List<CsrReport> reportList = csrReportDb.findAllByOutlet_Customer_User_Username(username);
-        return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+        List<CsrReport> latestReportList = reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+        Collections.reverse(latestReportList);
+        
+        return latestReportList;
     }
 
     @Override
