@@ -30,7 +30,6 @@ import com.pyonpyontech.dashboardservice.dto.*;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 
 @Service
 @Transactional
@@ -106,17 +105,39 @@ public class DashboardRestServiceImpl implements DashboardRestService {
         return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
     }
 
+    public List<CsrReport> getRelatedReport(String username, Period period){
+        UserModel user = userDb.findByUsername(username).get();
+        switch (user.getRole()){
+            case 1:
+            case 2:
+                return csrReportDb.findAllByPeriodId(period.getId());
+            case 3:
+                Supervisor supervisor = supervisorDb.findByUser_Username(username).get();
+                return csrReportDb.findAllByPeriodAndTechnician_Supervisor(period, supervisor);
+            case 4:
+                Technician technician = technicianDb.findByUser_Username(username).get();
+                return csrReportDb.findAllByPeriodAndTechnician(period, technician);
+            default:
+                return new ArrayList<>();
+        }
+    }
+
     @Override
-    public List<Map<String, Integer>> getPestTrends(Integer year) {
+    public List<Map<String, Integer>> getPestTrendsByUsername(String username) {
         List<Map<String, Integer>> result = new ArrayList<>();
         // find flies, rodent, cockroach, others
-        List<Period> periods = periodDb.findByYear(year);
+        List<Period> periods = periodDb.findByYear(2023);
         for(Period period: periods){
             int flies = 0;
             int rodent = 0;
             int cocroach = 0;
             int others = 0;
-            List<CsrDetailPest> pests = csrDetailPestDb.findByReportPeriodId(period.getId());
+
+            List<CsrDetailPest> pests = new ArrayList<>();
+            List<CsrReport> reports = this.getRelatedReport(username, period);
+            for(CsrReport report: reports){
+                pests.addAll(report.getDetailPests());
+            }
             for(CsrDetailPest detailPest : pests){
                 String pest = detailPest.getPest().toLowerCase();
                 if(pest.contains("nyamuk") || pest.contains("lalat")){

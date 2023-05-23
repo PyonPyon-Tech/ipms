@@ -16,7 +16,7 @@ public interface DashboardRestService {
     CustomerComplaintDto getComplaintsByCustomerUsername(String username);
     CustomerComplaintDto getComplaintsByEmployeeUsername(String username);
     List<CsrReport> getRecentReportsByCustomerUsername(String username);
-    List<Map<String, Integer>> getPestTrends(Integer year);
+    List<Map<String, Integer>> getPestTrendsByUsername(String username);
     List<Pesticide> getLowStock();
     List<Integer> getComplaintTrend(String username, Integer year);
 

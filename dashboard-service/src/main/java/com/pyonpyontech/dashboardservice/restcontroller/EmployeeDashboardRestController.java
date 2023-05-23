@@ -72,7 +72,7 @@ public class EmployeeDashboardRestController {
     @GetMapping(value = "/pest-trend")
     private List<Map<String, Integer>> retrievePestTrends(Principal principal){
         try {
-            return dashboardRestService.getPestTrends(2023);
+            return dashboardRestService.getPestTrendsByUsername(principal.getName());
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
         }
