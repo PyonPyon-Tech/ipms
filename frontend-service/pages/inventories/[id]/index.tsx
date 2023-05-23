@@ -28,7 +28,7 @@ const PesticideDetail: NextPage = () => {
           toast.error(err.message);
         });
     }
-    if (user.role == 1 || user.role == 2 || user.role == 4 ) {
+    if (user.role != 1 && user.role != 2 && user.role != 4 ) {
       router.push("/");
     } else {
       retrievePesticide();

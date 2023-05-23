@@ -30,7 +30,7 @@ const PesticideEdit: NextPage = () => {
           console.log(err);
         });
     }
-    if (user.role == 1 || user.role == 2) {
+    if (user.role != 1 && user.role != 2) {
       router.push("/");
     } else {
       retrievePesticide();
