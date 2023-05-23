@@ -284,7 +284,11 @@ public class DashboardRestServiceImpl implements DashboardRestService {
         } else {
             throw new NoSuchElementException();
         }
-        return reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+        
+        List<CsrReport> latestReportList = reportList.subList(Math.max(reportList.size() - 5, 0), reportList.size());
+        Collections.reverse(latestReportList);
+        
+        return latestReportList;
     }
 
     @Override
