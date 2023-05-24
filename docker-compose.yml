@@ -1,67 +1,156 @@
 version: '2'
 services:
-  frontend:
-    build:
-      context: frontend-service
+  auth-service:
+    build: ./auth-service
     restart: always
-    platform: linux/amd64
     volumes:
-      - ./file-storage:/file-storage
-      - ./log:/log
-    env_file:
-      - app.env
+      - ./auth-service/log:/log
     depends_on:
       - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  customer-service:
+    build: ./customer-service
+    restart: always
+    volumes:
+      - ./customer-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  employee-service:
+    build: ./employee-service
+    restart: always
+    volumes:
+      - ./employee-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  inventory-service:
+    build: ./inventory-service
+    restart: always
+    volumes:
+      - ./inventory-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  report-service:
+    build: ./report-service
+    restart: always
+    volumes:
+      - ./report-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  schedule-service:
+    build: ./schedule-service
+    restart: always
+    volumes:
+      - ./schedule-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  storage-service:
+    build: ./storage-service
+    restart: always
+    volumes:
+      - ./storage-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  notification-service:
+    build: ./notification-service
+    restart: always
+    volumes:
+      - ./notification-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  dashboard-service:
+    build: ./dashboard-service
+    restart: always
+    volumes:
+      - ./dashboard-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  frontend-service:
+    build: ./frontend-service
+    restart: always
+    volumes:
+      - ./frontend-service/log:/log
+    depends_on:
+      - auth-service
+      - customer-service
+      - employee-service
+      - inventory-service
+      - report-service
+      - schedule-service
+      - storage-service
+      - notification-service
+      - dashboard-service
+    networks:
+      - frontend-network
+
+  nginx:
+    build: ./nginx
+    restart: always
     networks:
       - frontend-network
       - backend-network
-
-  auth:
-    build:
-      context: auth-service
-    restart: always
-    platform: linux/amd64
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./file-storage:/file-storage
-      - ./log:/log
-    env_file:
-      - app.env
+      - ./nginx/fullchain.pem:/certificates/fullchain.pem:ro
+      - ./nginx/privkey.pem:/certificates/privkey.pem:ro
     depends_on:
-      - db
-    networks:
-      - backend-network
-
+      - frontend-service
+      
   db:
     image: mariadb:10.4.24
     restart: always
-    # platform: linux/amd64
     env_file:
-      - app.env
+      - db.env
     volumes:
-      - mysql-db-volume:/var/lib/mysql
+      - .data/mysql:/var/lib/mysql
     networks:
       - backend-network
-  
-  nginx:
-    build:
-      context: nginx
-    container_name: nginx-reverse-proxy
-    restart: unless-stopped
-    depends_on:
-      - web
-      - api
-    ports:
-      - 6969:8080
-    volumes:
-      - ./file-storage:/file-storage
-      - ./log:/log
-    networks:
-      - backend-network
-
-volumes:
-  mysql-db-volume:
 
 networks:
   frontend-network:
-    driver: bridge
   backend-network:

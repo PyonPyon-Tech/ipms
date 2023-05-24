@@ -1,5 +1,5 @@
-FROM openjdk:17-alpine
+FROM openjdk:19-alpine
 ARG JAR_FILE=build/libs/report-service-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
-EXPOSE 9099
+RUN mkdir /log && chmod 777 /log
 ENTRYPOINT ["java","-jar","/app.jar"]
