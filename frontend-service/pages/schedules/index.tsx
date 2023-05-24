@@ -68,7 +68,7 @@ const SearchSchedules: NextPage = () => {
       setSchedules(data);
       setShownSchedules(data);
     }
-    if (user.role != 1 && user.role != 2) {
+    if (user.role != 3) {
       router.push("/");
     } else {
       retrieveAllSchedules();
