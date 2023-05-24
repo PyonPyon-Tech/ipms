@@ -58,5 +58,4 @@ public class CustomerDashboardRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
         }
     }
-    
 }

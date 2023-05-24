@@ -29,7 +29,12 @@ const AddEmployee: NextPage = () => {
           console.log(err);
         });
     }
-    retrieveEmployee();
+    if (user.role != 1) {
+      router.push("/");
+    } else {
+      retrieveEmployee();
+    }
+
   }, [user, router]);
 
   return (

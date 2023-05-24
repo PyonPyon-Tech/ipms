@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CustomerComplaintDto {
-    private Long complaintAmount; 
+    private Long acknowledgedComplaints; 
+    private Long totalComplaints; 
 }

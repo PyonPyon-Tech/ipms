@@ -9,12 +9,15 @@ import { useAuth } from "@hooks/useAuth";
 import { Employee, EmployeeClass } from "@models/pestcontrol/employee";
 import { User } from "@models/user";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const SearchEmployees: NextPage = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const { user } = useAuth();
+  const router = useRouter();
+
   useEffect(() => {
     if (!user) return;
     async function retrieveAllEmployees() {
@@ -32,7 +35,11 @@ const SearchEmployees: NextPage = () => {
       setEmployees(data);
       console.log(employees);
     }
-    retrieveAllEmployees();
+    if (user.role == 0 || user.role == 4) {
+      router.push("/");
+    } else {
+      retrieveAllEmployees();
+    }
   }, [user]);
   return (
     <div className="mb-4 w-full md:pt-0">

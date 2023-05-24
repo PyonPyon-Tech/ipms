@@ -12,6 +12,9 @@ const AddCustomer: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (!user) return;
+    if (user.role != 1 && user.role != 2) {
+      router.push("/");
+    }
   }, [user, router]);
 
   return (
