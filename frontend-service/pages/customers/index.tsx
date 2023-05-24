@@ -110,13 +110,15 @@ const SearchCustomers: NextPage = () => {
             ["name", "username"]
           )}
         />
-        <Pagination
-          page={page ?? 1}
-          count={totalPages ?? 1}
-          onChange={(_, value) => {
-            setPage(Number(value));
-          }}
-        />
+        <div className="w-full flex items-center justify-center my-10">
+          <Pagination
+            page={page ?? 1}
+            count={totalPages ?? 1}
+            onChange={(_, value) => {
+              setPage(Number(value));
+            }}
+          />
+        </div>
       </section>
     </div>
   );
