@@ -22,7 +22,7 @@ export const CsrFormHead: FC = () => {
 
   return (
     <section className={styles.csrFormHead}>
-      <div className="hidden">
+      <div className="">
         <label htmlFor="date">
           <img src="/icons/calendar.svg" />
           <p>Tanggal Layanan</p>

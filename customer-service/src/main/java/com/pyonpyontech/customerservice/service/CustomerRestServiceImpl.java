@@ -67,6 +67,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private NotificationService notificationService;
     
     @Override
     public Customer getCustomerById(Long id) {
@@ -369,8 +371,10 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         if (targetReport != null) {
             targetReport.setComplaint(savedComplaint);
             csrReportDb.save(targetReport);
+            notificationService.complaintReport(savedComplaint.getId(), complaint.getReport());
+        }else{
+            notificationService.complaintOutlet(savedComplaint.getId(), complaint.getOutlet());
         }
-
         return savedComplaint;
     }
     
@@ -391,7 +395,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         
         complaint.setIsAcknowledged(1);
         Complaint savedComplaint = complaintDb.save(complaint);
-        
+        notificationService.acknowledgeReport(id);
         return savedComplaint;
     }
     

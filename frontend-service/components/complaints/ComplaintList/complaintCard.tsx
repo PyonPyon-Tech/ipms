@@ -41,7 +41,7 @@ export const ComplaintCard: FC<Complaint> = ({
               ? report == null
                 ? `Komplain Umum ${outletName}`
                 : `Komplain Kunjungan ${report.outlet.name}`
-              : customerUser.name}
+              : `${customerUser.name}-Komplain-${id}`}
           </h5>
           <div>
             <table className="table-auto text-xs font-medium md:text-sm">
@@ -77,7 +77,7 @@ export const ComplaintCard: FC<Complaint> = ({
         </div>
       </div>
       {!!isAcknowledged && (
-        <Tag key={id + "tag"} title={"Diproses"} className={"bg-teal"}></Tag>
+        <Tag key={id + "tag"} title={"Telah Diproses"} className={"bg-teal"}></Tag>
       )}
       {!isAcknowledged && (
         <Tag
