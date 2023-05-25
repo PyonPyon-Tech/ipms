@@ -106,5 +106,6 @@ public class NotificationService {
             notification.setBody("Terdapat komplain baru pada laporan outlet "+outlet.getName()+" pada hari "+report.getDate());
             notification.setIsSeen(0);
         }
+        notificationDb.saveAll(notifications);
     }
 }
