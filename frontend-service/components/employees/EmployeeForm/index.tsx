@@ -67,7 +67,7 @@ export const EmployeeForm: FC<{ supervisors: Employee[] }> = ({
                 <h5>Nama Karyawan</h5>
                 <input required {...register("name")} />
                 <h5>Username</h5>
-                <input required {...register("username")} />
+                <input pattern="^[a-zA-Z0-9_]+$" required {...register("username")} />
                 <h5>Password</h5>
                 <input required {...register("password")} />
                 <h5>Kontak</h5>

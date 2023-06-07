@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(indexes = {@Index(columnList = "report_id"), @Index(columnList = "area_id")})
 public class CsrDetailArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

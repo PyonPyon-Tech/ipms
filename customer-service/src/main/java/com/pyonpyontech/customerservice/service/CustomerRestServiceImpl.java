@@ -67,6 +67,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
     
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private NotificationService notificationService;
     
     @Override
     public Customer getCustomerById(Long id) {
@@ -289,16 +291,11 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         } else if (user.getRole().equals(3)) {
             Supervisor supervisor = getSupervisorByUsername(username);
             
-            for (Technician t : supervisor.getSubordinates())
-                for (CsrReport r : csrReportDb.findAllByTechnician(t))
-                    if (r.getComplaint() != null)
-                        complaints.add(r.getComplaint());
+            complaints = complaintDb.findAllByOutlet_Supervisor(supervisor);
         } else if (user.getRole().equals(4)) {
             Technician technician = getTechnicianByUsername(username);
             
-            for (CsrReport r : csrReportDb.findAllByTechnician(technician))
-                if (r.getComplaint() != null)
-                    complaints.add(r.getComplaint());
+            complaints = complaintDb.findAllByOutlet_Technician(technician);
         }
         
         Collections.reverse(complaints);
@@ -369,8 +366,10 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         if (targetReport != null) {
             targetReport.setComplaint(savedComplaint);
             csrReportDb.save(targetReport);
+            notificationService.complaintReport(savedComplaint.getId(), complaint.getReport());
+        }else{
+            notificationService.complaintOutlet(savedComplaint.getId(), complaint.getOutlet());
         }
-
         return savedComplaint;
     }
     
@@ -391,7 +390,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
         
         complaint.setIsAcknowledged(1);
         Complaint savedComplaint = complaintDb.save(complaint);
-        
+        notificationService.acknowledgeReport(id);
         return savedComplaint;
     }
     

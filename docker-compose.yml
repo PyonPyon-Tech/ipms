@@ -84,6 +84,30 @@ services:
     networks:
       - backend-network
       
+  notification-service:
+    build: ./notification-service
+    restart: always
+    volumes:
+      - ./notification-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
+  dashboard-service:
+    build: ./dashboard-service
+    restart: always
+    volumes:
+      - ./dashboard-service/log:/log
+    depends_on:
+      - db
+    env_file:
+      - backend.env
+    networks:
+      - backend-network
+      
   frontend-service:
     build: ./frontend-service
     restart: always
@@ -97,6 +121,8 @@ services:
       - report-service
       - schedule-service
       - storage-service
+      - notification-service
+      - dashboard-service
     networks:
       - frontend-network
 

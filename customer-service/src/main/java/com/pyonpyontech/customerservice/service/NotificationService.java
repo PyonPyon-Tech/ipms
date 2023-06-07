@@ -11,6 +11,7 @@ import com.pyonpyontech.customerservice.model.pest_control.employee.Manager;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Supervisor;
 import com.pyonpyontech.customerservice.model.pest_control.employee.Technician;
 import com.pyonpyontech.customerservice.repository.NotificationDb;
+import com.pyonpyontech.customerservice.repository.customer_db.ComplaintDb;
 import com.pyonpyontech.customerservice.repository.customer_db.CustomerDb;
 import com.pyonpyontech.customerservice.repository.customer_db.OutletDb;
 import com.pyonpyontech.customerservice.repository.customer_service_report_db.CsrReportDb;
@@ -41,44 +42,46 @@ public class NotificationService {
     @Autowired
     private CsrReportDb csrReportDb;
 
-    public void complaint(Complaint complaint){
-        // ini kasih ke manajer dan administrator
-        // result yg hasil save() nampaknya shallow copy dong, jadi customer cm ada id saja
-        Customer customer = customerDb.findById(complaint.getCustomer().getId()).get();
+    @Autowired
+    private ComplaintDb complaintDb;
+    public void complaintOutlet(Long complaintId, Long outletId){
+        Outlet outlet = outletDb.findById(outletId).get();
+        Notification notification = new Notification();
+        notification.setUser(outlet.getSupervisor().getUser());
+        notification.setDate(LocalDate.now());
+        notification.setTime(LocalTime.now());
+        notification.setTitle(outlet.getCustomer().getUser().getName()+" Membuat Komplain");
+        notification.setUrl("/complaints/"+complaintId);
+        notification.setTopic("COMPLAINT-GENERAL");
+        notification.setBody("Terdapat complaint pada outlet "+outlet.getName());
+        notification.setIsSeen(0);
 
-        List<Notification> notifications = new ArrayList<>();
-        List<Manager> managers = managerDb.findAll();
-        for(Manager manager: managers){
-            Notification managerNotif = new Notification();
-            managerNotif.setUser(manager.getUser());
-            notifications.add(managerNotif);
-        }
-
-        List<Administrator> administrators = administratorDb.findAll();
-        for(Administrator administrator: administrators){
-            Notification adminNotif = new Notification();
-            adminNotif.setUser(administrator.getUser());
-            notifications.add(adminNotif);
-        }
-
-        for(Notification notification: notifications){
-            notification.setDate(LocalDate.now());
-            notification.setTime(LocalTime.now());
-            notification.setTitle(customer.getUser().getName()+" Membuat Komplain");
-            notification.setUrl("/"); // TODO: Isi ini kalau komplainnya udah jalan
-            notification.setTopic("COMPLAINT-GENERAL");
-            notification.setBody("");
-            notification.setIsSeen(0);
-        }
-
-        notificationDb.saveAll(notifications);
+        notificationDb.save(notification);
     }
 
-    public void complaintReport(Complaint complaint, Long reportId){
+    public void acknowledgeReport(Long complaintId){
+        Complaint c = complaintDb.findById(complaintId).get();
+
+        Outlet outlet = c.getOutlet();
+        Notification notification = new Notification();
+        notification.setUser(c.getCustomer().getUser());
+        notification.setDate(LocalDate.now());
+        notification.setTime(LocalTime.now());
+        notification.setTitle("Komplain diproses");
+        notification.setUrl("/complaints/"+complaintId);
+        notification.setTopic("COMPLAINT-GENERAL");
+        notification.setBody("Komplain Anda pada outlet "+outlet.getName()+" telah diproses");
+        notification.setIsSeen(0);
+
+        notificationDb.save(notification);
+    }
+
+    public void complaintReport(Long complaintId, Long reportId){
         CsrReport report = csrReportDb.findById(reportId).get();
         // ini kalau mau komplain report
         // kasih ke manajer, admin, supervisor dan technician
-        Customer customer = customerDb.findById(complaint.getCustomer().getId()).get();
+        Customer customer = report.getOutlet().getCustomer();
+
         Outlet outlet = report.getOutlet();
         Technician technician = report.getTechnician();
         Supervisor supervisor = technician.getSupervisor();
@@ -93,28 +96,16 @@ public class NotificationService {
         supervisorNotif.setUser(supervisor.getUser());
         notifications.add(supervisorNotif);
 
-        List<Manager> managers = managerDb.findAll();
-        for(Manager manager: managers){
-            Notification managerNotif = new Notification();
-            managerNotif.setUser(manager.getUser());
-            notifications.add(managerNotif);
-        }
-
-        List<Administrator> administrators = administratorDb.findAll();
-        for(Administrator administrator: administrators){
-            Notification adminNotif = new Notification();
-            adminNotif.setUser(administrator.getUser());
-            notifications.add(adminNotif);
-        }
-
+        String customername = customer.getUser().getName();
         for(Notification notification: notifications){
             notification.setDate(LocalDate.now());
             notification.setTime(LocalTime.now());
-            notification.setTitle(customer.getUser().getName()+" Membuat Komplain Laporan Outlet "+outlet.getName());
-            notification.setUrl("/"); // TODO: Isi ini kalau komplainnya udah jalan
+            notification.setTitle(customername+" Membuat Komplain Laporan Outlet "+outlet.getName());
+            notification.setUrl("/complaints/"+complaintId);
             notification.setTopic("COMPLAINT-REPORT");
-            notification.setBody("");
+            notification.setBody("Terdapat komplain baru pada laporan outlet "+outlet.getName()+" pada hari "+report.getDate());
             notification.setIsSeen(0);
         }
+        notificationDb.saveAll(notifications);
     }
 }

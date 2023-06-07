@@ -5,12 +5,15 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const TargetPestContainer: FC<{ pestData: Pest[] }> = ({ pestData }) => {
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-    name: "target", // unique name for your Field Array
-  });
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      name: "target", // unique name for your Field Array
+    }
+  );
   return (
     <>
       <h5 className="text-base font-bold">Aturan Pakai</h5>
+
       <div className="w-full">
         {fields.map((field, index) => (
           <TargetPestItem
@@ -28,13 +31,15 @@ export const TargetPestContainer: FC<{ pestData: Pest[] }> = ({ pestData }) => {
           />
         ))}
       </div>
-      <Button
-        className="bg-teal-dark mb-4 ml-4"
-        action={{
-          name: "Tambah",
-          func: () => append({}),
-        }}
-      />
+      <div>
+        <Button
+          className="mb-4 ml-4 w-fit bg-teal-dark"
+          action={{
+            name: "Tambah Hama",
+            func: () => append({}),
+          }}
+        />
+      </div>
     </>
   );
 };

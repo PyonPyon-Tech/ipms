@@ -30,7 +30,11 @@ const PesticideEdit: NextPage = () => {
           console.log(err);
         });
     }
-    retrievePesticide();
+    if (user.role != 1 && user.role != 2) {
+      router.push("/");
+    } else {
+      retrievePesticide();
+    }
   }, [user, router]);
 
   return (

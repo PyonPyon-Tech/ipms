@@ -1,8 +1,17 @@
 import { CustomerContainer } from "@components/customers/CustomerList";
 import { Title } from "@components/general/Title";
 import { ScheduleContainer } from "@components/schedules/ScheduleContainer";
-import { AxiosClient, URL_CUSTOMER, URL_EMPLOYEE, URL_SCHEDULE } from "@constants/api";
-import { filterData, filterDataNested, filterDataOnlyNested } from "@functions/filterData";
+import {
+  AxiosClient,
+  URL_CUSTOMER,
+  URL_EMPLOYEE,
+  URL_SCHEDULE,
+} from "@constants/api";
+import {
+  filterData,
+  filterDataNested,
+  filterDataOnlyNested,
+} from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
@@ -20,7 +29,7 @@ const SearchSchedules: NextPage = () => {
   const [term, setTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [period, setPeriod] = useState<number>(-1)
+  const [period, setPeriod] = useState<number>(-1);
 
   const { user } = useAuth();
   const router = useRouter();
@@ -43,7 +52,9 @@ const SearchSchedules: NextPage = () => {
           setTitle("Daftar Jadwal");
       }
 
-      const result = await AxiosClient.get(`${URL_EMPLOYEE}/supervisors/schedules${requestParams}`);
+      const result = await AxiosClient.get(
+        `${URL_EMPLOYEE}/supervisors/schedules${requestParams}`
+      );
 
       const data: Schedule[] = [];
 
@@ -57,13 +68,16 @@ const SearchSchedules: NextPage = () => {
       setSchedules(data);
       setShownSchedules(data);
     }
-    retrieveAllSchedules();
+    if (user.role != 3) {
+      router.push("/");
+    } else {
+      retrieveAllSchedules();
+    }
   }, [user, router]);
 
   useEffect(() => {
-    if (isNaN(period))
-      return setPeriod(-1);
-    
+    if (isNaN(period)) return setPeriod(-1);
+
     const data: Schedule[] = [];
 
     schedules.forEach((schedule) => {
@@ -78,13 +92,11 @@ const SearchSchedules: NextPage = () => {
   return (
     <div className="mb-4 w-full md:pt-0">
       <section>
-        <Title
-          title={title}
-        >
+        <Title title={title}>
           <h4>Total: {shownSchedules.length} jadwal</h4>
         </Title>
         <label htmlFor="technician">Pilih Teknisi</label>
-        <div className="relative w-4/5 max-w-[500px] mb-4">
+        <div className="relative mb-4 w-4/5 max-w-[500px]">
           <img
             src="/icons/search.svg"
             className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
@@ -97,13 +109,13 @@ const SearchSchedules: NextPage = () => {
                 setSearchTerm(term);
               }
             }}
-            className="w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal mt-1"
+            className="mt-1 w-full rounded-md border border-[#1E1E1E] py-2 pl-10 pr-4 font-normal"
             placeholder="Nama Teknisi"
             id="technician"
           />
         </div>
       </section>
-      <div className="relative w-4/5 max-w-[500px] mb-6">
+      <div className="relative mb-6 w-4/5 max-w-[500px]">
         <label htmlFor="period">Pilih Bulan</label>
         <input
           type="month"

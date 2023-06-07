@@ -40,6 +40,7 @@ public class CsrReport {
 
     @OneToOne
     @JoinColumn(name = "complaint_id")
+    @JsonIgnore
     private Complaint complaint;
 
     @ManyToOne

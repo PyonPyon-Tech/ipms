@@ -37,6 +37,13 @@ const CreateSchedule: FC = () => {
       ? "Sedang Diajukan"
       : "Belum Diajukan";
 
+  useEffect(() => {
+    if (!user) return;
+    if (user.role != 4) {
+      router.push("/");
+    } 
+  }, [user]);
+
   return (
     <div className="relative w-full">
       <div className="mb-4 font-bold">

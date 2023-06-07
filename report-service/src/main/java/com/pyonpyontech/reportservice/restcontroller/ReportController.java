@@ -75,7 +75,6 @@ public class ReportController {
 
             CsrReport report = reportRestService.detailReport(id);
             Technician author = report.getTechnician();
-
             if(role == 0){
                 if(report.getOutlet().getCustomer().getUser().getUsername().equals(username)){
                     return report;

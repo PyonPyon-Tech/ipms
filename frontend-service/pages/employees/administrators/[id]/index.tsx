@@ -30,7 +30,11 @@ const AdminDetail: NextPage = () => {
           console.log(err);
         });
     }
-    retrieveEmployee();
+    if (user.role == 0 || user.role == 4) {
+      router.push("/");
+    } else {
+      retrieveEmployee();
+    }
   }, [user, router]);
 
   return (

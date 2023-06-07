@@ -39,12 +39,17 @@ const SearchComplaints: NextPage = () => {
   return (
     <div className="mb-4 w-full md:pt-0">
       <section>
-        <Title
+        {ROLES[user?.role ?? 0] == "Customer" && <Title
           title="Daftar Komplain"
           action={{ name: "Ajukan", path: "/complaints/add" }}
-        >
+        > 
           <h4>Total: {complaints.length} komplain</h4>
-        </Title>
+        </Title>}
+        {ROLES[user?.role ?? 0] != "Customer" && <Title
+          title="Daftar Komplain"
+        > 
+          <h4>Total: {complaints.length} komplain</h4>
+        </Title>}
         {ROLES[user?.role ?? 0] != "Customer" && <Search setSearchTerm={setSearchTerm} placeholder="Nama Customer" />}
       </section>
       <section>

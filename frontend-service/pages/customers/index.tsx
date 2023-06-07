@@ -1,7 +1,11 @@
 import { CustomerContainer } from "@components/customers/CustomerList";
 import { Title } from "@components/general/Title";
 import { AxiosClient, URL_CUSTOMER } from "@constants/api";
-import { filterData, filterDataNested, filterDataOnlyNested } from "@functions/filterData";
+import {
+  filterData,
+  filterDataNested,
+  filterDataOnlyNested,
+} from "@functions/filterData";
 import { withAuth } from "@functions/withAuth";
 import { withLayout } from "@functions/withLayout";
 import { useAuth } from "@hooks/useAuth";
@@ -10,6 +14,7 @@ import { Outlet, OutletClass } from "@models/customer/outlet";
 import { User } from "@models/user";
 import { Pagination } from "@mui/material";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const SearchCustomers: NextPage = () => {
@@ -40,7 +45,9 @@ const SearchCustomers: NextPage = () => {
   }
 
   async function filterByCustomerName(name: string) {
-    const result = await AxiosClient.get(`${URL_CUSTOMER}/filter?name=${name}&page=${page}`);
+    const result = await AxiosClient.get(
+      `${URL_CUSTOMER}/filter?name=${name}&page=${page}`
+    );
     const data: Customer[] = [];
     result.data.data.forEach((customer: any) => {
       let customerObj = new CustomerClass(customer);
@@ -50,16 +57,21 @@ const SearchCustomers: NextPage = () => {
       });
       data.push(customerObj);
     });
-    
+
     setCustomerAmount(result.data.count);
     setTotalPages(result.data.totalPages);
     setCustomers(data);
   }
 
+  const router = useRouter();
+
   useEffect(() => {
     if (!user) return;
-
-    retrieveAllCustomers();
+    if (user.role != 1 && user.role != 2 ) {
+      router.push("/");
+    } else {
+      retrieveAllCustomers();
+    }
   }, [user, page]);
 
   return (
@@ -71,7 +83,7 @@ const SearchCustomers: NextPage = () => {
         >
           <h4>Total: {customerAmount} customer</h4>
         </Title>
-        <div className="relative w-4/5 max-w-[500px] mb-4">
+        <div className="relative mb-4 w-4/5 max-w-[500px]">
           <img
             src="/icons/search.svg"
             className="absolute top-1/2 left-4 -translate-y-1/2 md:scale-[180%]"
@@ -98,13 +110,15 @@ const SearchCustomers: NextPage = () => {
             ["name", "username"]
           )}
         />
-        <Pagination
-          page={page ?? 1}
-          count={totalPages ?? 1}
-          onChange={(_, value) => {
-            setPage(Number(value));
-          }}
-        />
+        <div className="w-full flex items-center justify-center my-10">
+          <Pagination
+            page={page ?? 1}
+            count={totalPages ?? 1}
+            onChange={(_, value) => {
+              setPage(Number(value));
+            }}
+          />
+        </div>
       </section>
     </div>
   );

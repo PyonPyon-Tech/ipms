@@ -33,7 +33,11 @@ const OutletDetailPage: NextPage = () => {
           console.log(err);
         });
     }
-    retrieveOutlet();
+    if (user.role == 0) {
+      router.push("/");
+    } else {
+      retrieveOutlet();
+    }
   }, [user, router]);
 
   return (
@@ -49,7 +53,6 @@ const OutletDetailPage: NextPage = () => {
       </section>
 
       {!!outlet && <OutletDetail {...outlet} />}
-
     </div>
   );
 };

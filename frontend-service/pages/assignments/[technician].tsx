@@ -30,7 +30,11 @@ export const AssignmentTechnicianPage: NextPage = () => {
           console.error(err);
         });
     }
-    loadTechnicianOutlets();
+    if (user.role != 3) {
+      router.push("/");
+    } else {
+      loadTechnicianOutlets();
+    }
   }, [user, router]);
 
   return (
